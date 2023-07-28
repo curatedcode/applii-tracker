@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Applii | My Board",
   description:
     "Comprehensive job application tracker, helping you organize, monitor, and manage your job applications effortlessly",
+  themeColor: "#101c27",
 };
 
 export default function RootLayout({
