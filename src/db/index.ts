@@ -158,3 +158,16 @@ export async function updateApplication({
     resolve(data);
   });
 }
+
+export async function deleteApplication({ id }: { id: string }) {
+  const DB = await applicationDB();
+
+  const application = new Promise((resolve, reject) => {
+    const deletion = DB.delete(id);
+
+    deletion.onerror = () => reject(Error("Unable to delete application"));
+    deletion.onsuccess = () => resolve(deletion.result);
+  });
+
+  return application;
+}
