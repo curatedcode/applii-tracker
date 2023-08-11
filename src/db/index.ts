@@ -159,7 +159,7 @@ export async function updateApplication({
   });
 }
 
-export async function deleteApplication({ id }: { id: string }) {
+export async function deleteApplication({ id }: { id: number }) {
   const DB = await applicationDB();
 
   const application = new Promise((resolve, reject) => {
