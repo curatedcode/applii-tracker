@@ -4,22 +4,22 @@ import {
   UpdateApplicationType,
 } from "./types";
 
-const indexedDB =
-  window.indexedDB ||
-  /* @ts-ignore */
-  window.mozIndexedDB ||
-  /* @ts-ignore */
-  window.webkitIndexedDB ||
-  /* @ts-ignore */
-  window.msIndexedDB ||
-  /* @ts-ignore */
-  window.shimIndexedDB;
-
-if (!indexedDB) {
-  console.log("IndexedDB not available in this browser.");
-}
-
 async function applicationDB(): Promise<IDBObjectStore> {
+  const indexedDB =
+    window.indexedDB ||
+    /* @ts-ignore */
+    window.mozIndexedDB ||
+    /* @ts-ignore */
+    window.webkitIndexedDB ||
+    /* @ts-ignore */
+    window.msIndexedDB ||
+    /* @ts-ignore */
+    window.shimIndexedDB;
+
+  if (!indexedDB) {
+    console.log("IndexedDB not available in this browser.");
+  }
+
   const objectStorePromise = new Promise((resolve, reject) => {
     const DBrequest = indexedDB.open("appliiDatabase", 1);
 
