@@ -36,7 +36,12 @@ dayjs.updateLocale("en", {
   },
 });
 
-export default function formatDate(date: Date): string {
+export default function formatDate(date: Date): {
+  time: string;
+  title: string;
+} {
   const currentDate = dayjs(new Date());
-  return currentDate.from(date, true);
+  const dateFrom = currentDate.from(date, true);
+  const title = `Last updated ${dateFrom} ago`;
+  return { time: dateFrom, title };
 }
