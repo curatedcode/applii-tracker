@@ -3,22 +3,22 @@ export type ApplicationType = {
   position: string;
   company: string;
   postingURL: string;
-  dateCreated: Date;
-  dateModified?: Date;
-  dateApplied?: Date;
-  dateInterviewed?: Date;
-  dateClosed?: Date;
+  dateCreated: string;
+  dateModified?: string;
+  dateApplied?: string;
+  dateInterviewed?: string;
+  dateClosed?: string;
 };
 
 export type CreateApplicationType = {
   position: string;
   company: string;
   postingURL: string;
-  dateCreated: Date;
-  dateModified?: Date;
-  dateApplied?: Date;
-  dateInterviewed?: Date;
-  dateClosed?: Date;
+  dateCreated: string;
+  dateModified?: string;
+  dateApplied?: string;
+  dateInterviewed?: string;
+  dateClosed?: string;
 };
 
 export type UpdateApplicationType = Partial<CreateApplicationType> & {

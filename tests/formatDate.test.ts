@@ -14,7 +14,7 @@ describe("seconds being returned as minutes", () => {
     const fakeSystemDate = new Date(2023, 3, 30, 1, 0, 0);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 3, 30, 1, 0, 1);
+    const fakeNow = new Date(2023, 3, 30, 1, 0, 1).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "1m",
@@ -26,7 +26,7 @@ describe("seconds being returned as minutes", () => {
     const fakeSystemDate = new Date(2023, 3, 30, 1, 0, 0);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 3, 30, 1, 0, 5);
+    const fakeNow = new Date(2023, 3, 30, 1, 0, 5).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "1m",
@@ -38,7 +38,7 @@ describe("seconds being returned as minutes", () => {
     const fakeSystemDate = new Date(2023, 3, 30, 1, 0, 0);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 3, 30, 1, 0, 59);
+    const fakeNow = new Date(2023, 3, 30, 1, 0, 59).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "1m",
@@ -60,7 +60,7 @@ describe("minutes", () => {
     const fakeSystemDate = new Date(2023, 3, 30, 1, 0, 0);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 3, 30, 1, 1, 0);
+    const fakeNow = new Date(2023, 3, 30, 1, 1, 0).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "1m",
@@ -72,7 +72,7 @@ describe("minutes", () => {
     const fakeSystemDate = new Date(2023, 3, 30, 1, 0, 0);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 3, 30, 1, 5);
+    const fakeNow = new Date(2023, 3, 30, 1, 5).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "5m",
@@ -94,7 +94,7 @@ describe("hours", () => {
     const fakeSystemDate = new Date(2023, 3, 30, 0, 0, 0);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 3, 30, 1, 0);
+    const fakeNow = new Date(2023, 3, 30, 1, 0).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "1h",
@@ -106,7 +106,7 @@ describe("hours", () => {
     const fakeSystemDate = new Date(2023, 3, 30, 0, 0, 0);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 3, 30, 5, 0);
+    const fakeNow = new Date(2023, 3, 30, 5, 0).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "5h",
@@ -128,7 +128,7 @@ describe("days", () => {
     const fakeSystemDate = new Date(2023, 3, 30);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 3, 29);
+    const fakeNow = new Date(2023, 3, 29).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "1d",
@@ -140,7 +140,7 @@ describe("days", () => {
     const fakeSystemDate = new Date(2023, 3, 30);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 3, 25);
+    const fakeNow = new Date(2023, 3, 25).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "5d",
@@ -162,7 +162,7 @@ describe("months", () => {
     const fakeSystemDate = new Date(2023, 3, 28);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2023, 2, 28);
+    const fakeNow = new Date(2023, 2, 28).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "1mo",
@@ -174,7 +174,7 @@ describe("months", () => {
     const fakeSystemDate = new Date(2023, 3, 28);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2022, 5, 28);
+    const fakeNow = new Date(2022, 5, 28).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "10mo",
@@ -196,7 +196,7 @@ describe("dates outside of current day", () => {
     const fakeSystemDate = new Date(2023, 3, 28);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2022, 3, 28);
+    const fakeNow = new Date(2022, 3, 28).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "1yr",
@@ -208,7 +208,7 @@ describe("dates outside of current day", () => {
     const fakeSystemDate = new Date(2023, 3, 30);
     vi.setSystemTime(fakeSystemDate);
 
-    const fakeNow = new Date(2018, 3, 30);
+    const fakeNow = new Date(2018, 3, 30).toISOString();
 
     expect(formatDate(fakeNow)).toStrictEqual({
       time: "5yr",

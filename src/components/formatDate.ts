@@ -36,7 +36,7 @@ dayjs.updateLocale("en", {
   },
 });
 
-export default function formatDate(date: Date): {
+export default function formatDate(date: string): {
   time: string;
   title: string;
 } {
