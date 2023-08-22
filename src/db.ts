@@ -2,7 +2,7 @@ import {
   ApplicationType,
   CreateApplicationType,
   UpdateApplicationType,
-} from "./types";
+} from "./customVariables";
 
 async function applicationDB(): Promise<IDBObjectStore> {
   const indexedDB =
