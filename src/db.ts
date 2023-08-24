@@ -37,7 +37,7 @@ async function applicationDB(): Promise<IDBObjectStore> {
 
     DBrequest.onsuccess = () => {
       const DB = DBrequest.result;
-      const transaction = DB.transaction(["applications"]);
+      const transaction = DB.transaction(["applications"], "readwrite");
       const objectStore = transaction.objectStore("applications");
 
       resolve(objectStore);
