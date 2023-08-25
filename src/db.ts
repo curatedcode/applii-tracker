@@ -65,11 +65,7 @@ export async function getApplication({
   return application;
 }
 
-export async function getAllApplications({
-  id,
-}: {
-  id: number;
-}): Promise<ApplicationType[]> {
+export async function getAllApplications(): Promise<ApplicationType[]> {
   const DB = await applicationDB();
 
   const application = new Promise((resolve, reject) => {
