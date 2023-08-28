@@ -1,5 +1,6 @@
 import {
   ApplicationType,
+  CardApplicationType,
   CreateApplicationType,
   UpdateApplicationType,
 } from "./customVariables";
@@ -65,17 +66,67 @@ export async function getApplication({
   return application;
 }
 
-export async function getAllApplications(): Promise<ApplicationType[]> {
+export type GetAllApplicationsReturnType = {
+  needToApply: CardApplicationType[];
+  applied: CardApplicationType[];
+  interviewing: CardApplicationType[];
+  offer: CardApplicationType[];
+  closed: CardApplicationType[];
+};
+
+export async function getAllApplications(): Promise<GetAllApplicationsReturnType> {
   const DB = await applicationDB();
 
-  const application = new Promise((resolve, reject) => {
+  const applicationsPromise = new Promise((resolve, reject) => {
     const data = DB.getAll();
 
     data.onerror = () => reject(Error("Unable to fetch data"));
     data.onsuccess = () => resolve(data.result);
   }) as Promise<ApplicationType[]>;
 
-  return application;
+  const applications: CardApplicationType[] = (await applicationsPromise).map(
+    (application) => {
+      const { id, position, company, postingURL, status, dateModified } =
+        application;
+      return {
+        id,
+        position,
+        company,
+        postingURL,
+        status,
+        dateModified,
+      };
+    }
+  );
+
+  const needToApplyApps: CardApplicationType[] = [];
+  const appliedApps: CardApplicationType[] = [];
+  const interviewingApps: CardApplicationType[] = [];
+  const offerApps: CardApplicationType[] = [];
+  const closedApps: CardApplicationType[] = [];
+
+  for (let application of applications) {
+    switch (application.status) {
+      case "needToApply":
+        needToApplyApps.push(application);
+      case "applied":
+        appliedApps.push(application);
+      case "interviewing":
+        interviewingApps.push(application);
+      case "offer":
+        offerApps.push(application);
+      case "closed":
+        closedApps.push(application);
+    }
+  }
+
+  return {
+    needToApply: needToApplyApps,
+    applied: appliedApps,
+    interviewing: interviewingApps,
+    offer: offerApps,
+    closed: closedApps,
+  };
 }
 
 export async function createApplication({
