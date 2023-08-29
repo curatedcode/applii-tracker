@@ -137,7 +137,9 @@ export async function createApplication({
   dateModified,
   dateApplied,
   dateInterviewed,
+  dateOffered,
   dateClosed,
+  status,
 }: CreateApplicationType) {
   const DB = await applicationDB();
 
@@ -146,10 +148,12 @@ export async function createApplication({
       position,
       company,
       postingURL,
+      status,
       dateCreated,
       dateModified,
       dateApplied,
       dateInterviewed,
+      dateOffered,
       dateClosed,
     });
 
