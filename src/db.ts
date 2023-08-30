@@ -105,18 +105,23 @@ export async function getAllApplications(): Promise<GetAllApplicationsReturnType
   const offerApps: CardApplicationType[] = [];
   const closedApps: CardApplicationType[] = [];
 
-  for (let application of applications) {
+  for (const application of applications) {
     switch (application.status) {
       case "needToApply":
         needToApplyApps.push(application);
+        break;
       case "applied":
         appliedApps.push(application);
+        break;
       case "interviewing":
         interviewingApps.push(application);
+        break;
       case "offer":
         offerApps.push(application);
+        break;
       case "closed":
         closedApps.push(application);
+        break;
     }
   }
 
