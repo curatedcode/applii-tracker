@@ -184,39 +184,33 @@ export async function updateApplication({
 }: UpdateApplicationType) {
   const DB = await applicationDB();
 
-  return new Promise(async (resolve, reject) => {
-    const application = DB.get(id);
+  const updatePromise = new Promise((resolve, reject) => {
+    const storedData = DB.get(id);
+    storedData.onerror = () => reject(Error("Unable to fetch data"));
 
-    const applicationPromise = (application.onsuccess = () => {
-      const applicationResult = application.result;
+    storedData.onsuccess = () => {
+      const mergedData = {
+        id,
+        position: position ?? storedData.result.position,
+        company: company ?? storedData.result.company,
+        postingURL: postingURL ?? storedData.result.postingURL,
+        dateCreated: dateCreated ?? storedData.result.dateCreated,
+        dateModified: dateModified ?? storedData.result.dateModified,
+        dateApplied: dateApplied ?? storedData.result.dateApplied,
+        dateInterviewed: dateInterviewed ?? storedData.result.dateInterviewed,
+        dateOffered: dateOffered ?? storedData.result.dateOffered,
+        dateClosed: dateClosed ?? storedData.result.dateClosed,
+        status: status ?? storedData.result.status,
+      };
 
-      const updateApplication = new Promise((resolve, reject) => {
-        const mergedData = {
-          id,
-          position: position ?? applicationResult.position,
-          company: company ?? applicationResult.company,
-          postingURL: postingURL ?? applicationResult.postingURL,
-          dateCreated: dateCreated ?? applicationResult.dateCreated,
-          dateModified: dateModified ?? applicationResult.dateModified,
-          dateApplied: dateApplied ?? applicationResult.dateApplied,
-          dateInterviewed: dateInterviewed ?? applicationResult.dateInterviewed,
-          dateOffered: dateOffered ?? applicationResult.dateOffered,
-          dateClosed: dateClosed ?? applicationResult.dateClosed,
-          status: status ?? applicationResult.status,
-        };
-
-        const updateRequest = DB.put(mergedData);
-        updateRequest.onerror = () =>
-          reject(Error("Unable to update application data"));
-        updateRequest.onsuccess = () => resolve(updateRequest.result);
-      });
-
-      return updateApplication;
-    });
-
-    const data = await applicationPromise();
-    resolve(data);
+      const updateRequest = DB.put(mergedData);
+      updateRequest.onerror = (event) =>
+        reject(Error(`Unable to update application ${event}`));
+      updateRequest.onsuccess = () => resolve(null);
+    };
   });
+
+  return updatePromise;
 }
 
 export async function deleteApplication({ id }: { id: number }) {
