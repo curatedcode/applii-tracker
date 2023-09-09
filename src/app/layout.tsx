@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-site-main text-white">
       <body className={font.className}>{children}</body>
     </html>
   );
