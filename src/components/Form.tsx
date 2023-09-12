@@ -213,27 +213,11 @@ export default function Form() {
               }`}
               {...register("status")}
             >
-              <option
-                value="needToApply"
-                selected={watch("status") === "needToApply" ? false : true}
-              >
-                Need To Apply
-              </option>
-              <option value="applied" selected={watch("status") === "applied"}>
-                Applied
-              </option>
-              <option
-                value="interviewing"
-                selected={watch("status") === "interviewing"}
-              >
-                Interviewing
-              </option>
-              <option value="offer" selected={watch("status") === "offer"}>
-                Offer
-              </option>
-              <option value="closed" selected={watch("status") === "closed"}>
-                Closed
-              </option>
+              <option value="needToApply">Need To Apply</option>
+              <option value="applied">Applied</option>
+              <option value="interviewing">Interviewing</option>
+              <option value="offer">Offer</option>
+              <option value="closed">Closed</option>
             </select>
           </div>
           <span
