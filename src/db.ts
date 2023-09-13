@@ -24,7 +24,8 @@ async function applicationDB(): Promise<IDBObjectStore> {
   const objectStorePromise = new Promise((resolve, reject) => {
     const DBrequest = indexedDB.open("appliiDatabase", 1);
 
-    DBrequest.onerror = () => reject(Error("Unable to open database"));
+    DBrequest.onerror = (event) =>
+      reject(Error(`Unable to open database: ${event}`));
 
     DBrequest.onupgradeneeded = () => {
       const DB = DBrequest.result;
@@ -59,7 +60,8 @@ export async function getApplication({
   const application = new Promise((resolve, reject) => {
     const data = DB.get(id);
 
-    data.onerror = () => reject(Error("Unable to fetch data"));
+    data.onerror = (event) =>
+      reject(Error(`Unable to fetch application with ID ${id}: ${event}`));
     data.onsuccess = () => resolve(data.result);
   }) as Promise<ApplicationType>;
 
@@ -80,7 +82,8 @@ export async function getAllApplications(): Promise<GetAllApplicationsReturnType
   const applicationsPromise = new Promise((resolve, reject) => {
     const data = DB.getAll();
 
-    data.onerror = () => reject(Error("Unable to fetch data"));
+    data.onerror = (event) =>
+      reject(Error(`Unable to fetch applications: ${event}`));
     data.onsuccess = () => resolve(data.result);
   }) as Promise<ApplicationType[]>;
 
@@ -162,7 +165,8 @@ export async function createApplication({
       dateClosed,
     });
 
-    data.onerror = () => reject(Error("Unable to create application"));
+    data.onerror = (event) =>
+      reject(Error(`Unable to create application: ${event}`));
     data.onsuccess = () => resolve(data.result);
   });
 
@@ -186,7 +190,8 @@ export async function updateApplication({
 
   const updatePromise = new Promise((resolve, reject) => {
     const storedData = DB.get(id);
-    storedData.onerror = () => reject(Error("Unable to fetch data"));
+    storedData.onerror = (event) =>
+      reject(Error(`Unable to fetch application with ID ${id}: ${event}`));
 
     storedData.onsuccess = () => {
       const mergedData = {
@@ -205,7 +210,7 @@ export async function updateApplication({
 
       const updateRequest = DB.put(mergedData);
       updateRequest.onerror = (event) =>
-        reject(Error(`Unable to update application ${event}`));
+        reject(Error(`Unable to update application with ID ${id}: ${event}`));
       updateRequest.onsuccess = () => resolve(null);
     };
   });
@@ -219,7 +224,8 @@ export async function deleteApplication({ id }: { id: number }) {
   const application = new Promise((resolve, reject) => {
     const deletion = DB.delete(id);
 
-    deletion.onerror = () => reject(Error("Unable to delete application"));
+    deletion.onerror = () =>
+      reject(Error(`Unable to delete application with ID ${id}`));
     deletion.onsuccess = () => resolve(deletion.result);
   });
 
