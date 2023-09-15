@@ -5,10 +5,10 @@ import { Work_Sans } from "next/font/google";
 const font = Work_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Applii | My Board",
+  title: "Applii",
   description:
     "Comprehensive job application tracker, helping you organize, monitor, and manage your job applications effortlessly",
-  themeColor: "#101c27",
+  themeColor: "#014EE8",
 };
 
 export default function RootLayout({
