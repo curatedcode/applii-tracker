@@ -9,46 +9,14 @@ import {
 } from "@heroicons/react/24/solid";
 import BoardSection from "../components/BoardSection";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import { createContext, useEffect, useState } from "react";
 import Form from "../components/Form";
-import { GetAllApplicationsReturnType, getAllApplications } from "../db";
-import { MainContextType } from "../customVariables";
-
-export const MainContext = createContext<MainContextType>({
-  formIsOpen: false,
-  setFormIsOpen: () => {},
-  applicationId: undefined,
-  setApplicationId: () => {},
-  fetchApplications: () => {},
-});
+import { useMainContext } from "./layout";
 
 export default function Home() {
-  const [formIsOpen, setFormIsOpen] = useState(false);
-  const [applicationId, setApplicationId] = useState<undefined | number>(
-    undefined
-  );
-  const [allApplications, setAllApplications] =
-    useState<GetAllApplicationsReturnType>();
-
-  function fetchApplications() {
-    getAllApplications().then((data) => setAllApplications(data));
-  }
-
-  useEffect(() => {
-    if (formIsOpen) return;
-    fetchApplications();
-  }, [formIsOpen]);
+  const { formIsOpen, setFormIsOpen, allApplications } = useMainContext();
 
   return (
-    <MainContext.Provider
-      value={{
-        formIsOpen,
-        setFormIsOpen,
-        applicationId,
-        setApplicationId,
-        fetchApplications,
-      }}
-    >
+    <>
       <Form />
       <main
         className={`py-8 px-4 3xl:py-12 grid gap-7 max-w-8xl relative left-1/2 -translate-x-1/2 ${
@@ -105,6 +73,6 @@ export default function Home() {
           />
         </div>
       </main>
-    </MainContext.Provider>
+    </>
   );
 }

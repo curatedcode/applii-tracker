@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
+import { GetAllApplicationsReturnType } from "./db";
 
 export type ApplicationStatusType = z.infer<typeof applicationStatuses>;
 
@@ -57,4 +58,5 @@ export type MainContextType = {
   applicationId: undefined | number;
   setApplicationId: Dispatch<SetStateAction<number | undefined>>;
   fetchApplications: () => void;
+  allApplications: undefined | GetAllApplicationsReturnType;
 };

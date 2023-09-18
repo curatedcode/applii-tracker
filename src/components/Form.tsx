@@ -5,8 +5,8 @@ import { z } from "zod";
 import { createApplication, getApplication, updateApplication } from "../db";
 import Button from "./Button";
 import { applicationStatuses } from "../customVariables";
-import { MainContext } from "../app/page";
 import dayjs from "dayjs";
+import { useMainContext } from "../app/layout";
 
 const schema = z.object({
   position: z.string().min(1, { message: "Position can't be empty" }),
@@ -18,7 +18,7 @@ const schema = z.object({
 
 export default function Form() {
   const { formIsOpen, setFormIsOpen, applicationId, setApplicationId } =
-    useContext(MainContext);
+    useMainContext();
 
   const {
     formState: { errors: errors },

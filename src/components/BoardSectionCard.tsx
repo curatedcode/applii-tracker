@@ -6,11 +6,11 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import formatDate from "./formatDate";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { deleteApplication } from "../db";
 import Button from "./Button";
-import { MainContext } from "../app/page";
 import { CardApplicationType } from "../customVariables";
+import { useMainContext } from "../app/layout";
 
 export default function BoardSectionCard({
   id,
@@ -21,7 +21,7 @@ export default function BoardSectionCard({
   status,
 }: CardApplicationType) {
   const { setFormIsOpen, setApplicationId, fetchApplications } =
-    useContext(MainContext);
+    useMainContext();
 
   const date = formatDate(dateModified);
 
