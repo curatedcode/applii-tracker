@@ -9,7 +9,10 @@ export type BoardBlockProps = {
 
 export default function BoardSection({ title, Icon, cards }: BoardBlockProps) {
   return (
-    <div className="flex flex-col gap-2 items-center">
+    <div
+      className="flex flex-col gap-2 items-center"
+      data-testid={`${title} section`}
+    >
       <div className="flex gap-1 items-center justify-center text-xl">
         {Icon}
         <h2 className="font-medium">{title}</h2>
