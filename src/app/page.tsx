@@ -11,11 +11,21 @@ import BoardSection from "../components/BoardSection";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import Form from "../components/Form";
 import { useMainContext } from "./layout";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [isIndexedDBSupported, setIsIndexedDBSupported] =
+    useState<boolean>(true);
   const { formIsOpen, setFormIsOpen, allApplications } = useMainContext();
 
-  return (
+  useEffect(() => {
+    if (!window.indexedDB) {
+      setIsIndexedDBSupported(false);
+      return;
+    }
+  }, []);
+
+  return isIndexedDBSupported ? (
     <>
       <Form />
       <main
@@ -74,5 +84,29 @@ export default function Home() {
         </div>
       </main>
     </>
+  ) : (
+    <div className="flex items-center justify-center h-screen">
+      <p role="error" className="max-w-md w-full">
+        Your browser is not supported. Please exit incognito or private mode.
+        Otherwise download a supported browser like{" "}
+        <a
+          rel="nofollow noreferrer"
+          target="_blank"
+          href="https://www.mozilla.org/en-US/firefox/new/"
+          className="underline"
+        >
+          Firefox
+        </a>{" "}
+        or{" "}
+        <a
+          rel="nofollow noreferrer"
+          target="_blank"
+          href="https://www.google.com/chrome/index.html"
+          className="underline"
+        >
+          Google Chrome
+        </a>
+      </p>
+    </div>
   );
 }
