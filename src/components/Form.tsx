@@ -49,6 +49,7 @@ export default function Form() {
     if (applicationId) {
       console.log("update");
       await updateApplication({ id: applicationId, ...formValues });
+      reset();
     } else {
       await createApplication(formValues);
     }
@@ -83,7 +84,11 @@ export default function Form() {
   }, []);
 
   useEffect(() => {
-    if (!applicationId) return;
+    if (!applicationId) {
+      reset();
+      return;
+    }
+
     getApplication({ id: applicationId }).then((data) => {
       let date = "";
 
