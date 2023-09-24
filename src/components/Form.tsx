@@ -6,7 +6,7 @@ import { createApplication, getApplication, updateApplication } from "../db";
 import Button from "./Button";
 import { applicationStatuses } from "../customVariables";
 import dayjs from "dayjs";
-import { useMainContext } from "../app/layout";
+import { useMainContext } from "../app/page";
 
 const schema = z.object({
   position: z.string().min(1, { message: "Position can't be empty" }),

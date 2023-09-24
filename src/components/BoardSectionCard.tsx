@@ -10,7 +10,7 @@ import { useState } from "react";
 import { deleteApplication } from "../db";
 import Button from "./Button";
 import { CardApplicationType } from "../customVariables";
-import { useMainContext } from "../app/layout";
+import { useMainContext } from "../app/page";
 
 export default function BoardSectionCard({
   id,
