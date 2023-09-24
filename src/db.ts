@@ -5,9 +5,8 @@ import {
   UpdateApplicationType,
 } from "./customVariables";
 
-const indexedDB = window.indexedDB;
-
 async function applicationDB(): Promise<IDBObjectStore> {
+  const indexedDB = window.indexedDB;
   const objectStorePromise = new Promise((resolve, reject) => {
     const DBrequest = indexedDB.open("appliiDatabase", 1);
 
