@@ -28,11 +28,18 @@ export default function Form() {
     reset,
     watch,
     setValue,
+    setError,
   } = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) });
 
   async function submitForm() {
-    const dateNow = new Date().toISOString();
     const { status, datePicker, ...rest } = getValues();
+
+    if (status !== "needToApply" && datePicker === "") {
+      setError("datePicker", { message: "Please select a date" });
+      return;
+    }
+
+    const dateNow = new Date().toISOString();
     const datePicked = dayjs(datePicker).toISOString();
 
     const formValues = {
@@ -47,7 +54,6 @@ export default function Form() {
     };
 
     if (applicationId) {
-      console.log("update");
       await updateApplication({ id: applicationId, ...formValues });
       reset();
     } else {
@@ -64,6 +70,14 @@ export default function Form() {
     reset();
     setFormIsOpen(false);
   }
+
+  const selectedDate = watch("datePicker");
+
+  useEffect(() => {
+    setError("datePicker", { message: undefined });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate]);
 
   useEffect(() => {
     const firstElement = document.getElementById(
