@@ -10,7 +10,7 @@ import { useState } from "react";
 import { deleteApplication } from "../db";
 import Button from "./Button";
 import { CardApplicationType } from "../customVariables";
-import { useMainContext } from "../app/page";
+import { useMainContext } from "../components/MainContextProvider";
 
 export default function BoardSectionCard({
   id,
@@ -18,7 +18,6 @@ export default function BoardSectionCard({
   company,
   dateModified,
   postingURL,
-  status,
 }: CardApplicationType) {
   const { setFormIsOpen, setApplicationId, fetchApplications } =
     useMainContext();

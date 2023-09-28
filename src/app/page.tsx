@@ -10,22 +10,12 @@ import {
 import BoardSection from "../components/BoardSection";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import Form from "../components/Form";
-import { useContext, useEffect, useState } from "react";
-import { createContext } from "react";
-import { MainContextType } from "../customVariables";
-import { GetAllApplicationsReturnType, getAllApplications } from "../db";
-
-const MainContext = createContext<MainContextType>({
-  formIsOpen: false,
-  setFormIsOpen: () => {},
-  applicationId: undefined,
-  setApplicationId: () => {},
-  fetchApplications: () => {},
-  allApplications: undefined,
-});
-export const useMainContext = () => useContext(MainContext);
+import { useEffect, useState } from "react";
+import { useMainContext } from "../components/MainContextProvider";
 
 export default function Home() {
+  const { formIsOpen, setFormIsOpen, allApplications } = useMainContext();
+
   const [isIndexedDBSupported, setIsIndexedDBSupported] =
     useState<boolean>(true);
 
@@ -36,33 +26,8 @@ export default function Home() {
     }
   }, []);
 
-  const [formIsOpen, setFormIsOpen] = useState(false);
-  const [applicationId, setApplicationId] = useState<undefined | number>(
-    undefined
-  );
-  const [allApplications, setAllApplications] =
-    useState<GetAllApplicationsReturnType>();
-
-  function fetchApplications() {
-    getAllApplications().then((data) => setAllApplications(data));
-  }
-
-  useEffect(() => {
-    if (formIsOpen) return;
-    fetchApplications();
-  }, [formIsOpen]);
-
   return isIndexedDBSupported ? (
-    <MainContext.Provider
-      value={{
-        formIsOpen,
-        setFormIsOpen,
-        applicationId,
-        setApplicationId,
-        fetchApplications,
-        allApplications,
-      }}
-    >
+    <>
       <Form />
       <main
         className={`py-8 px-4 3xl:py-12 grid gap-7 max-w-8xl relative left-1/2 -translate-x-1/2 ${
@@ -119,7 +84,7 @@ export default function Home() {
           />
         </div>
       </main>
-    </MainContext.Provider>
+    </>
   ) : (
     <div className="flex items-center justify-center h-screen">
       <p role="error" className="max-w-md w-full">

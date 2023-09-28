@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
+import MainContextProvider from "../components/MainContextProvider";
 
 const font = Work_Sans({ subsets: ["latin"] });
 
@@ -17,8 +18,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-site-main text-white">
-      <body className={font.className}>{children}</body>
-    </html>
+    <MainContextProvider>
+      <html lang="en" className="bg-site-main text-white">
+        <body className={font.className}>{children}</body>
+      </html>
+    </MainContextProvider>
   );
 }

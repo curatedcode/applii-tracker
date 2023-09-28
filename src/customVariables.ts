@@ -51,12 +51,3 @@ export type CreateApplicationType = {
 export type UpdateApplicationType = Partial<CreateApplicationType> & {
   id: number;
 };
-
-export type MainContextType = {
-  formIsOpen: boolean;
-  setFormIsOpen: Dispatch<SetStateAction<boolean>>;
-  applicationId: undefined | number;
-  setApplicationId: Dispatch<SetStateAction<number | undefined>>;
-  fetchApplications: () => void;
-  allApplications: undefined | GetAllApplicationsReturnType;
-};

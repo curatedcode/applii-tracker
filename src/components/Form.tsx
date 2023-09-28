@@ -1,12 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createApplication, getApplication, updateApplication } from "../db";
 import Button from "./Button";
 import { applicationStatuses } from "../customVariables";
 import dayjs from "dayjs";
-import { useMainContext } from "../app/page";
+import { useMainContext } from "../components/MainContextProvider";
 
 const schema = z.object({
   position: z.string().min(1, { message: "Position can't be empty" }),
