@@ -12,6 +12,16 @@ import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import Form from "../components/Form";
 import { useEffect, useState } from "react";
 import { useMainContext } from "../components/MainContextProvider";
+import { ApplicationStatusType } from "../customVariables";
+
+const testing = {
+  id: 1,
+  position: "Testing Developer",
+  company: "Google",
+  postingURL: "asdfasfdas",
+  status: "needToApply" as ApplicationStatusType,
+  dateModified: "2023-09-28",
+};
 
 export default function Home() {
   const { formIsOpen, setFormIsOpen, allApplications } = useMainContext();
@@ -30,19 +40,18 @@ export default function Home() {
     <>
       <Form />
       <main
-        className={`py-8 px-4 3xl:py-12 grid gap-7 max-w-8xl relative left-1/2 -translate-x-1/2 ${
-          formIsOpen && "overflow-hidden max-h-screen"
+        className={`relative left-1/2 grid max-w-8xl -translate-x-1/2 gap-10 px-4 py-8 3xl:py-12 ${
+          formIsOpen && "max-h-screen overflow-hidden"
         }`}
       >
         <button
-          className="justify-self-center flex gap-1 hover:bg-neutral-100 font-medium hover:text-site-main transition-colors rounded-md px-2 py-1"
+          className="flex items-center gap-1 justify-self-center rounded-md px-2 py-1 font-medium transition-colors hover:bg-neutral-100 hover:text-site-main"
           onClick={() => setFormIsOpen(true)}
         >
           <PlusCircleIcon aria-hidden className="w-6" />
-          New Application
+          <span>New Application</span>
         </button>
-
-        <div className="grid grid-cols-1 gap-y-6 gap-x-2 child:justify-self-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        <div className="flex flex-wrap justify-center gap-8">
           <BoardSection
             title="Need To Apply"
             Icon={
@@ -55,7 +64,15 @@ export default function Home() {
             Icon={
               <EnvelopeIcon className="w-5 text-card-applied" aria-hidden />
             }
-            cards={allApplications ? allApplications.applied : []}
+            cards={[
+              testing,
+              testing,
+              testing,
+              testing,
+              testing,
+              testing,
+              testing,
+            ]}
           />
           <BoardSection
             title="Interviewing"
@@ -86,8 +103,8 @@ export default function Home() {
       </main>
     </>
   ) : (
-    <div className="flex items-center justify-center h-screen">
-      <p role="error" className="max-w-md w-full">
+    <div className="flex h-screen items-center justify-center">
+      <p role="error" className="w-full max-w-md">
         Your browser is not supported. Please exit incognito or private mode.
         Otherwise download a supported browser like{" "}
         <a

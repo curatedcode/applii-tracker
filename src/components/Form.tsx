@@ -81,10 +81,10 @@ export default function Form() {
 
   useEffect(() => {
     const firstElement = document.getElementById(
-      "position"
+      "position",
     ) as HTMLInputElement | null;
     const lastElement = document.getElementById(
-      "cancelBtn"
+      "cancelBtn",
     ) as HTMLButtonElement | null;
 
     if (!firstElement || !lastElement) return;
@@ -135,22 +135,22 @@ export default function Form() {
     <div
       className={
         formIsOpen
-          ? "opacity-100 z-10 w-screen h-screen bg-black/80 backdrop-blur-sm fixed"
+          ? "fixed z-10 h-screen w-screen bg-black/80 opacity-100 backdrop-blur-sm"
           : "hidden"
       }
     >
       <form
         onSubmit={handleSubmit(submitForm)}
-        className="grid gap-4 w-full max-w-sm relative left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/3"
+        className="relative left-1/2 top-1/3 grid w-full max-w-sm -translate-x-1/2 -translate-y-1/3 gap-4"
       >
         <div className="grid gap-1">
-          <div className="flex gap-1 items-center">
+          <div className="flex items-center gap-1">
             <label htmlFor="position" className="w-36">
               Position
             </label>
             <input
               id="position"
-              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 transition-colors focus-within:border-neutral-400 focus-within:outline-none text-site-main ${
+              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 text-site-main transition-colors focus-within:border-neutral-400 focus-within:outline-none ${
                 errors.position?.message
                   ? "border-red-500 focus-within:border-red-500"
                   : ""
@@ -161,7 +161,7 @@ export default function Form() {
           <span
             className={
               errors.position?.message
-                ? "text-red-500 text-sm font-semibold"
+                ? "text-sm font-semibold text-red-500"
                 : "hidden"
             }
           >
@@ -169,13 +169,13 @@ export default function Form() {
           </span>
         </div>
         <div className="grid gap-1">
-          <div className="flex gap-1 items-center">
+          <div className="flex items-center gap-1">
             <label htmlFor="company" className="w-36">
               Company
             </label>
             <input
               id="company"
-              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 transition-colors focus-within:border-neutral-400 focus-within:outline-none text-site-main ${
+              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 text-site-main transition-colors focus-within:border-neutral-400 focus-within:outline-none ${
                 errors.company?.message
                   ? "border-red-500 focus-within:border-red-500"
                   : ""
@@ -186,7 +186,7 @@ export default function Form() {
           <span
             className={
               errors.company?.message
-                ? "text-red-500 text-sm font-semibold"
+                ? "text-sm font-semibold text-red-500"
                 : "hidden"
             }
           >
@@ -194,13 +194,13 @@ export default function Form() {
           </span>
         </div>
         <div className="grid gap-1">
-          <div className="flex gap-1 items-center">
+          <div className="flex items-center gap-1">
             <label htmlFor="postingURL" className="w-36">
               Posting URL
             </label>
             <input
               id="postingURL"
-              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 transition-colors focus-within:border-neutral-400 focus-within:outline-none text-site-main ${
+              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 text-site-main transition-colors focus-within:border-neutral-400 focus-within:outline-none ${
                 errors.postingURL?.message
                   ? "border-red-500 focus-within:border-red-500"
                   : ""
@@ -211,7 +211,7 @@ export default function Form() {
           <span
             className={
               errors.postingURL?.message
-                ? "text-red-500 text-sm font-semibold"
+                ? "text-sm font-semibold text-red-500"
                 : "hidden"
             }
           >
@@ -219,13 +219,13 @@ export default function Form() {
           </span>
         </div>
         <div className="grid gap-1">
-          <div className="flex gap-1 items-center">
+          <div className="flex items-center gap-1">
             <label htmlFor="status" className="w-36">
               Status
             </label>
             <select
               id="status"
-              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 transition-colors focus-within:border-neutral-400 focus-within:outline-none text-site-main ${
+              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 text-site-main transition-colors focus-within:border-neutral-400 focus-within:outline-none ${
                 errors.status?.message
                   ? "border-red-500 focus-within:border-red-500"
                   : ""
@@ -242,7 +242,7 @@ export default function Form() {
           <span
             className={
               errors.status?.message
-                ? "text-red-500 text-sm font-semibold"
+                ? "text-sm font-semibold text-red-500"
                 : "hidden"
             }
           >
@@ -254,7 +254,7 @@ export default function Form() {
             watch("status") === "needToApply" ? "hidden" : "grid gap-1"
           }
         >
-          <div className="flex gap-1 items-center">
+          <div className="flex items-center gap-1">
             <label htmlFor="datePicker" className="w-36">
               {watch("status") === "applied" && "Date Applied"}
               {watch("status") === "interviewing" && "Date Interviewing"}
@@ -264,7 +264,7 @@ export default function Form() {
             <input
               id="datePicker"
               type="date"
-              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 transition-colors focus-within:border-neutral-400 focus-within:outline-none text-site-main ${
+              className={`duration-50 rounded-md border-2 bg-neutral-100 px-3 py-1 text-site-main transition-colors focus-within:border-neutral-400 focus-within:outline-none ${
                 errors.datePicker?.message
                   ? "border-red-500 focus-within:border-red-500"
                   : ""
@@ -275,7 +275,7 @@ export default function Form() {
           <span
             className={
               errors.datePicker?.message
-                ? "text-red-500 text-sm font-semibold"
+                ? "text-sm font-semibold text-red-500"
                 : "hidden"
             }
           >

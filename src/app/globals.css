@@ -10,21 +10,21 @@
 
   .board-section-scrollbar::-webkit-scrollbar-track {
     border-radius: 100vh;
-    background: #737373;
+    background: #1c1c1d;
   }
 
   .board-section-scrollbar::-webkit-scrollbar-thumb {
-    background: #222222;
+    background: #000000;
     background-clip: padding-box;
-    border: 2px #737373 solid;
+    border: 2px #000000 solid;
     border-radius: 100vh;
   }
 
   .board-section-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #535353;
+    background: #252525;
   }
 
   .board-section-scrollbar::-webkit-scrollbar-thumb:active {
-    background: #434343;
+    background: #353535;
   }
 }

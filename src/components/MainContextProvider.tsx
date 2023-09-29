@@ -35,7 +35,7 @@ export default function MainContextProvider({
 }) {
   const [formIsOpen, setFormIsOpen] = useState(false);
   const [applicationId, setApplicationId] = useState<undefined | number>(
-    undefined
+    undefined,
   );
   const [allApplications, setAllApplications] =
     useState<GetAllApplicationsReturnType>();

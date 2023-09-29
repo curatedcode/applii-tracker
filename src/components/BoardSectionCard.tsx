@@ -35,14 +35,14 @@ export default function BoardSectionCard({
 
   return (
     <div
-      className="group bg-site-main rounded-md px-2 py-1 h-[4.5rem]"
+      className="group h-20 rounded-md bg-site-main px-2 py-1"
       data-testid="board-section-card"
     >
       <div
         role="dialog"
         aria-labelledby="deletePostingTitle"
         aria-describedby="deletePostingDesc"
-        className={showDeletePopup ? "text-sm grid" : "hidden"}
+        className={showDeletePopup ? "grid text-sm" : "hidden"}
       >
         <h2 id="deletePostingTitle">Are you sure?</h2>
         <p id="dialog1Desc">This action is permanent</p>
@@ -57,14 +57,14 @@ export default function BoardSectionCard({
         className={
           showDeletePopup
             ? "hidden"
-            : "relative flex flex-col h-full justify-between"
+            : "relative flex h-full flex-col justify-between"
         }
       >
-        <div className="grid font-medium text-sm">
+        <div className="grid text-sm font-medium">
           <span className="line-clamp-2">{position}</span>
           <span className="line-clamp-1">{company}</span>
         </div>
-        <div className="group-hover:opacity-100 items-center w-full absolute left-0 opacity-0 bottom-0.5 flex gap-1 transition-all duration-75">
+        <div className="absolute bottom-0.5 left-0 flex w-full items-center gap-1 opacity-0 transition-all duration-75 group-hover:opacity-100">
           <span className="mr-auto text-xs" title={date.title}>
             {date.time}
           </span>
@@ -72,14 +72,14 @@ export default function BoardSectionCard({
             onClick={() => {
               setApplicationId(id), setFormIsOpen(true);
             }}
-            className="border border-site-main hover:border-site-main/50 p-0.5 rounded-md"
+            className="rounded-md border border-site-main p-0.5 hover:border-site-main/50"
             title="Edit"
           >
             <PencilSquareIcon className="w-4" aria-hidden />
           </button>
           <button
             onClick={() => toggleDeletePopup(true)}
-            className="border border-site-main hover:border-site-main/50 p-0.5 rounded-md"
+            className="rounded-md border border-site-main p-0.5 hover:border-site-main/50"
             title="Delete"
           >
             <TrashIcon className="w-4" aria-hidden />
@@ -90,7 +90,7 @@ export default function BoardSectionCard({
               target="_blank"
               href={postingURL}
               title={`View posting for ${position} at ${company}`}
-              className="border border-site-main hover:border-site-main/50 p-0.5 rounded-md"
+              className="rounded-md border border-site-main p-0.5 hover:border-site-main/50"
             >
               <LinkIcon className="w-4" aria-hidden />
             </a>

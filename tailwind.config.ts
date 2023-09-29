@@ -20,7 +20,8 @@ const config: Config = {
       },
       colors: {
         site: {
-          main: "#222222",
+          main: "#000000",
+          section: "#1c1c1d",
         },
         card: {
           needToApply: "#add8e6",
