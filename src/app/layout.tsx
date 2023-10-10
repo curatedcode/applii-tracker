@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
-import MainContextProvider from "../components/MainContextProvider";
+import Navbar from "../components/Navbar";
 
 const font = Work_Sans({ subsets: ["latin"] });
 
@@ -18,10 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <MainContextProvider>
-      <html lang="en" className="bg-site-main text-white">
-        <body className={font.className}>{children}</body>
-      </html>
-    </MainContextProvider>
+    <html lang="en" className="grid bg-site-main pb-12 text-neutral-100">
+      <body
+        className={`grid w-full max-w-8xl gap-10 justify-self-center px-4 ${font.className}`}
+      >
+        <Navbar />
+        <main className="grid">{children}</main>
+      </body>
+    </html>
   );
 }
