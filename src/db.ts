@@ -1,13 +1,22 @@
 import {
   ApplicationType,
-  CardApplicationType,
   CreateApplicationType,
+  FullApplicationType,
+  GetAllApplicationsReturnType,
+  GetApplicationMetricsReturnType,
+  TimelineType,
   UpdateApplicationType,
 } from "./customVariables";
+import dayjs from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import generateMetricLabels from "./components/Fn/generateMetricLabels";
+import calculateApplicationsInDateRange from "./components/Fn/calculateApplicationsInDateRange";
+import calculateSimpleApplicationStats from "./components/Fn/calculateSimpleApplicationStats";
+dayjs.extend(isSameOrBefore);
 
 async function applicationDB(): Promise<IDBObjectStore> {
-  const indexedDB = window.indexedDB;
   const objectStorePromise = new Promise((resolve, reject) => {
+    const indexedDB = window.indexedDB;
     const DBrequest = indexedDB.open("appliiDatabase", 1);
 
     DBrequest.onerror = (event) =>
@@ -40,7 +49,7 @@ export async function getApplication({
   id,
 }: {
   id: number;
-}): Promise<ApplicationType> {
+}): Promise<FullApplicationType> {
   const DB = await applicationDB();
 
   const application = new Promise((resolve, reject) => {
@@ -49,20 +58,14 @@ export async function getApplication({
     data.onerror = (event) =>
       reject(Error(`Unable to fetch application with ID ${id}: ${event}`));
     data.onsuccess = () => resolve(data.result);
-  }) as Promise<ApplicationType>;
+  }) as Promise<FullApplicationType>;
 
   return application;
 }
 
-export type GetAllApplicationsReturnType = {
-  needToApply: CardApplicationType[];
-  applied: CardApplicationType[];
-  interviewing: CardApplicationType[];
-  offer: CardApplicationType[];
-  closed: CardApplicationType[];
-};
-
-export async function getAllApplications(): Promise<GetAllApplicationsReturnType> {
+export async function getAllApplications(
+  sortBy: "dateModified" | "dateCreated",
+): Promise<GetAllApplicationsReturnType> {
   const DB = await applicationDB();
 
   const applicationsPromise = new Promise((resolve, reject) => {
@@ -73,28 +76,19 @@ export async function getAllApplications(): Promise<GetAllApplicationsReturnType
     data.onsuccess = () => resolve(data.result);
   }) as Promise<ApplicationType[]>;
 
-  const applications: CardApplicationType[] = (await applicationsPromise).map(
-    (application) => {
-      const { id, position, company, postingURL, status, dateModified } =
-        application;
-      return {
-        id,
-        position,
-        company,
-        postingURL,
-        status,
-        dateModified,
-      };
-    }
+  const applications: FullApplicationType[] = await applicationsPromise;
+
+  const applicationsSorted = applications.sort((a, b) =>
+    dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
   );
 
-  const needToApplyApps: CardApplicationType[] = [];
-  const appliedApps: CardApplicationType[] = [];
-  const interviewingApps: CardApplicationType[] = [];
-  const offerApps: CardApplicationType[] = [];
-  const closedApps: CardApplicationType[] = [];
+  const needToApplyApps: FullApplicationType[] = [];
+  const appliedApps: FullApplicationType[] = [];
+  const interviewingApps: FullApplicationType[] = [];
+  const offerApps: FullApplicationType[] = [];
+  const closedApps: FullApplicationType[] = [];
 
-  for (const application of applications) {
+  for (const application of applicationsSorted) {
     switch (application.status) {
       case "needToApply":
         needToApplyApps.push(application);
@@ -127,14 +121,14 @@ export async function createApplication({
   position,
   company,
   postingURL,
-  dateCreated,
-  dateModified,
   dateApplied,
-  dateInterviewed,
+  dateInterviewing,
   dateOffered,
   dateClosed,
   status,
-}: CreateApplicationType) {
+  notes,
+  contacts,
+}: CreateApplicationType): Promise<{ id: number }> {
   const DB = await applicationDB();
 
   const application = new Promise((resolve, reject) => {
@@ -143,10 +137,12 @@ export async function createApplication({
       company,
       postingURL,
       status,
-      dateCreated,
-      dateModified,
+      notes,
+      contacts,
+      dateCreated: dayjs().toISOString(),
+      dateModified: dayjs().toISOString(),
       dateApplied,
-      dateInterviewed,
+      dateInterviewing,
       dateOffered,
       dateClosed,
     });
@@ -156,7 +152,9 @@ export async function createApplication({
     data.onsuccess = () => resolve(data.result);
   });
 
-  return application;
+  const applicationId = (await application) as number;
+
+  return { id: applicationId };
 }
 
 export async function updateApplication({
@@ -164,10 +162,8 @@ export async function updateApplication({
   position,
   company,
   postingURL,
-  dateCreated,
-  dateModified,
   dateApplied,
-  dateInterviewed,
+  dateInterviewing,
   dateOffered,
   dateClosed,
   status,
@@ -178,17 +174,17 @@ export async function updateApplication({
     const storedData = DB.get(id);
     storedData.onerror = (event) =>
       reject(Error(`Unable to fetch application with ID ${id}: ${event}`));
-
     storedData.onsuccess = () => {
       const mergedData = {
         id,
         position: position ?? storedData.result.position,
         company: company ?? storedData.result.company,
         postingURL: postingURL ?? storedData.result.postingURL,
-        dateCreated: dateCreated ?? storedData.result.dateCreated,
-        dateModified: dateModified ?? storedData.result.dateModified,
+        dateCreated: storedData.result.dateCreated,
+        dateModified: dayjs().toISOString(),
         dateApplied: dateApplied ?? storedData.result.dateApplied,
-        dateInterviewed: dateInterviewed ?? storedData.result.dateInterviewed,
+        dateInterviewing:
+          dateInterviewing ?? storedData.result.dateInterviewing,
         dateOffered: dateOffered ?? storedData.result.dateOffered,
         dateClosed: dateClosed ?? storedData.result.dateClosed,
         status: status ?? storedData.result.status,
@@ -201,7 +197,9 @@ export async function updateApplication({
     };
   });
 
-  return updatePromise;
+  await updatePromise;
+
+  return;
 }
 
 export async function deleteApplication({ id }: { id: number }) {
@@ -216,4 +214,54 @@ export async function deleteApplication({ id }: { id: number }) {
   });
 
   return application;
+}
+
+export async function getApplicationMetrics(
+  timeline: TimelineType,
+): Promise<GetApplicationMetricsReturnType> {
+  const applicationData = await getAllApplications("dateCreated");
+  const { needToApply, applied, interviewing, offer, closed } = applicationData;
+
+  const simpleStats = calculateSimpleApplicationStats({
+    needToApplyLength: needToApply.length,
+    appliedLength: applied.length,
+    interviewingLength: interviewing.length,
+    offerLength: offer.length,
+    closedLength: closed.length,
+  });
+
+  return {
+    needToApply: calculateApplicationsInDateRange({
+      applications: needToApply,
+      dateType: "dateCreated",
+      labels: generateMetricLabels(timeline),
+      timeline,
+    }),
+    applied: calculateApplicationsInDateRange({
+      applications: applied,
+      dateType: "dateApplied",
+      labels: generateMetricLabels(timeline),
+      timeline,
+    }),
+    interviewing: calculateApplicationsInDateRange({
+      applications: interviewing,
+      dateType: "dateInterviewing",
+      labels: generateMetricLabels(timeline),
+      timeline,
+    }),
+    offer: calculateApplicationsInDateRange({
+      applications: offer,
+      dateType: "dateOffered",
+      labels: generateMetricLabels(timeline),
+      timeline,
+    }),
+    closed: calculateApplicationsInDateRange({
+      applications: closed,
+      dateType: "dateClosed",
+      labels: generateMetricLabels(timeline),
+      timeline,
+    }),
+    labels: generateMetricLabels(timeline),
+    simpleStats,
+  };
 }
