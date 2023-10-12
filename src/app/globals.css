@@ -9,7 +9,6 @@
   }
 
   .board-section-scrollbar::-webkit-scrollbar-track {
-    border-radius: 100vh;
     background: #1c1c1d;
   }
 
@@ -17,14 +16,48 @@
     background: #000000;
     background-clip: padding-box;
     border: 2px #000000 solid;
-    border-radius: 100vh;
   }
 
   .board-section-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #252525;
+    border: 2px #252525 solid;
   }
 
   .board-section-scrollbar::-webkit-scrollbar-thumb:active {
     background: #353535;
+    border: 2px #353535 solid;
+  }
+
+  .app-contact-section-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .app-contact-section-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .app-contact-section-scrollbar::-webkit-scrollbar-thumb {
+    background: #1c1c1d;
+    background-clip: padding-box;
+    border: 2px #1c1c1d solid;
+  }
+
+  .app-contact-section-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #252525;
+    border: 2px #252525 solid;
+  }
+
+  .app-contact-section-scrollbar::-webkit-scrollbar-thumb:active {
+    background: #353535;
+    border: 2px #353535 solid;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 0.4s;
   }
 }
