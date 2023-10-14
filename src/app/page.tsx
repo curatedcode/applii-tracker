@@ -46,7 +46,9 @@ export default function Home() {
       <div id="loadingHome" aria-live="polite" className="sr-only">
         <p>Loaded applications.</p>
       </div>
-      <div className="mb-12 grid w-fit gap-2 justify-self-center text-sm">
+      <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-end md:gap-4">
+        <h1 className="text-3xl font-semibold">All applications</h1>
+        <div className="h-0 border-l md:h-full"></div>
         <div className="flex items-center gap-2">
           <label htmlFor="sortByInput" className="mb-1 font-semibold">
             Sort by:
@@ -55,6 +57,7 @@ export default function Home() {
             id="sortByInput"
             className="duration-50 h-fit w-fit rounded-md border border-transparent bg-site-section px-2 py-1 transition-colors focus-within:border-inherit focus-within:outline-none"
             onChange={(e) => setSortBy(e.currentTarget.value as SortByType)}
+            defaultValue={"dateModified"}
           >
             <option value="dateModified">Date Modified</option>
             <option value="dateCreated">Date Created</option>

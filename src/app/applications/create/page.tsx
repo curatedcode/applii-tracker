@@ -91,9 +91,9 @@ export default function Create() {
         className="grid justify-items-center gap-4 md:grid-cols-2"
       >
         <div className="col-span-full flex h-fit w-full max-w-md flex-col p-4 md:min-h-formSection">
-          <h3 className="mb-6 self-center border-b-2 px-1 text-lg font-semibold">
+          <h2 className="mb-6 self-center border-b-2 px-1 text-lg font-semibold">
             Details
-          </h3>
+          </h2>
           <div className="grid gap-2">
             <FormInput
               id="positionInput"
