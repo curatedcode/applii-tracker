@@ -41,9 +41,9 @@
   ],
   "id": "/",
   "start_url": "/",
-  "background_color": "#FFFFFF",
+  "background_color": "#000000",
   "display": "fullscreen",
   "scope": "/",
-  "theme_color": "#014EE8",
+  "theme_color": "#1c1c1d",
   "description": "Applii | Your job application tracker"
 }
