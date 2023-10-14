@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import updateLocale from "dayjs/plugin/updateLocale";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { SortByType } from "@/src/customVariables";
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 
@@ -36,12 +37,18 @@ dayjs.updateLocale("en", {
   },
 });
 
-export default function formatDate(date: string): {
+export default function relativeDate(
+  date: string,
+  sortBy: SortByType,
+): {
   time: string;
   title: string;
 } {
-  const currentDate = dayjs(new Date());
+  const currentDate = dayjs();
   const dateFrom = currentDate.from(date, true);
-  const title = `Last updated ${dateFrom} ago`;
-  return { time: dateFrom, title };
+
+  if (sortBy === "dateCreated") {
+    return { time: dateFrom, title: `Created ${dateFrom} ago` };
+  }
+  return { time: dateFrom, title: `Updated ${dateFrom} ago` };
 }

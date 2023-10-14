@@ -1,5 +1,5 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
+
 import {
   ClockIcon,
   ChatBubbleBottomCenterTextIcon,
@@ -8,106 +8,101 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/solid";
 import BoardSection from "../components/BoardSection";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import Form from "../components/Form";
 import { useEffect, useState } from "react";
-import { useMainContext } from "../components/MainContextProvider";
+import {
+  ApplicationStatusType,
+  GetAllApplicationsReturnType,
+  SortByType,
+} from "../customVariables";
+import { getAllApplications } from "../db";
+import IndexedDBNotSupported from "../components/IndexedDBNotSupported";
+import HomeSkeleton from "../components/Loading/HomeSkeleton";
 
 export default function Home() {
-  const { formIsOpen, setFormIsOpen, allApplications } = useMainContext();
-
+  const [allApplications, setAllApplications] =
+    useState<GetAllApplicationsReturnType>();
   const [isIndexedDBSupported, setIsIndexedDBSupported] =
     useState<boolean>(true);
 
+  const [sortBy, setSortBy] = useState<SortByType>("dateModified");
+
   useEffect(() => {
+    if (!window) return;
     if (!window.indexedDB) {
       setIsIndexedDBSupported(false);
       return;
     }
-  }, []);
+    getAllApplications(sortBy).then((data) => setAllApplications(data));
+  }, [sortBy]);
 
-  return isIndexedDBSupported ? (
+  if (!isIndexedDBSupported) return <IndexedDBNotSupported />;
+
+  if (!allApplications) return <HomeSkeleton />;
+
+  const { needToApply, applied, interviewing, offer, closed } = allApplications;
+
+  return (
     <>
-      <Form />
-      <main
-        className={`py-8 px-4 3xl:py-12 grid gap-7 max-w-8xl relative left-1/2 -translate-x-1/2 ${
-          formIsOpen && "overflow-hidden max-h-screen"
-        }`}
-      >
-        <button
-          className="justify-self-center flex gap-1 hover:bg-neutral-100 font-medium hover:text-site-main transition-colors rounded-md px-2 py-1"
-          onClick={() => setFormIsOpen(true)}
-        >
-          <PlusCircleIcon aria-hidden className="w-6" />
-          New Application
-        </button>
-
-        <div className="grid grid-cols-1 gap-y-6 gap-x-2 child:justify-self-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          <BoardSection
-            title="Need To Apply"
-            Icon={
-              <ClockIcon className="w-5 text-card-needToApply" aria-hidden />
-            }
-            cards={allApplications ? allApplications.needToApply : []}
-          />
-          <BoardSection
-            title="Applied"
-            Icon={
-              <EnvelopeIcon className="w-5 text-card-applied" aria-hidden />
-            }
-            cards={allApplications ? allApplications.applied : []}
-          />
-          <BoardSection
-            title="Interviewing"
-            Icon={
-              <ChatBubbleBottomCenterTextIcon
-                className="w-5 text-card-interviewing"
-                aria-hidden
-              />
-            }
-            cards={allApplications ? allApplications.interviewing : []}
-          />
-          <BoardSection
-            title="Offer"
-            Icon={<TrophyIcon className="w-5 text-card-offer" aria-hidden />}
-            cards={allApplications ? allApplications.offer : []}
-          />
-          <BoardSection
-            title="Closed"
-            Icon={
-              <ArchiveBoxXMarkIcon
-                className="w-5 text-card-closed"
-                aria-hidden
-              />
-            }
-            cards={allApplications ? allApplications.closed : []}
-          />
+      <div id="loadingHome" aria-live="polite" className="sr-only">
+        <p>Loaded applications.</p>
+      </div>
+      <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-end md:gap-4">
+        <h1 className="text-3xl font-semibold">All applications</h1>
+        <div className="h-0 border-l md:h-full"></div>
+        <div className="flex items-center gap-2">
+          <label htmlFor="sortByInput" className="mb-1 font-semibold">
+            Sort by:
+          </label>
+          <select
+            id="sortByInput"
+            className="duration-50 h-fit w-fit rounded-md border border-transparent bg-site-section px-2 py-1 transition-colors focus-within:border-inherit focus-within:outline-none"
+            onChange={(e) => setSortBy(e.currentTarget.value as SortByType)}
+            defaultValue={"dateModified"}
+          >
+            <option value="dateModified">Date Modified</option>
+            <option value="dateCreated">Date Created</option>
+          </select>
         </div>
-      </main>
+      </div>
+      <div className="flex w-full flex-wrap justify-center gap-8 justify-self-center md:max-w-[100rem]">
+        <BoardSection
+          title="Need To Apply"
+          Icon={<ClockIcon className="w-5 text-card-needToApply" aria-hidden />}
+          cards={needToApply}
+          sortBy={sortBy}
+        />
+        <BoardSection
+          title="Applied"
+          Icon={<EnvelopeIcon className="w-5 text-card-applied" aria-hidden />}
+          cards={applied}
+          sortBy={sortBy}
+        />
+        <BoardSection
+          title="Interviewing"
+          Icon={
+            <ChatBubbleBottomCenterTextIcon
+              className="w-5 text-card-interviewing"
+              aria-hidden
+            />
+          }
+          cards={interviewing}
+          sortBy={sortBy}
+        />
+        <BoardSection
+          title="Offer"
+          Icon={<TrophyIcon className="w-5 text-card-offer" aria-hidden />}
+          cards={offer}
+          sortBy={sortBy}
+        />
+        <BoardSection
+          title="Closed"
+          Icon={
+            <ArchiveBoxXMarkIcon className="w-5 text-card-closed" aria-hidden />
+          }
+          cards={closed}
+          sortBy={sortBy}
+        />
+      </div>
     </>
-  ) : (
-    <div className="flex items-center justify-center h-screen">
-      <p role="error" className="max-w-md w-full">
-        Your browser is not supported. Please exit incognito or private mode.
-        Otherwise download a supported browser like{" "}
-        <a
-          rel="nofollow noreferrer"
-          target="_blank"
-          href="https://www.mozilla.org/en-US/firefox/new/"
-          className="underline"
-        >
-          Firefox
-        </a>{" "}
-        or{" "}
-        <a
-          rel="nofollow noreferrer"
-          target="_blank"
-          href="https://www.google.com/chrome/index.html"
-          className="underline"
-        >
-          Google Chrome
-        </a>
-      </p>
-    </div>
   );
 }
