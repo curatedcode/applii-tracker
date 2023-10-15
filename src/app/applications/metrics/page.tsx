@@ -61,19 +61,27 @@ export default function Metrics() {
         <h1 className="text-3xl font-semibold">Metrics</h1>
         <div className="h-0 border-l md:h-full"></div>
         <div className="flex items-center gap-2">
-          <label htmlFor="sortByInput" className="mb-1 font-semibold">
-            Sort by:
+          <label htmlFor="sortByInput" className="mb-0.5 font-semibold">
+            Range:
           </label>
           <select
             id="sortByInput"
-            className="duration-50 h-fit w-fit rounded-md border border-transparent bg-site-section px-2 py-1 transition-colors focus-within:border-inherit focus-within:outline-none"
+            className="duration-50 h-fit rounded-md border border-neutral-600 bg-site-section px-3 py-1.5 transition-colors focus-within:border-inherit focus-within:outline-none"
             onChange={(e) => setTimeline(e.currentTarget.value as TimelineType)}
             defaultValue={"1 month"}
           >
-            <option value="1 week">1 week</option>
-            <option value="1 month">1 month</option>
-            <option value="6 months">6 months</option>
-            <option value="1 year">1 year</option>
+            <option value="1 week" className="bg-site-section">
+              1 week
+            </option>
+            <option value="1 month" className="bg-site-section">
+              1 month
+            </option>
+            <option value="6 months" className="bg-site-section">
+              6 months
+            </option>
+            <option value="1 year" className="bg-site-section">
+              1 year
+            </option>
           </select>
         </div>
       </div>

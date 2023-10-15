@@ -50,17 +50,21 @@ export default function Home() {
         <h1 className="text-3xl font-semibold">All applications</h1>
         <div className="h-0 border-l md:h-full"></div>
         <div className="flex items-center gap-2">
-          <label htmlFor="sortByInput" className="mb-1 font-semibold">
-            Sort by:
+          <label htmlFor="sortByInput" className="mb-0.5 font-semibold">
+            Sort:
           </label>
           <select
             id="sortByInput"
-            className="duration-50 h-fit w-fit rounded-md border border-transparent bg-site-section px-2 py-1 transition-colors focus-within:border-inherit focus-within:outline-none"
+            className="duration-50 h-fit rounded-md border border-neutral-600 bg-site-section px-3 py-1.5 transition-colors focus-within:border-inherit focus-within:outline-none"
             onChange={(e) => setSortBy(e.currentTarget.value as SortByType)}
             defaultValue={"dateModified"}
           >
-            <option value="dateModified">Date Modified</option>
-            <option value="dateCreated">Date Created</option>
+            <option value="dateModified" className="bg-site-section">
+              Date Modified
+            </option>
+            <option value="dateCreated" className="bg-site-section">
+              Date Created
+            </option>
           </select>
         </div>
       </div>
