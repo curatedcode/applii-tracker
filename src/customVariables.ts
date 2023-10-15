@@ -245,11 +245,11 @@ export type CalculateApplicationsInDateRangeProps = {
 };
 
 export type CalculateSimpleApplicationStatsProps = {
-  needToApplyLength: number;
-  appliedLength: number;
-  interviewingLength: number;
-  offerLength: number;
-  closedLength: number;
+  needToApplyApps: number[];
+  appliedApps: number[];
+  interviewingApps: number[];
+  offerApps: number[];
+  closedApps: number[];
 };
 
 export type CalculateSimpleApplicationStatsReturnType = {
@@ -298,4 +298,10 @@ export type BoardSectionProps = {
   Icon: React.ReactNode;
   cards: FullApplicationType[];
   sortBy: SortByType;
+};
+
+export const typeSafeObjectEntries = <T extends Record<PropertyKey, unknown>>(
+  obj: T,
+): { [K in keyof T]: [K, T[K]] }[keyof T][] => {
+  return Object.entries(obj) as { [K in keyof T]: [K, T[K]] }[keyof T][];
 };

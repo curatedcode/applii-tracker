@@ -222,45 +222,55 @@ export async function getApplicationMetrics(
   const applicationData = await getAllApplications("dateCreated");
   const { needToApply, applied, interviewing, offer, closed } = applicationData;
 
+  const needToApplyApps = calculateApplicationsInDateRange({
+    applications: needToApply,
+    dateType: "dateCreated",
+    labels: generateMetricLabels(timeline),
+    timeline,
+  });
+
+  const appliedApps = calculateApplicationsInDateRange({
+    applications: applied,
+    dateType: "dateApplied",
+    labels: generateMetricLabels(timeline),
+    timeline,
+  });
+
+  const interviewingApps = calculateApplicationsInDateRange({
+    applications: interviewing,
+    dateType: "dateInterviewing",
+    labels: generateMetricLabels(timeline),
+    timeline,
+  });
+
+  const offerApps = calculateApplicationsInDateRange({
+    applications: offer,
+    dateType: "dateOffered",
+    labels: generateMetricLabels(timeline),
+    timeline,
+  });
+
+  const closedApps = calculateApplicationsInDateRange({
+    applications: closed,
+    dateType: "dateClosed",
+    labels: generateMetricLabels(timeline),
+    timeline,
+  });
+
   const simpleStats = calculateSimpleApplicationStats({
-    needToApplyLength: needToApply.length,
-    appliedLength: applied.length,
-    interviewingLength: interviewing.length,
-    offerLength: offer.length,
-    closedLength: closed.length,
+    needToApplyApps,
+    appliedApps,
+    interviewingApps,
+    offerApps,
+    closedApps,
   });
 
   return {
-    needToApply: calculateApplicationsInDateRange({
-      applications: needToApply,
-      dateType: "dateCreated",
-      labels: generateMetricLabels(timeline),
-      timeline,
-    }),
-    applied: calculateApplicationsInDateRange({
-      applications: applied,
-      dateType: "dateApplied",
-      labels: generateMetricLabels(timeline),
-      timeline,
-    }),
-    interviewing: calculateApplicationsInDateRange({
-      applications: interviewing,
-      dateType: "dateInterviewing",
-      labels: generateMetricLabels(timeline),
-      timeline,
-    }),
-    offer: calculateApplicationsInDateRange({
-      applications: offer,
-      dateType: "dateOffered",
-      labels: generateMetricLabels(timeline),
-      timeline,
-    }),
-    closed: calculateApplicationsInDateRange({
-      applications: closed,
-      dateType: "dateClosed",
-      labels: generateMetricLabels(timeline),
-      timeline,
-    }),
+    needToApply: needToApplyApps,
+    applied: appliedApps,
+    interviewing: interviewingApps,
+    offer: offerApps,
+    closed: closedApps,
     labels: generateMetricLabels(timeline),
     simpleStats,
   };
