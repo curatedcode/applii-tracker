@@ -16,7 +16,7 @@ export default function FormTextarea({
       <div className="grid gap-1">
         <label
           htmlFor={id}
-          className={hiddenLabel ? "sr-only" : "mb-1 ml-1 opacity-80"}
+          className={hiddenLabel ? "sr-only" : "ml-1 opacity-80"}
         >
           {label}
         </label>
