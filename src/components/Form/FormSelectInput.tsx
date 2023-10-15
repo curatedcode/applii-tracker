@@ -1,6 +1,6 @@
 import { FormSelectProps } from "@/src/customVariables";
 
-export default function FormSelect({
+export default function FormSelectInput({
   id,
   label,
   options,
@@ -16,7 +16,7 @@ export default function FormSelect({
       <div className="grid gap-1">
         <label
           htmlFor={id}
-          className={hiddenLabel ? "sr-only" : "mb-1 ml-1 opacity-80"}
+          className={hiddenLabel ? "sr-only" : "ml-1 opacity-80"}
         >
           {label}
         </label>
@@ -28,14 +28,14 @@ export default function FormSelect({
           )}
           <select
             id={id}
-            className={`duration-50 h-10 w-full border bg-neutral-100 px-3 py-1.5 text-site-main transition-colors focus-within:border-neutral-600 focus-within:outline-none ${
+            className={`duration-50 h-10 w-full rounded-md border border-neutral-600 bg-inherit px-3 py-1.5 transition-colors after:bg-inherit focus-within:border-inherit focus-within:outline-none ${
               error ? "border-red-500 focus-within:!border-red-500" : ""
             }`}
             aria-required={isRequired}
             {...register(registerName ?? id)}
           >
             {options.map((option, index) => (
-              <option value={option.id} key={index}>
+              <option value={option.id} key={index} className="bg-site-main">
                 {option.label}
               </option>
             ))}

@@ -32,7 +32,7 @@ export default function FormInput({
             type={type ?? "text"}
             placeholder={placeholder}
             aria-required={isRequired}
-            className={`duration-50 h-10 w-full border bg-neutral-100 px-3 py-1.5 text-site-main transition-colors focus-within:border-neutral-600 focus-within:outline-none ${
+            className={`duration-50 h-10 w-full rounded-md border border-neutral-600 bg-inherit px-3 py-1.5 transition-colors placeholder:opacity-70 focus-within:border-inherit focus-within:outline-none ${
               error ? "border-red-500 focus-within:!border-red-500" : ""
             }`}
             {...register(registerName ?? id)}

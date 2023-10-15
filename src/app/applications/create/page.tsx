@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { applicationStatusesArray, formSchema } from "@/src/customVariables";
 import FormInput from "@/src/components/Form/FormInput";
-import FormSelect from "@/src/components/Form/SelectInput";
+import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import { createApplication } from "@/src/db";
 import ContactFields from "@/src/components/Form/ContactFields";
 import NoteFields from "@/src/components/Form/NoteFields";
@@ -125,7 +125,7 @@ export default function Create() {
               hiddenLabel
               placeholder="Posting URL"
             />
-            <FormSelect
+            <FormSelectInput
               id="statusInput"
               registerName="status"
               label="Status"

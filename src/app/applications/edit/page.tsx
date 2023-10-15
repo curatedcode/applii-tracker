@@ -5,7 +5,7 @@ import Button from "@/src/components/Buttons/Button";
 import ContactsFields from "@/src/components/Form/ContactFields";
 import FormInput from "@/src/components/Form/FormInput";
 import NoteFields from "@/src/components/Form/NoteFields";
-import FormSelect from "@/src/components/Form/SelectInput";
+import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import useExitPageConfirm from "@/src/components/Hooks/useExitPageConfirm";
 import InternalLink from "@/src/components/Links/InternalLink";
 import EditApplicationSkeleton from "@/src/components/Loading/EditApplicationSkeleton";
@@ -176,7 +176,7 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
               hiddenLabel
               placeholder="Posting URL"
             />
-            <FormSelect
+            <FormSelectInput
               id="statusInput"
               registerName="status"
               label="Status"
