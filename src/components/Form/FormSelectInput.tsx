@@ -28,7 +28,7 @@ export default function FormSelectInput({
           )}
           <select
             id={id}
-            className={`duration-50 h-10 w-full rounded-md border border-neutral-600 bg-inherit px-3 py-1.5 transition-colors after:bg-inherit focus-within:border-inherit focus-within:outline-none ${
+            className={`duration-50 h-10 w-full rounded-md border border-neutral-600 bg-inherit px-3 py-1.5 transition-colors focus-within:border-inherit focus-within:outline-none ${
               error ? "border-red-500 focus-within:!border-red-500" : ""
             }`}
             aria-required={isRequired}
