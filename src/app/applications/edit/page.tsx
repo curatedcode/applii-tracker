@@ -254,7 +254,7 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
           control={control}
           className="grid h-fit w-full max-w-md auto-rows-min p-4 md:min-h-formSection"
         />
-        <div className="col-span-full mt-12 flex flex-col gap-8 lg:flex-row">
+        <div className="col-span-full mt-12 flex flex-row gap-6">
           <Button onClick={() => router.push("/")}>Cancel</Button>
           <Button type="submit">Submit</Button>
         </div>
