@@ -14,7 +14,8 @@ test("create application", async ({ page }) => {
   await page
     .getByRole("textbox", { name: "Posting URL" })
     .fill("www.youtube.com");
-  await page.getByRole("combobox", { name: "Status" }).selectOption("Applied");
+  await page.getByLabel("Status").click();
+  await page.getByTestId("applied-option").click();
   await page.getByLabel("Date Applied").fill("2023-10-10");
 
   // fill out contact fields
@@ -89,7 +90,8 @@ test("update application", async ({ page }) => {
   await page
     .getByRole("textbox", { name: "Posting URL" })
     .fill("www.youtube.com");
-  await page.getByRole("combobox", { name: "Status" }).selectOption("Applied");
+  await page.getByLabel("Status").click();
+  await page.getByTestId("applied-option").click();
   await page.getByLabel("Date Applied").fill("2023-10-10");
 
   // submit
@@ -106,7 +108,8 @@ test("update application", async ({ page }) => {
   await page
     .getByRole("textbox", { name: "Posting URL" })
     .fill("www.google.com");
-  await page.getByLabel("Status").press("ArrowDown");
+  await page.getByLabel("Status").click();
+  await page.getByTestId("interviewing-option").click();
   await page.getByLabel("Date Interviewing").fill("2023-10-11");
 
   // submit
@@ -140,7 +143,8 @@ test("delete application", async ({ page }) => {
   await page
     .getByRole("textbox", { name: "Posting URL" })
     .fill("www.youtube.com");
-  await page.getByRole("combobox", { name: "Status" }).selectOption("Applied");
+  await page.getByLabel("Status").click();
+  await page.getByTestId("applied-option").click();
   await page.getByLabel("Date Applied").fill("2023-10-10");
 
   // submit

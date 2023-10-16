@@ -1,7 +1,7 @@
 import { FormSelectInputProps } from "@/src/customVariables";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 
 export default function FormSelectInput({
   value,
@@ -36,10 +36,11 @@ export default function FormSelectInput({
               {options.map((option, index) => (
                 <Listbox.Option
                   key={index}
+                  data-testid={`${option.value}-option`}
                   className={({ active }) =>
                     `relative cursor-default select-none py-1.5 pl-10 pr-4 ${
                       active
-                        ? "dark:bg-dark-secondary-shaded bg-light-secondary-shaded"
+                        ? "bg-light-secondary-shaded dark:bg-dark-secondary-shaded"
                         : ""
                     }`
                   }
