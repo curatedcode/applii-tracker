@@ -16,7 +16,7 @@ export default function BoardSection({
         {Icon}
         <h2 className="font-medium">{title}</h2>
       </div>
-      <div className="board-section-scrollbar bg-light-secondary dark:bg-dark-secondary border-light-secondary dark:border-dark-secondary grid h-board-section w-full auto-rows-min gap-2 overflow-auto rounded-md border-[0.4rem] p-[0.4rem]">
+      <div className="content-scrollbar grid h-board-section w-full auto-rows-min gap-2 overflow-auto rounded-md border-[0.4rem] border-light-secondary bg-light-secondary p-[0.4rem] dark:border-dark-secondary dark:bg-dark-secondary">
         {cards.length > 0 ? (
           cards.map((card, index) => (
             <BoardSectionCard key={index} {...card} sortBy={sortBy} />

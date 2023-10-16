@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="text-light-text dark:text-dark-text bg-light-main dark:bg-dark-main grid pb-12"
+      className="main-scrollbar grid bg-light-main pb-12 text-light-text dark:bg-dark-main dark:text-dark-text"
     >
       <body
         className={`grid w-full max-w-8xl gap-2 justify-self-center px-4 ${font.className}`}

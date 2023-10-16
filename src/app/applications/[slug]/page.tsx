@@ -139,7 +139,7 @@ export default function Application() {
           {contacts && contacts.length > 0 ? (
             <ul
               aria-labelledby="contactsHeader"
-              className="app-contact-section-scrollbar grid w-full gap-4 overflow-y-auto md:max-h-[30rem] md:px-1"
+              className="content-scrollbar grid w-full gap-4 overflow-y-auto md:max-h-[30rem] md:px-1"
             >
               {contacts.map((contact, index) => {
                 const { name, position, phone, email } = contact;
