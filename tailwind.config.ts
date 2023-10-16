@@ -72,11 +72,5 @@ const config: Config = {
     "bg-card-offer",
     "bg-card-closed",
   ],
-  plugins: [
-    plugin(({ addVariant }) => {
-      addVariant("child", "& > *");
-      addVariant("child-hover", "& > *:hover");
-    }),
-  ],
 };
 export default config;
