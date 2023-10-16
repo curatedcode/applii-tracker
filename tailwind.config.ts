@@ -44,7 +44,7 @@ const config: Config = {
           needToApply: "#ADD8E6",
           applied: "#22C55E",
           interviewing: "#FFDB58",
-          offer: "#4169E1",
+          offer: "#a891ee",
           closed: "#D9534F",
         },
       },

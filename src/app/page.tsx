@@ -10,7 +10,6 @@ import {
 import BoardSection from "../components/BoardSection";
 import { useEffect, useState } from "react";
 import {
-  FullApplicationType,
   GetAllApplicationsReturnType,
   SortByOptionType,
   sortByOptions,
@@ -19,7 +18,6 @@ import { getAllApplications } from "../db";
 import IndexedDBNotSupported from "../components/IndexedDBNotSupported";
 import HomeSkeleton from "../components/Loading/HomeSkeleton";
 import SelectInput from "../components/SelectInput";
-import dayjs from "dayjs";
 
 export default function Home() {
   const [allApplications, setAllApplications] =
@@ -46,74 +44,6 @@ export default function Home() {
   if (!allApplications) return <HomeSkeleton />;
 
   const { needToApply, applied, interviewing, offer, closed } = allApplications;
-
-  const now = dayjs().toISOString();
-  const testApps: FullApplicationType[] = [
-    {
-      id: 1,
-      position: "Dog walker",
-      company: "Microsoft-Leisure",
-      status: "offer",
-      dateCreated: now,
-      dateModified: now,
-    },
-    {
-      id: 1,
-      position: "Dog walker",
-      company: "Microsoft-Leisure",
-      status: "offer",
-      dateCreated: now,
-      dateModified: now,
-    },
-    {
-      id: 1,
-      position: "Dog walker",
-      company: "Microsoft-Leisure",
-      status: "offer",
-      dateCreated: now,
-      dateModified: now,
-    },
-    {
-      id: 1,
-      position: "Dog walker",
-      company: "Microsoft-Leisure",
-      status: "offer",
-      dateCreated: now,
-      dateModified: now,
-    },
-    {
-      id: 1,
-      position: "Dog walker",
-      company: "Microsoft-Leisure",
-      status: "offer",
-      dateCreated: now,
-      dateModified: now,
-    },
-    {
-      id: 1,
-      position: "Dog walker",
-      company: "Microsoft-Leisure",
-      status: "offer",
-      dateCreated: now,
-      dateModified: now,
-    },
-    {
-      id: 1,
-      position: "Dog walker",
-      company: "Microsoft-Leisure",
-      status: "offer",
-      dateCreated: now,
-      dateModified: now,
-    },
-    {
-      id: 1,
-      position: "Dog walker",
-      company: "Microsoft-Leisure",
-      status: "offer",
-      dateCreated: now,
-      dateModified: now,
-    },
-  ];
 
   return (
     <>
@@ -168,7 +98,7 @@ export default function Home() {
           Icon={
             <TrophyIcon className="w-5 text-card-offer" aria-hidden="true" />
           }
-          cards={testApps}
+          cards={offer}
           sortBy={sortBy.value}
         />
         <BoardSection
