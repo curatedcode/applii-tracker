@@ -1,16 +1,20 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { applicationStatusesArray, formSchema } from "@/src/customVariables";
+import {
+  applicationStatusSelectOptions,
+  applicationStatusesArray,
+  formSchema,
+} from "@/src/customVariables";
 import FormInput from "@/src/components/Form/FormInput";
-import FormSelect from "@/src/components/Form/SelectInput";
+import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import { createApplication } from "@/src/db";
 import ContactFields from "@/src/components/Form/ContactFields";
 import NoteFields from "@/src/components/Form/NoteFields";
 import { useEffect, useState } from "react";
-import Button from "@/src/components/Buttons/Button";
+import Button from "@/src/components/Button";
 import InternalLink from "@/src/components/Links/InternalLink";
 import AlertDialog from "@/src/components/AlertDialog";
 import useExitPageConfirm from "@/src/components/Hooks/useExitPageConfirm";
@@ -26,6 +30,7 @@ export default function Create() {
     watch,
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: { status: applicationStatusSelectOptions[0] },
   });
 
   const [isFormCompleted, setIsFormCompleted] = useState(false);
@@ -35,8 +40,14 @@ export default function Create() {
   const currentStatus = watch("status");
 
   async function submit() {
-    const { dateApplied, dateInterviewing, dateOffered, dateClosed, ...rest } =
-      getValues();
+    const {
+      dateApplied,
+      dateInterviewing,
+      dateOffered,
+      dateClosed,
+      status,
+      ...rest
+    } = getValues();
 
     function formatDate(date: string | undefined) {
       if (!date) return;
@@ -48,6 +59,7 @@ export default function Create() {
       dateInterviewing: formatDate(dateInterviewing),
       dateOffered: formatDate(dateOffered),
       dateClosed: formatDate(dateClosed),
+      status: status.value,
       ...rest,
     });
 
@@ -57,7 +69,7 @@ export default function Create() {
 
   useEffect(() => {
     if (!currentStatus) return;
-    const statusIndex = applicationStatusesArray.indexOf(currentStatus);
+    const statusIndex = applicationStatusesArray.indexOf(currentStatus.value);
     setCurrentStatusIndex(statusIndex);
   }, [currentStatus]);
 
@@ -73,11 +85,16 @@ export default function Create() {
         <div className="mt-4 flex justify-center gap-4">
           <InternalLink
             href={`/applications/edit?id=${applicationId}`}
-            style="outline"
+            className="!dark:bg-dark-main !bg-light-main text-light-text"
           >
             Edit
           </InternalLink>
-          <InternalLink href="/">Home</InternalLink>
+          <InternalLink
+            href="/"
+            className="!dark:bg-dark-main !bg-light-main text-light-text"
+          >
+            Home
+          </InternalLink>
         </div>
       </AlertDialog>
       <div className="mb-8 grid justify-items-center gap-2 justify-self-center">
@@ -91,7 +108,7 @@ export default function Create() {
         className="grid justify-items-center gap-4 md:grid-cols-2"
       >
         <div className="col-span-full flex h-fit w-full max-w-md flex-col p-4 md:min-h-formSection">
-          <h2 className="mb-6 self-center border-b-2 px-1 text-lg font-semibold">
+          <h2 className="mb-6 self-center border-b px-1 text-lg font-semibold">
             Details
           </h2>
           <div className="grid gap-2">
@@ -125,20 +142,17 @@ export default function Create() {
               hiddenLabel
               placeholder="Posting URL"
             />
-            <FormSelect
-              id="statusInput"
-              registerName="status"
-              label="Status"
-              error={errors.status?.message}
-              options={[
-                { id: "needToApply", label: "Need To Apply" },
-                { id: "applied", label: "Applied" },
-                { id: "interviewing", label: "Interviewing" },
-                { id: "offer", label: "Offer" },
-                { id: "closed", label: "Closed" },
-              ]}
-              register={register}
-              isRequired
+            <Controller
+              name="status"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FormSelectInput
+                  label="Status"
+                  value={value}
+                  onChange={onChange}
+                  options={applicationStatusSelectOptions}
+                />
+              )}
             />
             <FormInput
               id="dateAppliedInput"

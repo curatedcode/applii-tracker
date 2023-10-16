@@ -11,6 +11,7 @@ export default function BoardSectionCard({
   dateModified,
   dateCreated,
   sortBy,
+  status,
 }: BoardSectionCardProps) {
   const date = relativeDate(
     sortBy === "dateCreated" ? dateCreated : dateModified,
@@ -20,7 +21,7 @@ export default function BoardSectionCard({
   return (
     <Link
       href={`/applications/${position}-at-${company}?id=${id}`}
-      className="group h-[5.75rem] rounded-md bg-site-main px-3 py-2"
+      className={`bg-card-${status} group h-[5.75rem] rounded-md px-3 py-2 text-light-text`}
       data-testid="board-section-card"
       aria-label={`Open application for ${position} at ${company}`}
     >

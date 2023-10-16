@@ -1,6 +1,6 @@
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { ChangeEventHandler, Dispatch, ReactNode, SetStateAction } from "react";
 import { Control, UseFormRegister } from "react-hook-form";
-import { z } from "zod";
+import { string, z } from "zod";
 
 export type ApplicationStatusType = z.infer<typeof applicationStatuses>;
 
@@ -112,23 +112,27 @@ export type FormTextareaProps = {
   isRequired?: boolean;
 };
 
-export type FormSelectProps = {
-  id: string;
-  label: string;
-  options: { id: string; label: string }[];
-  registerName?: string;
-  register: UseFormRegister<any>;
-  error?: string;
-  className?: string;
-  hiddenLabel?: boolean;
-  isRequired?: boolean;
+export type ApplicationStatusLabelValueType = {
+  label: z.infer<typeof applicationStatusLabel>;
+  value: z.infer<typeof applicationStatuses>;
 };
+
+export const applicationStatusLabel = z.enum([
+  "Need To Apply",
+  "Applied",
+  "Interviewing",
+  "Offer",
+  "Closed",
+]);
 
 export const formSchema = z.object({
   position: z.string().min(1, { message: "Position can't be empty" }),
   company: z.string().min(1, { message: "Company can't be empty" }),
   postingURL: z.string().optional(),
-  status: applicationStatuses,
+  status: z.object({
+    label: applicationStatusLabel,
+    value: applicationStatuses,
+  }),
   dateApplied: z.string().optional(),
   dateInterviewing: z.string().optional(),
   dateOffered: z.string().optional(),
@@ -162,7 +166,7 @@ export type ArrayFieldProps = {
 };
 
 export type StandardButtonProps = {
-  style?: "transparent" | "outline";
+  style?: "icon";
 } & ButtonProps;
 
 export type ButtonProps = {
@@ -171,6 +175,7 @@ export type ButtonProps = {
   children: React.ReactNode;
   className?: string;
   type?: "button" | "submit";
+  title?: string;
 };
 
 export type IconButtonProps = {
@@ -193,6 +198,18 @@ export const applicationColors = {
 };
 
 export type TimelineType = "1 week" | "1 month" | "6 months" | "1 year";
+
+export type TimelineLabelValueType = {
+  label: TimelineType;
+  value: TimelineType;
+};
+
+export const timelineOptions: TimelineLabelValueType[] = [
+  { label: "1 week", value: "1 week" },
+  { label: "1 month", value: "1 month" },
+  { label: "6 months", value: "6 months" },
+  { label: "1 year", value: "1 year" },
+];
 
 export type GetApplicationMetrics = {
   timeline: TimelineType;
@@ -245,11 +262,11 @@ export type CalculateApplicationsInDateRangeProps = {
 };
 
 export type CalculateSimpleApplicationStatsProps = {
-  needToApplyLength: number;
-  appliedLength: number;
-  interviewingLength: number;
-  offerLength: number;
-  closedLength: number;
+  needToApplyApps: number[];
+  appliedApps: number[];
+  interviewingApps: number[];
+  offerApps: number[];
+  closedApps: number[];
 };
 
 export type CalculateSimpleApplicationStatsReturnType = {
@@ -258,7 +275,6 @@ export type CalculateSimpleApplicationStatsReturnType = {
 };
 
 export type InternalLinkProps = {
-  style?: "outline";
   href: string;
   className?: string;
   children: ReactNode;
@@ -299,3 +315,40 @@ export type BoardSectionProps = {
   cards: FullApplicationType[];
   sortBy: SortByType;
 };
+
+export const typeSafeObjectEntries = <T extends Record<PropertyKey, unknown>>(
+  obj: T,
+): { [K in keyof T]: [K, T[K]] }[keyof T][] => {
+  return Object.entries(obj) as { [K in keyof T]: [K, T[K]] }[keyof T][];
+};
+
+export type SortByOptionType = { label: string; value: SortByType };
+
+export type SelectInputProps = {
+  options: { label: string; value: string }[];
+  onChange?(val: SetStateAction<any>): void;
+  selected: { label: string; value: string };
+  defaultValue?: { label: string; value: string };
+};
+
+export const sortByOptions: FixedArray<SortByOptionType, 2> = [
+  { label: "Date Created", value: "dateCreated" },
+  { label: "Date Modified", value: "dateModified" },
+];
+
+export type FormSelectInputProps = {
+  label: string;
+  error?: string;
+  value: ApplicationStatusLabelValueType;
+  options: { label: string; value: string }[];
+  onChange?(val: SetStateAction<any>): void;
+};
+
+export const applicationStatusSelectOptions: ApplicationStatusLabelValueType[] =
+  [
+    { value: "needToApply", label: "Need To Apply" },
+    { value: "applied", label: "Applied" },
+    { value: "interviewing", label: "Interviewing" },
+    { value: "offer", label: "Offer" },
+    { value: "closed", label: "Closed" },
+  ];

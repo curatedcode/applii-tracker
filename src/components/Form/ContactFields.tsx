@@ -2,8 +2,7 @@ import { TrashIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { ArrayFieldProps } from "@/src/customVariables";
 import { useFieldArray } from "react-hook-form";
 import FormInput from "./FormInput";
-import Button from "../Buttons/Button";
-import IconButton from "../Buttons/IconButton";
+import Button from "../Button";
 
 export default function ContactsFields({
   register,
@@ -17,7 +16,7 @@ export default function ContactsFields({
 
   return (
     <div className={className}>
-      <h2 className="mb-6 w-fit justify-self-center border-b-2 px-1 text-lg font-semibold">
+      <h2 className="mb-6 w-fit justify-self-center border-b px-1 text-lg font-semibold">
         Contacts
       </h2>
       <ul className="grid">
@@ -56,13 +55,14 @@ export default function ContactsFields({
               hiddenLabel
               placeholder="Email"
             />
-            <IconButton
+            <Button
               onClick={() => remove(index)}
               className="mr-2 mt-1 justify-self-end"
               title={`Delete Contact ${index + 1}`}
+              style="icon"
             >
-              <TrashIcon aria-hidden className="w-6" />
-            </IconButton>
+              <TrashIcon aria-hidden="true" className="w-6" />
+            </Button>
           </li>
         ))}
       </ul>
@@ -76,9 +76,8 @@ export default function ContactsFields({
           })
         }
         className="justify-self-center"
-        style="transparent"
       >
-        <UserPlusIcon className="w-6" aria-hidden />
+        <UserPlusIcon className="w-4" aria-hidden="true" />
         <span>Add Contact</span>
       </Button>
     </div>

@@ -14,7 +14,7 @@ export default function FormInput({
 }: FormInputProps) {
   return (
     <div className={`grid gap-1 ${className}`}>
-      <div className="grid gap-1">
+      <div className="grid">
         <label
           htmlFor={id}
           className={hiddenLabel ? "sr-only" : "mb-1 ml-1 opacity-80"}
@@ -23,7 +23,7 @@ export default function FormInput({
         </label>
         <div className="relative">
           {isRequired && (
-            <span className="absolute left-0 top-1/4 -translate-x-full -translate-y-1/4 pr-2 text-2xl">
+            <span className="absolute left-0 top-1/4 -translate-x-full -translate-y-1/4 pr-2 text-sm">
               *
             </span>
           )}
@@ -32,7 +32,7 @@ export default function FormInput({
             type={type ?? "text"}
             placeholder={placeholder}
             aria-required={isRequired}
-            className={`duration-50 h-10 w-full border bg-neutral-100 px-3 py-1.5 text-site-main transition-colors focus-within:border-neutral-600 focus-within:outline-none ${
+            className={`h-10 w-full rounded-md bg-light-secondary px-3 py-1.5 transition-all duration-100 placeholder:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary ${
               error ? "border-red-500 focus-within:!border-red-500" : ""
             }`}
             {...register(registerName ?? id)}

@@ -16,19 +16,19 @@ export default function FormTextarea({
       <div className="grid gap-1">
         <label
           htmlFor={id}
-          className={hiddenLabel ? "sr-only" : "mb-1 ml-1 opacity-80"}
+          className={hiddenLabel ? "sr-only" : "ml-1 opacity-80"}
         >
           {label}
         </label>
         <div className="relative">
           {isRequired && (
-            <span className="absolute left-0 -translate-x-full pr-2 text-2xl">
+            <span className="absolute left-0 -translate-x-full pr-2 text-sm">
               *
             </span>
           )}
           <textarea
             id={id}
-            className={`duration-50 w-full border bg-neutral-100 px-3 py-1.5 text-site-main transition-colors focus-within:border-neutral-600 focus-within:outline-none ${
+            className={`content-scrollbar w-full resize-none rounded-md bg-light-secondary px-3 py-1.5 outline-none transition-all duration-100 placeholder:opacity-70 focus-within:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary ${
               error ? "border-red-500 focus-within:!border-red-500" : ""
             }`}
             aria-required={isRequired}

@@ -10,13 +10,14 @@ import {
 import BoardSection from "../components/BoardSection";
 import { useEffect, useState } from "react";
 import {
-  ApplicationStatusType,
   GetAllApplicationsReturnType,
-  SortByType,
+  SortByOptionType,
+  sortByOptions,
 } from "../customVariables";
 import { getAllApplications } from "../db";
 import IndexedDBNotSupported from "../components/IndexedDBNotSupported";
 import HomeSkeleton from "../components/Loading/HomeSkeleton";
+import SelectInput from "../components/SelectInput";
 
 export default function Home() {
   const [allApplications, setAllApplications] =
@@ -24,7 +25,10 @@ export default function Home() {
   const [isIndexedDBSupported, setIsIndexedDBSupported] =
     useState<boolean>(true);
 
-  const [sortBy, setSortBy] = useState<SortByType>("dateModified");
+  const [sortBy, setSortBy] = useState<SortByOptionType>({
+    label: "Date Modified",
+    value: "dateModified",
+  });
 
   useEffect(() => {
     if (!window) return;
@@ -32,7 +36,7 @@ export default function Home() {
       setIsIndexedDBSupported(false);
       return;
     }
-    getAllApplications(sortBy).then((data) => setAllApplications(data));
+    getAllApplications(sortBy.value).then((data) => setAllApplications(data));
   }, [sortBy]);
 
   if (!isIndexedDBSupported) return <IndexedDBNotSupported />;
@@ -46,61 +50,67 @@ export default function Home() {
       <div id="loadingHome" aria-live="polite" className="sr-only">
         <p>Loaded applications.</p>
       </div>
-      <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-end md:gap-4">
+      <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-center md:gap-4">
         <h1 className="text-3xl font-semibold">All applications</h1>
         <div className="h-0 border-l md:h-full"></div>
-        <div className="flex items-center gap-2">
-          <label htmlFor="sortByInput" className="mb-1 font-semibold">
-            Sort by:
-          </label>
-          <select
-            id="sortByInput"
-            className="duration-50 h-fit w-fit rounded-md border border-transparent bg-site-section px-2 py-1 transition-colors focus-within:border-inherit focus-within:outline-none"
-            onChange={(e) => setSortBy(e.currentTarget.value as SortByType)}
-            defaultValue={"dateModified"}
-          >
-            <option value="dateModified">Date Modified</option>
-            <option value="dateCreated">Date Created</option>
-          </select>
-        </div>
+        <SelectInput
+          options={sortByOptions}
+          selected={sortBy}
+          onChange={setSortBy}
+        />
       </div>
       <div className="flex w-full flex-wrap justify-center gap-8 justify-self-center md:max-w-[100rem]">
         <BoardSection
           title="Need To Apply"
-          Icon={<ClockIcon className="w-5 text-card-needToApply" aria-hidden />}
+          Icon={
+            <ClockIcon
+              className="w-5 text-card-needToApply"
+              aria-hidden="true"
+            />
+          }
           cards={needToApply}
-          sortBy={sortBy}
+          sortBy={sortBy.value}
         />
         <BoardSection
           title="Applied"
-          Icon={<EnvelopeIcon className="w-5 text-card-applied" aria-hidden />}
+          Icon={
+            <EnvelopeIcon
+              className="w-5 text-card-applied"
+              aria-hidden="true"
+            />
+          }
           cards={applied}
-          sortBy={sortBy}
+          sortBy={sortBy.value}
         />
         <BoardSection
           title="Interviewing"
           Icon={
             <ChatBubbleBottomCenterTextIcon
               className="w-5 text-card-interviewing"
-              aria-hidden
+              aria-hidden="true"
             />
           }
           cards={interviewing}
-          sortBy={sortBy}
+          sortBy={sortBy.value}
         />
         <BoardSection
           title="Offer"
-          Icon={<TrophyIcon className="w-5 text-card-offer" aria-hidden />}
+          Icon={
+            <TrophyIcon className="w-5 text-card-offer" aria-hidden="true" />
+          }
           cards={offer}
-          sortBy={sortBy}
+          sortBy={sortBy.value}
         />
         <BoardSection
           title="Closed"
           Icon={
-            <ArchiveBoxXMarkIcon className="w-5 text-card-closed" aria-hidden />
+            <ArchiveBoxXMarkIcon
+              className="w-5 text-card-closed"
+              aria-hidden="true"
+            />
           }
           cards={closed}
-          sortBy={sortBy}
+          sortBy={sortBy.value}
         />
       </div>
     </>

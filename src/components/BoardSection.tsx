@@ -9,14 +9,14 @@ export default function BoardSection({
 }: BoardSectionProps) {
   return (
     <div
-      className="max-w-board-section flex w-full flex-col items-center gap-2"
+      className="flex w-full max-w-board-section flex-col items-center gap-2"
       data-testid={`${title} section`}
     >
       <div className="flex items-center justify-center gap-1 text-xl">
         {Icon}
         <h2 className="font-medium">{title}</h2>
       </div>
-      <div className="board-section-scrollbar grid h-board-section w-full auto-rows-min gap-2 overflow-auto rounded-md border-[0.4rem] border-site-section bg-site-section p-[0.4rem]">
+      <div className="content-scrollbar grid h-board-section w-full auto-rows-min gap-2 overflow-auto rounded-md border-[0.4rem] border-light-secondary bg-light-secondary p-[0.4rem] dark:border-dark-secondary dark:bg-dark-secondary">
         {cards.length > 0 ? (
           cards.map((card, index) => (
             <BoardSectionCard key={index} {...card} sortBy={sortBy} />

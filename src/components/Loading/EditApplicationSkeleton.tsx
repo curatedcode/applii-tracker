@@ -30,7 +30,7 @@ export default function EditApplicationSkeleton() {
           <div className="mb-6 h-[30px]"></div>
           <div className="grid gap-2">
             <FormInputSkeleton />
-            <div className="h-[135px] w-full animate-pulse border-[0.4rem] border-site-section bg-site-section p-[0.4rem]"></div>
+            <div className="h-[135px] w-full animate-pulse border-[0.4rem] border-light-secondary bg-light-secondary p-[0.4rem] dark:border-dark-secondary dark:bg-dark-secondary"></div>
           </div>
         </div>
       </div>

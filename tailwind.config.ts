@@ -11,7 +11,7 @@ const config: Config = {
     extend: {
       height: {
         "board-section": "28rem",
-        "screen-minus-nav": "calc(100vh - 22rem)",
+        "screen-minus-nav": "calc(100vh - 240px)",
       },
       minHeight: {
         formSection: "20rem",
@@ -28,15 +28,23 @@ const config: Config = {
         "board-section": "22rem",
       },
       colors: {
-        site: {
-          main: "#000000",
-          section: "#1c1c1d",
+        dark: {
+          main: "#191919",
+          secondary: "#2c2c2c",
+          "secondary-shaded": "#404040",
+          text: "#d4d4d4",
+        },
+        light: {
+          main: "#ffffff",
+          secondary: "#f1f1f0",
+          "secondary-shaded": "#dadad8",
+          text: "#37352f",
         },
         card: {
           needToApply: "#ADD8E6",
           applied: "#22C55E",
           interviewing: "#FFDB58",
-          offer: "#4169E1",
+          offer: "#a891ee",
           closed: "#D9534F",
         },
       },
@@ -57,11 +65,12 @@ const config: Config = {
   future: {
     hoverOnlyWhenSupported: true,
   },
-  plugins: [
-    plugin(({ addVariant }) => {
-      addVariant("child", "& > *");
-      addVariant("child-hover", "& > *:hover");
-    }),
+  safelist: [
+    "bg-card-needToApply",
+    "bg-card-applied",
+    "bg-card-interviewing",
+    "bg-card-offer",
+    "bg-card-closed",
   ],
 };
 export default config;

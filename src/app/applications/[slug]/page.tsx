@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { deleteApplication, getApplication } from "@/src/db";
 import {
-  ApplicationPageProps,
   ApplicationStatusType,
   FullApplicationType,
 } from "@/src/customVariables";
@@ -13,7 +12,7 @@ import ULItem from "@/src/components/ULItem";
 import InternalLink from "@/src/components/Links/InternalLink";
 import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
 import AlertDialog from "@/src/components/AlertDialog";
-import Button from "@/src/components/Buttons/Button";
+import Button from "@/src/components/Button";
 
 export default function Application() {
   const id = Number(useSearchParams().get("id"));
@@ -68,9 +67,7 @@ export default function Application() {
           {position} at {company}
         </h1>
         <div className="flex gap-4">
-          <InternalLink href={`/applications/edit?id=${id}`} style="outline">
-            Edit
-          </InternalLink>
+          <InternalLink href={`/applications/edit?id=${id}`}>Edit</InternalLink>
           <Button onClick={() => setShowDeleteDialog(true)}>Delete</Button>
         </div>
       </div>
@@ -80,23 +77,31 @@ export default function Application() {
         open={showDeleteDialog}
       >
         <div className="mt-4 flex justify-center gap-4">
-          <Button style="outline" onClick={() => setShowDeleteDialog(false)}>
+          <Button
+            onClick={() => setShowDeleteDialog(false)}
+            className="!dark:bg-dark-main !bg-light-main text-light-text"
+          >
             Cancel
           </Button>
-          <Button onClick={() => deleteApp()}>Delete</Button>
+          <Button
+            onClick={() => deleteApp()}
+            className="!dark:bg-dark-main !bg-light-main text-light-text"
+          >
+            Delete
+          </Button>
         </div>
       </AlertDialog>
       <div className="grid w-full justify-items-center gap-x-12 gap-y-20 justify-self-center md:max-w-5xl md:grid-cols-2">
         <div className="grid w-full max-w-md auto-rows-min justify-items-center md:max-w-none">
           <h2
             id="detailsHeader"
-            className="mb-6 w-fit justify-self-center border-b-2 px-1 text-lg font-semibold md:text-xl"
+            className="mb-6 w-fit justify-self-center border-b px-1 text-lg font-semibold md:text-xl"
           >
             Details
           </h2>
           <ul
             aria-labelledby="detailsHeader"
-            className="grid w-full max-w-full gap-2 rounded-md bg-site-section p-4"
+            className="grid w-full max-w-full gap-2 rounded-md bg-light-secondary p-4 dark:bg-dark-secondary"
           >
             <ULItem label="Position" body={position} />
             <ULItem label="Company" body={company} />
@@ -127,21 +132,21 @@ export default function Application() {
         <div className="grid w-full max-w-md auto-rows-min justify-items-center md:max-w-none">
           <h2
             id="contactsHeader"
-            className="mb-6 w-fit justify-self-center border-b-2 px-1 text-lg font-semibold md:text-xl"
+            className="mb-6 w-fit justify-self-center border-b px-1 text-lg font-semibold md:text-xl"
           >
             Contacts
           </h2>
           {contacts && contacts.length > 0 ? (
             <ul
               aria-labelledby="contactsHeader"
-              className="app-contact-section-scrollbar grid w-full gap-4 overflow-y-auto md:max-h-[30rem] md:px-1"
+              className="content-scrollbar grid w-full gap-4 overflow-y-auto md:max-h-[30rem] md:px-1"
             >
               {contacts.map((contact, index) => {
                 const { name, position, phone, email } = contact;
                 return (
                   <ul
                     key={index}
-                    className="grid max-w-full gap-2 rounded-md bg-site-section p-4"
+                    className="grid max-w-full gap-2 rounded-md bg-light-secondary p-4 dark:bg-dark-secondary"
                   >
                     <ULItem label="Name" body={name} />
                     {position && <ULItem label="Position" body={position} />}
@@ -163,7 +168,7 @@ export default function Application() {
         <div className="grid w-full max-w-md auto-rows-min justify-items-center md:col-span-full md:max-w-none">
           <h2
             id="notesHeader"
-            className="mb-6 w-fit justify-self-center border-b-2 px-1 text-lg font-semibold md:text-xl"
+            className="mb-6 w-fit justify-self-center border-b px-1 text-lg font-semibold md:text-xl"
           >
             Notes
           </h2>
@@ -177,10 +182,10 @@ export default function Application() {
                 return (
                   <li
                     key={index}
-                    className="board-section-scrollbar grid h-64 w-full max-w-full auto-rows-min gap-2 divide-y divide-site-main/70 overflow-y-auto rounded-md bg-site-section p-4 md:max-w-xs"
+                    className="board-section-scrollbar grid h-64 w-full max-w-full auto-rows-min gap-1 divide-y divide-light-text divide-opacity-30 overflow-y-auto rounded-md bg-light-secondary p-4 dark:divide-dark-text dark:bg-dark-secondary md:max-w-xs"
                   >
                     <p className="overflow-x-auto break-words">{title}</p>
-                    <p className="overflow-x-auto break-words pt-1.5">{body}</p>
+                    <p className="overflow-x-auto break-words pt-1">{body}</p>
                   </li>
                 );
               })}

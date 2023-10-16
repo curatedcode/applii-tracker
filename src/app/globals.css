@@ -3,54 +3,138 @@
 @tailwind utilities;
 
 @layer utilities {
-  .board-section-scrollbar::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+  .main-scrollbar::-webkit-scrollbar {
+    width: 18px;
+    height: 18px;
   }
 
-  .board-section-scrollbar::-webkit-scrollbar-track {
-    background: #1c1c1d;
-  }
-
-  .board-section-scrollbar::-webkit-scrollbar-thumb {
-    background: #000000;
-    background-clip: padding-box;
-    border: 2px #000000 solid;
-  }
-
-  .board-section-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #252525;
-    border: 2px #252525 solid;
-  }
-
-  .board-section-scrollbar::-webkit-scrollbar-thumb:active {
-    background: #353535;
-    border: 2px #353535 solid;
-  }
-
-  .app-contact-section-scrollbar::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  .app-contact-section-scrollbar::-webkit-scrollbar-track {
+  .main-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
 
-  .app-contact-section-scrollbar::-webkit-scrollbar-thumb {
-    background: #1c1c1d;
+  .main-scrollbar::-webkit-scrollbar-thumb {
+    background: #cececa;
     background-clip: padding-box;
-    border: 2px #1c1c1d solid;
+    border-top: transparent solid;
+    border-bottom: transparent solid;
+    border-left: 4px transparent solid;
+    border-right: 4px transparent solid;
+    border-radius: 100vh;
   }
 
-  .app-contact-section-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #252525;
-    border: 2px #252525 solid;
+  .main-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #c1c1bd;
+    background-clip: padding-box;
+    border-top: transparent solid;
+    border-bottom: transparent solid;
+    border-left: 4px transparent solid;
+    border-right: 4px transparent solid;
+    border-radius: 100vh;
   }
 
-  .app-contact-section-scrollbar::-webkit-scrollbar-thumb:active {
-    background: #353535;
-    border: 2px #353535 solid;
+  .main-scrollbar::-webkit-scrollbar-thumb:active {
+    background: #b5b5b0;
+    background-clip: padding-box;
+    border-top: transparent solid;
+    border-bottom: transparent solid;
+    border-left: 4px transparent solid;
+    border-right: 4px transparent solid;
+    border-radius: 100vh;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .main-scrollbar::-webkit-scrollbar {
+      width: 18px;
+      height: 18px;
+    }
+
+    .main-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .main-scrollbar::-webkit-scrollbar-thumb {
+      background: #404040;
+      background-clip: padding-box;
+      border-top: transparent solid;
+      border-bottom: transparent solid;
+      border-left: 4px transparent solid;
+      border-right: 4px transparent solid;
+      border-radius: 100vh;
+    }
+
+    .main-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #4d4d4d;
+      background-clip: padding-box;
+      border-top: transparent solid;
+      border-bottom: transparent solid;
+      border-left: 4px transparent solid;
+      border-right: 4px transparent solid;
+      border-radius: 100vh;
+    }
+
+    .main-scrollbar::-webkit-scrollbar-thumb:active {
+      background: #595959;
+      background-clip: padding-box;
+      border-top: transparent solid;
+      border-bottom: transparent solid;
+      border-left: 4px transparent solid;
+      border-right: 4px transparent solid;
+      border-radius: 100vh;
+    }
+  }
+
+  .content-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .content-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .content-scrollbar::-webkit-scrollbar-thumb {
+    background: #dadad8;
+    background-clip: padding-box;
+    border: 2px #dadad8 solid;
+    border-radius: 100vh;
+  }
+
+  .content-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #cececa;
+    border: 2px #cececa solid;
+  }
+
+  .content-scrollbar::-webkit-scrollbar-thumb:active {
+    background: #c1c1bd;
+    border: 2px #c1c1bd solid;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .content-scrollbar::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    .content-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .content-scrollbar::-webkit-scrollbar-thumb {
+      background: #404040;
+      background-clip: padding-box;
+      border: 2px #404040 solid;
+      border-radius: 100vh;
+    }
+
+    .content-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #4d4d4d;
+      border: 2px #4d4d4d solid;
+    }
+
+    .content-scrollbar::-webkit-scrollbar-thumb:active {
+      background: #595959;
+      border: 2px #595959 solid;
+    }
   }
 
   .animation-delay-200 {
@@ -59,5 +143,45 @@
 
   .animation-delay-400 {
     animation-delay: 0.4s;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    color: black;
+    opacity: 0.3;
+    display: block;
+    width: 20px;
+    height: 20px;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 50ms;
+  }
+  input[type="date"]:focus-within::-webkit-calendar-picker-indicator {
+    color: black;
+    opacity: 0.8;
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      color: #525252;
+      opacity: 0.5;
+      display: block;
+      width: 20px;
+      height: 20px;
+      transition-property: opacity;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 50ms;
+    }
+    input[type="date"]:focus-within::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      color: #525252;
+      opacity: 0.9;
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
   }
 }

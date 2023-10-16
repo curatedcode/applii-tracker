@@ -12,7 +12,6 @@ export default function useExitPageConfirm(canLeave: boolean) {
       e.returnValue = message;
     }
     if (canLeave) {
-      console.log(canLeave);
       window.removeEventListener("beforeunload", windowHandler);
       return;
     }

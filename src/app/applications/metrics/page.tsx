@@ -12,14 +12,14 @@ import {
 import { Bar } from "react-chartjs-2";
 import {
   GetApplicationMetricsReturnType,
-  TimelineType,
+  TimelineLabelValueType,
   applicationColors,
+  timelineOptions,
 } from "@/src/customVariables";
 import { useEffect, useState } from "react";
 import { getApplicationMetrics } from "@/src/db";
 import MetricsSkeleton from "@/src/components/Loading/MetricsSkeleton";
-
-ChartJS.defaults.color = "#F5F5F5";
+import SelectInput from "@/src/components/SelectInput";
 
 ChartJS.register(
   CategoryScale,
@@ -34,10 +34,13 @@ export default function Metrics() {
   const [metricsData, setMetricsData] =
     useState<GetApplicationMetricsReturnType>();
 
-  const [timeline, setTimeline] = useState<TimelineType>("1 month");
+  const [timeline, setTimeline] = useState<TimelineLabelValueType>({
+    label: "1 month",
+    value: "1 month",
+  });
 
   useEffect(() => {
-    getApplicationMetrics(timeline).then((data) => setMetricsData(data));
+    getApplicationMetrics(timeline.value).then((data) => setMetricsData(data));
   }, [timeline]);
 
   if (!metricsData) return <MetricsSkeleton />;
@@ -57,25 +60,14 @@ export default function Metrics() {
       <div id="loadingMetrics" aria-live="polite" className="sr-only">
         <p>Loaded metrics.</p>
       </div>
-      <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-end md:gap-4">
+      <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-center md:gap-4">
         <h1 className="text-3xl font-semibold">Metrics</h1>
         <div className="h-0 border-l md:h-full"></div>
-        <div className="flex items-center gap-2">
-          <label htmlFor="sortByInput" className="mb-1 font-semibold">
-            Sort by:
-          </label>
-          <select
-            id="sortByInput"
-            className="duration-50 h-fit w-fit rounded-md border border-transparent bg-site-section px-2 py-1 transition-colors focus-within:border-inherit focus-within:outline-none"
-            onChange={(e) => setTimeline(e.currentTarget.value as TimelineType)}
-            defaultValue={"1 month"}
-          >
-            <option value="1 week">1 week</option>
-            <option value="1 month">1 month</option>
-            <option value="6 months">6 months</option>
-            <option value="1 year">1 year</option>
-          </select>
-        </div>
+        <SelectInput
+          options={timelineOptions}
+          selected={timeline}
+          onChange={setTimeline}
+        />
       </div>
       <div className="grid w-full max-w-6xl justify-items-center gap-12 justify-self-center md:gap-20">
         <div className="grid h-fit w-full max-w-xs text-xl">
@@ -92,7 +84,7 @@ export default function Metrics() {
             Total Applications: {simpleStats.totalApplications}
           </span>
         </div>
-        <div className="hidden w-full text-neutral-100 md:block">
+        <div className="hidden w-full md:block">
           <Bar
             id="metricsChart"
             options={{

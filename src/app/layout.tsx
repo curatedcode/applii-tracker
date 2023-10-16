@@ -18,7 +18,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="grid bg-site-main pb-12 text-neutral-100">
+    <html
+      lang="en"
+      className="main-scrollbar grid bg-light-main pb-12 text-light-text dark:bg-dark-main dark:text-dark-text"
+    >
       <body
         className={`grid w-full max-w-8xl gap-2 justify-self-center px-4 ${font.className}`}
       >
