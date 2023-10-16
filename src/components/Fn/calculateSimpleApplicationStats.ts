@@ -41,8 +41,6 @@ export default function calculateSimpleApplicationStats(
     const percentage = (number / totalApplications) * 100;
     const fixedNumber = percentage.toFixed(1);
 
-    console.log({ percentage, fixedNumber });
-
     if (fixedNumber[-1] === "0") {
       return fixedNumber.slice(0, -2) + "%";
     }

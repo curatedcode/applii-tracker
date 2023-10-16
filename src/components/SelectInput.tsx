@@ -1,27 +1,27 @@
-import { FormSelectInputProps } from "@/src/customVariables";
 import { Listbox, Transition } from "@headlessui/react";
+import { SelectInputProps } from "../customVariables";
+import { Fragment } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { Fragment, useEffect } from "react";
 
-export default function FormSelectInput({
-  value,
-  label,
-  onChange,
-  error,
+export default function SelectInput({
   options,
-}: FormSelectInputProps) {
+  defaultValue,
+  onChange,
+  selected,
+}: SelectInputProps) {
   return (
-    <div className="w-full">
-      <Listbox value={value} onChange={onChange}>
+    <div className="w-40 text-sm">
+      <Listbox
+        value={selected}
+        onChange={onChange}
+        defaultValue={defaultValue ?? options[0]}
+      >
         <div className="relative mt-1">
-          <Listbox.Label className="ml-1 text-base opacity-80">
-            {label}
-          </Listbox.Label>
-          <Listbox.Button className="relative mt-1 h-10 w-full cursor-default rounded-md bg-light-secondary py-1 pl-3 pr-10 text-left shadow-sm outline-none transition-all duration-100 focus-within:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary">
-            <span className="block truncate">{value.label}</span>
+          <Listbox.Button className="relative w-full cursor-default rounded-md bg-light-secondary py-1 pl-3 pr-10 text-left shadow-sm outline-none transition-all duration-100 focus-within:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary">
+            <span className="block truncate">{selected.label}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
-                className="mr-[0.3rem] h-5 w-5 text-gray-400"
+                className="mr=[0.3rem] h-5 w-5 text-gray-400"
                 aria-hidden="true"
               />
             </span>
@@ -32,12 +32,12 @@ export default function FormSelectInput({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-secondary shadow-md ring-1 ring-black ring-opacity-5 transition-all duration-100 focus:outline-none dark:bg-dark-secondary dark:ring-light-secondary">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-secondary shadow-md outline-none ring-1 ring-black ring-opacity-5 transition-all duration-100 focus:outline-none dark:bg-dark-secondary dark:ring-light-secondary">
               {options.map((option, index) => (
                 <Listbox.Option
                   key={index}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-1.5 pl-10 pr-4 ${
+                    `relative cursor-default select-none py-1 pl-10 pr-4 ${
                       active
                         ? "dark:bg-dark-secondary-shaded bg-light-secondary-shaded"
                         : ""
@@ -67,7 +67,6 @@ export default function FormSelectInput({
           </Transition>
         </div>
       </Listbox>
-      {error && <span role="alert">{error}</span>}
     </div>
   );
 }

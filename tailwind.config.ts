@@ -28,9 +28,17 @@ const config: Config = {
         "board-section": "22rem",
       },
       colors: {
-        site: {
-          main: "#000000",
-          section: "#1c1c1d",
+        dark: {
+          main: "#191919",
+          secondary: "#2c2c2c",
+          "secondary-shaded": "#404040",
+          text: "#d4d4d4",
+        },
+        light: {
+          main: "#ffffff",
+          secondary: "#f1f1f0",
+          "secondary-shaded": "#dadad8",
+          text: "#37352f",
         },
         card: {
           needToApply: "#ADD8E6",
@@ -57,6 +65,13 @@ const config: Config = {
   future: {
     hoverOnlyWhenSupported: true,
   },
+  safelist: [
+    "bg-card-needToApply",
+    "bg-card-applied",
+    "bg-card-interviewing",
+    "bg-card-offer",
+    "bg-card-closed",
+  ],
   plugins: [
     plugin(({ addVariant }) => {
       addVariant("child", "& > *");

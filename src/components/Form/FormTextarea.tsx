@@ -22,13 +22,13 @@ export default function FormTextarea({
         </label>
         <div className="relative">
           {isRequired && (
-            <span className="absolute left-0 -translate-x-full pr-2 text-2xl">
+            <span className="absolute left-0 -translate-x-full pr-2 text-sm">
               *
             </span>
           )}
           <textarea
             id={id}
-            className={`duration-50 w-full rounded-md border border-neutral-600 bg-inherit px-3 py-1.5 transition-colors placeholder:opacity-70 focus-within:border-inherit focus-within:outline-none ${
+            className={`w-full resize-none rounded-md bg-light-secondary px-3 py-1.5 outline-none transition-all duration-100 placeholder:opacity-70 focus-within:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary ${
               error ? "border-red-500 focus-within:!border-red-500" : ""
             }`}
             aria-required={isRequired}

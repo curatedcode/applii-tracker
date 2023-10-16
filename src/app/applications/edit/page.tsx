@@ -1,7 +1,7 @@
 "use client";
 
 import AlertDialog from "@/src/components/AlertDialog";
-import Button from "@/src/components/Buttons/Button";
+import Button from "@/src/components/Button";
 import ContactsFields from "@/src/components/Form/ContactFields";
 import FormInput from "@/src/components/Form/FormInput";
 import NoteFields from "@/src/components/Form/NoteFields";
@@ -11,6 +11,7 @@ import InternalLink from "@/src/components/Links/InternalLink";
 import EditApplicationSkeleton from "@/src/components/Loading/EditApplicationSkeleton";
 import {
   FormEditPageProps,
+  applicationStatusSelectOptions,
   applicationStatusesArray,
   formSchema,
 } from "@/src/customVariables";
@@ -19,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function FormEdit({ searchParams }: FormEditPageProps) {
@@ -48,8 +49,14 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
   const currentCompany = watch("company");
 
   async function submit() {
-    const { dateApplied, dateInterviewing, dateOffered, dateClosed, ...rest } =
-      getValues();
+    const {
+      dateApplied,
+      dateInterviewing,
+      dateOffered,
+      dateClosed,
+      status,
+      ...rest
+    } = getValues();
 
     function formatDate(date: string | undefined) {
       if (!date) return;
@@ -62,6 +69,7 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
       dateInterviewing: formatDate(dateInterviewing),
       dateOffered: formatDate(dateOffered),
       dateClosed: formatDate(dateClosed),
+      status: status.value,
       ...rest,
     });
 
@@ -70,7 +78,7 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
 
   useEffect(() => {
     if (!currentStatus) return;
-    const statusIndex = applicationStatusesArray.indexOf(currentStatus);
+    const statusIndex = applicationStatusesArray.indexOf(currentStatus.value);
     setCurrentStatusIndex(statusIndex);
   }, [currentStatus]);
 
@@ -94,7 +102,12 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
 
       setValue("position", position);
       setValue("company", company);
-      setValue("status", status);
+      setValue(
+        "status",
+        applicationStatusSelectOptions.find(
+          (option) => option.value === status,
+        ) ?? { label: "Need To Apply", value: "needToApply" },
+      );
       setValue("postingURL", postingURL);
       setValue("contacts", contacts);
       setValue("notes", notes);
@@ -127,11 +140,16 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
         <div className="mt-4 flex justify-center gap-4">
           <InternalLink
             href={`/applications/${currentPosition}-at-${currentCompany}?id=${id}`}
-            style="outline"
+            className="!dark:bg-dark-main !bg-light-main text-light-text"
           >
             View
           </InternalLink>
-          <InternalLink href="/">Home</InternalLink>
+          <InternalLink
+            href="/"
+            className="!dark:bg-dark-main !bg-light-main text-light-text"
+          >
+            Home
+          </InternalLink>
         </div>
       </AlertDialog>
       <div className="mb-8 grid justify-items-center gap-2 justify-self-center">
@@ -176,20 +194,17 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
               hiddenLabel
               placeholder="Posting URL"
             />
-            <FormSelectInput
-              id="statusInput"
-              registerName="status"
-              label="Status"
-              error={errors.status?.message}
-              options={[
-                { id: "needToApply", label: "Need To Apply" },
-                { id: "applied", label: "Applied" },
-                { id: "interviewing", label: "Interviewing" },
-                { id: "offer", label: "Offer" },
-                { id: "closed", label: "Closed" },
-              ]}
-              register={register}
-              isRequired
+            <Controller
+              name="status"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FormSelectInput
+                  label="Status"
+                  value={value}
+                  onChange={onChange}
+                  options={applicationStatusSelectOptions}
+                />
+              )}
             />
             <FormInput
               id="dateAppliedInput"
@@ -240,9 +255,7 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
           className="grid h-fit w-full max-w-md auto-rows-min p-4 md:min-h-formSection"
         />
         <div className="col-span-full mt-12 flex flex-col gap-8 lg:flex-row">
-          <Button style="outline" onClick={() => router.push("/")}>
-            Cancel
-          </Button>
+          <Button onClick={() => router.push("/")}>Cancel</Button>
           <Button type="submit">Submit</Button>
         </div>
       </form>
