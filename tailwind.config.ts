@@ -11,7 +11,7 @@ const config: Config = {
     extend: {
       height: {
         "board-section": "28rem",
-        "screen-minus-nav": "calc(100vh - 22rem)",
+        "screen-minus-nav": "calc(100vh - 240px)",
       },
       minHeight: {
         formSection: "20rem",
