@@ -21,7 +21,7 @@ export default function BoardSectionCard({
   return (
     <Link
       href={`/applications/${position}-at-${company}?id=${id}`}
-      className={`bg-card-${status} group h-[5.75rem] rounded-md px-3 py-2 text-light-text`}
+      className={`bg-card-${status} group h-[5.75rem] rounded-md px-3 py-2 text-light-text dark:text-black`}
       data-testid="board-section-card"
       aria-label={`Open application for ${position} at ${company}`}
     >
