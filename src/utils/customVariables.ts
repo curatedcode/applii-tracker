@@ -191,6 +191,7 @@ export type IconButtonProps = {
 
 export type ExternalLinkProps = {
   href: string;
+  style?: "button";
   title?: string;
   className?: string;
   children: React.ReactNode;
