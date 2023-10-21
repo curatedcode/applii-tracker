@@ -34,7 +34,7 @@ export default function MobileNavbar() {
   }, [showMenu]);
 
   return (
-    <div className="xs:hidden mb-6 flex h-20 items-center border-b border-light-secondary dark:border-dark-secondary">
+    <div className="mb-6 flex h-20 items-center border-b border-light-secondary dark:border-dark-secondary xs:hidden">
       <button onClick={() => setShowMenu(true)} title="Open navigation menu">
         <Bars3Icon className="w-6" aria-hidden="true" />
       </button>
@@ -65,6 +65,7 @@ export default function MobileNavbar() {
                   href={"/"}
                   className="flex items-center gap-3 transition-opacity hover:opacity-80"
                   title="Home"
+                  onClick={() => setShowMenu(false)}
                 >
                   {pathname === "/" ? (
                     <HomeIconSolid className="w-6" aria-hidden="true" />
@@ -79,6 +80,7 @@ export default function MobileNavbar() {
                   href={"/applications/create"}
                   className="flex items-center gap-3 transition-opacity hover:opacity-80"
                   title="Create"
+                  onClick={() => setShowMenu(false)}
                 >
                   {pathname === "/applications/create" ? (
                     <PlusCircleIconSolid className="w-6" aria-hidden="true" />
@@ -93,6 +95,7 @@ export default function MobileNavbar() {
                   href={"/applications/metrics"}
                   className="flex items-center gap-3 transition-opacity hover:opacity-80"
                   title="Metrics"
+                  onClick={() => setShowMenu(false)}
                 >
                   {pathname === "/applications/metrics" ? (
                     <ChartPieIconSolid className="w-6" aria-hidden="true" />
@@ -102,11 +105,12 @@ export default function MobileNavbar() {
                   <span>Metrics</span>
                 </Link>
               </li>
-              <li className="">
+              <li>
                 <Link
                   href={"/settings"}
                   className="flex items-center gap-3 transition-opacity hover:opacity-80"
                   title="Settings"
+                  onClick={() => setShowMenu(false)}
                 >
                   {pathname === "/settings" ? (
                     <Cog8ToothIconSolid className="w-6" aria-hidden="true" />
