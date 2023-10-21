@@ -7,10 +7,10 @@ import {
   applicationStatusSelectOptions,
   applicationStatusesArray,
   formSchema,
-} from "@/src/customVariables";
+} from "@/src/utils/customVariables";
 import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
-import { createApplication } from "@/src/db";
+import { createApplication } from "@/src/utils/db";
 import ContactFields from "@/src/components/Form/ContactFields";
 import NoteFields from "@/src/components/Form/NoteFields";
 import { useEffect, useState } from "react";

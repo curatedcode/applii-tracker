@@ -15,9 +15,9 @@ import {
   TimelineLabelValueType,
   applicationColors,
   timelineOptions,
-} from "@/src/customVariables";
+} from "@/src/utils/customVariables";
 import { useEffect, useState } from "react";
-import { getApplicationMetrics } from "@/src/db";
+import { getApplicationMetrics } from "@/src/utils/db";
 import MetricsSkeleton from "@/src/components/Loading/MetricsSkeleton";
 import SelectInput from "@/src/components/SelectInput";
 

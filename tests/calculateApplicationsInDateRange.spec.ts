@@ -1,6 +1,6 @@
 import calculateApplicationsInDateRange from "@/src/components/Fn/calculateApplicationsInDateRange";
 import generateMetricLabels from "@/src/components/Fn/generateMetricLabels";
-import { FullApplicationType } from "@/src/customVariables";
+import { FullApplicationType } from "@/src/utils/customVariables";
 import dayjs from "dayjs";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import isBetween from "dayjs/plugin/isBetween";

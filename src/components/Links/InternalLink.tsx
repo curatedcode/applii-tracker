@@ -1,4 +1,4 @@
-import { InternalLinkProps } from "@/src/customVariables";
+import { InternalLinkProps } from "@/src/utils/customVariables";
 import Link from "next/link";
 
 export default function InternalLink({

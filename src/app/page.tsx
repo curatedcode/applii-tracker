@@ -13,11 +13,12 @@ import {
   GetAllApplicationsReturnType,
   SortByOptionType,
   sortByOptions,
-} from "../customVariables";
-import { getAllApplications } from "../db";
+} from "../utils/customVariables";
+import { getAllApplications } from "../utils/db";
 import IndexedDBNotSupported from "../components/IndexedDBNotSupported";
 import HomeSkeleton from "../components/Loading/HomeSkeleton";
 import SelectInput from "../components/SelectInput";
+import { getSyncedData, syncData } from "../utils/sync";
 
 export default function Home() {
   const [allApplications, setAllApplications] =
@@ -37,6 +38,8 @@ export default function Home() {
       return;
     }
     getAllApplications(sortBy.value).then((data) => setAllApplications(data));
+    // getSyncedData();
+    // syncData();
   }, [sortBy]);
 
   if (!isIndexedDBSupported) return <IndexedDBNotSupported />;

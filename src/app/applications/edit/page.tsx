@@ -14,8 +14,8 @@ import {
   applicationStatusSelectOptions,
   applicationStatusesArray,
   formSchema,
-} from "@/src/customVariables";
-import { getApplication, updateApplication } from "@/src/db";
+} from "@/src/utils/customVariables";
+import { getApplication, updateApplication } from "@/src/utils/db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";

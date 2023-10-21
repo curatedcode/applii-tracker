@@ -1,5 +1,5 @@
 import { DocumentPlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { ArrayFieldProps } from "@/src/customVariables";
+import { ArrayFieldProps } from "@/src/utils/customVariables";
 import { useFieldArray } from "react-hook-form";
 import FormInput from "./FormInput";
 import FormTextarea from "./FormTextarea";

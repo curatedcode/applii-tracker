@@ -1,4 +1,7 @@
-import { TimelineType, timelineArrayLengths } from "@/src/customVariables";
+import {
+  TimelineType,
+  timelineArrayLengths,
+} from "@/src/utils/customVariables";
 import dayjs from "dayjs";
 
 export default function generateMetricLabels(timeline: TimelineType) {

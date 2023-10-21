@@ -9,12 +9,12 @@ import {
 } from "./customVariables";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import generateMetricLabels from "./components/Fn/generateMetricLabels";
-import calculateApplicationsInDateRange from "./components/Fn/calculateApplicationsInDateRange";
-import calculateSimpleApplicationStats from "./components/Fn/calculateSimpleApplicationStats";
+import generateMetricLabels from "../components/Fn/generateMetricLabels";
+import calculateApplicationsInDateRange from "../components/Fn/calculateApplicationsInDateRange";
+import calculateSimpleApplicationStats from "../components/Fn/calculateSimpleApplicationStats";
 dayjs.extend(isSameOrBefore);
 
-async function applicationDB(): Promise<IDBObjectStore> {
+export async function applicationDB(): Promise<IDBObjectStore> {
   const objectStorePromise = new Promise((resolve, reject) => {
     const indexedDB = window.indexedDB;
     const DBrequest = indexedDB.open("appliiDatabase", 1);

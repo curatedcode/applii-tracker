@@ -2,7 +2,7 @@ import {
   CalculateSimpleApplicationStatsProps,
   CalculateSimpleApplicationStatsReturnType,
   typeSafeObjectEntries,
-} from "@/src/customVariables";
+} from "@/src/utils/customVariables";
 
 export default function calculateSimpleApplicationStats(
   applications: CalculateSimpleApplicationStatsProps,

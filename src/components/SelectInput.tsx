@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { SelectInputProps } from "../customVariables";
+import { SelectInputProps } from "../utils/customVariables";
 import { Fragment } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 
@@ -16,7 +16,7 @@ export default function SelectInput({
         onChange={onChange}
         defaultValue={defaultValue ?? options[0]}
       >
-        <div className="relative mt-1">
+        <div className="relative">
           <Listbox.Button className="relative w-full cursor-default rounded-md bg-light-secondary py-1 pl-3 pr-10 text-left shadow-sm outline-none transition-all duration-100 focus-within:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary">
             <span className="block truncate">{selected.label}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -39,7 +39,7 @@ export default function SelectInput({
                   className={({ active }) =>
                     `relative cursor-default select-none py-1 pl-10 pr-4 ${
                       active
-                        ? "dark:bg-dark-secondary-shaded bg-light-secondary-shaded"
+                        ? "bg-light-secondary-shaded dark:bg-dark-secondary-shaded"
                         : ""
                     }`
                   }

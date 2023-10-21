@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { deleteApplication, getApplication } from "@/src/db";
+import { deleteApplication, getApplication } from "@/src/utils/db";
 import {
   ApplicationStatusType,
   FullApplicationType,
-} from "@/src/customVariables";
+} from "@/src/utils/customVariables";
 import formatDate from "@/src/components/Fn/formatDate";
 import { useRouter, useSearchParams } from "next/navigation";
 import ULItem from "@/src/components/ULItem";

@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
 import Navbar from "../components/Navbar";
 import MobileNavbar from "../components/MobileNavbar";
+import ThemeProvider from "../components/Theme/ThemeProvider";
+import SyncData from "../components/SyncData";
+import ToastContextProvider from "../components/Toast/ToastContextProvider";
 
 const font = Work_Sans({ subsets: ["latin"] });
 
@@ -21,15 +24,24 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="main-scrollbar grid bg-light-main pb-12 text-light-text dark:bg-dark-main dark:text-dark-text"
+      className="main-scrollbar grid pb-12"
+      suppressHydrationWarning
     >
       <body
         id="root-body"
-        className={`grid w-full max-w-8xl gap-2 justify-self-center px-4 ${font.className}`}
+        className={`grid w-full max-w-8xl
+        gap-2 justify-self-center bg-light-main px-4 text-light-text dark:bg-dark-main dark:text-dark-text ${font.className}`}
       >
-        <MobileNavbar />
-        <Navbar />
-        <main className="grid">{children}</main>
+        <ThemeProvider>
+          <ToastContextProvider>
+            <MobileNavbar />
+            <Navbar />
+            <div>
+              <SyncData />
+              <main className="grid">{children}</main>
+            </div>
+          </ToastContextProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-import { ULItemProps } from "../customVariables";
+import { ULItemProps } from "../utils/customVariables";
 import ExternalLink from "./Links/ExternalLink";
 
 export default function DLGroup({
