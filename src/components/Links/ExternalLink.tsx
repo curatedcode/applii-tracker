@@ -1,4 +1,4 @@
-import { ExternalLinkProps } from "../../customVariables";
+import { ExternalLinkProps } from "../../utils/customVariables";
 
 export default function ExternalLink({
   children,

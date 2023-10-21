@@ -1,4 +1,4 @@
-import { StandardButtonProps } from "@/src/customVariables";
+import { StandardButtonProps } from "@/src/utils/customVariables";
 
 export default function Button({
   style,

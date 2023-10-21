@@ -1,4 +1,11 @@
-import { ChangeEventHandler, Dispatch, ReactNode, SetStateAction } from "react";
+import { DropboxResponse, files } from "dropbox";
+import {
+  ChangeEventHandler,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+} from "react";
 import { Control, UseFormRegister } from "react-hook-form";
 import { string, z } from "zod";
 
@@ -187,6 +194,7 @@ export type ExternalLinkProps = {
   title?: string;
   className?: string;
   children: React.ReactNode;
+  onClick?: () => void;
 };
 
 export const applicationColors = {
@@ -352,3 +360,57 @@ export const applicationStatusSelectOptions: ApplicationStatusLabelValueType[] =
     { value: "offer", label: "Offer" },
     { value: "closed", label: "Closed" },
   ];
+
+export interface DropboxFetchFileType
+  extends DropboxResponse<files.FileMetadata> {
+  result: {
+    client_modified: string;
+    content_hash: string;
+    fileBlob: Blob;
+    id: string;
+    is_downloadable: boolean;
+    name: string;
+    path_display: string;
+    path_lower: string;
+    rev: string;
+    server_modified: string;
+    size: number;
+  };
+}
+
+export type ThemesType = "light" | "dark" | "system";
+export type ThemeLabels = "Light" | "Dark" | "System";
+
+export const themes: ThemesType[] = ["light", "dark", "system"];
+export const themesLabels: ThemeLabels[] = ["Light", "Dark", "System"];
+
+export type ThemeOption = {
+  label: ThemeLabels;
+  value: ThemesType;
+};
+
+export const themeOptions: ThemeOption[] = [
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "System", value: "system" },
+];
+
+export type ToastProps = {
+  show: boolean;
+  setShow: (value: SetStateAction<boolean>) => void;
+  children: ReactNode;
+};
+
+export type ToastContextType = {
+  showToast: boolean;
+  forceStop: boolean;
+  setShowToast: (value: SetStateAction<boolean>) => void;
+  setForceStop: (value: SetStateAction<boolean>) => void;
+};
+
+export type DropboxResponseError = {
+  error: { error: { ".tag": string }; error_summary: string };
+  headers: Headers;
+  name: string;
+  status: number;
+};

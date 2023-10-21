@@ -1,4 +1,4 @@
-import { FormInputProps } from "@/src/customVariables";
+import { FormInputProps } from "@/src/utils/customVariables";
 
 export default function FormInput({
   id,

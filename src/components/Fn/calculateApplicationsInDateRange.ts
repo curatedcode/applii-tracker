@@ -1,7 +1,7 @@
 import {
   CalculateApplicationsInDateRangeProps,
   FixedArray,
-} from "@/src/customVariables";
+} from "@/src/utils/customVariables";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 dayjs.extend(isBetween);

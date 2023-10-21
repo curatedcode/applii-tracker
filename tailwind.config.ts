@@ -72,5 +72,6 @@ const config: Config = {
     "bg-card-offer",
     "bg-card-closed",
   ],
+  darkMode: "class",
 };
 export default config;

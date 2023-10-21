@@ -1,7 +1,7 @@
 "use client";
 
 import relativeDate from "./Fn/relativeDate";
-import { BoardSectionCardProps } from "../customVariables";
+import { BoardSectionCardProps } from "../utils/customVariables";
 import Link from "next/link";
 
 export default function BoardSectionCard({

@@ -1,4 +1,4 @@
-import { FormSelectInputProps } from "@/src/customVariables";
+import { FormSelectInputProps } from "@/src/utils/customVariables";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";

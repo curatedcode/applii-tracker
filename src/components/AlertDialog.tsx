@@ -1,5 +1,5 @@
-import { AlertDialogProps } from "../customVariables";
-import FocusTrap from "focus-trap-react";
+import { AlertDialogProps } from "../utils/customVariables";
+import { FocusTrap } from "@headlessui/react";
 
 export default function AlertDialog({
   label,

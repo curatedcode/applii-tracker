@@ -1,4 +1,4 @@
-import { BoardSectionProps } from "../customVariables";
+import { BoardSectionProps } from "../utils/customVariables";
 import BoardSectionCard from "./BoardSectionCard";
 
 export default function BoardSection({

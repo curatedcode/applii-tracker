@@ -1,4 +1,4 @@
-import { FormTextareaProps } from "@/src/customVariables";
+import { FormTextareaProps } from "@/src/utils/customVariables";
 
 export default function FormTextarea({
   id,
