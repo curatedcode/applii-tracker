@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  ThemeOption,
-  ThemesType,
-  themeOptions,
-} from "@/src/utils/customVariables";
+import { ThemeOption, themeOptions } from "@/src/utils/customVariables";
 import { useEffect, useState } from "react";
 import { useTheme as useNextTheme } from "next-themes";
 
