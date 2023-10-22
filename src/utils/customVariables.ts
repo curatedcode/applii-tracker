@@ -415,3 +415,8 @@ export type DropboxResponseError = {
   name: string;
   status: number;
 };
+
+export type SettingsType = {
+  name: string;
+  value: string;
+};
