@@ -1,9 +1,10 @@
 import { Dropbox } from "dropbox";
-import { applicationDB } from "./db";
+import { applicationDB, getAllData } from "./db";
 import {
   ApplicationType,
   DropboxFetchFileType,
   DropboxResponseError,
+  SettingsType,
 } from "./customVariables";
 import env from "./env";
 import pkceChallenge from "./generatePKCE";
@@ -25,13 +26,7 @@ export async function getDropboxAuthURL(): Promise<string> {
 export async function syncData(
   dbxToken: string,
 ): Promise<void | { message: string }> {
-  const DB = await applicationDB();
-
-  const applications = (await new Promise((resolve, reject) => {
-    const data = DB.getAll();
-    data.onsuccess = () => resolve(data.result);
-    data.onerror = () => reject("Unable to fetch applications data");
-  })) as ApplicationType[];
+  const allData = await getAllData();
 
   const dropbox = new Dropbox({
     accessToken: dbxToken,
@@ -41,7 +36,7 @@ export async function syncData(
     dropbox
       .filesUpload({
         path: "/data.json",
-        contents: JSON.stringify(applications),
+        contents: JSON.stringify(allData),
         mode: { ".tag": "overwrite" },
       })
       .then(() => resolve(undefined))

@@ -4,45 +4,61 @@ import {
   FullApplicationType,
   GetAllApplicationsReturnType,
   GetApplicationMetricsReturnType,
+  SettingsType,
   TimelineType,
   UpdateApplicationType,
 } from "./customVariables";
 import dayjs from "dayjs";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import generateMetricLabels from "../components/Fn/generateMetricLabels";
 import calculateApplicationsInDateRange from "../components/Fn/calculateApplicationsInDateRange";
 import calculateSimpleApplicationStats from "../components/Fn/calculateSimpleApplicationStats";
-dayjs.extend(isSameOrBefore);
 
-export async function applicationDB(): Promise<IDBObjectStore> {
+export async function applicationDB(): Promise<{
+  applications: IDBObjectStore;
+  settings: IDBObjectStore;
+}> {
   const objectStorePromise = new Promise((resolve, reject) => {
     const indexedDB = window.indexedDB;
-    const DBrequest = indexedDB.open("appliiDatabase", 1);
+    const DBrequest = indexedDB.open("appliiDatabase", 2);
 
     DBrequest.onerror = (event) =>
       reject(Error(`Unable to open database: ${event}`));
 
     DBrequest.onupgradeneeded = () => {
       const DB = DBrequest.result;
-      const store = DB.createObjectStore("applications", {
+      const applicationStore = DB.createObjectStore("applications", {
         keyPath: "id",
         autoIncrement: true,
       });
-
-      store.createIndex("application_status", ["status"], { unique: false });
+      const settingStore = DB.createObjectStore("settings", {
+        keyPath: "name",
+      });
+      applicationStore.createIndex("id", "id", { unique: true });
+      settingStore.createIndex("name", "name", { unique: true });
     };
 
     DBrequest.onsuccess = () => {
       const DB = DBrequest.result;
-      const transaction = DB.transaction(["applications"], "readwrite");
-      const objectStore = transaction.objectStore("applications");
+      const applicationStore = DB.transaction(
+        "applications",
+        "readwrite",
+      ).objectStore("applications");
+      const settingStore = DB.transaction("settings", "readwrite").objectStore(
+        "settings",
+      );
 
-      resolve(objectStore);
+      resolve({ applicationStore, settingStore });
     };
-  });
+  }) as Promise<{
+    applicationStore: IDBObjectStore;
+    settingStore: IDBObjectStore;
+  }>;
 
-  const objectStore = (await objectStorePromise) as IDBObjectStore;
-  return objectStore;
+  const result = await objectStorePromise;
+  return {
+    applications: result.applicationStore,
+    settings: result.settingStore,
+  };
 }
 
 export async function getApplication({
@@ -50,15 +66,15 @@ export async function getApplication({
 }: {
   id: number;
 }): Promise<FullApplicationType> {
-  const DB = await applicationDB();
+  const DB = (await applicationDB()).applications;
 
-  const application = new Promise((resolve, reject) => {
+  const application = new Promise<FullApplicationType>((resolve, reject) => {
     const data = DB.get(id);
 
     data.onerror = (event) =>
       reject(Error(`Unable to fetch application with ID ${id}: ${event}`));
     data.onsuccess = () => resolve(data.result);
-  }) as Promise<FullApplicationType>;
+  });
 
   return application;
 }
@@ -66,15 +82,17 @@ export async function getApplication({
 export async function getAllApplications(
   sortBy: "dateModified" | "dateCreated",
 ): Promise<GetAllApplicationsReturnType> {
-  const DB = await applicationDB();
+  const DB = (await applicationDB()).applications;
 
-  const applicationsPromise = new Promise((resolve, reject) => {
-    const data = DB.getAll();
+  const applicationsPromise = new Promise<ApplicationType[]>(
+    (resolve, reject) => {
+      const data = DB.getAll();
 
-    data.onerror = (event) =>
-      reject(Error(`Unable to fetch applications: ${event}`));
-    data.onsuccess = () => resolve(data.result);
-  }) as Promise<ApplicationType[]>;
+      data.onerror = (event) =>
+        reject(Error(`Unable to fetch applications: ${event}`));
+      data.onsuccess = () => resolve(data.result);
+    },
+  );
 
   const applications: FullApplicationType[] = await applicationsPromise;
 
@@ -129,7 +147,7 @@ export async function createApplication({
   notes,
   contacts,
 }: CreateApplicationType): Promise<{ id: number }> {
-  const DB = await applicationDB();
+  const DB = (await applicationDB()).applications;
 
   const application = new Promise((resolve, reject) => {
     const data = DB.add({
@@ -168,7 +186,7 @@ export async function updateApplication({
   dateClosed,
   status,
 }: UpdateApplicationType) {
-  const DB = await applicationDB();
+  const DB = (await applicationDB()).applications;
 
   const updatePromise = new Promise((resolve, reject) => {
     const storedData = DB.get(id);
@@ -203,7 +221,7 @@ export async function updateApplication({
 }
 
 export async function deleteApplication({ id }: { id: number }) {
-  const DB = await applicationDB();
+  const DB = (await applicationDB()).applications;
 
   const application = new Promise((resolve, reject) => {
     const deletion = DB.delete(id);
@@ -274,4 +292,99 @@ export async function getApplicationMetrics(
     labels: generateMetricLabels(timeline),
     simpleStats,
   };
+}
+
+export async function addSetting({ name, value }: SettingsType): Promise<void> {
+  const DB = (await applicationDB()).settings;
+
+  const setting = await new Promise<void>((resolve, reject) => {
+    const data = DB.add({ name, value });
+
+    data.onerror = () => reject("Unable to add setting");
+    data.onsuccess = () => resolve();
+  });
+
+  return setting;
+}
+
+export async function getAllSettings(): Promise<SettingsType[]> {
+  const DB = (await applicationDB()).settings;
+
+  const setting = await new Promise<SettingsType[]>((resolve, reject) => {
+    const data = DB.getAll();
+
+    data.onerror = () => reject("Unable to fetch all setting");
+    data.onsuccess = () => resolve(data.result);
+  });
+
+  return setting;
+}
+
+export async function getSetting({
+  name,
+}: {
+  name: string;
+}): Promise<SettingsType> {
+  const DB = (await applicationDB()).settings;
+
+  const setting = await new Promise<SettingsType>((resolve, reject) => {
+    const data = DB.get(name);
+
+    data.onerror = () => reject("Unable to fetch setting");
+    data.onsuccess = () => resolve(data.result);
+  });
+
+  return setting;
+}
+
+export async function updateSetting({
+  name,
+  value,
+}: SettingsType): Promise<void> {
+  const DB = (await applicationDB()).settings;
+
+  const setting = await new Promise<void>((resolve, reject) => {
+    const data = DB.put({ name, value });
+
+    data.onerror = () => reject("Unable to update setting");
+    data.onsuccess = () => resolve();
+  });
+
+  return setting;
+}
+
+export async function deleteSetting({ name }: { name: string }): Promise<void> {
+  const DB = (await applicationDB()).settings;
+
+  const setting = await new Promise<void>((resolve, reject) => {
+    const data = DB.delete(name);
+
+    data.onerror = () => reject("Unable to delete setting");
+    data.onsuccess = () => resolve(data.result);
+  });
+
+  return setting;
+}
+
+export async function getAllData(): Promise<{
+  applications: FullApplicationType[];
+  settings: SettingsType[];
+}> {
+  const DB = await applicationDB();
+
+  // Ugly but only way to ensure that indexedDB transactions don't fire in parallel
+  const data = new Promise<{
+    applications: FullApplicationType[];
+    settings: SettingsType[];
+  }>((resolve, reject) => {
+    const applications = DB.applications.getAll();
+    applications.onerror = () => reject("Unable to fetch applications data");
+    applications.onsuccess = () => {
+      getAllSettings().then((settings) => {
+        resolve({ applications: applications.result, settings });
+      });
+    };
+  });
+
+  return data;
 }
