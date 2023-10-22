@@ -7,6 +7,8 @@ import ExternalLink from "@/src/components/Links/ExternalLink";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
 import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
 import useToastContext from "@/src/components/Toast/useToastContext";
+import { SettingsType, syncSettingsSchema } from "@/src/utils/customVariables";
+import { getAllSettings, updateSetting } from "@/src/utils/db";
 import { getDropboxAuthURL } from "@/src/utils/sync";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,35 +18,50 @@ export default function Settings() {
   const { setForceStop } = useToastContext();
 
   const { token, setToken } = useDbxToken();
-  const [showTokenSection, setShowTokenSection] = useState(false);
-  const [showTokenInput, setShowTokenInput] = useState(false);
+  const [showSyncSettings, setShowSyncSettings] = useState(false);
 
   const [isMounted, setIsMounted] = useState(false);
   const [dropboxAuthURL, setDropboxAuthUrl] = useState("");
 
-  function submitToken() {
-    setShowTokenSection(false);
-    setShowTokenInput(false);
-    const newToken = getValues("dbxToken");
-    if (newToken.length > 1) return;
-    setToken(newToken);
+  function submitSyncSettings() {
+    setShowSyncSettings(false);
+
+    const { dbxToken, syncInterval } = getValues();
+
+    syncInterval &&
+      updateSetting({ name: "syncInterval", value: syncInterval });
+    dbxToken && setToken(dbxToken);
   }
 
-  const schema = z.object({ dbxToken: z.string() });
   const {
     register,
     getValues,
+    setValue,
+    handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof schema>>({ defaultValues: { dbxToken: token } });
+  } = useForm<z.infer<typeof syncSettingsSchema>>();
 
   useEffect(() => {
-    if (showTokenSection) {
+    if (showSyncSettings) {
       setForceStop(true);
       return;
     }
     setForceStop(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showTokenSection]);
+  }, [showSyncSettings]);
+
+  useEffect(() => {
+    setValue("dbxToken", token);
+  }, [setValue, token]);
+
+  useEffect(() => {
+    getAllSettings().then((allSettings) => {
+      const syncInterval = allSettings.find(
+        (setting) => setting.name === "syncInterval",
+      );
+      setValue("syncInterval", syncInterval?.value);
+    });
+  }, [setValue]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -66,50 +83,49 @@ export default function Settings() {
         <div className="grid auto-rows-min gap-2">
           <div className="flex h-9 items-center justify-between gap-2">
             <span>Sync data to dropbox account</span>
-            {!showTokenSection && (
-              <Button onClick={() => setShowTokenSection(true)}>
-                Set Token
-              </Button>
+            {!showSyncSettings && (
+              <Button onClick={() => setShowSyncSettings(true)}>Edit</Button>
             )}
           </div>
-          {showTokenSection && (
+          {showSyncSettings && (
             <div className="grid gap-2">
-              <ExternalLink
-                href={dropboxAuthURL}
-                onClick={() => setShowTokenInput(true)}
-                style="button"
-              >
+              <ExternalLink href={dropboxAuthURL} style="button">
                 Get access token
               </ExternalLink>
-              {showTokenInput && (
-                <form onSubmit={submitToken} className="grid gap-4">
-                  <FormInput
-                    id="dbxTokenInput"
-                    label="Dropbox Access Token"
-                    register={register}
-                    placeholder="Access Token"
-                    error={errors.dbxToken?.message}
-                    registerName="dbxToken"
-                    hiddenLabel
-                  />
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button
-                      onClick={() => {
-                        setShowTokenSection(false);
-                        setShowTokenInput(false);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="w-full bg-dark-secondary dark:bg-light-secondary dark:text-light-text"
-                    >
-                      Save Token
-                    </Button>
-                  </div>
-                </form>
-              )}
+              <form
+                onSubmit={handleSubmit(submitSyncSettings)}
+                className="grid gap-4"
+              >
+                <FormInput
+                  id="dbxTokenInput"
+                  label="Dropbox Access Token"
+                  register={register}
+                  placeholder="Access Token"
+                  error={errors.dbxToken?.message}
+                  registerName="dbxToken"
+                  hiddenLabel
+                />
+                <FormInput
+                  id="syncIntervalInput"
+                  label="Sync Interval (in minutes)"
+                  type="number"
+                  register={register}
+                  placeholder="Ex: 120 is 2 hours"
+                  error={errors.syncInterval?.message}
+                  registerName="syncInterval"
+                />
+                <div className="grid grid-cols-2 gap-2">
+                  <Button onClick={() => setShowSyncSettings(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="w-full bg-dark-secondary dark:bg-light-secondary dark:text-light-text"
+                  >
+                    Save
+                  </Button>
+                </div>
+              </form>
             </div>
           )}
         </div>
