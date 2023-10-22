@@ -1,11 +1,5 @@
 import { DropboxResponse, files } from "dropbox";
-import {
-  ChangeEventHandler,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  createContext,
-} from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Control, UseFormRegister } from "react-hook-form";
 import { string, z } from "zod";
 
@@ -95,7 +89,7 @@ export type FullApplicationType = {
 
 export type FormInputProps = {
   id: string;
-  type?: "text" | "email" | "date";
+  type?: "text" | "email" | "date" | "number";
   label: string;
   registerName?: string;
   register: UseFormRegister<any>;
@@ -416,7 +410,14 @@ export type DropboxResponseError = {
   status: number;
 };
 
+export type SettingsNameType = "syncInterval" | "theme";
+
 export type SettingsType = {
-  name: string;
+  name: SettingsNameType;
   value: string;
 };
+
+export const syncSettingsSchema = z.object({
+  dbxToken: z.string().optional(),
+  syncInterval: z.string().optional(),
+});

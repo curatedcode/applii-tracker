@@ -4,6 +4,7 @@ import {
   FullApplicationType,
   GetAllApplicationsReturnType,
   GetApplicationMetricsReturnType,
+  SettingsNameType,
   SettingsType,
   TimelineType,
   UpdateApplicationType,
@@ -17,7 +18,10 @@ export async function applicationDB(): Promise<{
   applications: IDBObjectStore;
   settings: IDBObjectStore;
 }> {
-  const objectStorePromise = new Promise((resolve, reject) => {
+  const objectStorePromise = new Promise<{
+    applicationStore: IDBObjectStore;
+    settingStore: IDBObjectStore;
+  }>((resolve, reject) => {
     const indexedDB = window.indexedDB;
     const DBrequest = indexedDB.open("appliiDatabase", 2);
 
@@ -49,10 +53,7 @@ export async function applicationDB(): Promise<{
 
       resolve({ applicationStore, settingStore });
     };
-  }) as Promise<{
-    applicationStore: IDBObjectStore;
-    settingStore: IDBObjectStore;
-  }>;
+  });
 
   const result = await objectStorePromise;
   return {
@@ -323,7 +324,7 @@ export async function getAllSettings(): Promise<SettingsType[]> {
 export async function getSetting({
   name,
 }: {
-  name: string;
+  name: SettingsNameType;
 }): Promise<SettingsType> {
   const DB = (await applicationDB()).settings;
 

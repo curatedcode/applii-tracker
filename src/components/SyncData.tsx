@@ -7,11 +7,13 @@ import useDbxToken from "./Hooks/useDbxToken";
 import { syncData } from "../utils/sync";
 import useToastContext from "./Toast/useToastContext";
 import useConnectionStatus from "./Hooks/useConnectionStatus";
+import { getSetting } from "../utils/db";
 
 export default function SyncData() {
   const { showToast, setShowToast, forceStop } = useToastContext();
 
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  const [syncInterval, setSyncInterval] = useState<number>(600_000);
   const { isOnline } = useConnectionStatus();
   const { token } = useDbxToken();
 
@@ -34,6 +36,12 @@ export default function SyncData() {
   }
 
   useEffect(() => {
+    getSetting({ name: "syncInterval" }).then((setting) =>
+      setSyncInterval(Number(setting.value) * 60_000),
+    );
+  }, []);
+
+  useEffect(() => {
     if (forceStop || !token) return;
     if (isOnline) {
       setErrorMessage(undefined);
@@ -42,8 +50,7 @@ export default function SyncData() {
       setShowToast(true);
       return;
     }
-
-    const interval = setInterval(() => triggerSync(), 600_000);
+    const interval = setInterval(() => triggerSync(), syncInterval);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
