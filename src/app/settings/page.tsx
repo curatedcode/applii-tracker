@@ -38,9 +38,14 @@ export default function Settings() {
 
     const { dbxToken, syncInterval } = getValues();
 
-    syncInterval &&
+    if (syncInterval) {
       updateSetting({ name: "syncInterval", value: syncInterval });
-    dbxToken && setToken(dbxToken);
+    }
+    if (dbxToken) {
+      setToken(dbxToken);
+    }
+
+    toast.success("Sync settings updated");
   }
 
   function submitImportFile(e: ChangeEvent<HTMLInputElement>) {
