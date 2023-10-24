@@ -99,26 +99,7 @@ export default function Settings() {
     getDropboxAuthURL().then((value) => setDropboxAuthUrl(value));
   }, []);
 
-  useEffect(() => {
-    if (!token) return;
-  }, [token]);
-
   if (!isMounted) return <SettingsSkeleton />;
-
-  async function sync() {
-    const dbx = new Dropbox({ accessToken: token });
-    console.log({ token });
-    dbx
-      .filesListFolder({ path: "" })
-      .then((val) => {
-        console.log({ result: val.result });
-      })
-      .catch((error) => {
-        console.log({ error });
-      });
-
-    return null;
-  }
 
   return (
     <>

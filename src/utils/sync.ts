@@ -45,7 +45,6 @@ export async function syncData(
       .catch((err) => {
         const typedErr = err as DropboxResponseError;
         const errStatus = typedErr.status;
-        console.log({ dbxToken, err });
 
         if (errStatus >= 400 && errStatus <= 499) {
           reject({ message: "Incorrect sync token" });
