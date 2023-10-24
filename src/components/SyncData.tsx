@@ -1,39 +1,16 @@
 "use client";
 
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import Toast from "./Toast/Toast";
 import { useEffect, useState } from "react";
 import useDbxToken from "./Hooks/useDbxToken";
 import { syncData } from "../utils/sync";
-import useToastContext from "./Toast/useToastContext";
 import useConnectionStatus from "./Hooks/useConnectionStatus";
 import { getSetting } from "../utils/db";
+import toast from "react-hot-toast";
 
 export default function SyncData() {
-  const { showToast, setShowToast, forceStop } = useToastContext();
-
-  const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [syncInterval, setSyncInterval] = useState<number>(600_000);
-  const { isOnline } = useConnectionStatus();
+  const { online } = useConnectionStatus();
   const { token } = useDbxToken();
-
-  function triggerSync() {
-    if (forceStop || !token) return;
-
-    syncData(token)
-      .then(() => {
-        if (!isOnline) {
-          setShowToast(true);
-          return;
-        }
-        setErrorMessage(undefined);
-        setShowToast(true);
-      })
-      .catch((err: { message: string }) => {
-        setErrorMessage(err.message);
-        setShowToast(true);
-      });
-  }
 
   useEffect(() => {
     getSetting({ name: "syncInterval" }).then((setting) =>
@@ -42,33 +19,28 @@ export default function SyncData() {
   }, []);
 
   useEffect(() => {
-    if (forceStop || !token) return;
-    if (isOnline) {
-      setErrorMessage(undefined);
-    } else {
-      setErrorMessage("No internet connection");
-      setShowToast(true);
+    if (!token) return;
+    if (!online) {
+      toast.error("No internet connection");
       return;
     }
-    const interval = setInterval(() => triggerSync(), syncInterval);
+
+    const interval = setInterval(() => {
+      if (!token) return;
+
+      syncData(token)
+        .then(() => {
+          toast.success("Synced successfully");
+        })
+        .catch((err: { message: string }) => {
+          toast.error(err.message);
+        });
+    }, syncInterval);
 
     return () => clearInterval(interval);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, forceStop]);
+  }, [online, syncInterval, token]);
 
-  if (errorMessage) {
-    return (
-      <Toast show={showToast} setShow={setShowToast}>
-        <XCircleIcon className="w-6 text-card-closed" aria-hidden="true" />
-        <p className="whitespace-nowrap">{errorMessage}</p>
-      </Toast>
-    );
-  }
-
-  return (
-    <Toast show={showToast} setShow={setShowToast}>
-      <CheckCircleIcon className="w-6 text-card-applied" aria-hidden="true" />
-      <p className="whitespace-nowrap">Synced successfully</p>
-    </Toast>
-  );
+  return null;
 }

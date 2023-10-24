@@ -6,19 +6,29 @@ import useDbxToken from "@/src/components/Hooks/useDbxToken";
 import ExternalLink from "@/src/components/Links/ExternalLink";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
 import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
-import useToastContext from "@/src/components/Toast/useToastContext";
-import { SettingsType, syncSettingsSchema } from "@/src/utils/customVariables";
+import { syncSettingsSchema } from "@/src/utils/customVariables";
 import { getAllSettings, updateSetting } from "@/src/utils/db";
-import { getDropboxAuthURL } from "@/src/utils/sync";
-import { useEffect, useState } from "react";
+import {
+  exportDataToFile,
+  getDropboxAuthURL,
+  importDataFromFile,
+} from "@/src/utils/sync";
+import {
+  ArrowDownTrayIcon,
+  ArrowUpTrayIcon,
+} from "@heroicons/react/24/outline";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 export default function Settings() {
-  const { setForceStop } = useToastContext();
-
   const { token, setToken } = useDbxToken();
   const [showSyncSettings, setShowSyncSettings] = useState(false);
+
+  const fileExportRef = useRef<HTMLAnchorElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [fileInputError, setFileInputError] = useState<string>();
 
   const [isMounted, setIsMounted] = useState(false);
   const [dropboxAuthURL, setDropboxAuthUrl] = useState("");
@@ -33,6 +43,29 @@ export default function Settings() {
     dbxToken && setToken(dbxToken);
   }
 
+  function submitImportFile(e: ChangeEvent<HTMLInputElement>) {
+    const allFiles = e.currentTarget.files;
+    if (!allFiles) return;
+    if (allFiles.length < 1) return;
+    if (allFiles.length > 1) {
+      setFileInputError("Please select only one file");
+      return;
+    }
+
+    const file = allFiles[0];
+
+    if (file.type !== "application/json") {
+      setFileInputError("Please select a JSON file");
+      return;
+    }
+
+    importDataFromFile(file).catch(() => {
+      const value = fileInputRef.current?.value;
+      if (!value) return;
+      fileInputRef.current.value = "";
+    });
+  }
+
   const {
     register,
     getValues,
@@ -40,15 +73,6 @@ export default function Settings() {
     handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof syncSettingsSchema>>();
-
-  useEffect(() => {
-    if (showSyncSettings) {
-      setForceStop(true);
-      return;
-    }
-    setForceStop(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showSyncSettings]);
 
   useEffect(() => {
     setValue("dbxToken", token);
@@ -128,6 +152,33 @@ export default function Settings() {
               </form>
             </div>
           )}
+        </div>
+        <div className="grid gap-6">
+          <input
+            type="file"
+            className="hidden"
+            accept=".json"
+            onError={(e) => console.log(e)}
+            ref={fileInputRef}
+            onClick={() => setFileInputError(undefined)}
+            onChange={(e) => submitImportFile(e)}
+          />
+          <a aria-hidden="true" className="hidden" ref={fileExportRef}></a>
+          <Button onClick={() => exportDataToFile(fileExportRef)}>
+            <ArrowUpTrayIcon className="w-4" aria-hidden="true" />
+            <span>Export data</span>
+          </Button>
+          <div className="grid gap-1">
+            <Button onClick={() => fileInputRef.current?.click()}>
+              <ArrowDownTrayIcon className="w-4" aria-hidden="true" />
+              <span>Import data from file</span>
+            </Button>
+            {fileInputError && (
+              <span role="alert" className="text-red-500">
+                * {fileInputError}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </>

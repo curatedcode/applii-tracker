@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 
 export default function useConnectionStatus() {
-  const [isOnline, setIsOnline] = useState(true);
+  const [online, setOnline] = useState(true);
 
   useEffect(() => {
     function online() {
-      setIsOnline(true);
+      setOnline(true);
     }
     function offline() {
-      setIsOnline(false);
+      setOnline(false);
     }
 
     window.addEventListener("online", online);
@@ -22,5 +22,5 @@ export default function useConnectionStatus() {
     };
   }, []);
 
-  return { isOnline };
+  return { online };
 }

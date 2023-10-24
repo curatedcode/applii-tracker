@@ -4,10 +4,12 @@ import {
   FullApplicationType,
   GetAllApplicationsReturnType,
   GetApplicationMetricsReturnType,
+  ImportExportDataType,
   SettingsNameType,
   SettingsType,
   TimelineType,
   UpdateApplicationType,
+  promiseSeries,
 } from "./customVariables";
 import dayjs from "dayjs";
 import generateMetricLabels from "../components/Fn/generateMetricLabels";
@@ -295,7 +297,10 @@ export async function getApplicationMetrics(
   };
 }
 
-export async function addSetting({ name, value }: SettingsType): Promise<void> {
+export async function createSetting({
+  name,
+  value,
+}: SettingsType): Promise<void> {
   const DB = (await applicationDB()).settings;
 
   const setting = await new Promise<void>((resolve, reject) => {
@@ -388,4 +393,65 @@ export async function getAllData(): Promise<{
   });
 
   return data;
+}
+
+export async function importData(data: ImportExportDataType): Promise<void> {
+  const { applications, settings } = data;
+
+  const DB = await applicationDB();
+  console.log({ applications, settings });
+
+  const deleteApplications = new Promise<void>((resolve, reject) => {
+    const deleteOperation = DB.applications.clear();
+
+    deleteOperation.onerror = (e) =>
+      reject(`Error clearing applications store: ${e}`);
+    deleteOperation.onsuccess = () => resolve();
+  });
+
+  const deleteSettings = new Promise<void>((resolve, reject) => {
+    const deleteOperation = DB.settings.clear();
+
+    deleteOperation.onerror = (e) =>
+      reject(`Error clearing applications store: ${e}`);
+    deleteOperation.onsuccess = () => resolve();
+  });
+
+  await promiseSeries([deleteApplications, deleteSettings]);
+
+  const uploadApplication = applications.map((val) => createApplication(val));
+  const uploadSettings = settings.map((val) => createSetting(val));
+
+  await promiseSeries(uploadApplication);
+  await promiseSeries(uploadSettings);
+}
+
+export async function exportData() {
+  const DB = await applicationDB();
+
+  const settingsPromise = new Promise<SettingsType[]>((resolve, reject) => {
+    const data = DB.settings.getAll();
+
+    data.onerror = (event) =>
+      reject(Error(`Unable to fetch settings: ${event}`));
+    data.onsuccess = () => resolve(data.result);
+  });
+
+  const applicationsPromise = new Promise<ApplicationType[]>(
+    (resolve, reject) => {
+      const data = DB.applications.getAll();
+
+      data.onerror = (event) =>
+        reject(Error(`Unable to fetch applications: ${event}`));
+      data.onsuccess = () => resolve(data.result);
+    },
+  );
+
+  const result = await settingsPromise.then(async (settings) => {
+    const applications = await applicationsPromise;
+
+    return { settings, applications };
+  });
+
+  return result;
 }
