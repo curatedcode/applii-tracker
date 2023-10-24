@@ -481,7 +481,7 @@ export async function promiseSeries(array: Promise<unknown>[]) {
 
 export type SyncContextType = {
   setForceStop: (value: SetStateAction<boolean>) => void;
-  triggerSync: () => void;
+  triggerSync: (value?: string) => void;
   token: string;
   setToken: (value: SetStateAction<string>) => void;
 };

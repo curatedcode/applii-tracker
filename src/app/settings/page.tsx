@@ -47,7 +47,7 @@ export default function Settings() {
     }
 
     toast.success("Sync settings updated");
-    triggerSync();
+    triggerSync(dbxToken);
   }
 
   function submitImportFile(e: ChangeEvent<HTMLInputElement>) {

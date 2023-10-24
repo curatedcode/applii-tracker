@@ -37,9 +37,9 @@ export default function SyncProvider({
     }
   }, [token]);
 
-  function triggerSync() {
+  function triggerSync(newToken?: string) {
     if (!token || forceStop) return;
-    syncData(token)
+    syncData(newToken ?? token)
       .then(() => {
         toast.success("Synced successfully");
       })
