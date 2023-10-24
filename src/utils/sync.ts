@@ -1,5 +1,5 @@
 import { Dropbox } from "dropbox";
-import { applicationDB, getAllData } from "./db";
+import { applicationDB, exportData, getAllData, importData } from "./db";
 import {
   ApplicationType,
   DropboxFetchFileType,
@@ -8,6 +8,8 @@ import {
 } from "./customVariables";
 import env from "./env";
 import pkceChallenge from "./generatePKCE";
+import toast from "react-hot-toast";
+import { RefObject } from "react";
 
 /**
  *
@@ -55,19 +57,37 @@ export async function syncData(
   });
 }
 
-export async function getSyncedData(dbxToken: string) {
-  const dropbox = new Dropbox({
-    accessToken: dbxToken,
-  });
-
-  const response = (await dropbox.filesDownload({
-    path: "/data.json",
-  })) as DropboxFetchFileType;
-
+export async function importDataFromFile(file: File) {
   const fr = new FileReader();
 
-  fr.addEventListener("load", () =>
-    console.log({ result: JSON.parse(fr.result as string) }),
-  );
-  fr.readAsText(response.result.fileBlob);
+  fr.addEventListener("load", async () => {
+    const data = fr.result;
+    if (typeof data !== "string") {
+      toast.error("Imported data is invalid");
+      return;
+    }
+    const dataParsed = JSON.parse(data);
+    const importPromise = importData(dataParsed);
+    toast.promise(importPromise, {
+      loading: "Importing data",
+      error: "Imported data is invalid",
+      success: "Data imported successfully",
+    });
+  });
+  fr.readAsText(file);
+}
+
+export async function exportDataToFile(anchorEl: RefObject<HTMLAnchorElement>) {
+  if (!anchorEl.current) return;
+
+  const data = await exportData();
+  const fileURL =
+    "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+
+  anchorEl.current.setAttribute("href", fileURL);
+  anchorEl.current.setAttribute("download", "data.json");
+  anchorEl.current.click();
+
+  console.log({ data });
+  toast.success("Exported successfully");
 }
