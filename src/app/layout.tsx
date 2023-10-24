@@ -4,8 +4,8 @@ import { Work_Sans } from "next/font/google";
 import Navbar from "../components/Navbar";
 import MobileNavbar from "../components/MobileNavbar";
 import ThemeProvider from "../components/Theme/ThemeProvider";
-import SyncData from "../components/SyncData";
 import Toaster from "../components/Toaster";
+import SyncProvider from "../components/Sync/SyncProvider";
 
 const font = Work_Sans({ subsets: ["latin"] });
 
@@ -32,11 +32,12 @@ export default function RootLayout({
         className={`grid w-full max-w-8xl gap-2 justify-self-center bg-light-main px-4 text-light-text dark:bg-dark-main dark:text-dark-text ${font.className}`}
       >
         <ThemeProvider>
-          <Toaster />
-          <SyncData />
-          <MobileNavbar />
-          <Navbar />
-          <main className="grid">{children}</main>
+          <SyncProvider>
+            <Toaster />
+            <MobileNavbar />
+            <Navbar />
+            <main className="grid">{children}</main>
+          </SyncProvider>
         </ThemeProvider>
       </body>
     </html>
