@@ -83,7 +83,7 @@ export default function Settings() {
       const syncInterval = allSettings.find(
         (setting) => setting.name === "syncInterval",
       );
-      setValue("syncInterval", syncInterval?.value);
+      setValue("syncInterval", syncInterval ? syncInterval.value : "5");
     });
   }, [setValue]);
 
@@ -158,7 +158,6 @@ export default function Settings() {
             type="file"
             className="hidden"
             accept=".json"
-            onError={(e) => console.log(e)}
             ref={fileInputRef}
             onClick={() => setFileInputError(undefined)}
             onChange={(e) => submitImportFile(e)}

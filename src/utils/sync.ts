@@ -88,6 +88,5 @@ export async function exportDataToFile(anchorEl: RefObject<HTMLAnchorElement>) {
   anchorEl.current.setAttribute("download", "data.json");
   anchorEl.current.click();
 
-  console.log({ data });
   toast.success("Exported successfully");
 }

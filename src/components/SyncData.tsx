@@ -14,7 +14,7 @@ export default function SyncData() {
 
   useEffect(() => {
     getSetting({ name: "syncInterval" }).then((setting) =>
-      setSyncInterval(Number(setting.value) * 60_000),
+      setSyncInterval(setting ? Number(setting.value) * 60_000 : 600_000),
     );
   }, []);
 
