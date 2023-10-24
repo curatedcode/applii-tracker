@@ -25,7 +25,7 @@ export async function applicationDB(): Promise<{
     settingStore: IDBObjectStore;
   }>((resolve, reject) => {
     const indexedDB = window.indexedDB;
-    const DBrequest = indexedDB.open("appliiDatabase", 2);
+    const DBrequest = indexedDB.open("appliiDatabase", 1);
 
     DBrequest.onerror = (event) =>
       reject(Error(`Unable to open database: ${event}`));
@@ -399,7 +399,6 @@ export async function importData(data: ImportExportDataType): Promise<void> {
   const { applications, settings } = data;
 
   const DB = await applicationDB();
-  console.log({ applications, settings });
 
   const deleteApplications = new Promise<void>((resolve, reject) => {
     const deleteOperation = DB.applications.clear();
