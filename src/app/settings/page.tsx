@@ -2,9 +2,9 @@
 
 import Button from "@/src/components/Button";
 import FormInput from "@/src/components/Form/FormInput";
-import useDbxToken from "@/src/components/Hooks/useDbxToken";
 import ExternalLink from "@/src/components/Links/ExternalLink";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
+import useSync from "@/src/components/Sync/useSync";
 import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
 import { syncSettingsSchema } from "@/src/utils/customVariables";
 import { getAllSettings, updateSetting } from "@/src/utils/db";
@@ -17,13 +17,14 @@ import {
   ArrowDownTrayIcon,
   ArrowUpTrayIcon,
 } from "@heroicons/react/24/outline";
+import { Dropbox } from "dropbox";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 
 export default function Settings() {
-  const { token, setToken } = useDbxToken();
+  const { token, setToken, triggerSync } = useSync();
   const [showSyncSettings, setShowSyncSettings] = useState(false);
 
   const fileExportRef = useRef<HTMLAnchorElement>(null);
@@ -46,6 +47,7 @@ export default function Settings() {
     }
 
     toast.success("Sync settings updated");
+    triggerSync();
   }
 
   function submitImportFile(e: ChangeEvent<HTMLInputElement>) {
@@ -97,7 +99,26 @@ export default function Settings() {
     getDropboxAuthURL().then((value) => setDropboxAuthUrl(value));
   }, []);
 
+  useEffect(() => {
+    if (!token) return;
+  }, [token]);
+
   if (!isMounted) return <SettingsSkeleton />;
+
+  async function sync() {
+    const dbx = new Dropbox({ accessToken: token });
+    console.log({ token });
+    dbx
+      .filesListFolder({ path: "" })
+      .then((val) => {
+        console.log({ result: val.result });
+      })
+      .catch((error) => {
+        console.log({ error });
+      });
+
+    return null;
+  }
 
   return (
     <>
