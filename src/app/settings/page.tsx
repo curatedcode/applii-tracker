@@ -6,12 +6,16 @@ import ExternalLink from "@/src/components/Links/ExternalLink";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
 import useSync from "@/src/components/Sync/useSync";
 import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
-import { syncSettingsSchema } from "@/src/utils/customVariables";
+import {
+  GetDropboxAuthReturnType,
+  syncSettingsSchema,
+} from "@/src/utils/customVariables";
 import { getAllSettings, updateSetting } from "@/src/utils/db";
+import { verifyChallenge } from "@/src/utils/generatePKCE";
 import {
   exportDataToFile,
-  getDropboxAuthURL,
   importDataFromFile,
+  getDropboxAuth,
 } from "@/src/utils/sync";
 import {
   ArrowDownTrayIcon,
@@ -32,7 +36,12 @@ export default function Settings() {
   const [fileInputError, setFileInputError] = useState<string>();
 
   const [isMounted, setIsMounted] = useState(false);
-  const [dropboxAuthURL, setDropboxAuthUrl] = useState("");
+
+  const [dropboxAuth, setDropboxAuth] = useState<GetDropboxAuthReturnType>({
+    codeChallenge: "",
+    codeVerifier: "",
+    url: "",
+  });
 
   function submitSyncSettings() {
     setShowSyncSettings(false);
@@ -42,8 +51,19 @@ export default function Settings() {
     if (syncInterval) {
       updateSetting({ name: "syncInterval", value: syncInterval });
     }
+
     if (dbxToken) {
-      setToken(dbxToken);
+      verifyChallenge({
+        codeVerifier: dropboxAuth.codeVerifier,
+        expectedChallenge: dropboxAuth.codeChallenge,
+      }).then((success) => {
+        if (!success) {
+          toast.error("Incorrect sync token");
+          return;
+        }
+
+        setToken(dbxToken);
+      });
     }
 
     toast.success("Sync settings updated");
@@ -96,7 +116,7 @@ export default function Settings() {
 
   useEffect(() => {
     setIsMounted(true);
-    getDropboxAuthURL().then((value) => setDropboxAuthUrl(value));
+    getDropboxAuth().then((value) => setDropboxAuth(value));
   }, []);
 
   if (!isMounted) return <SettingsSkeleton />;
@@ -120,7 +140,7 @@ export default function Settings() {
           </div>
           {showSyncSettings && (
             <div className="grid gap-2">
-              <ExternalLink href={dropboxAuthURL} style="button">
+              <ExternalLink href={dropboxAuth.url} style="button">
                 Get access token
               </ExternalLink>
               <form
