@@ -485,3 +485,9 @@ export type SyncContextType = {
   token: string;
   setToken: (value: SetStateAction<string>) => void;
 };
+
+export type GetDropboxAuthReturnType = {
+  codeVerifier: string;
+  codeChallenge: string;
+  url: string;
+};

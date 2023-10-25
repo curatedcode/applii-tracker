@@ -18,10 +18,10 @@ function generateVerifier(length: number): string {
   return randomString(length);
 }
 
-async function generateChallenge(code_verifier: string) {
+async function generateChallenge(codeVerifier: string) {
   const buffer = await window.crypto.subtle.digest(
     "SHA-256",
-    new TextEncoder().encode(code_verifier),
+    new TextEncoder().encode(codeVerifier),
   );
 
   return btoa(String.fromCharCode(...new Uint8Array(buffer)))
@@ -32,13 +32,32 @@ async function generateChallenge(code_verifier: string) {
 
 export default async function pkceChallenge(
   length: number | undefined = 43,
-): Promise<string> {
+): Promise<{
+  codeVerifier: string;
+  codeChallenge: string;
+}> {
+  if (!length) length = 43;
+
   if (length < 43 || length > 128) {
-    throw new Error(`Expected a length between 43 and 128. Received ${length}`);
+    throw `Expected a length between 43 and 128. Received ${length}.`;
   }
 
-  const verifier = generateVerifier(length);
-  const challenge = await generateChallenge(verifier);
+  const codeVerifier = generateVerifier(length);
+  const codeChallenge = await generateChallenge(codeVerifier);
 
-  return challenge;
+  return {
+    codeVerifier,
+    codeChallenge,
+  };
+}
+
+export async function verifyChallenge({
+  codeVerifier,
+  expectedChallenge,
+}: {
+  codeVerifier: string;
+  expectedChallenge: string;
+}) {
+  const actualChallenge = await generateChallenge(codeVerifier);
+  return actualChallenge === expectedChallenge;
 }

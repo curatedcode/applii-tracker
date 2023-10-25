@@ -1,10 +1,8 @@
 import { Dropbox } from "dropbox";
-import { applicationDB, exportData, getAllData, importData } from "./db";
+import { exportData, getAllData, importData } from "./db";
 import {
-  ApplicationType,
-  DropboxFetchFileType,
   DropboxResponseError,
-  SettingsType,
+  GetDropboxAuthReturnType,
 } from "./customVariables";
 import env from "./env";
 import pkceChallenge from "./generatePKCE";
@@ -18,11 +16,15 @@ import { RefObject } from "react";
  * @todo - first check if data.json exists. if not upload current data
  */
 
-export async function getDropboxAuthURL(): Promise<string> {
-  const codeChallenge = await pkceChallenge();
+export async function getDropboxAuth(): Promise<GetDropboxAuthReturnType> {
+  const { codeChallenge, codeVerifier } = await pkceChallenge();
   const dbxAppKey = env.DROPBOX_APP_KEY;
 
-  return `https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=${dbxAppKey}&code_challenge_method=S256&token_access_type=offline&code_challenge=${codeChallenge}`;
+  return {
+    codeChallenge,
+    codeVerifier,
+    url: `https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=${dbxAppKey}&code_challenge_method=S256&token_access_type=offline&code_challenge=${codeChallenge}`,
+  };
 }
 
 export async function syncData(
