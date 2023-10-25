@@ -9,13 +9,6 @@ import pkceChallenge from "./generatePKCE";
 import toast from "react-hot-toast";
 import { RefObject } from "react";
 
-/**
- *
- * @todo - check for a stored access token otherwise accept one just passed in params
- * @todo - add sync interval
- * @todo - first check if data.json exists. if not upload current data
- */
-
 export async function getDropboxAuth(): Promise<GetDropboxAuthReturnType> {
   const { codeChallenge, codeVerifier } = await pkceChallenge();
   const dbxAppKey = env.DROPBOX_APP_KEY;
