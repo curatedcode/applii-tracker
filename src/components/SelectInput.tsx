@@ -32,7 +32,7 @@ export default function SelectInput({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-secondary shadow-md outline-none ring-1 ring-black ring-opacity-5 transition-all duration-100 focus:outline-none dark:bg-dark-secondary dark:ring-light-secondary">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-secondary shadow-md outline-none ring-1 ring-dark-secondary ring-opacity-100 transition-all duration-100 focus:outline-none dark:bg-dark-secondary dark:ring-light-secondary">
               {options.map((option, index) => (
                 <Listbox.Option
                   key={index}
