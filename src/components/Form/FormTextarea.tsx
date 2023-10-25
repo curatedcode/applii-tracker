@@ -1,4 +1,5 @@
 import { FormTextareaProps } from "@/src/utils/customVariables";
+import ErrorMessage from "./ErrorMessage";
 
 export default function FormTextarea({
   id,
@@ -37,7 +38,7 @@ export default function FormTextarea({
           />
         </div>
       </div>
-      {error && <span role="alert">{error}</span>}
+      <ErrorMessage error={error} />
     </div>
   );
 }

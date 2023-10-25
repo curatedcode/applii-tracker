@@ -1,4 +1,5 @@
 import { FormInputProps } from "@/src/utils/customVariables";
+import ErrorMessage from "./ErrorMessage";
 
 export default function FormInput({
   id,
@@ -39,7 +40,7 @@ export default function FormInput({
           />
         </div>
       </div>
-      {error && <span role="alert">{error}</span>}
+      <ErrorMessage error={error} />
     </div>
   );
 }
