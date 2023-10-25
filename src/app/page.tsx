@@ -18,7 +18,6 @@ import { getAllApplications } from "../utils/db";
 import IndexedDBNotSupported from "../components/IndexedDBNotSupported";
 import HomeSkeleton from "../components/Loading/HomeSkeleton";
 import SelectInput from "../components/SelectInput";
-import { getSyncedData, syncData } from "../utils/sync";
 
 export default function Home() {
   const [allApplications, setAllApplications] =
