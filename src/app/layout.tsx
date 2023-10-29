@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Applii",
   description:
     "Comprehensive job application tracker, helping you organize, monitor, and manage your job applications effortlessly",
-  themeColor: "#014EE8",
+  themeColor: "#191919",
 };
 
 export default function RootLayout({
