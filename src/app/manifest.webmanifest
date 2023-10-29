@@ -41,9 +41,9 @@
   ],
   "id": "/",
   "start_url": "/",
-  "background_color": "#000000",
+  "background_color": "#191919",
   "display": "fullscreen",
   "scope": "/",
-  "theme_color": "#1c1c1d",
+  "theme_color": "#191919",
   "description": "Comprehensive job application tracker, helping you organize, monitor, and manage your job applications effortlessly."
 }
