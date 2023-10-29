@@ -19,7 +19,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="xs:flex relative mb-6 hidden h-20 items-center justify-center border-b border-light-secondary dark:border-dark-secondary">
+    <nav className="relative mb-6 hidden h-20 items-center justify-center border-b border-light-secondary dark:border-dark-secondary xs:flex">
       <ul className="flex h-full items-center justify-center text-lg font-medium">
         <li>
           <Link

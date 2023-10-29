@@ -16,7 +16,7 @@ const config: Config = {
         formSection: "20rem",
       },
       screens: {
-        xs: "420px",
+        xs: "448px",
         "3xl": "120rem",
       },
       width: {
