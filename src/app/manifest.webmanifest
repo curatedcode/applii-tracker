@@ -1,49 +1,109 @@
 {
   "short_name": "Applii",
   "name": "Applii",
+  "lang": "en-US",
+  "display": "standalone",
+  "orientation": "Portrait",
+  "theme_color": "#191919",
+  "background_color": "#191919",
+  "start_url": "/",
+  "scope": "/",
+  "id": "/",
+  "description": "Comprehensive job application tracker, helping you organize, monitor, and manage your job applications effortlessly.",
   "icons": [
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/pwa/android-chrome-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "/pwa/android-chrome-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/apple-touch-icon.png",
+      "src": "/pwa/apple-touch-icon.png",
       "type": "image/png",
       "sizes": "180x180"
     },
     {
-      "src": "/favicon-32x32.png",
+      "src": "/pwa/favicon-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/pwa/favicon-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/pwa/favicon-32x32.png",
       "type": "image/png",
       "sizes": "32x32"
     },
     {
-      "src": "/favicon-16x16.png",
+      "src": "/pwa/favicon-16x16.png",
       "type": "image/png",
       "sizes": "16x16"
     },
     {
-      "src": "/favicon-any.svg",
+      "src": "/pwa/favicon-any.svg",
       "type": "image/svg+xml",
       "sizes": "any"
     },
     {
-      "src": "/favicon-any.svg",
+      "src": "/pwa/favicon-any.svg",
       "type": "image/svg+xml",
       "sizes": "any",
       "purpose": "maskable"
     }
   ],
-  "id": "/",
-  "start_url": "/",
-  "background_color": "#191919",
-  "display": "fullscreen",
-  "scope": "/",
-  "theme_color": "#191919",
-  "description": "Comprehensive job application tracker, helping you organize, monitor, and manage your job applications effortlessly."
+  "shortcuts": [
+    {
+      "name": "Create Application",
+      "short_name": "Create",
+      "url": "/applications/create",
+      "description": "Create an application",
+      "icons": [
+        { "src": "/pwa/create-application-96x96.png", "sizes": "96x96" }
+      ]
+    },
+    {
+      "name": "View Metrics",
+      "short_name": "Metrics",
+      "url": "/applications/metrics",
+      "description": "View application metrics",
+      "icons": [{ "src": "/pwa/view-metrics-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/pwa/screenshot-desktop-1.png",
+      "sizes": "1210x836",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Home"
+    },
+    {
+      "src": "/pwa/screenshot-desktop-2.png",
+      "sizes": "1210x836",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Metrics"
+    },
+    {
+      "src": "/pwa/screenshot-mobile-1.png",
+      "sizes": "442x836",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home"
+    },
+    {
+      "src": "/pwa/screenshot-mobile-2.png",
+      "sizes": "442x836",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Metrics"
+    }
+  ]
 }
