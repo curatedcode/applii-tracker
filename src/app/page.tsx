@@ -37,8 +37,6 @@ export default function Home() {
       return;
     }
     getAllApplications(sortBy.value).then((data) => setAllApplications(data));
-    // getSyncedData();
-    // syncData();
   }, [sortBy]);
 
   if (!isIndexedDBSupported) return <IndexedDBNotSupported />;
