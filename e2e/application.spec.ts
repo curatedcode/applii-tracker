@@ -40,7 +40,7 @@ test("create application", async ({ page }) => {
     .fill("This is the body text of my first note");
 
   // submit
-  await page.getByText("Submit").click();
+  await page.getByRole("button", { name: "Submit" }).click();
   await page
     .getByLabel("Application created")
     .getByRole("link", { name: "Home" })
@@ -95,7 +95,7 @@ test("update application", async ({ page }) => {
   await page.getByLabel("Date Applied").fill("2023-10-10");
 
   // submit
-  await page.getByText("Submit").click();
+  await page.getByRole("button", { name: "Submit" }).click();
   await page.getByRole("link", { name: "Edit" }).click();
   await page.waitForSelector("#loadingEdit", { state: "attached" });
 
@@ -113,7 +113,7 @@ test("update application", async ({ page }) => {
   await page.getByLabel("Date Interviewing").fill("2023-10-11");
 
   // submit
-  await page.getByText("Submit").click();
+  await page.getByRole("button", { name: "Submit" }).click();
   await page.getByRole("link", { name: "View" }).click();
   await page.waitForSelector("#loadingSlug", { state: "attached" });
 
@@ -148,7 +148,7 @@ test("delete application", async ({ page }) => {
   await page.getByLabel("Date Applied").fill("2023-10-10");
 
   // submit
-  await page.getByText("Submit").click();
+  await page.getByRole("button", { name: "Submit" }).click();
   await page
     .getByLabel("Application created")
     .getByRole("link", { name: "Home" })
