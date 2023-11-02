@@ -10,8 +10,6 @@ import { getSetting } from "@/src/utils/db";
 export const SyncContext = createContext<SyncContextType>({
   setForceStop: () => {},
   triggerSync: () => {},
-  setToken: () => {},
-  token: "",
 });
 
 export default function SyncProvider({
@@ -21,25 +19,14 @@ export default function SyncProvider({
 }) {
   const [forceStop, setForceStop] = useState(false);
   const [syncInterval, setSyncInterval] = useState<number>(600_000);
+  const [dbxAccessToken, setDbxAccessToken] = useState<string>();
 
   const { online } = useConnectionStatus();
 
-  const [token, setToken] = useState<string>("");
-
-  useEffect(() => {
-    const tokenInStorage = localStorage.getItem("dbxToken");
-    if (token && token !== tokenInStorage) {
-      localStorage.setItem("dbxToken", token);
-      return;
-    }
-    if (tokenInStorage) {
-      setToken(tokenInStorage);
-    }
-  }, [token]);
-
-  function triggerSync(newToken?: string) {
-    if (!token || forceStop) return;
-    syncData(newToken ?? token)
+  function triggerSync() {
+    console.log({ dbxAccessToken });
+    if (!dbxAccessToken || forceStop) return;
+    syncData(dbxAccessToken)
       .then(() => {
         toast.success("Synced successfully");
       })
@@ -54,13 +41,19 @@ export default function SyncProvider({
   }
 
   useEffect(() => {
+    const dbxAccessToken = window.localStorage.getItem("dbxAccessToken");
+    if (!dbxAccessToken) return;
+    setDbxAccessToken(dbxAccessToken);
+  }, []);
+
+  useEffect(() => {
     getSetting({ name: "syncInterval" }).then((setting) =>
       setSyncInterval(setting ? Number(setting.value) * 60_000 : 600_000),
     );
   }, []);
 
   useEffect(() => {
-    if (!token || forceStop) return;
+    if (!dbxAccessToken || forceStop) return;
     if (!online) {
       toast.error("No internet connection");
       return;
@@ -70,12 +63,10 @@ export default function SyncProvider({
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [forceStop, online, syncInterval, token]);
+  }, [forceStop, online, syncInterval, dbxAccessToken]);
 
   return (
-    <SyncContext.Provider
-      value={{ setForceStop, triggerSync, setToken, token }}
-    >
+    <SyncContext.Provider value={{ setForceStop, triggerSync }}>
       {children}
     </SyncContext.Provider>
   );

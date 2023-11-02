@@ -190,6 +190,7 @@ export type ExternalLinkProps = {
   className?: string;
   children: React.ReactNode;
   onClick?: () => void;
+  openInNewTab?: boolean;
 };
 
 export const applicationColors = {
@@ -427,7 +428,6 @@ export type SettingsType = {
 };
 
 export const syncSettingsSchema = z.object({
-  dbxToken: z.string().optional(),
   syncInterval: z.string().optional(),
 });
 
@@ -482,12 +482,25 @@ export async function promiseSeries(array: Promise<unknown>[]) {
 export type SyncContextType = {
   setForceStop: (value: SetStateAction<boolean>) => void;
   triggerSync: (value?: string) => void;
-  token: string;
-  setToken: (value: SetStateAction<string>) => void;
 };
 
-export type GetDropboxAuthReturnType = {
+export type GenerateDropboxAuthReturnType = {
   codeVerifier: string;
   codeChallenge: string;
   url: string;
+};
+
+export type DropboxGetAccessTokenResponseType = {
+  result: {
+    access_token: string;
+    expires_in: number;
+    token_type: string;
+    scope: string;
+    account_id?: string;
+    team_id?: string;
+    refresh_token: string;
+    id_token?: string;
+    uid: string;
+  };
+  status: number;
 };
