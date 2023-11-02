@@ -6,30 +6,31 @@ import ExternalLink from "@/src/components/Links/ExternalLink";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
 import useSync from "@/src/components/Sync/useSync";
 import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
-import {
-  GetDropboxAuthReturnType,
-  syncSettingsSchema,
-} from "@/src/utils/customVariables";
+import { syncSettingsSchema } from "@/src/utils/customVariables";
 import { getAllSettings, updateSetting } from "@/src/utils/db";
-import { verifyChallenge } from "@/src/utils/generatePKCE";
 import {
-  exportDataToFile,
-  importDataFromFile,
-  getDropboxAuth,
-} from "@/src/utils/sync";
+  generateDropboxAuthToken,
+  getDropboxAuthURL,
+} from "@/src/utils/dropbox";
+import { exportDataToFile, importDataFromFile } from "@/src/utils/sync";
 import {
   ArrowDownTrayIcon,
   ArrowUpTrayIcon,
 } from "@heroicons/react/24/outline";
-import { Dropbox } from "dropbox";
+import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 
 export default function Settings() {
-  const { token, setToken, triggerSync } = useSync();
+  const { triggerSync } = useSync();
   const [showSyncSettings, setShowSyncSettings] = useState(false);
+
+  const searchParams = useSearchParams();
+  const dropboxTokenParam = searchParams.get("code");
+
+  const [dbxAuthURL, setDbxAuthURL] = useState("");
 
   const fileExportRef = useRef<HTMLAnchorElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -37,37 +38,28 @@ export default function Settings() {
 
   const [isMounted, setIsMounted] = useState(false);
 
-  const [dropboxAuth, setDropboxAuth] = useState<GetDropboxAuthReturnType>({
-    codeChallenge: "",
-    codeVerifier: "",
-    url: "",
-  });
+  useEffect(() => {
+    if (!dropboxTokenParam) return;
+    generateDropboxAuthToken({
+      initialToken: dropboxTokenParam,
+      isSetup: true,
+    }).then(() => {
+      triggerSync();
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dropboxTokenParam]);
 
   function submitSyncSettings() {
     setShowSyncSettings(false);
 
-    const { dbxToken, syncInterval } = getValues();
+    const { syncInterval } = getValues();
 
     if (syncInterval) {
       updateSetting({ name: "syncInterval", value: syncInterval });
     }
 
-    if (dbxToken) {
-      verifyChallenge({
-        codeVerifier: dropboxAuth.codeVerifier,
-        expectedChallenge: dropboxAuth.codeChallenge,
-      }).then((success) => {
-        if (!success) {
-          toast.error("Incorrect sync token");
-          return;
-        }
-
-        setToken(dbxToken);
-      });
-    }
-
     toast.success("Sync settings updated");
-    triggerSync(dbxToken);
+    triggerSync();
   }
 
   function submitImportFile(e: ChangeEvent<HTMLInputElement>) {
@@ -102,10 +94,6 @@ export default function Settings() {
   } = useForm<z.infer<typeof syncSettingsSchema>>();
 
   useEffect(() => {
-    setValue("dbxToken", token);
-  }, [setValue, token]);
-
-  useEffect(() => {
     getAllSettings().then((allSettings) => {
       const syncInterval = allSettings.find(
         (setting) => setting.name === "syncInterval",
@@ -116,7 +104,7 @@ export default function Settings() {
 
   useEffect(() => {
     setIsMounted(true);
-    getDropboxAuth().then((value) => setDropboxAuth(value));
+    getDropboxAuthURL().then((url) => setDbxAuthURL(url));
   }, []);
 
   if (!isMounted) return <SettingsSkeleton />;
@@ -140,22 +128,17 @@ export default function Settings() {
           </div>
           {showSyncSettings && (
             <div className="grid gap-2">
-              <ExternalLink href={dropboxAuth.url} style="button">
-                Get access token
+              <ExternalLink
+                href={dbxAuthURL}
+                style="button"
+                openInNewTab={false}
+              >
+                Get new dropbox token
               </ExternalLink>
               <form
                 onSubmit={handleSubmit(submitSyncSettings)}
                 className="grid gap-4"
               >
-                <FormInput
-                  id="dbxTokenInput"
-                  label="Dropbox Access Token"
-                  register={register}
-                  placeholder="Access Token"
-                  error={errors.dbxToken?.message}
-                  registerName="dbxToken"
-                  hiddenLabel
-                />
                 <FormInput
                   id="syncIntervalInput"
                   label="Sync Interval (in minutes)"

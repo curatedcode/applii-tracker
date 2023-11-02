@@ -1,36 +1,37 @@
-import { Dropbox } from "dropbox";
+import { Dropbox, DropboxAuth } from "dropbox";
 import { exportData, getAllData, importData } from "./db";
-import {
-  DropboxResponseError,
-  GetDropboxAuthReturnType,
-} from "./customVariables";
-import env from "./env";
-import pkceChallenge from "./generatePKCE";
+import { DropboxResponseError } from "./customVariables";
 import toast from "react-hot-toast";
 import { RefObject } from "react";
-
-export async function getDropboxAuth(): Promise<GetDropboxAuthReturnType> {
-  const { codeChallenge, codeVerifier } = await pkceChallenge();
-  const dbxAppKey = env.DROPBOX_APP_KEY;
-
-  return {
-    codeChallenge,
-    codeVerifier,
-    url: `https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=${dbxAppKey}&code_challenge_method=S256&token_access_type=offline&code_challenge=${codeChallenge}`,
-  };
-}
+import env from "./env";
+import dayjs from "dayjs";
+import { generateDropboxAuthToken } from "./dropbox";
 
 export async function syncData(
   dbxToken: string,
 ): Promise<void | { message: string }> {
   const allData = await getAllData();
 
-  const dropbox = new Dropbox({
+  const dbx = new Dropbox({
     accessToken: dbxToken,
   });
 
+  const dbxAuth = new DropboxAuth({ clientId: env.DROPBOX_APP_KEY });
+
+  dbxAuth.setAccessToken(dbxToken);
+  const expiresAtDate = dayjs(dbxAuth.getAccessTokenExpiresAt());
+
+  const differenceInMinutes = expiresAtDate.diff(dayjs(), "minutes");
+
+  if (differenceInMinutes <= 1) {
+    const refreshToken = window.localStorage.getItem("dbxRefreshToken");
+    if (!refreshToken) return;
+
+    await generateDropboxAuthToken({ initialToken: refreshToken });
+  }
+
   await new Promise((resolve, reject) => {
-    dropbox
+    dbx
       .filesUpload({
         path: "/data.json",
         contents: JSON.stringify(allData),
