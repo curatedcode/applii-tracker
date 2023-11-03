@@ -416,19 +416,6 @@ export async function importData(data: ImportExportDataType): Promise<void> {
     deleteOperation.onsuccess = () => resolve();
   });
 
-  async function createApplication(
-    application: FullApplicationType,
-    DB: IDBObjectStore,
-  ) {
-    await new Promise((resolve, reject) => {
-      const data = DB.add(application);
-
-      data.onerror = (event) =>
-        reject(Error(`Unable to create application: ${event}`));
-      data.onsuccess = () => resolve(data.result);
-    });
-  }
-
   await promiseSeries([deleteApplications, deleteSettings]);
 
   const uploadApplication = applications.map((val) => importApplication(val));
