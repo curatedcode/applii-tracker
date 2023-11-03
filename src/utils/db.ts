@@ -416,13 +416,38 @@ export async function importData(data: ImportExportDataType): Promise<void> {
     deleteOperation.onsuccess = () => resolve();
   });
 
+  async function createApplication(
+    application: FullApplicationType,
+    DB: IDBObjectStore,
+  ) {
+    await new Promise((resolve, reject) => {
+      const data = DB.add(application);
+
+      data.onerror = (event) =>
+        reject(Error(`Unable to create application: ${event}`));
+      data.onsuccess = () => resolve(data.result);
+    });
+  }
+
   await promiseSeries([deleteApplications, deleteSettings]);
 
-  const uploadApplication = applications.map((val) => createApplication(val));
+  const uploadApplication = applications.map((val) => importApplication(val));
   const uploadSettings = settings.map((val) => createSetting(val));
 
   await promiseSeries(uploadApplication);
   await promiseSeries(uploadSettings);
+}
+
+export async function importApplication(application: FullApplicationType) {
+  const DB = (await applicationDB()).applications;
+
+  await new Promise((resolve, reject) => {
+    const data = DB.add(application);
+
+    data.onerror = (event) =>
+      reject(Error(`Unable to create application: ${event}`));
+    data.onsuccess = () => resolve(data.result);
+  });
 }
 
 export async function exportData() {
