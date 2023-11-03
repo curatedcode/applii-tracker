@@ -19,6 +19,8 @@ import InternalLink from "@/src/components/Links/InternalLink";
 import AlertDialog from "@/src/components/AlertDialog";
 import useExitPageConfirm from "@/src/components/Hooks/useExitPageConfirm";
 import dayjs from "dayjs";
+import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
+import toast from "react-hot-toast";
 
 export default function Create() {
   const {
@@ -38,6 +40,8 @@ export default function Create() {
   const [applicationId, setApplicationId] = useState<number>();
 
   const currentStatus = watch("status");
+
+  const { usagePercent } = useStorageUsage();
 
   async function submit() {
     const {
@@ -62,6 +66,10 @@ export default function Create() {
       status: status.value,
       ...rest,
     });
+
+    if (usagePercent && usagePercent >= 80) {
+      toast.error("Storage almost full");
+    }
 
     setApplicationId(result.id);
     setIsFormCompleted(true);

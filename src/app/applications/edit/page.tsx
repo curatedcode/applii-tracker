@@ -22,6 +22,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
+import toast from "react-hot-toast";
 
 export default function FormEdit({ searchParams }: FormEditPageProps) {
   const id = Number(useSearchParams().get("id"));
@@ -48,6 +50,8 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
   const currentPosition = watch("position");
   const currentCompany = watch("company");
 
+  const { usagePercent } = useStorageUsage();
+
   async function submit() {
     const {
       dateApplied,
@@ -72,6 +76,10 @@ export default function FormEdit({ searchParams }: FormEditPageProps) {
       status: status.value,
       ...rest,
     });
+
+    if (usagePercent && usagePercent >= 80) {
+      toast.error("Storage almost full");
+    }
 
     setIsFormCompleted(true);
   }
