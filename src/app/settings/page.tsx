@@ -59,7 +59,6 @@ export default function Settings() {
     }
 
     toast.success("Sync settings updated");
-    triggerSync();
   }
 
   function submitImportFile(e: ChangeEvent<HTMLInputElement>) {
