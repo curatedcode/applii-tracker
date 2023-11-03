@@ -24,7 +24,6 @@ export default function SyncProvider({
   const { online } = useConnectionStatus();
 
   function triggerSync() {
-    console.log({ dbxAccessToken });
     if (!dbxAccessToken || forceStop) return;
     syncData(dbxAccessToken)
       .then(() => {
@@ -44,6 +43,22 @@ export default function SyncProvider({
     const dbxAccessToken = window.localStorage.getItem("dbxAccessToken");
     if (!dbxAccessToken) return;
     setDbxAccessToken(dbxAccessToken);
+  }, []);
+
+  useEffect(() => {
+    function checkForDBXTokenChange() {
+      const dbxAccessTokenInStorage =
+        window.localStorage.getItem("dbxAccessToken");
+      if (!dbxAccessTokenInStorage) return;
+      if (dbxAccessTokenInStorage === dbxAccessToken) return;
+
+      setDbxAccessToken(dbxAccessTokenInStorage);
+    }
+
+    window.addEventListener("storage", checkForDBXTokenChange);
+
+    return () => window.removeEventListener("storage", checkForDBXTokenChange);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
