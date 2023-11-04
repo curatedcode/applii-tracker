@@ -50,7 +50,6 @@ export default function SyncProvider({
       const dbxAccessTokenInStorage =
         window.localStorage.getItem("dbxAccessToken");
       if (!dbxAccessTokenInStorage) return;
-      if (dbxAccessTokenInStorage === dbxAccessToken) return;
 
       setDbxAccessToken(dbxAccessTokenInStorage);
     }

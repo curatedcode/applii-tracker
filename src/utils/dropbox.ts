@@ -1,6 +1,7 @@
 import { DropboxAuth } from "dropbox";
 import env from "./env";
 import { DropboxGetAccessTokenResponseType } from "./customVariables";
+import toast from "react-hot-toast";
 
 const dbxAuth = new DropboxAuth({ clientId: env.DROPBOX_APP_KEY });
 const redirectURL = `${env.APP_URL}/settings`;
@@ -37,52 +38,46 @@ export async function generateDropboxAuthToken({
   initialToken: string;
   isSetup?: boolean;
 }): Promise<void> {
-  const codeVerifier = window.sessionStorage.getItem("codeVerifier") ?? "";
+  const codeVerifier = window.sessionStorage.getItem("codeVerifier");
+
+  if (!codeVerifier) {
+    toast.error("Dropbox sync error: 1");
+    return;
+  }
 
   if (isSetup) {
     dbxAuth.setCodeVerifier(codeVerifier);
     window.sessionStorage.removeItem("codeVerifier");
-    dbxAuth.getAccessTokenFromCode(redirectURL, initialToken).then((value) => {
-      const typedValue = value as DropboxGetAccessTokenResponseType;
-      window.localStorage.setItem(
-        "dbxRefreshToken",
-        typedValue.result.refresh_token,
-      );
-      window.localStorage.setItem(
-        "dbxAccessToken",
-        typedValue.result.access_token,
-      );
-    });
+    dbxAuth
+      .getAccessTokenFromCode(redirectURL, initialToken)
+      .then((value) => {
+        const typedValue = value as DropboxGetAccessTokenResponseType;
+        window.localStorage.setItem(
+          "dbxRefreshToken",
+          typedValue.result.refresh_token,
+        );
+        window.localStorage.setItem(
+          "dbxAccessToken",
+          typedValue.result.access_token,
+        );
+      })
+      .catch(() => {
+        toast.error("Dropbox sync error: 2");
+      });
 
     return;
   }
 
-  const refreshToken = window.sessionStorage.getItem("dbxRefreshToken");
+  const refreshToken = window.localStorage.getItem("dbxRefreshToken");
 
   if (!refreshToken) {
+    toast.error("Dropbox sync error: 3");
     return;
   }
 
-  fetch(
-    "https://api.dropbox.com/oauth2/token" +
-      new URLSearchParams({
-        grant_type: "refresh_token",
-        refresh_token: refreshToken,
-        client_id: env.DROPBOX_APP_KEY,
-      }),
-    {
-      method: "POST",
-    },
-  ).then((value) => {
-    const typedValue =
-      value.json() as unknown as DropboxGetAccessTokenResponseType;
-    window.localStorage.setItem(
-      "dbxRefreshToken",
-      typedValue.result.refresh_token,
-    );
-    window.localStorage.setItem(
-      "dbxAccessToken",
-      typedValue.result.access_token,
-    );
-  });
+  dbxAuth.setRefreshToken(refreshToken);
+  // dropbox type def file is incorrect. this is actually a promise.
+  await dbxAuth.checkAndRefreshAccessToken();
+
+  window.localStorage.setItem("dbxAccessToken", dbxAuth.getAccessToken());
 }
