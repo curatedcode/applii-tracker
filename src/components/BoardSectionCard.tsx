@@ -12,15 +12,21 @@ export default function BoardSectionCard({
   dateCreated,
   sortBy,
   status,
+  mode,
 }: BoardSectionCardProps) {
   const date = relativeDate(
     sortBy === "dateCreated" ? dateCreated : dateModified,
     sortBy,
   );
 
+  const applicationLink =
+    mode === "demo"
+      ? `/demo/applications/${position}-at-${company}?id=${id}`
+      : `/applications/${position}-at-${company}?id=${id}`;
+
   return (
     <Link
-      href={`/applications/${position}-at-${company}?id=${id}`}
+      href={applicationLink}
       className={`bg-card-${status} group h-[5.75rem] rounded-md px-3 py-2 text-light-text dark:text-black`}
       data-testid="board-section-card"
       aria-label={`Open application for ${position} at ${company}`}

@@ -7,17 +7,18 @@ import {
   TrophyIcon,
   EnvelopeIcon,
 } from "@heroicons/react/24/solid";
-import BoardSection from "../components/BoardSection";
 import { useEffect, useState } from "react";
+
+import BoardSection from "@/src/components/BoardSection";
 import {
   GetAllApplicationsReturnType,
   SortByOptionType,
   sortByOptions,
-} from "../utils/customVariables";
-import { getAllApplications } from "../utils/db";
-import IndexedDBNotSupported from "../components/IndexedDBNotSupported";
-import HomeSkeleton from "../components/Loading/HomeSkeleton";
-import SelectInput from "../components/SelectInput";
+} from "@/src/utils/customVariables";
+import { getAllApplications } from "@/src/utils/db";
+import IndexedDBNotSupported from "@/src/components/IndexedDBNotSupported";
+import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
+import SelectInput from "@/src/components/SelectInput";
 
 export default function Home() {
   const [allApplications, setAllApplications] =
