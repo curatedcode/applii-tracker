@@ -1,7 +1,7 @@
 import { DropboxResponse, files } from "dropbox";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Control, UseFormRegister } from "react-hook-form";
-import { string, z } from "zod";
+import { z } from "zod";
 
 export type ApplicationStatusType = z.infer<typeof applicationStatuses>;
 
@@ -20,6 +20,40 @@ export const applicationStatuses = z.enum([
   "offer",
   "closed",
 ]);
+
+export const zodFullApplication = z.object({
+  id: z.number(),
+  position: z.string(),
+  company: z.string(),
+  postingURL: z.string().optional(),
+  status: applicationStatuses,
+  dateCreated: z.string(),
+  dateModified: z.string(),
+  dateApplied: z.string().optional(),
+  dateInterviewing: z.string().optional(),
+  dateOffered: z.string().optional(),
+  dateClosed: z.string().optional(),
+  contacts: z
+    .array(
+      z.object({
+        name: z.string(),
+        position: z.string().optional(),
+        phone: z.string().optional(),
+        email: z.string().optional(),
+      }),
+    )
+    .optional(),
+  notes: z
+    .array(
+      z.object({
+        title: z.string(),
+        body: z.string(),
+      }),
+    )
+    .optional(),
+});
+
+export const zodFullApplicationArray = z.array(zodFullApplication);
 
 export type GetAllApplicationsReturnType = {
   needToApply: FullApplicationType[];
@@ -283,6 +317,7 @@ export type InternalLinkProps = {
   className?: string;
   children: ReactNode;
   title?: string;
+  onClick?: () => void;
 };
 
 type ApplicationPageParamType = {
@@ -309,6 +344,7 @@ export type ULItemProps = {
 
 export type BoardSectionCardProps = {
   sortBy: SortByType;
+  mode?: "demo";
 } & FullApplicationType;
 
 export type SortByType = "dateModified" | "dateCreated";
@@ -318,6 +354,7 @@ export type BoardSectionProps = {
   Icon: React.ReactNode;
   cards: FullApplicationType[];
   sortBy: SortByType;
+  mode?: "demo";
 };
 
 export const typeSafeObjectEntries = <T extends Record<PropertyKey, unknown>>(
@@ -504,3 +541,5 @@ export type DropboxGetAccessTokenResponseType = {
   };
   status: number;
 };
+
+export const zodTutorialStatus = z.enum(["completed", "notStarted"]);

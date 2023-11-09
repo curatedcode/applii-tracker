@@ -5,7 +5,7 @@ export default function BoardSection({
   title,
   Icon,
   cards,
-  sortBy,
+  ...cardProps
 }: BoardSectionProps) {
   return (
     <div
@@ -19,7 +19,7 @@ export default function BoardSection({
       <div className="content-scrollbar grid h-board-section w-full auto-rows-min gap-2 overflow-auto rounded-md border-[0.4rem] border-light-secondary bg-light-secondary p-[0.4rem] dark:border-dark-secondary dark:bg-dark-secondary">
         {cards.length > 0 ? (
           cards.map((card, index) => (
-            <BoardSectionCard key={index} {...card} sortBy={sortBy} />
+            <BoardSectionCard key={index} {...card} {...cardProps} />
           ))
         ) : (
           <span className="mt-4 justify-self-center">

@@ -1,11 +1,12 @@
+import ThemeProvider from "@/src/components/Theme/ThemeProvider";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
-import Navbar from "../components/Navbar";
-import MobileNavbar from "../components/MobileNavbar";
-import ThemeProvider from "../components/Theme/ThemeProvider";
-import Toaster from "../components/Toaster";
-import SyncProvider from "../components/Sync/SyncProvider";
+import SyncProvider from "@/src/components/Sync/SyncProvider";
+import TutorialModal from "@/src/components/TutorialModal";
+import Toaster from "@/src/components/Toaster";
+import MobileNavbar from "@/src/components/MobileNavbar";
+import Navbar from "@/src/components/Navbar";
 
 const font = Work_Sans({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <SyncProvider>
+            <TutorialModal />
             <Toaster />
             <MobileNavbar />
             <Navbar />
