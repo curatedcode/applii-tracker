@@ -10,7 +10,6 @@ import {
 } from "@/src/utils/customVariables";
 import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
-import { createApplication } from "@/src/utils/db";
 import ContactFields from "@/src/components/Form/ContactFields";
 import NoteFields from "@/src/components/Form/NoteFields";
 import { useEffect, useState } from "react";
@@ -74,6 +73,10 @@ export default function Create() {
       ...rest,
     });
 
+    if (usagePercent && usagePercent >= 80) {
+      toast.error("Storage almost full");
+    }
+
     setApplicationId(newId);
     setIsFormCompleted(true);
   }
@@ -90,10 +93,16 @@ export default function Create() {
     <>
       <AlertDialog
         label="Application created"
-        description="In the real app you'll be able to edit applications. For now please go to the homepage."
+        description="Would you like to edit this application or go home?"
         open={isFormCompleted}
       >
         <div className="mt-4 flex justify-center gap-4">
+          <InternalLink
+            href={`/demo/applications/edit?id=${applicationId}`}
+            className="!dark:bg-dark-main !bg-light-main text-light-text"
+          >
+            Edit
+          </InternalLink>
           <InternalLink
             href="/demo"
             className="!dark:bg-dark-main !bg-light-main text-light-text"

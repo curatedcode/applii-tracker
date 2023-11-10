@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { ApplicationStatusType } from "@/src/utils/customVariables";
 import formatDate from "@/src/components/Fn/formatDate";
 import { useRouter, useSearchParams } from "next/navigation";
 import ULItem from "@/src/components/ULItem";
-import InternalLink from "@/src/components/Links/InternalLink";
 import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
-import Button from "@/src/components/Button";
 import getDemoApplication from "@/src/components/Demo/getDemoApplication";
 
 export default function Application() {

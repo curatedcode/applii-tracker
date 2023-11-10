@@ -367,7 +367,7 @@ export type SortByOptionType = { label: string; value: SortByType };
 
 export type SelectInputProps = {
   options: { label: string; value: string }[];
-  onChange?(val: SetStateAction<any>): void;
+  onChange?(_val: SetStateAction<any>): void;
   selected: { label: string; value: string };
   defaultValue?: { label: string; value: string };
 };
@@ -382,7 +382,7 @@ export type FormSelectInputProps = {
   error?: string;
   value: ApplicationStatusLabelValueType;
   options: { label: string; value: string }[];
-  onChange?(val: SetStateAction<any>): void;
+  onChange?(_val: SetStateAction<any>): void;
 };
 
 export const applicationStatusSelectOptions: ApplicationStatusLabelValueType[] =
@@ -439,15 +439,6 @@ export type AllToastsType = [
 export type ToastProps = {
   children: ReactNode;
   name: ToastNamesType;
-};
-
-export type ToastContextType = {
-  getState: (name: ToastNamesType) => boolean;
-  setShow: (name: ToastNamesType, show: boolean) => void;
-  forceStop: boolean;
-  setForceStop: (value: SetStateAction<boolean>) => void;
-  state: AllToastsType;
-  watch: (name: ToastNamesType) => { show: boolean };
 };
 
 export type DropboxResponseError = {
@@ -517,8 +508,8 @@ export async function promiseSeries(array: Promise<unknown>[]) {
 }
 
 export type SyncContextType = {
-  setForceStop: (value: SetStateAction<boolean>) => void;
-  triggerSync: (value?: string) => void;
+  setForceStop: (_value: SetStateAction<boolean>) => void;
+  triggerSync: (_value?: string) => void;
 };
 
 export type GenerateDropboxAuthReturnType = {

@@ -12,9 +12,6 @@ export default function TutorialModal() {
   const [isMounted, setIsMounted] = useState(false);
 
   function closeModal() {
-    const timeout = setTimeout(() => {
-      document.body.style.overflow = "auto";
-    }, 100);
     setIsOpen(false);
   }
 

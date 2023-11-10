@@ -1,4 +1,4 @@
-import { SortByType, TimelineType } from "@/src/utils/customVariables";
+import { TimelineType } from "@/src/utils/customVariables";
 import getAllDemoApplications from "./getAllDemoApplications";
 import calculateApplicationsInDateRange from "../Fn/calculateApplicationsInDateRange";
 import generateMetricLabels from "../Fn/generateMetricLabels";

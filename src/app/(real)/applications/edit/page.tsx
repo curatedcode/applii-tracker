@@ -10,7 +10,6 @@ import useExitPageConfirm from "@/src/components/Hooks/useExitPageConfirm";
 import InternalLink from "@/src/components/Links/InternalLink";
 import EditApplicationSkeleton from "@/src/components/Loading/EditApplicationSkeleton";
 import {
-  FormEditPageProps,
   applicationStatusSelectOptions,
   applicationStatusesArray,
   formSchema,
@@ -25,7 +24,7 @@ import { z } from "zod";
 import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
 import toast from "react-hot-toast";
 
-export default function FormEdit({ searchParams }: FormEditPageProps) {
+export default function FormEdit() {
   const id = Number(useSearchParams().get("id"));
   const router = useRouter();
 
