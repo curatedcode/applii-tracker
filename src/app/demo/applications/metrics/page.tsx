@@ -46,9 +46,6 @@ export default function Metrics() {
 
   return (
     <>
-      <div id="loadingMetrics" aria-live="polite" className="sr-only">
-        <p>Loaded metrics.</p>
-      </div>
       <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-center md:gap-4">
         <h1 className="text-3xl font-semibold">Metrics</h1>
         <div className="h-0 border-l md:h-full"></div>

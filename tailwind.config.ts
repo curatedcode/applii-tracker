@@ -45,7 +45,7 @@ const config: Config = {
           applied: "#22C55E",
           interviewing: "#FFDB58",
           offer: "#a891ee",
-          closed: "#D9534F",
+          closed: "#c1c1bd", // D9534F
         },
       },
       keyframes: {

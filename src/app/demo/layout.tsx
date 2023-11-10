@@ -31,12 +31,15 @@ export default function RootLayout({
         className={`grid w-full max-w-8xl gap-2 justify-self-center bg-light-main text-light-text dark:bg-dark-main dark:text-dark-text ${font.className}`}
       >
         <ThemeProvider>
-          <div className="bg-yellow-400 px-2 py-1 text-center font-semibold text-dark-main">
+          <header
+            className="bg-yellow-400 px-2 py-1 text-center font-semibold text-dark-main"
+            role="banner"
+          >
             To exit demo mode please{" "}
             <Link href={"/"} className="underline underline-offset-1">
               click here
             </Link>
-          </div>
+          </header>
           <div className="px-4">
             <DemoNavbar />
             <DemoMobileNavbar />
