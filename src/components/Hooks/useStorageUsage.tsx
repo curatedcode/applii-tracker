@@ -13,6 +13,8 @@ export default function useStorageUsage() {
   useEffect(() => {
     if (!window || !window.indexedDB) return;
     if (!window.isSecureContext) return;
+    // older webkit browser do not support this. https://webkit.org/blog/14403/updates-to-storage-policy/
+    if (!navigator.storage) return;
 
     navigator.storage.estimate().then((estimate) => setEstimate(estimate));
   }, []);
