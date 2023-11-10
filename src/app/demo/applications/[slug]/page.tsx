@@ -43,6 +43,9 @@ export default function Application() {
 
   return (
     <>
+      <div id="loadingSlug" aria-live="polite" className="sr-only">
+        <p>Loaded application.</p>
+      </div>
       <div className="mb-8 flex flex-col items-center gap-6">
         <h1 className="w-fit text-center text-3xl font-semibold">
           {position} at {company}

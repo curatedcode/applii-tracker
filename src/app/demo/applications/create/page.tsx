@@ -90,18 +90,12 @@ export default function Create() {
     <>
       <AlertDialog
         label="Application created"
-        description="Would you like to edit this application or go home?"
+        description="In the real app you'll be able to edit applications. For now please go to the homepage."
         open={isFormCompleted}
       >
         <div className="mt-4 flex justify-center gap-4">
           <InternalLink
-            href={`/applications/edit?id=${applicationId}`}
-            className="!dark:bg-dark-main !bg-light-main text-light-text"
-          >
-            Edit
-          </InternalLink>
-          <InternalLink
-            href="/"
+            href="/demo"
             className="!dark:bg-dark-main !bg-light-main text-light-text"
           >
             Home
