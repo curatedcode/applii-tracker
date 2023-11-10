@@ -3,6 +3,12 @@ import dayjs from "dayjs";
 
 test("create application", async ({ page }) => {
   await page.goto("/");
+
+  // close tutorial dialog
+  await page.evaluate(() =>
+    localStorage.setItem("tutorialStatus", "completed"),
+  );
+
   await page.getByRole("link", { name: "Create" }).click();
 
   // fill out main fields
@@ -79,6 +85,12 @@ test("create application", async ({ page }) => {
 
 test("update application", async ({ page }) => {
   await page.goto("/");
+
+  // close tutorial dialog
+  await page.evaluate(() =>
+    localStorage.setItem("tutorialStatus", "completed"),
+  );
+
   await page.getByRole("link", { name: "Create" }).click();
 
   // fill out main fields
@@ -132,6 +144,12 @@ test("update application", async ({ page }) => {
 
 test("delete application", async ({ page }) => {
   await page.goto("/");
+
+  // close tutorial dialog
+  await page.evaluate(() =>
+    localStorage.setItem("tutorialStatus", "completed"),
+  );
+
   await page.getByRole("link", { name: "Create" }).click();
 
   // fill out main fields
