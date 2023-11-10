@@ -1,4 +1,4 @@
-import { FullApplicationType } from "@/src/utils/customVariables";
+import { GetAllApplicationsReturnType } from "@/src/utils/customVariables";
 import {
   appliedMocks,
   closedMocks,
@@ -11,13 +11,7 @@ import getAllApplicationsInStorage from "./getAllDemoApplicationsInStorage";
 /**
  * Will get all default mock applications and check for any applications in session storage
  */
-export default function getAllDemoApplications(): {
-  needToApply: FullApplicationType[];
-  applied: FullApplicationType[];
-  interviewing: FullApplicationType[];
-  offer: FullApplicationType[];
-  closed: FullApplicationType[];
-} {
+export default function getAllDemoApplications(): GetAllApplicationsReturnType {
   const defaultMockApplications = {
     needToApply: needToApplyMocks,
     applied: appliedMocks,
@@ -25,8 +19,6 @@ export default function getAllDemoApplications(): {
     offer: offerMocks,
     closed: closedMocks,
   };
-
-  if (!window || !window.sessionStorage) return defaultMockApplications;
 
   const appsInStorage = getAllApplicationsInStorage();
 
