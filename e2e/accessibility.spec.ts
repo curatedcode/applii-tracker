@@ -4,6 +4,11 @@ import AxeBuilder from "@axe-core/playwright";
 test("homepage", async ({ page }) => {
   await page.goto("/");
 
+  // close tutorial dialog
+  await page.evaluate(() =>
+    localStorage.setItem("tutorialStatus", "completed"),
+  );
+
   // disable that rule due to h1 not being recognized but it is present
   const results = await new AxeBuilder({ page })
     .disableRules(["page-has-heading-one"])
@@ -17,6 +22,11 @@ test("homepage", async ({ page }) => {
 test("create page", async ({ page }) => {
   await page.goto("/applications/create");
 
+  // close tutorial dialog
+  await page.evaluate(() =>
+    localStorage.setItem("tutorialStatus", "completed"),
+  );
+
   // disable that rule due to h1 not being recognized but it is present
   const results = await new AxeBuilder({ page })
     .disableRules(["page-has-heading-one"])
@@ -27,6 +37,11 @@ test("create page", async ({ page }) => {
 
 test("metrics", async ({ page }) => {
   await page.goto("/applications/metrics");
+
+  // close tutorial dialog
+  await page.evaluate(() =>
+    localStorage.setItem("tutorialStatus", "completed"),
+  );
 
   // disable that rule due to h1 not being recognized but it is present
   // disable scanning of ChartJS as aria is not controlled by me
