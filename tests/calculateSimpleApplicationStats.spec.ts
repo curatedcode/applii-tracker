@@ -26,7 +26,7 @@ describe("simple application stats", () => {
     expect(result).toStrictEqual(toEqual);
   });
 
-  test("should return 0% if apps are all zero", () => {
+  test("should return 0% if section of apps are all zero", () => {
     const result = calculateSimpleApplicationStats({
       needToApplyApps: [87, 7, 2, 98],
       appliedApps: [60, 68, 59, 11],
@@ -44,6 +44,29 @@ describe("simple application stats", () => {
         { percent: "36%", label: "Closed" },
       ],
       totalApplications: 613,
+    };
+
+    expect(result).toStrictEqual(toEqual);
+  });
+
+  test("should return 0% if all apps are zero", () => {
+    const result = calculateSimpleApplicationStats({
+      needToApplyApps: [0, 0, 0, 0],
+      appliedApps: [0, 0, 0, 0],
+      interviewingApps: [0, 0, 0, 0],
+      offerApps: [0, 0, 0, 0],
+      closedApps: [0, 0, 0, 0],
+    });
+
+    const toEqual: CalculateSimpleApplicationStatsReturnType = {
+      percents: [
+        { percent: "0%", label: "Need To Apply" },
+        { percent: "0%", label: "Applied" },
+        { percent: "0%", label: "Interviewing" },
+        { percent: "0%", label: "Offer" },
+        { percent: "0%", label: "Closed" },
+      ],
+      totalApplications: 0,
     };
 
     expect(result).toStrictEqual(toEqual);

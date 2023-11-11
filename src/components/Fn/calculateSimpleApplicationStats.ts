@@ -38,6 +38,9 @@ export default function calculateSimpleApplicationStats(
   }
 
   function percentage(num: number): string {
+    if (totalApplications === 0) {
+      return "0%";
+    }
     const percent = (num / totalApplications) * 100;
     return Math.round(percent) + "%";
   }
