@@ -263,13 +263,6 @@ export type GetApplicationMetricsReturnType = {
   simpleStats: CalculateSimpleApplicationStatsReturnType;
 };
 
-export const timelineArrayLengths = {
-  "1 year": 13,
-  "6 months": 6,
-  "1 month": 4,
-  "1 week": 7,
-};
-
 type GrowToSize<
   T,
   N extends number,

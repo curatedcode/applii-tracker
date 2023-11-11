@@ -1,6 +1,7 @@
 import {
   CalculateApplicationsInDateRangeProps,
   FixedArray,
+  TimelineType,
 } from "@/src/utils/customVariables";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
@@ -36,47 +37,14 @@ export default function calculateApplicationsInDateRange({
       break;
   }
 
-  function getStandardLabelDate(label: string): dayjs.Dayjs {
-    const currentYear = dayjs().year();
-
-    if (timeline === "1 year") {
-      const labelAsDate =
-        label.length > 3 ? dayjs(label) : dayjs(`${label}, ${currentYear}`);
-      return labelAsDate;
-    }
-
-    if (timeline === "6 months") {
-      const labelAsDate =
-        label.length > 3 ? dayjs(label) : dayjs(`${label}, ${currentYear}`);
-      return labelAsDate;
-    }
-
-    const labelAsDate = dayjs(`${currentYear}/${label}`);
-    return labelAsDate;
-  }
-
-  function getOneMonthLabelDate(label: string): {
-    start: dayjs.Dayjs;
-    end: dayjs.Dayjs;
-  } {
-    const currentYear = dayjs().year();
-
-    const labelSplit = label.split("-");
-    const startDate = dayjs(`${currentYear}/${labelSplit[0]}`);
-    const endDate = dayjs(`${currentYear}/${labelSplit[1]}`);
-
-    const labelAsDate = { start: startDate, end: endDate };
-    return labelAsDate;
-  }
-
   for (const application of applications) {
     const applicationDate = application[dateType];
 
     if (!applicationDate) continue;
 
     for (const label of labels) {
-      const standardLabelDate = getStandardLabelDate(label);
-      const labelIndex = labels.indexOf(label);
+      const standardLabelDate = labelToDate({ label, timeline });
+      const index = labels.indexOf(label);
 
       if (timeline === "1 year" || timeline === "6 months") {
         const isSameYear =
@@ -87,7 +55,7 @@ export default function calculateApplicationsInDateRange({
         const isSameMonth =
           dayjs(applicationDate).month() === standardLabelDate.month();
 
-        isSameMonth && appsInDateRange[labelIndex]++;
+        isSameMonth && appsInDateRange[index]++;
         continue;
       }
 
@@ -96,12 +64,12 @@ export default function calculateApplicationsInDateRange({
           standardLabelDate,
           "date",
         );
-        isSameDate && appsInDateRange[labelIndex]++;
+        isSameDate && appsInDateRange[index]++;
         continue;
       }
 
       if (timeline === "1 month") {
-        const oneMonthLabelDate = getOneMonthLabelDate(label);
+        const oneMonthLabelDate = oneMonthLabelTolDate(label);
         const isBetween = dayjs(applicationDate).isBetween(
           oneMonthLabelDate.start,
           oneMonthLabelDate.end,
@@ -109,11 +77,52 @@ export default function calculateApplicationsInDateRange({
           "[]",
         );
 
-        isBetween && appsInDateRange[labelIndex]++;
+        isBetween && appsInDateRange[index]++;
         continue;
       }
     }
   }
 
   return appsInDateRange;
+}
+
+/**
+ * Transform the label into a dayjs object
+ */
+function labelToDate({
+  label,
+  timeline,
+}: {
+  label: string;
+  timeline: TimelineType;
+}): dayjs.Dayjs {
+  const currentYear = dayjs().year();
+
+  if (timeline === "1 year" || timeline === "6 months") {
+    const labelAsDate =
+      label.length > 3 ? dayjs(label) : dayjs(`${label}, ${currentYear}`);
+    return labelAsDate;
+  }
+
+  const labelAsDate = dayjs(`${currentYear}/${label}`);
+  return labelAsDate;
+}
+
+/**
+ * @param label E.g. "1 month"
+ * @returns a start and end date derived from the label.
+ * E.g. if your label is "1 month" the start date would be exactly one month ago
+ */
+function oneMonthLabelTolDate(label: string): {
+  start: dayjs.Dayjs;
+  end: dayjs.Dayjs;
+} {
+  const currentYear = dayjs().year();
+
+  const labelSplit = label.split("-");
+  const startDate = dayjs(`${currentYear}/${labelSplit[0]}`);
+  const endDate = dayjs(`${currentYear}/${labelSplit[1]}`);
+
+  const labelAsDate = { start: startDate, end: endDate };
+  return labelAsDate;
 }
