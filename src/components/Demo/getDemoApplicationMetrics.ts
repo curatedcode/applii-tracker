@@ -1,11 +1,16 @@
-import { TimelineType } from "@/src/utils/customVariables";
+import {
+  GetApplicationMetricsReturnType,
+  TimelineType,
+} from "@/src/utils/customVariables";
 import getAllDemoApplications from "./getAllDemoApplications";
 import calculateApplicationsInDateRange from "../Fn/calculateApplicationsInDateRange";
 import generateMetricLabels from "../Fn/generateMetricLabels";
 import dayjs from "dayjs";
 import calculateSimpleApplicationStats from "../Fn/calculateSimpleApplicationStats";
 
-export default function getDemoApplicationMetrics(timeline: TimelineType) {
+export default function getDemoApplicationMetrics(
+  timeline: TimelineType,
+): GetApplicationMetricsReturnType {
   const applications = getAllDemoApplications();
 
   const { needToApply, applied, interviewing, offer, closed } = applications;
