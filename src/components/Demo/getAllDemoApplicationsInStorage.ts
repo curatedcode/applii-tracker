@@ -1,17 +1,13 @@
 import {
-  FullApplicationType,
+  GetAllApplicationsReturnType,
   zodFullApplicationArray,
 } from "@/src/utils/customVariables";
 
 export default function getAllDemoApplicationsInStorage():
-  | {
-      needToApply: FullApplicationType[];
-      applied: FullApplicationType[];
-      interviewing: FullApplicationType[];
-      offer: FullApplicationType[];
-      closed: FullApplicationType[];
-    }
+  | GetAllApplicationsReturnType
   | undefined {
+  if (typeof window === "undefined") return;
+
   const applicationsInStorage =
     window.sessionStorage.getItem("demoApplications");
 
