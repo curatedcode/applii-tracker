@@ -11,13 +11,15 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import {
+  GetApplicationMetricsReturnType,
   TimelineLabelValueType,
   applicationColors,
   timelineOptions,
 } from "@/src/utils/customVariables";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectInput from "@/src/components/SelectInput";
 import getDemoApplicationMetrics from "@/src/components/Demo/getDemoApplicationMetrics";
+import MetricsSkeleton from "@/src/components/Loading/MetricsSkeleton";
 
 ChartJS.register(
   CategoryScale,
@@ -29,10 +31,20 @@ ChartJS.register(
 );
 
 export default function Metrics() {
+  const [metricsData, setMetricsData] =
+    useState<GetApplicationMetricsReturnType>();
+
   const [timeline, setTimeline] = useState<TimelineLabelValueType>({
     label: "1 month",
     value: "1 month",
   });
+
+  useEffect(() => {
+    if (!window) return;
+    setMetricsData(getDemoApplicationMetrics(timeline.value));
+  }, [timeline]);
+
+  if (!metricsData) return <MetricsSkeleton />;
 
   const {
     needToApply,
@@ -42,10 +54,13 @@ export default function Metrics() {
     closed,
     labels,
     simpleStats,
-  } = getDemoApplicationMetrics(timeline.value);
+  } = metricsData;
 
   return (
     <>
+      <div id="loadingMetrics" aria-live="polite" className="sr-only">
+        <p>Loaded metrics.</p>
+      </div>
       <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-center md:gap-4">
         <h1 className="text-3xl font-semibold">Metrics</h1>
         <div className="h-0 border-l md:h-full"></div>

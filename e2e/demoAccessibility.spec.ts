@@ -48,5 +48,7 @@ test("metrics", async ({ page }) => {
     .exclude("#metricsChart")
     .analyze();
 
+  await page.waitForSelector("#loadingMetrics", { state: "attached" });
+
   expect(results.violations).toEqual([]);
 });
