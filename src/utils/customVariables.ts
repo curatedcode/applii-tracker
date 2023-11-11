@@ -201,7 +201,7 @@ export type ArrayFieldProps = {
 };
 
 export type StandardButtonProps = {
-  style?: "icon";
+  style?: "icon" | "shaded";
 } & ButtonProps;
 
 export type ButtonProps = {
@@ -311,6 +311,7 @@ export type InternalLinkProps = {
   children: ReactNode;
   title?: string;
   onClick?: () => void;
+  style?: "buttonShaded";
 };
 
 type ApplicationPageParamType = {
