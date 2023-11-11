@@ -8,59 +8,53 @@ export default function calculateSimpleApplicationStats(
   applications: CalculateSimpleApplicationStatsProps,
 ): CalculateSimpleApplicationStatsReturnType {
   let totalApplications = 0;
-  let needToApplyLength = 0;
-  let appliedLength = 0;
-  let interviewingLength = 0;
-  let offerLength = 0;
-  let closedLength = 0;
+  let needToApplyAppsTotal = 0;
+  let appliedAppsTotal = 0;
+  let interviewingAppsTotal = 0;
+  let offerAppsTotal = 0;
+  let closedAppsTotal = 0;
 
   for (const [key, property] of typeSafeObjectEntries(applications)) {
     for (const number of property) {
       totalApplications += number;
       switch (key) {
         case "needToApplyApps":
-          needToApplyLength += number;
+          needToApplyAppsTotal += number;
           break;
         case "appliedApps":
-          appliedLength += number;
+          appliedAppsTotal += number;
           break;
         case "interviewingApps":
-          interviewingLength += number;
+          interviewingAppsTotal += number;
           break;
         case "offerApps":
-          offerLength += number;
+          offerAppsTotal += number;
           break;
         case "closedApps":
-          closedLength += number;
+          closedAppsTotal += number;
           break;
       }
     }
   }
 
-  function getPercentage(number: number) {
-    const percentage = (number / totalApplications) * 100;
-    const fixedNumber = percentage.toFixed(1);
-
-    if (fixedNumber[-1] === "0") {
-      return fixedNumber.slice(0, -2) + "%";
-    }
-
-    return fixedNumber + "%";
+  function percentage(num: number): string {
+    const percent = (num / totalApplications) * 100;
+    return Math.round(percent) + "%";
   }
 
   return {
     percents: [
       {
-        percent: getPercentage(needToApplyLength),
+        percent: percentage(needToApplyAppsTotal),
         label: "Need To Apply",
       },
-      { percent: getPercentage(appliedLength), label: "Applied" },
+      { percent: percentage(appliedAppsTotal), label: "Applied" },
       {
-        percent: getPercentage(interviewingLength),
+        percent: percentage(interviewingAppsTotal),
         label: "Interviewing",
       },
-      { percent: getPercentage(offerLength), label: "Offer" },
-      { percent: getPercentage(closedLength), label: "Closed" },
+      { percent: percentage(offerAppsTotal), label: "Offer" },
+      { percent: percentage(closedAppsTotal), label: "Closed" },
     ],
     totalApplications,
   };
