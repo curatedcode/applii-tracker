@@ -3,11 +3,11 @@
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
-import { zodTutorialStatus } from "../utils/customVariables";
-import Button from "./Button";
-import InternalLink from "./Links/InternalLink";
+import { zodTutorialStatus } from "../../utils/customVariables";
+import Button from "../Button";
+import InternalLink from "../Links/InternalLink";
 
-export default function TutorialModal() {
+export default function InitialDemoModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -15,11 +15,7 @@ export default function TutorialModal() {
     setIsOpen(false);
   }
 
-  function acceptTutorial() {
-    closeModal();
-  }
-
-  function rejectTutorial() {
+  function exitTutorial() {
     window.localStorage.setItem(
       "tutorialStatus",
       zodTutorialStatus.Enum.completed,
@@ -53,11 +49,7 @@ export default function TutorialModal() {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => setIsOpen(false)}
-        >
+        <Dialog as="div" className="relative z-10" onClose={() => closeModal()}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-100"
@@ -92,16 +84,16 @@ export default function TutorialModal() {
                     className="-my-5 justify-self-center"
                   />
                   <div className="grid gap-2">
-                    <p>Would you like to view the tutorial?</p>
+                    <p>Would you like to view the demo page?</p>
                     <div className="mt-4 flex w-full items-center justify-center gap-4">
                       <Button
-                        onClick={() => rejectTutorial()}
+                        onClick={() => exitTutorial()}
                         className="!dark:bg-dark-main !bg-light-main text-light-text"
                       >
                         No
                       </Button>
                       <InternalLink
-                        onClick={() => acceptTutorial()}
+                        onClick={() => exitTutorial()}
                         href="/demo"
                         className="!dark:bg-dark-main !bg-light-main text-light-text"
                       >

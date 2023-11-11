@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
 import SyncProvider from "@/src/components/Sync/SyncProvider";
-import TutorialModal from "@/src/components/TutorialModal";
+import InitialDemoModal from "@/src/components/Demo/InitialDemoModal";
 import Toaster from "@/src/components/Toaster";
 import MobileNavbar from "@/src/components/MobileNavbar";
 import Navbar from "@/src/components/Navbar";
@@ -34,7 +34,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <SyncProvider>
-            <TutorialModal />
+            <InitialDemoModal />
             <Toaster />
             <MobileNavbar />
             <Navbar />
