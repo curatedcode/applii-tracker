@@ -5,11 +5,13 @@ import {
   Bars3Icon,
   ChartPieIcon as ChartPieIconOutline,
   HomeIcon as HomeIconOutline,
+  PlusCircleIcon as PlusCircleIconOutline,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import {
   HomeIcon as HomeIconSolid,
   ChartPieIcon as ChartPieIconSolid,
+  PlusCircleIcon as PlusCircleIconSolid,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -69,6 +71,21 @@ export default function DemoMobileNavbar() {
                     <HomeIconOutline className="w-6" aria-hidden="true" />
                   )}
                   <span>Home</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={"/demo/applications/create"}
+                  className="flex items-center gap-3 transition-opacity hover:opacity-80"
+                  title="Create"
+                  onClick={() => setShowMenu(false)}
+                >
+                  {pathname === "/demo/applications/create" ? (
+                    <PlusCircleIconSolid className="w-6" aria-hidden="true" />
+                  ) : (
+                    <PlusCircleIconOutline className="w-6" aria-hidden="true" />
+                  )}
+                  <span>Create</span>
                 </Link>
               </li>
               <li>
