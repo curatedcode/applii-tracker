@@ -86,16 +86,13 @@ export default function InitialDemoModal() {
                   <div className="grid gap-2">
                     <p>Would you like to view the demo page?</p>
                     <div className="mt-4 flex w-full items-center justify-center gap-4">
-                      <Button
-                        onClick={() => exitTutorial()}
-                        className="!dark:bg-dark-main !bg-light-main text-light-text"
-                      >
+                      <Button onClick={() => exitTutorial()} style="shaded">
                         No
                       </Button>
                       <InternalLink
                         onClick={() => exitTutorial()}
                         href="/demo"
-                        className="!dark:bg-dark-main !bg-light-main text-light-text"
+                        style="buttonShaded"
                       >
                         Yes
                       </InternalLink>
