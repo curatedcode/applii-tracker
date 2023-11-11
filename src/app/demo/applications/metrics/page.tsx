@@ -35,8 +35,8 @@ export default function Metrics() {
     useState<GetApplicationMetricsReturnType>();
 
   const [timeline, setTimeline] = useState<TimelineLabelValueType>({
-    label: "1 month",
-    value: "1 month",
+    label: "1 year",
+    value: "1 year",
   });
 
   useEffect(() => {
