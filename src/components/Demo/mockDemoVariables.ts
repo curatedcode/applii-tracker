@@ -58,11 +58,70 @@ export const needToApplyMocks: FullApplicationType[] = [
     dateCreated: "2023-08-28T04:00:00.000Z",
     dateModified: "2023-08-28T06:00:00.000Z",
   },
+  {
+    id: 3,
+    position: "Software Engineer",
+    company: "Daylight Solutions",
+    status: "needToApply",
+    contacts: [
+      {
+        name: "James Dalton",
+        phone: "222-333-4444",
+        email: "jamesdalton@examples.com",
+        position: "Recruiter",
+      },
+    ],
+    notes: [],
+    dateCreated: "2023-07-28T04:00:00.000Z",
+    dateModified: "2023-11-12T20:00:00.000Z",
+  },
+  {
+    id: 4,
+    position: "Project Manager",
+    company: "Mason Consulting",
+    status: "needToApply",
+    contacts: [],
+    notes: [],
+    dateCreated: "2023-04-28T04:00:00.000Z",
+    dateModified: "2023-10-12T20:00:00.000Z",
+  },
+  {
+    id: 5,
+    position: "Senior Data Analyst",
+    company: "Acme Inc.",
+    status: "needToApply",
+    contacts: [
+      {
+        name: "Liam Williams",
+        phone: "222-333-4444",
+        email: "liamwilliams@examples.com",
+        position: "Chef",
+      },
+      {
+        name: "Mia Rodriguez",
+        phone: "222-333-4444",
+        email: "miarodriguez@examples.com",
+        position: "Social Worker",
+      },
+    ],
+    notes: [
+      {
+        title: "Salary negotiation",
+        body: `I have received an offer letter from ABC Inc. with a salary of $80,000 per year. I think this is a fair offer, but I would like to negotiate for a higher amount, based on my research and the market value. I have prepared a counteroffer of $85,000 per year, with some supporting reasons, such as:
+      - I have more than five years of experience in web development, with a proven track record of delivering high-quality and innovative solutions.
+      - I have skills and expertise in some of the latest and most in-demand technologies, such as React, Django, and Power BI.
+      - I have received positive feedback and recognition from my previous employers and clients, as well as some awards and certifications.
+      `,
+      },
+    ],
+    dateCreated: "2023-04-28T04:00:00.000Z",
+    dateModified: "2023-10-12T20:00:00.000Z",
+  },
 ];
 
 export const appliedMocks: FullApplicationType[] = [
   {
-    id: 3,
+    id: 6,
     position: "Data Analyst",
     company: "Netflix",
     postingURL: "example.com",
@@ -78,7 +137,7 @@ export const appliedMocks: FullApplicationType[] = [
     dateApplied: "2023-10-10T04:00:00.000Z",
   },
   {
-    id: 4,
+    id: 7,
     position: "Accountant",
     company: "Deloitte",
     status: "applied",
@@ -125,7 +184,7 @@ export const appliedMocks: FullApplicationType[] = [
     dateApplied: "2023-07-22T04:00:00.000Z",
   },
   {
-    id: 5,
+    id: 8,
     position: "Graphic Designer",
     company: "Adobe",
     status: "applied",
@@ -158,7 +217,7 @@ export const appliedMocks: FullApplicationType[] = [
 
 export const interviewingMocks: FullApplicationType[] = [
   {
-    id: 6,
+    id: 9,
     position: "Human Resources Specialist",
     company: "Amazon",
     postingURL: "example.com",
@@ -196,7 +255,7 @@ export const interviewingMocks: FullApplicationType[] = [
 
 export const offerMocks: FullApplicationType[] = [
   {
-    id: 7,
+    id: 10,
     position: "Human Resources Specialist",
     company: "Amazon",
     status: "offer",
@@ -222,7 +281,7 @@ export const offerMocks: FullApplicationType[] = [
     dateOffered: "2023-10-10T04:00:00.000Z",
   },
   {
-    id: 8,
+    id: 11,
     position: "Sales Representative",
     company: "Apple",
     status: "offer",
@@ -251,7 +310,7 @@ export const offerMocks: FullApplicationType[] = [
 
 export const closedMocks: FullApplicationType[] = [
   {
-    id: 9,
+    id: 12,
     position: "Sales Representative",
     company: "Apple",
     postingURL: "example.com",

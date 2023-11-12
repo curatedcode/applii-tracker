@@ -35,7 +35,7 @@ export default function RootLayout({
             className="bg-yellow-400 px-2 py-1 text-center font-semibold text-dark-main"
             role="banner"
           >
-            To exit demo mode please{" "}
+            To exit demo mode, please{" "}
             <Link href={"/"} className="underline underline-offset-1">
               click here
             </Link>

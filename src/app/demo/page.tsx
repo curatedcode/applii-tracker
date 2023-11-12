@@ -28,8 +28,8 @@ export default function Demo() {
     useState<GetAllApplicationsReturnType>();
 
   useEffect(() => {
-    setApplications(getAllMockApplications());
-  }, []);
+    setApplications(getAllMockApplications(sortBy.value));
+  }, [sortBy]);
 
   if (!applications) return <HomeSkeleton />;
 
