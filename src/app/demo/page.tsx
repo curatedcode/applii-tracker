@@ -2,8 +2,13 @@
 
 import BoardSection from "@/src/components/BoardSection";
 import getAllMockApplications from "@/src/components/Demo/getAllDemoApplications";
+import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
 import SelectInput from "@/src/components/SelectInput";
-import { SortByOptionType, sortByOptions } from "@/src/utils/customVariables";
+import {
+  GetAllApplicationsReturnType,
+  SortByOptionType,
+  sortByOptions,
+} from "@/src/utils/customVariables";
 import {
   ArchiveBoxXMarkIcon,
   ChatBubbleBottomCenterTextIcon,
@@ -11,7 +16,7 @@ import {
   EnvelopeIcon,
   TrophyIcon,
 } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Demo() {
   const [sortBy, setSortBy] = useState<SortByOptionType>({
@@ -19,11 +24,22 @@ export default function Demo() {
     value: "dateModified",
   });
 
-  const { needToApply, applied, interviewing, offer, closed } =
-    getAllMockApplications();
+  const [applications, setApplications] =
+    useState<GetAllApplicationsReturnType>();
+
+  useEffect(() => {
+    setApplications(getAllMockApplications());
+  }, []);
+
+  if (!applications) return <HomeSkeleton />;
+
+  const { needToApply, applied, interviewing, offer, closed } = applications;
 
   return (
     <>
+      <div id="loadingHome" aria-live="polite" className="sr-only">
+        <p>Loaded applications.</p>
+      </div>
       <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-center md:gap-4">
         <h1 className="text-3xl font-semibold">All applications</h1>
         <div className="h-0 border-l md:h-full"></div>
