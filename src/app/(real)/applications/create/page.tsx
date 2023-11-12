@@ -16,11 +16,10 @@ import NoteFields from "@/src/components/Form/NoteFields";
 import { useEffect, useState } from "react";
 import Button from "@/src/components/Button";
 import InternalLink from "@/src/components/Links/InternalLink";
-import AlertDialog from "@/src/components/AlertDialog";
-import useExitPageConfirm from "@/src/components/Hooks/useExitPageConfirm";
 import dayjs from "dayjs";
 import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
 import toast from "react-hot-toast";
+import Modal from "@/src/components/Modal";
 
 export default function Create() {
   const {
@@ -35,7 +34,7 @@ export default function Create() {
     defaultValues: { status: applicationStatusSelectOptions[0] },
   });
 
-  const [isFormCompleted, setIsFormCompleted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStatusIndex, setCurrentStatusIndex] = useState(0);
   const [applicationId, setApplicationId] = useState<number>();
 
@@ -72,7 +71,7 @@ export default function Create() {
     }
 
     setApplicationId(result.id);
-    setIsFormCompleted(true);
+    setIsModalOpen(true);
   }
 
   useEffect(() => {
@@ -81,30 +80,26 @@ export default function Create() {
     setCurrentStatusIndex(statusIndex);
   }, [currentStatus]);
 
-  useExitPageConfirm(isFormCompleted);
-
   return (
     <>
-      <AlertDialog
-        label="Application created"
-        description="Would you like to edit this application or go home?"
-        open={isFormCompleted}
+      <Modal
+        title="Application created"
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
       >
+        <p>Would you like to edit this application or go home?</p>
         <div className="mt-4 flex justify-center gap-4">
           <InternalLink
             href={`/applications/edit?id=${applicationId}`}
-            className="!dark:bg-dark-main !bg-light-main text-light-text"
+            style="buttonShaded"
           >
             Edit
           </InternalLink>
-          <InternalLink
-            href="/"
-            className="!dark:bg-dark-main !bg-light-main text-light-text"
-          >
+          <InternalLink href="/" style="buttonShaded">
             Home
           </InternalLink>
         </div>
-      </AlertDialog>
+      </Modal>
       <div className="mb-8 grid justify-items-center gap-2 justify-self-center">
         <h1 className="text-center text-3xl font-semibold">
           Create Your Application

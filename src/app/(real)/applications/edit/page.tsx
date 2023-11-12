@@ -1,12 +1,10 @@
 "use client";
 
-import AlertDialog from "@/src/components/AlertDialog";
 import Button from "@/src/components/Button";
 import ContactsFields from "@/src/components/Form/ContactFields";
 import FormInput from "@/src/components/Form/FormInput";
 import NoteFields from "@/src/components/Form/NoteFields";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
-import useExitPageConfirm from "@/src/components/Hooks/useExitPageConfirm";
 import InternalLink from "@/src/components/Links/InternalLink";
 import EditApplicationSkeleton from "@/src/components/Loading/EditApplicationSkeleton";
 import {
@@ -23,6 +21,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
 import toast from "react-hot-toast";
+import Modal from "@/src/components/Modal";
 
 export default function FormEdit() {
   const id = Number(useSearchParams().get("id"));
@@ -42,7 +41,7 @@ export default function FormEdit() {
     resolver: zodResolver(formSchema),
   });
 
-  const [isFormCompleted, setIsFormCompleted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStatusIndex, setCurrentStatusIndex] = useState(0);
 
   const currentStatus = watch("status");
@@ -80,7 +79,7 @@ export default function FormEdit() {
       toast.error("Storage almost full");
     }
 
-    setIsFormCompleted(true);
+    setIsModalOpen(true);
   }
 
   useEffect(() => {
@@ -88,8 +87,6 @@ export default function FormEdit() {
     const statusIndex = applicationStatusesArray.indexOf(currentStatus.value);
     setCurrentStatusIndex(statusIndex);
   }, [currentStatus]);
-
-  useExitPageConfirm(isFormCompleted);
 
   useEffect(() => {
     if (!window) return;
@@ -139,26 +136,24 @@ export default function FormEdit() {
       <div id="loadingEdit" aria-live="polite" className="sr-only">
         <p>Loaded application.</p>
       </div>
-      <AlertDialog
-        label="Application updated"
-        description="Would you like to view this application or go home?"
-        open={isFormCompleted}
+      <Modal
+        title="Application updated"
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
       >
+        <p>Would you like to view this application or go home?</p>
         <div className="mt-4 flex justify-center gap-4">
           <InternalLink
             href={`/applications/${currentPosition}-at-${currentCompany}?id=${id}`}
-            className="!dark:bg-dark-main !bg-light-main text-light-text"
+            style="buttonShaded"
           >
             View
           </InternalLink>
-          <InternalLink
-            href="/"
-            className="!dark:bg-dark-main !bg-light-main text-light-text"
-          >
+          <InternalLink href="/" style="buttonShaded">
             Home
           </InternalLink>
         </div>
-      </AlertDialog>
+      </Modal>
       <div className="mb-8 grid justify-items-center gap-2 justify-self-center">
         <h1 className="text-3xl font-semibold">Edit Your Application</h1>
         <span>* indicates a required field</span>
