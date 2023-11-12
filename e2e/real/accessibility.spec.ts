@@ -11,7 +11,6 @@ test("homepage", async ({ page }) => {
 
   await page.waitForSelector("#loadingHome", { state: "attached" });
 
-  // disable that rule due to h1 not being recognized but it is present
   const results = await new AxeBuilder({ page }).analyze();
 
   expect(results.violations).toEqual([]);
