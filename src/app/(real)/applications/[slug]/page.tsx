@@ -11,15 +11,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ULItem from "@/src/components/ULItem";
 import InternalLink from "@/src/components/Links/InternalLink";
 import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
-import AlertDialog from "@/src/components/AlertDialog";
 import Button from "@/src/components/Button";
+import Modal from "@/src/components/Modal";
 
 export default function Application() {
   const id = Number(useSearchParams().get("id"));
   const router = useRouter();
 
   const [application, setApplication] = useState<FullApplicationType>();
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   function readableStatus(status: ApplicationStatusType) {
     if (status === "needToApply") return "Need to apply";
@@ -36,7 +36,7 @@ export default function Application() {
 
   async function deleteApp() {
     await deleteApplication({ id });
-    setShowDeleteDialog(false);
+    setIsDeleteModalOpen(false);
     router.push("/");
   }
 
@@ -68,29 +68,24 @@ export default function Application() {
         </h1>
         <div className="flex gap-4">
           <InternalLink href={`/applications/edit?id=${id}`}>Edit</InternalLink>
-          <Button onClick={() => setShowDeleteDialog(true)}>Delete</Button>
+          <Button onClick={() => setIsDeleteModalOpen(true)}>Delete</Button>
         </div>
       </div>
-      <AlertDialog
-        label="Delete Application"
-        description="Are you sure you want to delete this application?"
-        open={showDeleteDialog}
+      <Modal
+        title="Delete Application"
+        isOpen={isDeleteModalOpen}
+        setIsOpen={setIsDeleteModalOpen}
       >
+        <p>Are you sure you want to delete this application?</p>
         <div className="mt-4 flex justify-center gap-4">
-          <Button
-            onClick={() => setShowDeleteDialog(false)}
-            className="!dark:bg-dark-main !bg-light-main text-light-text"
-          >
+          <Button onClick={() => setIsDeleteModalOpen(false)} style="shaded">
             Cancel
           </Button>
-          <Button
-            onClick={() => deleteApp()}
-            className="!dark:bg-dark-main !bg-light-main text-light-text"
-          >
+          <Button onClick={() => deleteApp()} style="shaded">
             Delete
           </Button>
         </div>
-      </AlertDialog>
+      </Modal>
       <div className="grid w-full justify-items-center gap-x-12 gap-y-20 justify-self-center md:max-w-5xl md:grid-cols-2">
         <div className="grid w-full max-w-md auto-rows-min justify-items-center md:max-w-none">
           <h2

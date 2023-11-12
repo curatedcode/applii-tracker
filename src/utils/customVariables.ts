@@ -322,13 +322,6 @@ export type FormEditPageProps = ApplicationPageParamType;
 
 export type ApplicationPageProps = ApplicationPageParamType;
 
-export type AlertDialogProps = {
-  label: string;
-  description: string;
-  open: boolean;
-  children: ReactNode;
-};
-
 export type ULItemProps = {
   label: string;
   body: string;
@@ -528,3 +521,10 @@ export type DropboxGetAccessTokenResponseType = {
 };
 
 export const zodTutorialStatus = z.enum(["completed", "notStarted"]);
+
+export type ModalProps = {
+  title: string;
+  children: ReactNode;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
