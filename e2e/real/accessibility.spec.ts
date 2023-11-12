@@ -9,12 +9,10 @@ test("homepage", async ({ page }) => {
     localStorage.setItem("tutorialStatus", "completed"),
   );
 
-  // disable that rule due to h1 not being recognized but it is present
-  const results = await new AxeBuilder({ page })
-    .disableRules(["page-has-heading-one"])
-    .analyze();
-
   await page.waitForSelector("#loadingHome", { state: "attached" });
+
+  // disable that rule due to h1 not being recognized but it is present
+  const results = await new AxeBuilder({ page }).analyze();
 
   expect(results.violations).toEqual([]);
 });
@@ -27,10 +25,7 @@ test("create page", async ({ page }) => {
     localStorage.setItem("tutorialStatus", "completed"),
   );
 
-  // disable that rule due to h1 not being recognized but it is present
-  const results = await new AxeBuilder({ page })
-    .disableRules(["page-has-heading-one"])
-    .analyze();
+  const results = await new AxeBuilder({ page }).analyze();
 
   expect(results.violations).toEqual([]);
 });
@@ -43,14 +38,12 @@ test("metrics", async ({ page }) => {
     localStorage.setItem("tutorialStatus", "completed"),
   );
 
-  // disable that rule due to h1 not being recognized but it is present
+  await page.waitForSelector("#loadingMetrics", { state: "attached" });
+
   // disable scanning of ChartJS as aria is not controlled by me
   const results = await new AxeBuilder({ page })
-    .disableRules(["page-has-heading-one"])
     .exclude("#metricsChart")
     .analyze();
-
-  await page.waitForSelector("#loadingMetrics", { state: "attached" });
 
   expect(results.violations).toEqual([]);
 });
