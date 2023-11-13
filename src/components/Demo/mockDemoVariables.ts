@@ -60,7 +60,7 @@ export const needToApplyMocks: FullApplicationType[] = [
   },
   {
     id: 3,
-    position: "Software Engineer",
+    position: "Data Engineer",
     company: "Daylight Solutions",
     status: "needToApply",
     contacts: [

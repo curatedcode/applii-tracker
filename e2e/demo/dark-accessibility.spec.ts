@@ -10,6 +10,8 @@ test("homepage", async ({ page }) => {
     localStorage.setItem("theme", "dark");
   });
 
+  await page.waitForSelector("#loadingHome", { state: "attached" });
+
   const results = await new AxeBuilder({ page }).analyze();
 
   expect(results.violations).toEqual([]);
