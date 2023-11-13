@@ -27,7 +27,7 @@ export default function BoardSectionCard({
   return (
     <Link
       href={applicationLink}
-      className={`bg-card-${status} group h-[5.75rem] rounded-md px-3 py-2 text-light-text dark:text-black`}
+      className={`bg-card-${status} h-[5.75rem] rounded-md px-3 py-2 text-light-text dark:text-black`}
       data-testid="board-section-card"
       aria-label={`Open application for ${position} at ${company}`}
     >
@@ -37,7 +37,7 @@ export default function BoardSectionCard({
           <span className="line-clamp-1">{company}</span>
         </div>
         <span
-          className="absolute bottom-0.5 right-0 text-sm md:opacity-0 md:transition-opacity md:group-hover:opacity-100"
+          className="absolute bottom-0.5 right-0 text-sm"
           title={date.title}
         >
           {date.time}
