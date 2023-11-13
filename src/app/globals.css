@@ -145,43 +145,20 @@
     animation-delay: 0.4s;
   }
 
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    color: black;
-    opacity: 0.3;
-    display: block;
-    width: 20px;
-    height: 20px;
+  [type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.4;
+    background-color: transparent;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
     transition-property: opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 50ms;
   }
-  input[type="date"]:focus-within::-webkit-calendar-picker-indicator {
-    color: black;
-    opacity: 0.8;
-    display: block;
-    width: 20px;
-    height: 20px;
-  }
 
   @media (prefers-color-scheme: dark) {
-    input[type="date"]::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-      color: #525252;
-      opacity: 0.5;
-      display: block;
-      width: 20px;
-      height: 20px;
-      transition-property: opacity;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 50ms;
-    }
-    input[type="date"]:focus-within::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-      color: #525252;
-      opacity: 0.9;
-      display: block;
-      width: 20px;
-      height: 20px;
+    [type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0.6;
     }
   }
 }
