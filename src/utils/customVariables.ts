@@ -311,7 +311,7 @@ export type InternalLinkProps = {
   children: ReactNode;
   title?: string;
   onClick?: () => void;
-  style?: "buttonShaded";
+  style?: "buttonShaded" | "button";
 };
 
 type ApplicationPageParamType = {
