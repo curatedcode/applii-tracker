@@ -3,7 +3,7 @@ import { Work_Sans } from "next/font/google";
 import DemoNavbar from "@/src/components/Demo/DemoNavbar";
 import DemoMobileNavbar from "@/src/components/Demo/DemoMobileNavbar";
 import Link from "next/link";
-import "../(real)/globals.css";
+import "../globals.css";
 import ThemeProvider from "@/src/components/Theme/ThemeProvider";
 
 const font = Work_Sans({ subsets: ["latin"] });

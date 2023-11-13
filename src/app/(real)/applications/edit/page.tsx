@@ -27,8 +27,6 @@ export default function FormEdit() {
   const id = Number(useSearchParams().get("id"));
   const router = useRouter();
 
-  const [isDataFetched, setIsDataFetched] = useState(false);
-
   const {
     formState: { errors },
     handleSubmit,
@@ -40,6 +38,8 @@ export default function FormEdit() {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+
+  const [isDataFetched, setIsDataFetched] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStatusIndex, setCurrentStatusIndex] = useState(0);
@@ -83,12 +83,6 @@ export default function FormEdit() {
   }
 
   useEffect(() => {
-    if (!currentStatus) return;
-    const statusIndex = applicationStatusesArray.indexOf(currentStatus.value);
-    setCurrentStatusIndex(statusIndex);
-  }, [currentStatus]);
-
-  useEffect(() => {
     if (!window) return;
     getApplication({ id }).then((data) => {
       const {
@@ -127,6 +121,12 @@ export default function FormEdit() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!currentStatus) return;
+    const statusIndex = applicationStatusesArray.indexOf(currentStatus.value);
+    setCurrentStatusIndex(statusIndex);
+  }, [currentStatus]);
 
   if (!id || isNaN(id)) return router.push("/not-found");
   if (!isDataFetched) return <EditApplicationSkeleton />;
@@ -199,11 +199,15 @@ export default function FormEdit() {
             <Controller
               name="status"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { onChange } }) => (
                 <FormSelectInput
                   label="Status"
-                  value={value}
-                  onChange={onChange}
+                  selected={
+                    applicationStatusSelectOptions.find(
+                      (val) => val.value === currentStatus.value,
+                    ) ?? applicationStatusSelectOptions[0]
+                  }
+                  setSelected={onChange}
                   options={applicationStatusSelectOptions}
                 />
               )}

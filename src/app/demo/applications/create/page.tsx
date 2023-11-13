@@ -32,7 +32,6 @@ export default function Create() {
     watch,
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { status: applicationStatusSelectOptions[0] },
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -157,11 +156,11 @@ export default function Create() {
             <Controller
               name="status"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { onChange } }) => (
                 <FormSelectInput
                   label="Status"
-                  value={value}
-                  onChange={onChange}
+                  selected={currentStatus ?? applicationStatusSelectOptions[0]}
+                  setSelected={onChange}
                   options={applicationStatusSelectOptions}
                 />
               )}

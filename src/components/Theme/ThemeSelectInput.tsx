@@ -20,7 +20,7 @@ export default function ThemeSelectInput() {
       <SelectInput
         options={themeOptions}
         selected={currentTheme ?? themeOptions[2]}
-        onChange={setCurrentTheme}
+        setSelected={setCurrentTheme}
       />
     </div>
   );

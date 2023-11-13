@@ -6,7 +6,9 @@ import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
 import SelectInput from "@/src/components/SelectInput";
 import {
   GetAllApplicationsReturnType,
-  SortByOptionType,
+  OptionType,
+  SortByLabelType,
+  SortByValueType,
   sortByOptions,
 } from "@/src/utils/customVariables";
 import {
@@ -19,10 +21,9 @@ import {
 import { useEffect, useState } from "react";
 
 export default function Demo() {
-  const [sortBy, setSortBy] = useState<SortByOptionType>({
-    label: "Date Modified",
-    value: "dateModified",
-  });
+  const [sortBy, setSortBy] = useState<
+    OptionType<SortByLabelType, SortByValueType>
+  >(sortByOptions[1]);
 
   const [applications, setApplications] =
     useState<GetAllApplicationsReturnType>();
@@ -46,7 +47,7 @@ export default function Demo() {
         <SelectInput
           options={sortByOptions}
           selected={sortBy}
-          onChange={setSortBy}
+          setSelected={setSortBy}
         />
       </div>
       <div className="flex w-full flex-wrap justify-center gap-8 justify-self-center md:max-w-[100rem]">

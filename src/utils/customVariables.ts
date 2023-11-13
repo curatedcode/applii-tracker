@@ -330,17 +330,18 @@ export type ULItemProps = {
 };
 
 export type BoardSectionCardProps = {
-  sortBy: SortByType;
+  sortBy: SortByValueType;
   mode?: "demo";
 } & FullApplicationType;
 
-export type SortByType = "dateModified" | "dateCreated";
+export type SortByValueType = "dateModified" | "dateCreated";
+export type SortByLabelType = "Date Modified" | "Date Created";
 
 export type BoardSectionProps = {
   title: "Need To Apply" | "Applied" | "Interviewing" | "Offer" | "Closed";
   Icon: React.ReactNode;
   cards: FullApplicationType[];
-  sortBy: SortByType;
+  sortBy: SortByValueType;
   mode?: "demo";
 };
 
@@ -350,26 +351,30 @@ export const typeSafeObjectEntries = <T extends Record<PropertyKey, unknown>>(
   return Object.entries(obj) as { [K in keyof T]: [K, T[K]] }[keyof T][];
 };
 
-export type SortByOptionType = { label: string; value: SortByType };
+export type OptionType<TLabel, TValue> = { label: TLabel; value: TValue };
 
-export type SelectInputProps = {
-  options: { label: string; value: string }[];
-  onChange?(_val: SetStateAction<any>): void;
-  selected: { label: string; value: string };
-  defaultValue?: { label: string; value: string };
+export type SelectInputProps<TLabel, TValue> = {
+  options: OptionType<TLabel, TValue>[];
+  setSelected: Dispatch<SetStateAction<OptionType<TLabel, TValue>>>;
+  selected: OptionType<TLabel, TValue>;
 };
 
-export const sortByOptions: FixedArray<SortByOptionType, 2> = [
+export const sortByOptions: OptionType<SortByLabelType, SortByValueType>[] = [
   { label: "Date Created", value: "dateCreated" },
   { label: "Date Modified", value: "dateModified" },
 ];
 
+export type FormOptionType = {
+  label: z.infer<typeof applicationStatusLabel>;
+  value: z.infer<typeof applicationStatuses>;
+};
+
 export type FormSelectInputProps = {
   label: string;
   error?: string;
-  value: ApplicationStatusLabelValueType;
-  options: { label: string; value: string }[];
-  onChange?(_val: SetStateAction<any>): void;
+  selected: FormOptionType;
+  options: FormOptionType[];
+  setSelected: Dispatch<SetStateAction<FormOptionType>>;
 };
 
 export const applicationStatusSelectOptions: ApplicationStatusLabelValueType[] =
