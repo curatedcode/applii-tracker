@@ -139,7 +139,7 @@ export default function Application() {
                 return (
                   <li
                     key={index}
-                    className="board-section-scrollbar grid h-64 w-full max-w-full auto-rows-min gap-1 divide-y divide-light-text divide-opacity-30 overflow-y-auto rounded-md bg-light-secondary p-4 dark:divide-dark-text dark:bg-dark-secondary md:max-w-xs"
+                    className="main-scrollbar grid h-64 w-full max-w-full auto-rows-min gap-1 divide-y divide-light-text divide-opacity-30 overflow-y-auto rounded-md bg-light-secondary p-4 dark:divide-dark-text dark:bg-dark-secondary md:max-w-xs"
                   >
                     <p className="overflow-x-auto break-words">{title}</p>
                     <p className="overflow-x-auto break-words pt-1">{body}</p>
