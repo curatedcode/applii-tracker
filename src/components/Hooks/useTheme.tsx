@@ -6,10 +6,8 @@ import { useTheme as useNextTheme } from "next-themes";
 
 export default function useTheme() {
   const { theme, setTheme } = useNextTheme();
-  const [currentTheme, setCurrentTheme] = useState<ThemeOption | undefined>(
-    theme
-      ? themeOptions[themeOptions.findIndex((option) => option.value === theme)]
-      : undefined,
+  const [currentTheme, setCurrentTheme] = useState<ThemeOption>(
+    themeOptions.find((option) => option.value === theme) ?? themeOptions[0],
   );
 
   useEffect(() => {

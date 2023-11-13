@@ -12,7 +12,9 @@ import { useEffect, useState } from "react";
 import BoardSection from "@/src/components/BoardSection";
 import {
   GetAllApplicationsReturnType,
-  SortByOptionType,
+  OptionType,
+  SortByLabelType,
+  SortByValueType,
   sortByOptions,
 } from "@/src/utils/customVariables";
 import { getAllApplications } from "@/src/utils/db";
@@ -26,10 +28,9 @@ export default function Home() {
   const [isIndexedDBSupported, setIsIndexedDBSupported] =
     useState<boolean>(true);
 
-  const [sortBy, setSortBy] = useState<SortByOptionType>({
-    label: "Date Modified",
-    value: "dateModified",
-  });
+  const [sortBy, setSortBy] = useState<
+    OptionType<SortByLabelType, SortByValueType>
+  >(sortByOptions[1]);
 
   useEffect(() => {
     if (!window) return;
@@ -57,7 +58,7 @@ export default function Home() {
         <SelectInput
           options={sortByOptions}
           selected={sortBy}
-          onChange={setSortBy}
+          setSelected={setSortBy}
         />
       </div>
       <div className="flex w-full flex-wrap justify-center gap-8 justify-self-center md:max-w-[100rem]">

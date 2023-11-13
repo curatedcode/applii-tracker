@@ -34,10 +34,9 @@ export default function Metrics() {
   const [metricsData, setMetricsData] =
     useState<GetApplicationMetricsReturnType>();
 
-  const [timeline, setTimeline] = useState<TimelineLabelValueType>({
-    label: "1 month",
-    value: "1 month",
-  });
+  const [timeline, setTimeline] = useState<TimelineLabelValueType>(
+    timelineOptions[3],
+  );
 
   useEffect(() => {
     getApplicationMetrics(timeline.value).then((data) => setMetricsData(data));
@@ -66,7 +65,7 @@ export default function Metrics() {
         <SelectInput
           options={timelineOptions}
           selected={timeline}
-          onChange={setTimeline}
+          setSelected={setTimeline}
         />
       </div>
       <div className="grid w-full max-w-6xl justify-items-center gap-12 justify-self-center md:gap-20">
