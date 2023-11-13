@@ -10,7 +10,7 @@ export default function RootLayout({
   return (
     <>
       <header
-        className="bg-yellow-400 px-2 py-1 text-center font-semibold text-dark-main"
+        className="absolute left-0 top-0 z-[1] w-full bg-yellow-400 px-2 py-1 text-center font-semibold text-dark-main"
         role="banner"
       >
         To exit demo mode, please{" "}
@@ -18,7 +18,7 @@ export default function RootLayout({
           click here
         </Link>
       </header>
-      <div className="px-4">
+      <div className="mt-8 px-4">
         <DemoNavbar />
         <DemoMobileNavbar />
       </div>
