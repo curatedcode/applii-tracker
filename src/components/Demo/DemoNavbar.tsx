@@ -39,7 +39,7 @@ export default function DemoNavbar() {
             className="mr-4 flex items-center gap-1 transition-opacity hover:opacity-80"
             title="Create"
           >
-            {pathname === "/applications/create" ? (
+            {pathname === "/demo/applications/create" ? (
               <PlusCircleIconSolid className="w-6" aria-hidden="true" />
             ) : (
               <PlusCircleIconOutline className="w-6" aria-hidden="true" />
