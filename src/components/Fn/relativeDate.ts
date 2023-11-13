@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import updateLocale from "dayjs/plugin/updateLocale";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { SortByType } from "@/src/utils/customVariables";
+import { SortByValueType } from "@/src/utils/customVariables";
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 
@@ -39,7 +39,7 @@ dayjs.updateLocale("en", {
 
 export default function relativeDate(
   date: string,
-  sortBy: SortByType,
+  sortBy: SortByValueType,
 ): {
   time: string;
   title: string;

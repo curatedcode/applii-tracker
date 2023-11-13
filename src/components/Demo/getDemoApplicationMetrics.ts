@@ -11,7 +11,7 @@ import calculateSimpleApplicationStats from "../Fn/calculateSimpleApplicationSta
 export default function getDemoApplicationMetrics(
   timeline: TimelineType,
 ): GetApplicationMetricsReturnType {
-  const applications = getAllDemoApplications();
+  const applications = getAllDemoApplications("dateCreated");
 
   const { needToApply, applied, interviewing, offer, closed } = applications;
 

@@ -1,6 +1,6 @@
 import {
   GetAllApplicationsReturnType,
-  SortByType,
+  SortByValueType,
 } from "@/src/utils/customVariables";
 import {
   appliedMocks,
@@ -16,7 +16,7 @@ import dayjs from "dayjs";
  * Will get all default mock applications and check for any applications in session storage
  */
 export default function getAllDemoApplications(
-  sortBy: SortByType,
+  sortBy: SortByValueType,
 ): GetAllApplicationsReturnType {
   const defaultMockApplications = {
     needToApply: needToApplyMocks,
