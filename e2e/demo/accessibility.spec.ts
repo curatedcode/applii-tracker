@@ -4,11 +4,6 @@ import AxeBuilder from "@axe-core/playwright";
 test("homepage", async ({ page }) => {
   await page.goto("/demo");
 
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
-
   await page.waitForSelector("#loadingHome", { state: "attached" });
 
   const results = await new AxeBuilder({ page }).analyze();
@@ -19,11 +14,6 @@ test("homepage", async ({ page }) => {
 test("create page", async ({ page }) => {
   await page.goto("/demo/applications/create");
 
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
-
   const results = await new AxeBuilder({ page }).analyze();
 
   expect(results.violations).toEqual([]);
@@ -31,11 +21,6 @@ test("create page", async ({ page }) => {
 
 test("metrics", async ({ page }) => {
   await page.goto("/demo/applications/metrics");
-
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
 
   await page.waitForSelector("#loadingMetrics", { state: "attached" });
 

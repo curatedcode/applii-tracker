@@ -2,11 +2,10 @@ import test, { expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test("homepage", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/boards");
 
-  // close tutorial dialog and set dark mode
+  // set dark mode
   await page.evaluate(() => {
-    localStorage.setItem("tutorialStatus", "completed");
     localStorage.setItem("theme", "dark");
   });
 
@@ -18,11 +17,10 @@ test("homepage", async ({ page }) => {
 });
 
 test("create page", async ({ page }) => {
-  await page.goto("/applications/create");
+  await page.goto("/boards/applications/create");
 
-  // close tutorial dialog and set dark mode
+  // set dark mode
   await page.evaluate(() => {
-    localStorage.setItem("tutorialStatus", "completed");
     localStorage.setItem("theme", "dark");
   });
 
@@ -32,11 +30,10 @@ test("create page", async ({ page }) => {
 });
 
 test("metrics", async ({ page }) => {
-  await page.goto("/applications/metrics");
+  await page.goto("/boards/applications/metrics");
 
-  // close tutorial dialog and set dark mode
+  // set dark mode
   await page.evaluate(() => {
-    localStorage.setItem("tutorialStatus", "completed");
     localStorage.setItem("theme", "dark");
   });
 
