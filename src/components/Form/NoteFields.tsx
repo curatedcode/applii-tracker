@@ -1,7 +1,6 @@
 import { DocumentPlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { ArrayFieldProps } from "@/src/utils/customVariables";
 import { useFieldArray } from "react-hook-form";
-import FormInput from "./FormInput";
 import FormTextarea from "./FormTextarea";
 import Button from "../Button";
 
@@ -13,29 +12,20 @@ export default function NoteFields({
   const { fields, append, remove } = useFieldArray({ name: "notes", control });
 
   return (
-    <div className={className}>
+    <div
+      className={`col-span-full grid h-fit w-full auto-rows-min ${className}`}
+    >
       <h2 className="mb-6 w-fit justify-self-center border-b px-1 text-lg font-semibold">
         Notes
       </h2>
-      <ul className="grid">
+      <ul className="grid gap-3 md:grid-cols-[repeat(auto-fill,18rem)] md:justify-center">
         {fields.map((field, index) => (
-          <li key={field.id} className="mb-6 grid gap-2">
-            <FormInput
-              id={`noteTitleInput${index}`}
-              label="Title"
-              registerName={`notes.${index}.title`}
-              hiddenLabel
-              placeholder="Title"
-              register={register}
-              isRequired
-            />
+          <li key={field.id} className="mb-6 grid gap-3">
             <FormTextarea
               id={`noteBodyInput${index}`}
-              rows={5}
+              rows={8}
               label="Body"
               registerName={`notes.${index}.body`}
-              hiddenLabel
-              placeholder="Body"
               register={register}
               isRequired
             />
@@ -45,7 +35,7 @@ export default function NoteFields({
               title={`Delete Note ${index + 1}`}
               style="icon"
             >
-              <TrashIcon aria-hidden="true" className="w-6" />
+              <TrashIcon aria-hidden="true" className="w-5" />
             </Button>
           </li>
         ))}

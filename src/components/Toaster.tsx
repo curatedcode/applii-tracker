@@ -26,7 +26,7 @@ export default function Toaster() {
           ),
         },
         className:
-          "flex h-fit w-fit text-light-text items-center gap-2 rounded-md border border-light-secondary-shaded bg-light-secondary px-4 py-2 text-sm font-medium shadow-md dark:border-dark-secondary-shaded dark:text-dark-text dark:bg-dark-secondary",
+          "flex h-fit w-fit text-light-text items-center gap-2 rounded-md border border-light-tertiary bg-light-secondary px-4 py-2 text-sm font-medium shadow-md dark:border-dark-tertiary dark:text-dark-text dark:bg-dark-secondary",
       }}
     />
   );

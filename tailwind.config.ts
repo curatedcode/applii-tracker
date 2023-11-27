@@ -11,33 +11,35 @@ const config: Config = {
       height: {
         "board-section": "28rem",
         "screen-minus-nav": "calc(100vh - 240px)",
+        "board-section-card": "5.75rem",
       },
       minHeight: {
         formSection: "20rem",
       },
       screens: {
+        micro: "270px",
         xs: "448px",
         "3xl": "120rem",
       },
       width: {
         "8xl": "120rem",
-        "board-section": "22rem",
+        "board-section": "23rem",
       },
       maxWidth: {
         "8xl": "120rem",
-        "board-section": "22rem",
+        "board-section": "23rem",
       },
       colors: {
         dark: {
-          main: "#191919",
-          secondary: "#2c2c2c",
-          "secondary-shaded": "#404040",
+          primary: "#191919",
+          secondary: "#262626",
+          tertiary: "#333333",
           text: "#d4d4d4",
         },
         light: {
-          main: "#ffffff",
-          secondary: "#f1f1f0",
-          "secondary-shaded": "#dadad8",
+          primary: "#eff2f5",
+          secondary: "#fcfdfd",
+          tertiary: "#dadad8",
           text: "#37352f",
         },
         card: {
@@ -45,7 +47,7 @@ const config: Config = {
           applied: "#22C55E",
           interviewing: "#FFDB58",
           offer: "#a891ee",
-          closed: "#c1c1bd", // D9534F
+          closed: "#D9534F",
         },
       },
       keyframes: {
@@ -59,6 +61,8 @@ const config: Config = {
       animation: {
         "metric-loading":
           "loading 0.75s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate",
+        "spin-slow":
+          "spin 500s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate",
       },
     },
   },

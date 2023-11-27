@@ -4,7 +4,9 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
+  ApplicationStatusLabelValueType,
   applicationStatusSelectOptions,
+  applicationStatuses,
   applicationStatusesArray,
   formSchema,
 } from "@/src/utils/customVariables";
@@ -21,8 +23,11 @@ import toast from "react-hot-toast";
 import getNewMockApplicationId from "@/src/components/Demo/getNewDemoApplicationId";
 import createDemoApplication from "@/src/components/Demo/createDemoApplication";
 import Modal from "@/src/components/Modal";
+import { useSearchParams } from "next/navigation";
 
 export default function Create() {
+  const searchParams = useSearchParams();
+
   const {
     formState: { errors },
     handleSubmit,
@@ -30,6 +35,7 @@ export default function Create() {
     register,
     control,
     watch,
+    setValue,
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -88,6 +94,18 @@ export default function Create() {
     setCurrentStatusIndex(statusIndex);
   }, [currentStatus]);
 
+  useEffect(() => {
+    const statusParam = searchParams.get("status");
+    const parsedStatus = applicationStatuses.safeParse(statusParam);
+
+    if (!parsedStatus.success) return;
+    const statusOption = applicationStatusSelectOptions.find(
+      (val) => val.value === parsedStatus.data,
+    ) as ApplicationStatusLabelValueType;
+    setValue("status", statusOption);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Modal
@@ -95,7 +113,9 @@ export default function Create() {
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
       >
-        <p>Would you like to view this application or go home?</p>
+        <p className="text-base">
+          Would you like to view this application or go home?
+        </p>
         <div className="mt-4 flex justify-center gap-4">
           <InternalLink
             href={`/demo/applications/${currentPosition}-at-${currentCompany}?id=${applicationId}`}
@@ -108,30 +128,24 @@ export default function Create() {
           </InternalLink>
         </div>
       </Modal>
-      <div className="mb-8 grid justify-items-center gap-2 justify-self-center">
-        <h1 className="text-center text-3xl font-semibold">
-          Create Your Application
-        </h1>
-        <span>* indicates a required field</span>
-      </div>
+      <h1 className="mb-8 text-center text-3xl font-semibold">
+        Create your application
+      </h1>
       <form
         onSubmit={handleSubmit(submit)}
-        className="grid justify-items-center gap-4 md:grid-cols-2"
+        className="grid justify-items-center gap-x-12 gap-y-8 md:grid-cols-2"
       >
-        <div className="col-span-full flex h-fit w-full max-w-md flex-col p-4 md:min-h-formSection">
+        <div className="flex w-full flex-col">
           <h2 className="mb-6 self-center border-b px-1 text-lg font-semibold">
             Details
           </h2>
-          <div className="grid gap-2">
+          <div className="grid gap-3">
             <FormInput
               id="positionInput"
               registerName="position"
               label="Position"
               error={errors.position?.message}
               register={register}
-              className="col-span-full"
-              hiddenLabel
-              placeholder="Position"
               isRequired
             />
             <FormInput
@@ -140,8 +154,6 @@ export default function Create() {
               label="Company"
               error={errors.company?.message}
               register={register}
-              hiddenLabel
-              placeholder="Company"
               isRequired
             />
             <FormInput
@@ -150,8 +162,6 @@ export default function Create() {
               label="Posting URL"
               error={errors.postingURL?.message}
               register={register}
-              hiddenLabel
-              placeholder="Posting URL"
             />
             <Controller
               name="status"
@@ -203,17 +213,9 @@ export default function Create() {
             />
           </div>
         </div>
-        <ContactFields
-          register={register}
-          control={control}
-          className="grid h-fit w-full max-w-md auto-rows-min p-4 md:min-h-formSection"
-        />
-        <NoteFields
-          register={register}
-          control={control}
-          className="grid h-fit w-full max-w-md auto-rows-min p-4 md:min-h-formSection"
-        />
-        <Button type="submit" className="col-span-full mt-12">
+        <ContactFields register={register} control={control} />
+        <NoteFields register={register} control={control} />
+        <Button style="inverse" type="submit" className="col-span-full mt-12">
           Submit
         </Button>
       </form>

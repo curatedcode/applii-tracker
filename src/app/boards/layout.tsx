@@ -1,7 +1,5 @@
 import SyncProvider from "@/src/components/Sync/SyncProvider";
-import InitialDemoModal from "@/src/components/Demo/InitialDemoModal";
 import Toaster from "@/src/components/Toaster";
-import MobileNavbar from "@/src/components/MobileNavbar";
 import Navbar from "@/src/components/Navbar";
 
 export default function RootLayout({
@@ -11,10 +9,14 @@ export default function RootLayout({
 }) {
   return (
     <SyncProvider>
-      <InitialDemoModal />
       <Toaster />
-      <MobileNavbar />
-      <Navbar />
+      <Navbar
+        items={[
+          { name: "Home", href: "/boards" },
+          { name: "Create", href: "/boards/applications/create" },
+          { name: "Metrics", href: "/boards/applications/metrics" },
+        ]}
+      />
       <main className="grid">{children}</main>
     </SyncProvider>
   );

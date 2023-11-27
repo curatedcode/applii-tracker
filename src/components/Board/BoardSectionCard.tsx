@@ -1,7 +1,7 @@
 "use client";
 
-import relativeDate from "./Fn/relativeDate";
-import { BoardSectionCardProps } from "../utils/customVariables";
+import relativeDate from "../Fn/relativeDate";
+import { BoardSectionCardProps } from "../../utils/customVariables";
 import Link from "next/link";
 
 export default function BoardSectionCard({
@@ -22,12 +22,12 @@ export default function BoardSectionCard({
   const applicationLink =
     mode === "demo"
       ? `/demo/applications/${position}-at-${company}?id=${id}`
-      : `/applications/${position}-at-${company}?id=${id}`;
+      : `/boards/applications/${position}-at-${company}?id=${id}`;
 
   return (
     <Link
       href={applicationLink}
-      className={`bg-card-${status} h-[5.75rem] rounded-md px-3 py-2 text-light-text dark:text-black`}
+      className={`bg-card-${status} h-board-section-card rounded-md px-3 py-2 text-black`}
       data-testid="board-section-card"
       aria-label={`Open application for ${position} at ${company}`}
     >

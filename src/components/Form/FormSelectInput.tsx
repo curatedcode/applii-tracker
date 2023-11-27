@@ -11,17 +11,19 @@ export default function FormSelectInput({
   setSelected,
   error,
   options,
+  isRequired,
 }: FormSelectInputProps) {
   if (!selected) return;
 
   return (
-    <div className="w-full">
+    <div className="grid gap-1">
       <Listbox value={selected} onChange={setSelected}>
-        <div className="relative">
-          <Listbox.Label className="ml-1 text-base opacity-80">
+        <div className="relative flex flex-col md:flex-row md:items-center md:gap-1">
+          <Listbox.Label className="mb-1 ml-1 flex w-32 gap-1 text-sm opacity-80">
             {label}
+            {isRequired && <span className="text-red-500">*</span>}
           </Listbox.Label>
-          <Listbox.Button className="relative mt-1 w-full cursor-default rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm outline-none transition-all duration-100 focus-within:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary">
+          <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm outline-none transition-all duration-100 focus-within:outline-none focus:outline-none focus-visible:ring-1 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary md:ml-0.5">
             <span className="block truncate">{selected.label}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
@@ -36,42 +38,37 @@ export default function FormSelectInput({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-[1] mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-secondary shadow-md outline-none ring-1 ring-dark-secondary ring-opacity-100 transition-all duration-100 focus:outline-none dark:bg-dark-secondary dark:ring-light-secondary">
+            <Listbox.Options className="absolute right-0 top-0 z-[1] mt-[4.25rem] max-h-60 w-full overflow-auto rounded-md bg-light-secondary shadow-md outline-none ring-1 ring-dark-secondary ring-opacity-100 transition-all duration-100 focus:outline-none dark:bg-dark-secondary dark:ring-light-secondary md:mt-11 md:max-w-[calc(100%-6.95rem)]">
               {options.map((option, index) => (
                 <Listbox.Option
                   key={index}
                   data-testid={`${option.value}-option`}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-8 pr-4 ${
-                      active
-                        ? "bg-light-secondary-shaded dark:bg-dark-secondary-shaded"
-                        : ""
+                      active ? "bg-light-tertiary dark:bg-dark-tertiary" : ""
                     }`
                   }
                   value={option}
                 >
-                  {({ selected: isSelected }) => {
-                    console.log({ isSelected, option, selected });
-                    return (
-                      <>
-                        <span
-                          className={`block truncate ${
-                            isSelected ? "font-medium" : "font-normal"
-                          }`}
-                        >
-                          {option.label}
+                  {({ selected: isSelected }) => (
+                    <>
+                      <span
+                        className={`block truncate ${
+                          isSelected ? "font-medium" : "font-normal"
+                        }`}
+                      >
+                        {option.label}
+                      </span>
+                      {isSelected ? (
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-light-text dark:text-dark-text">
+                          <CheckIcon
+                            className="w-4 text-dark-secondary dark:text-light-secondary"
+                            aria-hidden="true"
+                          />
                         </span>
-                        {isSelected ? (
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-light-text dark:text-dark-text">
-                            <CheckIcon
-                              className="w-4 text-dark-secondary dark:text-light-secondary"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        ) : null}
-                      </>
-                    );
-                  }}
+                      ) : null}
+                    </>
+                  )}
                 </Listbox.Option>
               ))}
             </Listbox.Options>

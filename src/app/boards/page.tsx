@@ -1,15 +1,7 @@
 "use client";
-
-import {
-  ClockIcon,
-  ChatBubbleBottomCenterTextIcon,
-  ArchiveBoxXMarkIcon,
-  TrophyIcon,
-  EnvelopeIcon,
-} from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 
-import BoardSection from "@/src/components/BoardSection";
+import BoardSection from "@/src/components/Board/BoardSection";
 import {
   GetAllApplicationsReturnType,
   OptionType,
@@ -61,58 +53,36 @@ export default function Home() {
           setSelected={setSortBy}
         />
       </div>
-      <div className="flex w-full flex-wrap justify-center gap-8 justify-self-center md:max-w-[100rem]">
+      <div className="flex w-full flex-wrap justify-center gap-4 justify-self-center">
         <BoardSection
           title="Need To Apply"
-          Icon={
-            <ClockIcon
-              className="w-5 text-card-needToApply"
-              aria-hidden="true"
-            />
-          }
           cards={needToApply}
           sortBy={sortBy.value}
+          status="needToApply"
         />
         <BoardSection
           title="Applied"
-          Icon={
-            <EnvelopeIcon
-              className="w-5 text-card-applied"
-              aria-hidden="true"
-            />
-          }
           cards={applied}
           sortBy={sortBy.value}
+          status="applied"
         />
         <BoardSection
           title="Interviewing"
-          Icon={
-            <ChatBubbleBottomCenterTextIcon
-              className="w-5 text-card-interviewing"
-              aria-hidden="true"
-            />
-          }
           cards={interviewing}
           sortBy={sortBy.value}
+          status="interviewing"
         />
         <BoardSection
           title="Offer"
-          Icon={
-            <TrophyIcon className="w-5 text-card-offer" aria-hidden="true" />
-          }
           cards={offer}
           sortBy={sortBy.value}
+          status="offer"
         />
         <BoardSection
           title="Closed"
-          Icon={
-            <ArchiveBoxXMarkIcon
-              className="w-5 text-card-closed"
-              aria-hidden="true"
-            />
-          }
           cards={closed}
           sortBy={sortBy.value}
+          status="closed"
         />
       </div>
     </>

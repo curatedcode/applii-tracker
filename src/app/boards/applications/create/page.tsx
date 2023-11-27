@@ -1,52 +1,52 @@
 "use client";
 
-import Button from "@/src/components/Button";
-import ContactsFields from "@/src/components/Form/ContactFields";
-import FormInput from "@/src/components/Form/FormInput";
-import NoteFields from "@/src/components/Form/NoteFields";
-import FormSelectInput from "@/src/components/Form/FormSelectInput";
-import InternalLink from "@/src/components/Links/InternalLink";
-import EditApplicationSkeleton from "@/src/components/Loading/EditApplicationSkeleton";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import {
+  ApplicationStatusLabelValueType,
   applicationStatusSelectOptions,
+  applicationStatuses,
   applicationStatusesArray,
   formSchema,
 } from "@/src/utils/customVariables";
-import { getApplication, updateApplication } from "@/src/utils/db";
-import { zodResolver } from "@hookform/resolvers/zod";
-import dayjs from "dayjs";
-import { useRouter, useSearchParams } from "next/navigation";
+import FormInput from "@/src/components/Form/FormInput";
+import FormSelectInput from "@/src/components/Form/FormSelectInput";
+import { createApplication } from "@/src/utils/db";
+import ContactFields from "@/src/components/Form/ContactFields";
+import NoteFields from "@/src/components/Form/NoteFields";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import Button from "@/src/components/Button";
+import InternalLink from "@/src/components/Links/InternalLink";
+import dayjs from "dayjs";
 import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
 import toast from "react-hot-toast";
 import Modal from "@/src/components/Modal";
+import { useSearchParams } from "next/navigation";
 
-export default function FormEdit() {
-  const id = Number(useSearchParams().get("id"));
-  const router = useRouter();
+export default function Create() {
+  const searchParams = useSearchParams();
 
   const {
     formState: { errors },
     handleSubmit,
     getValues,
-    setValue,
     register,
     control,
     watch,
+    setValue,
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  const [isDataFetched, setIsDataFetched] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStatusIndex, setCurrentStatusIndex] = useState(0);
+  const [applicationId, setApplicationId] = useState<number>();
 
-  const currentStatus = watch("status");
   const currentPosition = watch("position");
   const currentCompany = watch("company");
+
+  const currentStatus = watch("status");
 
   const { usagePercent } = useStorageUsage();
 
@@ -65,8 +65,7 @@ export default function FormEdit() {
       return dayjs(date).toISOString();
     }
 
-    await updateApplication({
-      id,
+    const result = await createApplication({
       dateApplied: formatDate(dateApplied),
       dateInterviewing: formatDate(dateInterviewing),
       dateOffered: formatDate(dateOffered),
@@ -79,48 +78,9 @@ export default function FormEdit() {
       toast.error("Storage almost full");
     }
 
+    setApplicationId(result.id);
     setIsModalOpen(true);
   }
-
-  useEffect(() => {
-    if (!window) return;
-    getApplication({ id }).then((data) => {
-      const {
-        position,
-        company,
-        status,
-        postingURL,
-        contacts,
-        notes,
-        dateApplied,
-        dateInterviewing,
-        dateOffered,
-        dateClosed,
-      } = data;
-
-      setValue("position", position);
-      setValue("company", company);
-      setValue(
-        "status",
-        applicationStatusSelectOptions.find(
-          (option) => option.value === status,
-        ) ?? { label: "Need To Apply", value: "needToApply" },
-      );
-      setValue("postingURL", postingURL);
-      setValue("contacts", contacts);
-      setValue("notes", notes);
-      setValue("dateApplied", dayjs(dateApplied).format("YYYY-MM-DD"));
-      setValue(
-        "dateInterviewing",
-        dayjs(dateInterviewing).format("YYYY-MM-DD"),
-      );
-      setValue("dateOffered", dayjs(dateOffered).format("YYYY-MM-DD"));
-      setValue("dateClosed", dayjs(dateClosed).format("YYYY-MM-DD"));
-
-      setIsDataFetched(true);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     if (!currentStatus) return;
@@ -128,53 +88,58 @@ export default function FormEdit() {
     setCurrentStatusIndex(statusIndex);
   }, [currentStatus]);
 
-  if (!id || isNaN(id)) return router.push("/not-found");
-  if (!isDataFetched) return <EditApplicationSkeleton />;
+  useEffect(() => {
+    const statusParam = searchParams.get("status");
+    const parsedStatus = applicationStatuses.safeParse(statusParam);
+
+    if (!parsedStatus.success) return;
+    const statusOption = applicationStatusSelectOptions.find(
+      (val) => val.value === parsedStatus.data,
+    ) as ApplicationStatusLabelValueType;
+    setValue("status", statusOption);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      <div id="loadingEdit" aria-live="polite" className="sr-only">
-        <p>Loaded application.</p>
-      </div>
       <Modal
-        title="Application updated"
+        title="Application created"
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
       >
-        <p>Would you like to view this application or go home?</p>
+        <p className="text-base">
+          Would you like to view this application or go home?
+        </p>
         <div className="mt-4 flex justify-center gap-4">
           <InternalLink
-            href={`/applications/${currentPosition}-at-${currentCompany}?id=${id}`}
+            href={`/boards/applications/${currentPosition}-at-${currentCompany}?id=${applicationId}`}
             style="buttonShaded"
           >
             View
           </InternalLink>
-          <InternalLink href="/" style="buttonShaded">
+          <InternalLink href="/boards" style="buttonShaded">
             Home
           </InternalLink>
         </div>
       </Modal>
-      <div className="mb-8 grid justify-items-center gap-2 justify-self-center">
-        <h1 className="text-3xl font-semibold">Edit Your Application</h1>
-        <span>* indicates a required field</span>
-      </div>
+      <h1 className="mb-8 text-center text-3xl font-semibold">
+        Create your application
+      </h1>
       <form
         onSubmit={handleSubmit(submit)}
-        className="grid justify-items-center gap-4 md:grid-cols-2"
+        className="grid justify-items-center gap-x-12 gap-y-8 md:grid-cols-2"
       >
-        <div className="col-span-full flex h-fit w-full max-w-md flex-col p-4 md:min-h-formSection">
-          <h2 className="mb-6 self-center border-b-2 px-1 text-lg font-semibold">
+        <div className="flex w-full flex-col">
+          <h2 className="mb-6 self-center border-b px-1 text-lg font-semibold">
             Details
           </h2>
-          <div className="grid gap-2">
+          <div className="grid gap-2 md:gap-3">
             <FormInput
               id="positionInput"
               registerName="position"
               label="Position"
               error={errors.position?.message}
               register={register}
-              hiddenLabel
-              placeholder="Position"
               isRequired
             />
             <FormInput
@@ -183,8 +148,6 @@ export default function FormEdit() {
               label="Company"
               error={errors.company?.message}
               register={register}
-              hiddenLabel
-              placeholder="Company"
               isRequired
             />
             <FormInput
@@ -193,8 +156,6 @@ export default function FormEdit() {
               label="Posting URL"
               error={errors.postingURL?.message}
               register={register}
-              hiddenLabel
-              placeholder="Posting URL"
             />
             <Controller
               name="status"
@@ -202,11 +163,7 @@ export default function FormEdit() {
               render={({ field: { onChange } }) => (
                 <FormSelectInput
                   label="Status"
-                  selected={
-                    applicationStatusSelectOptions.find(
-                      (val) => val.value === currentStatus.value,
-                    ) ?? applicationStatusSelectOptions[0]
-                  }
+                  selected={currentStatus ?? applicationStatusSelectOptions[0]}
                   setSelected={onChange}
                   options={applicationStatusSelectOptions}
                 />
@@ -250,20 +207,11 @@ export default function FormEdit() {
             />
           </div>
         </div>
-        <ContactsFields
-          register={register}
-          control={control}
-          className="grid h-fit w-full max-w-md auto-rows-min p-4 md:min-h-formSection"
-        />
-        <NoteFields
-          register={register}
-          control={control}
-          className="grid h-fit w-full max-w-md auto-rows-min p-4 md:min-h-formSection"
-        />
-        <div className="col-span-full mt-12 flex flex-row gap-6">
-          <Button onClick={() => router.push("/")}>Cancel</Button>
-          <Button type="submit">Submit</Button>
-        </div>
+        <ContactFields register={register} control={control} />
+        <NoteFields register={register} control={control} />
+        <Button style="inverse" type="submit" className="col-span-full mt-12">
+          Submit
+        </Button>
       </form>
     </>
   );
