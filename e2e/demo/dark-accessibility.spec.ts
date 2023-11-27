@@ -4,9 +4,8 @@ import AxeBuilder from "@axe-core/playwright";
 test("homepage", async ({ page }) => {
   await page.goto("/demo");
 
-  // close tutorial dialog and set dark mode
+  // set dark mode
   await page.evaluate(() => {
-    localStorage.setItem("tutorialStatus", "completed");
     localStorage.setItem("theme", "dark");
   });
 
@@ -20,9 +19,8 @@ test("homepage", async ({ page }) => {
 test("create page", async ({ page }) => {
   await page.goto("/demo/applications/create");
 
-  // close tutorial dialog and set dark mode
+  // set dark mode
   await page.evaluate(() => {
-    localStorage.setItem("tutorialStatus", "completed");
     localStorage.setItem("theme", "dark");
   });
 
@@ -34,9 +32,8 @@ test("create page", async ({ page }) => {
 test("metrics", async ({ page }) => {
   await page.goto("/demo/applications/metrics");
 
-  // close tutorial dialog and set dark mode
+  // set dark mode
   await page.evaluate(() => {
-    localStorage.setItem("tutorialStatus", "completed");
     localStorage.setItem("theme", "dark");
   });
 

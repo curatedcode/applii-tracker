@@ -4,11 +4,6 @@ import dayjs from "dayjs";
 test("create application", async ({ page }) => {
   await page.goto("/demo");
 
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
-
   await page.getByRole("link", { name: "Create" }).click();
 
   // fill out main fields
@@ -36,11 +31,8 @@ test("create application", async ({ page }) => {
     .getByRole("textbox", { name: "Email" })
     .fill("johnsmith@gmail.com");
 
-  // fill out note fields
+  // fill out note field
   await page.getByRole("button", { name: "Add Note" }).click();
-  await page
-    .getByRole("textbox", { name: "Title" })
-    .fill("This is my first note");
   await page
     .getByRole("textbox", { name: "Body" })
     .fill("This is the body text of my first note");
@@ -53,7 +45,7 @@ test("create application", async ({ page }) => {
     .click();
 
   await page.getByRole("link", { name: "Software Engineer" }).click();
-  await page.waitForSelector("#loadingSlug", { state: "attached" });
+  await page.waitForSelector("#loadingApplication", { state: "attached" });
 
   // verify application data is correct
 
@@ -75,10 +67,7 @@ test("create application", async ({ page }) => {
   expect(page.getByText("123-456-7890", { exact: true })).toBeVisible();
   expect(page.getByText("johnsmith@gmail.com", { exact: true })).toBeVisible();
 
-  // note fields
-  expect(
-    page.getByText("This is my first note", { exact: true }),
-  ).toBeVisible();
+  // note field
   expect(
     page.getByText("This is the body text of my first note", { exact: true }),
   ).toBeVisible();

@@ -2,12 +2,7 @@ import test, { expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test("homepage", async ({ page }) => {
-  await page.goto("/");
-
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
+  await page.goto("/boards");
 
   await page.waitForSelector("#loadingHome", { state: "attached" });
 
@@ -17,12 +12,7 @@ test("homepage", async ({ page }) => {
 });
 
 test("create page", async ({ page }) => {
-  await page.goto("/applications/create");
-
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
+  await page.goto("/boards/applications/create");
 
   const results = await new AxeBuilder({ page }).analyze();
 
@@ -30,12 +20,7 @@ test("create page", async ({ page }) => {
 });
 
 test("metrics", async ({ page }) => {
-  await page.goto("/applications/metrics");
-
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
+  await page.goto("/boards/applications/metrics");
 
   await page.waitForSelector("#loadingMetrics", { state: "attached" });
 

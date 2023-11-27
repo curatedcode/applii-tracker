@@ -2,12 +2,7 @@ import test, { expect } from "@playwright/test";
 import dayjs from "dayjs";
 
 test("create application", async ({ page }) => {
-  await page.goto("/");
-
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
+  await page.goto("/boards");
 
   await page.getByRole("link", { name: "Create" }).click();
 
@@ -39,9 +34,6 @@ test("create application", async ({ page }) => {
   // fill out note fields
   await page.getByRole("button", { name: "Add Note" }).click();
   await page
-    .getByRole("textbox", { name: "Title" })
-    .fill("This is my first note");
-  await page
     .getByRole("textbox", { name: "Body" })
     .fill("This is the body text of my first note");
 
@@ -52,7 +44,7 @@ test("create application", async ({ page }) => {
     .getByRole("link", { name: "Home" })
     .click();
   await page.getByTestId("board-section-card").click();
-  await page.waitForSelector("#loadingSlug", { state: "attached" });
+  await page.waitForSelector("#loadingApplication", { state: "attached" });
 
   // verify application data is correct
 
@@ -74,22 +66,14 @@ test("create application", async ({ page }) => {
   expect(page.getByText("123-456-7890", { exact: true })).toBeVisible();
   expect(page.getByText("johnsmith@gmail.com", { exact: true })).toBeVisible();
 
-  // note fields
-  expect(
-    page.getByText("This is my first note", { exact: true }),
-  ).toBeVisible();
+  // note field
   expect(
     page.getByText("This is the body text of my first note", { exact: true }),
   ).toBeVisible();
 });
 
 test("update application", async ({ page }) => {
-  await page.goto("/");
-
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
+  await page.goto("/boards");
 
   await page.getByRole("link", { name: "Create" }).click();
 
@@ -106,8 +90,10 @@ test("update application", async ({ page }) => {
   await page.getByTestId("applied-option").click();
   await page.getByLabel("Date Applied").fill("2023-10-10");
 
-  // submit
+  // submit and go to edit application page
   await page.getByRole("button", { name: "Submit" }).click();
+  await page.getByRole("link", { name: "View" }).click();
+  await page.waitForSelector("#loadingApplication", { state: "attached" });
   await page.getByRole("link", { name: "Edit" }).click();
   await page.waitForSelector("#loadingEdit", { state: "attached" });
 
@@ -127,7 +113,7 @@ test("update application", async ({ page }) => {
   // submit
   await page.getByRole("button", { name: "Submit" }).click();
   await page.getByRole("link", { name: "View" }).click();
-  await page.waitForSelector("#loadingSlug", { state: "attached" });
+  await page.waitForSelector("#loadingApplication", { state: "attached" });
 
   // verify application data is correct
   expect(page.getByText("Software Developer", { exact: true })).toBeVisible();
@@ -143,12 +129,7 @@ test("update application", async ({ page }) => {
 });
 
 test("delete application", async ({ page }) => {
-  await page.goto("/");
-
-  // close tutorial dialog
-  await page.evaluate(() =>
-    localStorage.setItem("tutorialStatus", "completed"),
-  );
+  await page.goto("/boards");
 
   await page.getByRole("link", { name: "Create" }).click();
 
