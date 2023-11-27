@@ -1,28 +1,28 @@
-import DemoNavbar from "@/src/components/Demo/DemoNavbar";
-import DemoMobileNavbar from "@/src/components/Demo/DemoMobileNavbar";
 import Link from "next/link";
+import Navbar from "@/src/components/Navbar";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <header
-        className="absolute left-0 top-0 z-[1] w-full bg-yellow-400 px-2 py-1 text-center font-semibold text-dark-main"
+        className="text-dark-primary absolute left-0 top-0 w-full bg-yellow-400 px-2 py-1 text-center font-semibold"
         role="banner"
       >
-        To exit demo mode, please{" "}
-        <Link href={"/"} className="underline underline-offset-1">
-          click here
-        </Link>
+        <Link href={"/boards"} className="underline underline-offset-1">
+          Click here
+        </Link>{" "}
+        to exit demo mode
       </header>
-      <div className="mt-8 px-4">
-        <DemoNavbar />
-        <DemoMobileNavbar />
+      <div className="mt-14 micro:mt-8">
+        <Navbar
+          items={[
+            { name: "Home", href: "/demo" },
+            { name: "Create", href: "/demo/applications/create" },
+            { name: "Metrics", href: "/demo/applications/metrics" },
+          ]}
+        />
       </div>
-      <main className="grid px-4">{children}</main>
+      <main className="grid">{children}</main>
     </>
   );
 }

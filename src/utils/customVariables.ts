@@ -130,7 +130,6 @@ export type FormInputProps = {
   error?: string;
   className?: string;
   placeholder?: string;
-  hiddenLabel?: boolean;
   isRequired?: boolean;
 };
 
@@ -143,7 +142,6 @@ export type FormTextareaProps = {
   error?: string;
   className?: string;
   placeholder?: string;
-  hiddenLabel?: boolean;
   isRequired?: boolean;
 };
 
@@ -201,7 +199,7 @@ export type ArrayFieldProps = {
 };
 
 export type StandardButtonProps = {
-  style?: "icon" | "shaded";
+  style?: "icon" | "shaded" | "outline" | "inverse";
 } & ButtonProps;
 
 export type ButtonProps = {
@@ -311,7 +309,7 @@ export type InternalLinkProps = {
   children: ReactNode;
   title?: string;
   onClick?: () => void;
-  style?: "buttonShaded" | "button";
+  style?: "buttonShaded" | "button" | "outline" | "inverse";
 };
 
 type ApplicationPageParamType = {
@@ -327,6 +325,7 @@ export type ULItemProps = {
   body: string;
   isLink?: boolean;
   className?: string;
+  hiddenLabel?: boolean;
 };
 
 export type BoardSectionCardProps = {
@@ -339,10 +338,10 @@ export type SortByLabelType = "Date Modified" | "Date Created";
 
 export type BoardSectionProps = {
   title: "Need To Apply" | "Applied" | "Interviewing" | "Offer" | "Closed";
-  Icon: React.ReactNode;
   cards: FullApplicationType[];
   sortBy: SortByValueType;
   mode?: "demo";
+  status: ApplicationStatusType;
 };
 
 export const typeSafeObjectEntries = <T extends Record<PropertyKey, unknown>>(
@@ -374,6 +373,7 @@ export type FormSelectInputProps = {
   error?: string;
   selected: FormOptionType;
   options: FormOptionType[];
+  isRequired?: boolean;
   setSelected: Dispatch<SetStateAction<FormOptionType>>;
 };
 
@@ -532,4 +532,9 @@ export type ModalProps = {
   children: ReactNode;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+export type NavbarProps = {
+  items: { name: string; href: string }[];
+  className?: string;
 };

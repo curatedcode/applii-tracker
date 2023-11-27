@@ -59,7 +59,7 @@ export default function Application() {
 
   return (
     <>
-      <div id="loadingSlug" aria-live="polite" className="sr-only">
+      <div id="loadingApplication" aria-live="polite" className="sr-only">
         <p>Loaded application.</p>
       </div>
       <div className="mb-8 flex flex-col items-center gap-6">
@@ -67,7 +67,9 @@ export default function Application() {
           {position} at {company}
         </h1>
         <div className="flex gap-4">
-          <InternalLink href={`/applications/edit?id=${id}`}>Edit</InternalLink>
+          <InternalLink href={`/boards/applications/edit?id=${id}`}>
+            Edit
+          </InternalLink>
           <Button onClick={() => setIsDeleteModalOpen(true)}>Delete</Button>
         </div>
       </div>
@@ -78,7 +80,7 @@ export default function Application() {
       >
         <p>Are you sure you want to delete this application?</p>
         <div className="mt-4 flex justify-center gap-4">
-          <Button onClick={() => setIsDeleteModalOpen(false)} style="shaded">
+          <Button onClick={() => setIsDeleteModalOpen(false)} style="inverse">
             Cancel
           </Button>
           <Button onClick={() => deleteApp()} style="shaded">
@@ -86,17 +88,17 @@ export default function Application() {
           </Button>
         </div>
       </Modal>
-      <div className="grid w-full justify-items-center gap-x-12 gap-y-20 justify-self-center md:max-w-5xl md:grid-cols-2">
-        <div className="grid w-full max-w-md auto-rows-min justify-items-center md:max-w-none">
+      <div className="grid justify-items-center gap-x-12 gap-y-8 md:grid-cols-2">
+        <div className="grid w-full auto-rows-min">
           <h2
             id="detailsHeader"
-            className="mb-6 w-fit justify-self-center border-b px-1 text-lg font-semibold md:text-xl"
+            className="mb-6 h-fit w-fit justify-self-center border-b px-1 text-lg font-semibold md:text-xl"
           >
             Details
           </h2>
           <ul
             aria-labelledby="detailsHeader"
-            className="grid w-full max-w-full gap-2 rounded-md bg-light-secondary p-4 dark:bg-dark-secondary"
+            className="grid gap-2 rounded-md bg-light-secondary p-4 dark:bg-dark-secondary"
           >
             <ULItem label="Position" body={position} />
             <ULItem label="Company" body={company} />
@@ -124,72 +126,76 @@ export default function Application() {
             )}
           </ul>
         </div>
-        <div className="grid w-full max-w-md auto-rows-min justify-items-center md:max-w-none">
-          <h2
-            id="contactsHeader"
-            className="mb-6 w-fit justify-self-center border-b px-1 text-lg font-semibold md:text-xl"
-          >
-            Contacts
-          </h2>
-          {contacts && contacts.length > 0 ? (
-            <ul
-              aria-labelledby="contactsHeader"
-              className="content-scrollbar grid w-full gap-4 overflow-y-auto md:max-h-[30rem] md:px-1"
+        <div className="grid w-full gap-8">
+          <div className="grid w-full auto-rows-min">
+            <h2
+              id="contactsHeader"
+              className="mb-6 h-fit w-fit justify-self-center border-b px-1 text-lg font-semibold md:text-xl"
             >
-              {contacts.map((contact, index) => {
-                const { name, position, phone, email } = contact;
-                return (
+              Contacts
+            </h2>
+            {contacts && contacts.length > 0 ? (
+              <ul
+                aria-labelledby="contactsHeader"
+                className="grid auto-rows-min gap-3 md:max-h-96 md:overflow-y-scroll md:p-0.5"
+              >
+                {contacts.map((contact, index) => (
                   <ul
                     key={index}
-                    className="grid max-w-full gap-2 rounded-md bg-light-secondary p-4 dark:bg-dark-secondary"
+                    className="flex flex-col gap-2 rounded-md bg-light-secondary p-4 dark:bg-dark-secondary"
                   >
-                    <ULItem label="Name" body={name} />
-                    {position && <ULItem label="Position" body={position} />}
-                    {phone && <ULItem label="Phone" body={phone} />}
-                    {email && <ULItem label="Email" body={email} />}
+                    <ULItem label="Name" body={contact.name} />
+                    {contact.position && (
+                      <ULItem label="Position" body={contact.position} />
+                    )}
+                    {contact.phone && (
+                      <ULItem label="Phone" body={contact.phone} />
+                    )}
+                    {contact.email && (
+                      <ULItem label="Email" body={contact.email} />
+                    )}
                   </ul>
-                );
-              })}
-            </ul>
-          ) : (
-            <span
-              aria-labelledby="contactsHeader"
-              className="justify-self-center"
+                ))}
+              </ul>
+            ) : (
+              <span
+                aria-labelledby="contactsHeader"
+                className="justify-self-center md:mb-24"
+              >
+                No contacts...
+              </span>
+            )}
+          </div>
+          <div className="grid w-full auto-rows-min">
+            <h2
+              id="notesHeader"
+              className="mb-6 h-fit w-fit justify-self-center border-b px-1 text-lg font-semibold md:text-xl"
             >
-              No contacts...
-            </span>
-          )}
-        </div>
-        <div className="grid w-full max-w-md auto-rows-min justify-items-center md:col-span-full md:max-w-none">
-          <h2
-            id="notesHeader"
-            className="mb-6 w-fit justify-self-center border-b px-1 text-lg font-semibold md:text-xl"
-          >
-            Notes
-          </h2>
-          {notes && notes.length > 0 ? (
-            <ul
-              aria-labelledby="notesHeader"
-              className="grid w-full gap-4 md:flex md:flex-wrap md:justify-center"
-            >
-              {notes.map((note, index) => {
-                const { title, body } = note;
-                return (
+              Notes
+            </h2>
+            {notes && notes.length > 0 ? (
+              <ul
+                aria-labelledby="notesHeader"
+                className="grid auto-rows-min gap-3 md:max-h-96 md:overflow-y-scroll md:p-0.5"
+              >
+                {notes.map((note, index) => (
                   <li
                     key={index}
-                    className="main-scrollbar grid h-64 w-full max-w-full auto-rows-min gap-1 divide-y divide-light-text divide-opacity-30 overflow-y-auto rounded-md bg-light-secondary p-4 dark:divide-dark-text dark:bg-dark-secondary md:max-w-xs"
+                    className="rounded-md bg-light-secondary px-3 py-1.5 dark:bg-dark-secondary"
                   >
-                    <p className="overflow-x-auto break-words">{title}</p>
-                    <p className="overflow-x-auto break-words pt-1">{body}</p>
+                    <p className="break-words pt-1">{note.body}</p>
                   </li>
-                );
-              })}
-            </ul>
-          ) : (
-            <span aria-labelledby="notesHeader" className="justify-self-center">
-              No notes...
-            </span>
-          )}
+                ))}
+              </ul>
+            ) : (
+              <span
+                aria-labelledby="notesHeader"
+                className="justify-self-center"
+              >
+                No notes...
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </>

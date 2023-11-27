@@ -15,20 +15,18 @@ export default function ContactsFields({
   });
 
   return (
-    <div className={className}>
+    <div className={`grid w-full auto-rows-min ${className}`}>
       <h2 className="mb-6 w-fit justify-self-center border-b px-1 text-lg font-semibold">
         Contacts
       </h2>
-      <ul className="grid">
+      <ul className="grid md:max-h-96 md:overflow-y-scroll md:p-0.5">
         {fields.map((field, index) => (
-          <li key={field.id} className="mb-6 grid gap-2">
+          <li key={field.id} className="mb-6 grid gap-3">
             <FormInput
               id={`contactNameInput${index}`}
               label="Name"
               registerName={`contacts.${index}.name`}
               register={register}
-              hiddenLabel
-              placeholder="Name"
               isRequired
             />
             <FormInput
@@ -36,24 +34,18 @@ export default function ContactsFields({
               label="Position"
               registerName={`contacts.${index}.position`}
               register={register}
-              hiddenLabel
-              placeholder="Position"
             />
             <FormInput
               id={`contactPhoneInput${index}`}
               label="Phone"
               registerName={`contacts.${index}.phone`}
               register={register}
-              hiddenLabel
-              placeholder="Phone"
             />
             <FormInput
               id={`contactEmailInput${index}`}
               label="Email"
               registerName={`contacts.${index}.email`}
               register={register}
-              hiddenLabel
-              placeholder="Email"
             />
             <Button
               onClick={() => remove(index)}
@@ -61,7 +53,7 @@ export default function ContactsFields({
               title={`Delete Contact ${index + 1}`}
               style="icon"
             >
-              <TrashIcon aria-hidden="true" className="w-6" />
+              <TrashIcon aria-hidden="true" className="w-5" />
             </Button>
           </li>
         ))}
@@ -75,7 +67,9 @@ export default function ContactsFields({
             email: "",
           })
         }
-        className="justify-self-center"
+        className={`justify-self-center ${
+          fields.length > 0 ? "md:mt-2" : "md:-mt-1"
+        }`}
       >
         <UserPlusIcon className="w-4" aria-hidden="true" />
         <span>Add Contact</span>

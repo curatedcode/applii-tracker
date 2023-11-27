@@ -70,64 +70,59 @@ export default function Metrics() {
         />
       </div>
       <div className="grid w-full max-w-6xl justify-items-center gap-12 justify-self-center md:gap-20">
-        <div className="justify-self-center font-semibold md:hidden">
-          <span>Switch to landscape mode to view chart.</span>
-        </div>
-        <div className="w-full">
-          <Bar
-            id="metricsChart"
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: "bottom" as const,
-                  labels: {
-                    font: {
-                      size: 16,
-                      weight: "500",
-                    },
+        <Bar
+          id="metricsChart"
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom" as const,
+                labels: {
+                  font: {
+                    size: 16,
+                    weight: "500",
                   },
-                  title: {
-                    display: true,
-                    padding: 6,
-                  },
+                },
+                title: {
+                  display: true,
+                  padding: 6,
                 },
               },
-            }}
-            data={{
-              labels,
-              datasets: [
-                {
-                  label: "Need To Apply",
-                  data: needToApply,
-                  backgroundColor: applicationColors.needToApply,
-                },
-                {
-                  label: "Applied",
-                  data: applied,
-                  backgroundColor: applicationColors.applied,
-                },
-                {
-                  label: "Interview",
-                  data: interviewing,
-                  backgroundColor: applicationColors.interviewing,
-                },
-                {
-                  label: "Offer",
-                  data: offer,
-                  backgroundColor: applicationColors.offer,
-                },
-                {
-                  label: "Closed",
-                  data: closed,
-                  backgroundColor: applicationColors.closed,
-                },
-              ],
-            }}
-          />
-        </div>
-        <div className="grid h-fit w-full max-w-xs text-xl">
-          <h1 className="mb-6 w-fit justify-self-center px-1 text-2xl font-semibold">
+            },
+          }}
+          data={{
+            labels,
+            datasets: [
+              {
+                label: "Need To Apply",
+                data: needToApply,
+                backgroundColor: applicationColors.needToApply,
+              },
+              {
+                label: "Applied",
+                data: applied,
+                backgroundColor: applicationColors.applied,
+              },
+              {
+                label: "Interview",
+                data: interviewing,
+                backgroundColor: applicationColors.interviewing,
+              },
+              {
+                label: "Offer",
+                data: offer,
+                backgroundColor: applicationColors.offer,
+              },
+              {
+                label: "Closed",
+                data: closed,
+                backgroundColor: applicationColors.closed,
+              },
+            ],
+          }}
+        />
+        <div className="grid h-fit w-full max-w-sm rounded-md bg-light-secondary px-4 py-3 text-lg dark:bg-dark-secondary">
+          <h1 className="mb-3 text-center text-2xl font-semibold">
             Percent in each stage
           </h1>
           {simpleStats.percents.map((stat, index) => (
@@ -136,9 +131,6 @@ export default function Metrics() {
               <span>{stat.percent}</span>
             </div>
           ))}
-          <span className="mt-2 flex w-full justify-end border-t-2 pt-1 font-semibold">
-            Total Applications: {simpleStats.totalApplications}
-          </span>
         </div>
       </div>
     </>

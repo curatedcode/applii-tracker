@@ -1,24 +1,27 @@
 import { ULItemProps } from "../utils/customVariables";
 import ExternalLink from "./Links/ExternalLink";
 
-export default function DLGroup({
+export default function ULItem({
   label,
   body,
   isLink,
   className,
+  hiddenLabel,
 }: ULItemProps) {
   return (
-    <li className={`grid grid-cols-3 gap-2 ${className}`}>
-      <span className="font-semibold">{label}:</span>
+    <li className={`flex gap-2 ${className}`}>
+      <span className={hiddenLabel ? "sr-only" : "w-32 font-semibold"}>
+        {label}:
+      </span>
       {isLink ? (
         <ExternalLink
           href={body}
-          className="col-span-2 truncate underline underline-offset-2"
+          className="truncate underline underline-offset-2"
         >
           {body}
         </ExternalLink>
       ) : (
-        <p className="col-span-2 break-words">{body}</p>
+        <p className="break-words">{body}</p>
       )}
     </li>
   );
