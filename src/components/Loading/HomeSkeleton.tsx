@@ -4,27 +4,13 @@ export default function HomeSkeleton() {
       <div aria-live="polite" className="sr-only">
         <p>Loading applications.</p>
       </div>
-      <div className="mt-20 flex w-full cursor-wait flex-wrap justify-center gap-8 justify-self-center md:max-w-[100rem]">
-        <div className="flex w-full max-w-board-section animate-pulse flex-col items-center gap-2">
-          <div className="flex h-7 min-h-max items-center justify-center gap-1 text-xl" />
-          <div className="grid h-board-section w-full gap-2 overflow-auto rounded-md border-[0.4rem] border-light-secondary bg-light-secondary p-[0.4rem] dark:border-dark-secondary dark:bg-dark-secondary" />
-        </div>
-        <div className="flex w-full max-w-board-section animate-pulse flex-col items-center gap-2">
-          <div className="flex h-7 min-h-max items-center justify-center gap-1 text-xl" />
-          <div className="grid h-board-section w-full gap-2 overflow-auto rounded-md border-[0.4rem] border-light-secondary bg-light-secondary p-[0.4rem] dark:border-dark-secondary dark:bg-dark-secondary" />
-        </div>
-        <div className="flex w-full max-w-board-section animate-pulse flex-col items-center gap-2">
-          <div className="flex h-7 min-h-max items-center justify-center gap-1 text-xl" />
-          <div className="grid h-board-section w-full gap-2 overflow-auto rounded-md border-[0.4rem] border-light-secondary bg-light-secondary p-[0.4rem] dark:border-dark-secondary dark:bg-dark-secondary" />
-        </div>
-        <div className="flex w-full max-w-board-section animate-pulse flex-col items-center gap-2">
-          <div className="flex h-7 min-h-max items-center justify-center gap-1 text-xl" />
-          <div className="grid h-board-section w-full gap-2 overflow-auto rounded-md border-[0.4rem] border-light-secondary bg-light-secondary p-[0.4rem] dark:border-dark-secondary dark:bg-dark-secondary" />
-        </div>
-        <div className="flex w-full max-w-board-section animate-pulse flex-col items-center gap-2">
-          <div className="flex h-7 min-h-max items-center justify-center gap-1 text-xl" />
-          <div className="grid h-board-section w-full gap-2 overflow-auto rounded-md border-[0.4rem] border-light-secondary bg-light-secondary p-[0.4rem] dark:border-dark-secondary dark:bg-dark-secondary" />
-        </div>
+      <div className="mb-12 h-[5.25rem] md:h-9"></div>
+      <div className="flex w-full flex-wrap justify-center gap-4 justify-self-center">
+        <div className="h-board-section w-full max-w-board-section animate-pulse rounded-md bg-light-secondary dark:bg-dark-secondary"></div>
+        <div className="h-board-section w-full max-w-board-section animate-pulse rounded-md bg-light-secondary dark:bg-dark-secondary"></div>
+        <div className="h-board-section w-full max-w-board-section animate-pulse rounded-md bg-light-secondary dark:bg-dark-secondary"></div>
+        <div className="h-board-section w-full max-w-board-section animate-pulse rounded-md bg-light-secondary dark:bg-dark-secondary"></div>
+        <div className="h-board-section w-full max-w-board-section animate-pulse rounded-md bg-light-secondary dark:bg-dark-secondary"></div>
       </div>
     </>
   );
