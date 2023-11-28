@@ -9,19 +9,23 @@ export default function ULItem({
   hiddenLabel,
 }: ULItemProps) {
   return (
-    <li className={`flex gap-2 ${className}`}>
-      <span className={hiddenLabel ? "sr-only" : "w-32 font-semibold"}>
+    <li className={`grid gap-1 xs:flex xs:gap-2 ${className}`}>
+      <span
+        className={
+          hiddenLabel ? "sr-only" : "min-w-[8rem] max-w-[8rem] font-semibold"
+        }
+      >
         {label}:
       </span>
       {isLink ? (
         <ExternalLink
           href={body}
-          className="truncate underline underline-offset-2"
+          className="break-all underline underline-offset-1"
         >
           {body}
         </ExternalLink>
       ) : (
-        <p className="break-words">{body}</p>
+        <p className="break-all">{body}</p>
       )}
     </li>
   );
