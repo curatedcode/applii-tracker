@@ -58,7 +58,7 @@ export default function Application() {
           </h2>
           <ul
             aria-labelledby="detailsHeader"
-            className="grid gap-2 rounded-md bg-light-secondary p-4 dark:bg-dark-secondary"
+            className="grid gap-2 rounded-md bg-light-secondary px-4 py-3 dark:bg-dark-secondary"
           >
             <ULItem label="Position" body={position} />
             <ULItem label="Company" body={company} />
@@ -102,7 +102,7 @@ export default function Application() {
                 {contacts.map((contact, index) => (
                   <ul
                     key={index}
-                    className="flex flex-col gap-2 rounded-md bg-light-secondary p-4 dark:bg-dark-secondary"
+                    className="grid gap-2 rounded-md bg-light-secondary px-4 py-3 dark:bg-dark-secondary"
                   >
                     <ULItem label="Name" body={contact.name} />
                     {contact.position && (
@@ -139,12 +139,13 @@ export default function Application() {
                 className="grid auto-rows-min gap-3 md:max-h-96 md:overflow-y-scroll md:p-0.5"
               >
                 {notes.map((note, index) => (
-                  <li
+                  <ULItem
+                    label={`Note ${index + 1}`}
                     key={index}
-                    className="rounded-md bg-light-secondary px-3 py-1.5 dark:bg-dark-secondary"
-                  >
-                    <p className="break-words pt-1">{note.body}</p>
-                  </li>
+                    body={note.body}
+                    className="rounded-md bg-light-secondary px-4 py-3 dark:bg-dark-secondary"
+                    hiddenLabel={true}
+                  ></ULItem>
                 ))}
               </ul>
             ) : (
