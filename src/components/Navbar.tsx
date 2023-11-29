@@ -66,9 +66,9 @@ export default function Navbar({ items }: NavbarProps) {
                     {navItems.map((item) => (
                       <Link
                         key={item.name}
-                        className={`border-b-2 px-3 py-2 text-sm font-medium transition-colors duration-100 hover:border-b-inherit ${
+                        className={`border-b-2 px-3 py-2 text-sm font-medium transition-colors duration-100 hover:border-b-light-tertiary dark:hover:border-b-dark-tertiary ${
                           item.current
-                            ? "border-b-inherit"
+                            ? "border-b-light-tertiary dark:border-b-dark-tertiary"
                             : "border-b-transparent"
                         }`}
                         href={item.href}
