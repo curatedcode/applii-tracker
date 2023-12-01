@@ -10,7 +10,6 @@ const config: Config = {
     extend: {
       height: {
         "board-section": "28rem",
-        "screen-minus-nav": "calc(100vh - 240px)",
         "board-section-card": "5.75rem",
       },
       minHeight: {
@@ -27,6 +26,9 @@ const config: Config = {
       },
       maxWidth: {
         "8xl": "120rem",
+        "board-section": "23rem",
+      },
+      minWidth: {
         "board-section": "23rem",
       },
       colors: {
@@ -57,12 +59,27 @@ const config: Config = {
             transform: "translate3d(0, -1rem, 0)",
           },
         },
+        wiggle: {
+          "0%, 100%": { transform: "translate3d(0, 0, 0)" },
+          "50%": { transform: "translate3d(0.7rem, 1rem, 1rem)" },
+        },
+        "shift-gradient-x": {
+          "0%, 100%": {
+            "background-size": "200% 200%",
+            "background-position": "left bottom",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right bottom",
+          },
+        },
       },
       animation: {
         "metric-loading":
           "loading 0.75s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate",
-        "spin-slow":
-          "spin 500s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate",
+        wiggle: "wiggle 10s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate",
+        "shift-gradient-x":
+          "shift-gradient-x 10s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate",
       },
     },
   },
@@ -75,6 +92,16 @@ const config: Config = {
     "bg-card-interviewing",
     "bg-card-offer",
     "bg-card-closed",
+    "outline-none",
+    "transition-colors",
+    "focus-within:outline-none",
+    "focus:outline-none",
+    "focus-visible:ring-2",
+    "focus-visible:ring-dark-secondary",
+    "focus-visible:ring-opacity-75",
+    "focus-visible:ring-offset-dark-secondary",
+    "dark:focus-visible:ring-light-secondary",
+    "dark:focus-visible:ring-offset-light-secondary",
   ],
   darkMode: "class",
 };
