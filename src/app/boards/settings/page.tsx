@@ -116,7 +116,7 @@ export default function Settings() {
       <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-center md:gap-4">
         <h1 className="text-3xl font-semibold">Settings</h1>
       </div>
-      <div className="flex w-full max-w-sm flex-col gap-6 justify-self-center">
+      <div className="grid w-full max-w-md gap-6 justify-self-center">
         <ThemeSelectInput />
         <div className="grid auto-rows-min gap-2">
           <div className="flex h-9 items-center justify-between gap-2">
