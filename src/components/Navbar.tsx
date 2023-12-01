@@ -2,14 +2,21 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { Disclosure, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment, useState } from "react";
-import { NavbarProps } from "../utils/customVariables";
+import {
+  Bars3Icon,
+  Cog8ToothIcon as Cog8ToothIconOutline,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import { Cog8ToothIcon as Cog8ToothIconSolid } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Fragment, useState } from "react";
+import { NavbarProps, defaultFocusClassName } from "../utils/customVariables";
 import useRelativeURL from "./Hooks/useRelativeURL";
 
-export default function Navbar({ items }: NavbarProps) {
+export default function Navbar({ items, showSettingsGear }: NavbarProps) {
   const relativeURL = useRelativeURL();
+  const pathname = usePathname();
 
   const [navItems, setNavItems] = useState(() =>
     items.map((item) => {
@@ -39,7 +46,7 @@ export default function Navbar({ items }: NavbarProps) {
           <div>
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-0.5 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-0.5">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -61,16 +68,16 @@ export default function Navbar({ items }: NavbarProps) {
                     alt="Applii logo"
                   />
                 </Link>
-                <div className="hidden sm:ml-6 sm:block">
+                <div className="hidden items-center gap-4 sm:ml-6 sm:flex sm:w-full">
                   <div className="flex space-x-4">
                     {navItems.map((item) => (
                       <Link
                         key={item.name}
-                        className={`border-b-2 px-3 py-2 text-sm font-medium transition-colors duration-100 hover:border-b-light-tertiary dark:hover:border-b-dark-tertiary ${
+                        className={`border-b-2 px-3 py-2 text-sm font-medium transition-colors duration-100 hover:border-b-dark-tertiary dark:hover:border-b-light-tertiary ${
                           item.current
-                            ? "border-b-light-tertiary dark:border-b-dark-tertiary"
+                            ? "border-b-dark-tertiary dark:border-b-light-tertiary"
                             : "border-b-transparent"
-                        }`}
+                        } ${defaultFocusClassName}`}
                         href={item.href}
                         aria-current={item.current ? "page" : undefined}
                         onClick={() => setCurrentItem(item.href)}
@@ -79,11 +86,26 @@ export default function Navbar({ items }: NavbarProps) {
                       </Link>
                     ))}
                   </div>
+                  {showSettingsGear && (
+                    <Link href="/boards/settings" className="ml-auto">
+                      <span className="sr-only">Go to settings page</span>
+                      {pathname === "/boards/settings" ? (
+                        <Cog8ToothIconSolid
+                          className={`w-6 ${defaultFocusClassName}`}
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <Cog8ToothIconOutline
+                          className={`w-6 ${defaultFocusClassName}`}
+                          aria-hidden="true"
+                        />
+                      )}
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-
           <Disclosure.Panel className="sm:hidden">
             <Transition
               as={Fragment}
@@ -104,7 +126,7 @@ export default function Navbar({ items }: NavbarProps) {
                       item.current
                         ? "border-l-inherit bg-light-secondary bg-opacity-20 dark:bg-dark-secondary"
                         : "border-l-transparent"
-                    }`}
+                    } ${defaultFocusClassName}`}
                     aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}

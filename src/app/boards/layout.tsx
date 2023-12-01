@@ -1,6 +1,6 @@
+import Navbar from "@/src/components/Navbar";
 import SyncProvider from "@/src/components/Sync/SyncProvider";
 import Toaster from "@/src/components/Toaster";
-import Navbar from "@/src/components/Navbar";
 
 export default function RootLayout({
   children,
@@ -16,6 +16,7 @@ export default function RootLayout({
           { name: "Create", href: "/boards/applications/create" },
           { name: "Metrics", href: "/boards/applications/metrics" },
         ]}
+        showSettingsGear={true}
       />
       <main className="grid">{children}</main>
     </SyncProvider>
