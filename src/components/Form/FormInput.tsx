@@ -1,4 +1,7 @@
-import { FormInputProps } from "@/src/utils/customVariables";
+import {
+  FormInputProps,
+  defaultFocusClassName,
+} from "@/src/utils/customVariables";
 import ErrorMessage from "./ErrorMessage";
 
 export default function FormInput({
@@ -27,7 +30,7 @@ export default function FormInput({
           type={type ?? "text"}
           aria-required={isRequired}
           placeholder={placeholder}
-          className={`w-full rounded-md bg-light-secondary px-3 py-1.5 transition-all duration-100 placeholder:opacity-70 focus:outline-none focus-visible:ring-1 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary ${
+          className={`w-full rounded-md bg-light-secondary px-3 py-1.5 transition-all placeholder:opacity-70 dark:bg-dark-secondary ${defaultFocusClassName} ${
             error ? "ring-1 ring-red-500" : ""
           }`}
           {...register(registerName ?? id)}

@@ -1,4 +1,7 @@
-import { FormTextareaProps } from "@/src/utils/customVariables";
+import {
+  FormTextareaProps,
+  defaultFocusClassName,
+} from "@/src/utils/customVariables";
 import ErrorMessage from "./ErrorMessage";
 
 export default function FormTextarea({
@@ -19,9 +22,9 @@ export default function FormTextarea({
         </label>
         <textarea
           id={id}
-          className={`w-full resize-none rounded-md bg-light-secondary px-3 py-1.5 outline-none transition-all duration-100 placeholder:opacity-70 focus-within:outline-none focus:outline-none focus-visible:ring-1 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary ${
+          className={`w-full resize-none rounded-md bg-light-secondary px-3 py-1.5 outline-none transition-all duration-100 placeholder:opacity-70 dark:bg-dark-secondary ${
             error ? "ring-1 ring-red-500" : ""
-          }`}
+          } ${defaultFocusClassName}`}
           aria-required={isRequired}
           {...props}
           {...register(registerName ?? id)}
