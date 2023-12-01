@@ -16,5 +16,5 @@ export default function useTheme() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTheme]);
 
-  return { theme, currentTheme, setCurrentTheme };
+  return { currentTheme, setCurrentTheme };
 }
