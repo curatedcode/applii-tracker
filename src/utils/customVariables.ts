@@ -217,7 +217,7 @@ export type IconButtonProps = {
 
 export type ExternalLinkProps = {
   href: string;
-  style?: "button";
+  style?: "button" | "underline";
   title?: string;
   className?: string;
   children: React.ReactNode;
@@ -536,5 +536,15 @@ export type ModalProps = {
 
 export type NavbarProps = {
   items: { name: string; href: string }[];
+  showSettingsGear?: boolean;
+};
+
+export type LandingBoardSectionProps = {
+  title: "Need To Apply" | "Offer";
+  cards: FullApplicationType[];
   className?: string;
 };
+
+// If you update this you need to change the tailwind config safelist accordingly
+export const defaultFocusClassName =
+  "outline-none transition-colors focus-within:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-dark-secondary focus-visible:ring-opacity-75 focus-visible:ring-offset-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary";

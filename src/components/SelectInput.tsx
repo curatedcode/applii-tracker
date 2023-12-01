@@ -1,7 +1,10 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { SelectInputProps } from "../utils/customVariables";
-import { Fragment } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import { Fragment } from "react";
+import {
+  SelectInputProps,
+  defaultFocusClassName,
+} from "../utils/customVariables";
 
 export default function SelectInput<
   TLabel extends string,
@@ -11,13 +14,12 @@ export default function SelectInput<
     <div className="w-40 text-sm">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
-          <Listbox.Button className="relative w-full cursor-default rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm outline-none transition-all duration-100 focus-within:outline-none focus:outline-none focus-visible:ring-1 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-black dark:bg-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary">
+          <Listbox.Button
+            className={`relative w-full cursor-default rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm transition-all dark:bg-dark-secondary ${defaultFocusClassName}`}
+          >
             <span className="block truncate">{selected.label}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
+              <ChevronUpDownIcon className="h-5 w-5" aria-hidden="true" />
             </span>
           </Listbox.Button>
           <Transition
@@ -33,7 +35,7 @@ export default function SelectInput<
                   className={({ active }) =>
                     `relative cursor-default select-none py-1.5 pl-8 pr-4 ${
                       active ? "bg-light-tertiary dark:bg-dark-tertiary" : ""
-                    }`
+                    } ${defaultFocusClassName}`
                   }
                   value={option}
                 >

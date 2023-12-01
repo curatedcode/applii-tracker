@@ -1,10 +1,10 @@
 "use client";
 
 import { themeOptions } from "@/src/utils/customVariables";
-import SelectInput from "../SelectInput";
-import useTheme from "../Hooks/useTheme";
-import { useEffect } from "react";
 import { updateSetting } from "@/src/utils/db";
+import { useEffect } from "react";
+import useTheme from "../Hooks/useTheme";
+import SelectInput from "../SelectInput";
 
 export default function ThemeSelectInput() {
   const { currentTheme, setCurrentTheme } = useTheme();
@@ -15,7 +15,7 @@ export default function ThemeSelectInput() {
   }, [currentTheme]);
 
   return (
-    <div className="flex w-fit items-center gap-2">
+    <div className="flex items-center justify-between">
       <span>Theme:</span>
       <SelectInput
         options={themeOptions}
