@@ -5,12 +5,13 @@ import getAllMockApplications from "@/src/components/Demo/getAllDemoApplications
 import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
 import SelectInput from "@/src/components/SelectInput";
 import {
-  GetAllApplicationsReturnType,
   OptionType,
   SortByLabelType,
   SortByValueType,
   sortByOptions,
-} from "@/src/utils/customVariables";
+} from "@/src/types/global";
+import { GetAllApplicationsReturnType } from "@/src/utils/db";
+
 import { useEffect, useState } from "react";
 
 export default function Demo() {

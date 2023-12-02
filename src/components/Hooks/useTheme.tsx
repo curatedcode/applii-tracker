@@ -1,8 +1,8 @@
 "use client";
 
-import { ThemeOption, themeOptions } from "@/src/utils/customVariables";
-import { useEffect, useState } from "react";
+import { ThemeOption, themeOptions } from "@/src/types/global";
 import { useTheme as useNextTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function useTheme() {
   const { theme, setTheme } = useNextTheme();

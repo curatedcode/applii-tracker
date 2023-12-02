@@ -1,12 +1,19 @@
 "use client";
 
-import {
-  FormSelectInputProps,
-  defaultFocusClassName,
-} from "@/src/utils/customVariables";
+import { FormOptionType } from "@/src/types/applications";
+import { defaultFocusClassName } from "@/src/types/global";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
+
+export type FormSelectInputProps = {
+  label: string;
+  error?: string;
+  selected: FormOptionType;
+  options: FormOptionType[];
+  isRequired?: boolean;
+  setSelected: React.Dispatch<React.SetStateAction<FormOptionType>>;
+};
 
 export default function FormSelectInput({
   label,

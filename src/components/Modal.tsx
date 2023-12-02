@@ -1,6 +1,12 @@
-import { Fragment } from "react";
-import { ModalProps } from "../utils/customVariables";
 import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+
+export type ModalProps = {
+  title: string;
+  children: React.ReactNode;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 export default function Modal({
   title,

@@ -1,7 +1,14 @@
-import {
-  ExternalLinkProps,
-  defaultFocusClassName,
-} from "../../utils/customVariables";
+import { defaultFocusClassName } from "@/src/types/global";
+
+export type ExternalLinkProps = {
+  href: string;
+  style?: "button" | "underline";
+  title?: string;
+  className?: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+  openInNewTab?: boolean;
+};
 
 export default function ExternalLink({
   children,

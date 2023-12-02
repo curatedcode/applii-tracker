@@ -1,8 +1,14 @@
-import {
-  InternalLinkProps,
-  defaultFocusClassName,
-} from "@/src/utils/customVariables";
+import { defaultFocusClassName } from "@/src/types/global";
 import Link from "next/link";
+
+export type InternalLinkProps = {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+  title?: string;
+  onClick?: () => void;
+  style?: "buttonShaded" | "button" | "outline" | "inverse";
+};
 
 export default function InternalLink({
   style,

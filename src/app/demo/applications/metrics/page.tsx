@@ -1,25 +1,22 @@
 "use client";
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
-import {
-  GetApplicationMetricsReturnType,
-  TimelineLabelValueType,
-  applicationColors,
-  timelineOptions,
-} from "@/src/utils/customVariables";
-import { useEffect, useState } from "react";
-import SelectInput from "@/src/components/SelectInput";
 import getDemoApplicationMetrics from "@/src/components/Demo/getDemoApplicationMetrics";
 import MetricsSkeleton from "@/src/components/Loading/MetricsSkeleton";
+import SelectInput from "@/src/components/SelectInput";
+import { applicationColors } from "@/src/types/applications";
+import { TimelineLabelValueType, timelineOptions } from "@/src/types/global";
+import { GetApplicationMetricsReturnType } from "@/src/utils/db";
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  Title,
+  Tooltip,
+} from "chart.js";
+import { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,

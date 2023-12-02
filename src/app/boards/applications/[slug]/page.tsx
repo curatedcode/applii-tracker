@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { deleteApplication, getApplication } from "@/src/utils/db";
+import Button from "@/src/components/Button";
+import formatDate from "@/src/components/Fn/formatDate";
+import InternalLink from "@/src/components/Links/InternalLink";
+import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
+import Modal from "@/src/components/Modal";
+import ULItem from "@/src/components/ULItem";
 import {
   ApplicationStatusType,
   FullApplicationType,
-} from "@/src/utils/customVariables";
-import formatDate from "@/src/components/Fn/formatDate";
+} from "@/src/types/applications";
+import { deleteApplication, getApplication } from "@/src/utils/db";
 import { useRouter, useSearchParams } from "next/navigation";
-import ULItem from "@/src/components/ULItem";
-import InternalLink from "@/src/components/Links/InternalLink";
-import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
-import Button from "@/src/components/Button";
-import Modal from "@/src/components/Modal";
+import { useEffect, useState } from "react";
 
 export default function Application() {
   const id = Number(useSearchParams().get("id"));

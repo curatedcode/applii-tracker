@@ -1,7 +1,7 @@
 import { DropboxAuth } from "dropbox";
-import env from "./env";
-import { DropboxGetAccessTokenResponseType } from "./customVariables";
 import toast from "react-hot-toast";
+import { DropboxGetAccessTokenResponseType } from "../types/dropbox";
+import env from "./env";
 
 const dbxAuth = new DropboxAuth({ clientId: env.DROPBOX_APP_KEY });
 const redirectURL = `${env.APP_URL}/settings`;

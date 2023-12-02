@@ -2,17 +2,19 @@
 import { useEffect, useState } from "react";
 
 import BoardSection from "@/src/components/Board/BoardSection";
+import IndexedDBNotSupported from "@/src/components/IndexedDBNotSupported";
+import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
+import SelectInput from "@/src/components/SelectInput";
 import {
-  GetAllApplicationsReturnType,
   OptionType,
   SortByLabelType,
   SortByValueType,
   sortByOptions,
-} from "@/src/utils/customVariables";
-import { getAllApplications } from "@/src/utils/db";
-import IndexedDBNotSupported from "@/src/components/IndexedDBNotSupported";
-import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
-import SelectInput from "@/src/components/SelectInput";
+} from "@/src/types/global";
+import {
+  GetAllApplicationsReturnType,
+  getAllApplications,
+} from "@/src/utils/db";
 
 export default function Home() {
   const [allApplications, setAllApplications] =

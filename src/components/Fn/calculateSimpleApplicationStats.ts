@@ -1,8 +1,17 @@
-import {
-  CalculateSimpleApplicationStatsProps,
-  CalculateSimpleApplicationStatsReturnType,
-  typeSafeObjectEntries,
-} from "@/src/utils/customVariables";
+import { FixedArrayType, typeSafeObjectEntries } from "@/src/types/global";
+
+export type CalculateSimpleApplicationStatsProps = {
+  needToApplyApps: number[];
+  appliedApps: number[];
+  interviewingApps: number[];
+  offerApps: number[];
+  closedApps: number[];
+};
+
+export type CalculateSimpleApplicationStatsReturnType = {
+  percents: FixedArrayType<{ percent: string; label: string }, 5>;
+  totalApplications: number;
+};
 
 export default function calculateSimpleApplicationStats(
   applications: CalculateSimpleApplicationStatsProps,

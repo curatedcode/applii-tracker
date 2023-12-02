@@ -1,7 +1,14 @@
-import {
-  StandardButtonProps,
-  defaultFocusClassName,
-} from "@/src/utils/customVariables";
+import { defaultFocusClassName } from "../types/global";
+
+export type ButtonProps = {
+  id?: string;
+  onClick?: () => void;
+  children: React.ReactNode;
+  className?: string;
+  type?: "button" | "submit";
+  title?: string;
+  style?: "icon" | "shaded" | "outline" | "inverse";
+};
 
 export default function Button({
   style,
@@ -9,7 +16,7 @@ export default function Button({
   className,
   type = "button",
   ...props
-}: StandardButtonProps) {
+}: ButtonProps) {
   if (style === "icon") {
     return (
       <button

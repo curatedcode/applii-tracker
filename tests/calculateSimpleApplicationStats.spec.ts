@@ -1,5 +1,6 @@
-import calculateSimpleApplicationStats from "@/src/components/Fn/calculateSimpleApplicationStats";
-import { CalculateSimpleApplicationStatsReturnType } from "@/src/utils/customVariables";
+import calculateSimpleApplicationStats, {
+  CalculateSimpleApplicationStatsReturnType,
+} from "@/src/components/Fn/calculateSimpleApplicationStats";
 import { describe, expect, test } from "vitest";
 
 describe("simple application stats", () => {

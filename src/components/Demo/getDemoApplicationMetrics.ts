@@ -1,12 +1,10 @@
-import {
-  GetApplicationMetricsReturnType,
-  TimelineType,
-} from "@/src/utils/customVariables";
-import getAllDemoApplications from "./getAllDemoApplications";
-import calculateApplicationsInDateRange from "../Fn/calculateApplicationsInDateRange";
-import generateMetricLabels from "../Fn/generateMetricLabels";
+import { TimelineType } from "@/src/types/global";
+import { GetApplicationMetricsReturnType } from "@/src/utils/db";
 import dayjs from "dayjs";
+import calculateApplicationsInDateRange from "../Fn/calculateApplicationsInDateRange";
 import calculateSimpleApplicationStats from "../Fn/calculateSimpleApplicationStats";
+import generateMetricLabels from "../Fn/generateMetricLabels";
+import getAllDemoApplications from "./getAllDemoApplications";
 
 export default function getDemoApplicationMetrics(
   timeline: TimelineType,

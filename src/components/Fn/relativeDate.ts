@@ -1,7 +1,7 @@
+import { SortByValueType } from "@/src/types/global";
 import dayjs from "dayjs";
-import updateLocale from "dayjs/plugin/updateLocale";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { SortByValueType } from "@/src/utils/customVariables";
+import updateLocale from "dayjs/plugin/updateLocale";
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 

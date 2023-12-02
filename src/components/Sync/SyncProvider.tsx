@@ -1,11 +1,15 @@
 "use client";
 
-import { SyncContextType } from "@/src/utils/customVariables";
-import { createContext, useEffect, useState } from "react";
-import useConnectionStatus from "../Hooks/useConnectionStatus";
-import { syncData } from "@/src/utils/sync";
-import toast from "react-hot-toast";
 import { getSetting } from "@/src/utils/db";
+import { syncData } from "@/src/utils/sync";
+import { createContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import useConnectionStatus from "../Hooks/useConnectionStatus";
+
+export type SyncContextType = {
+  setForceStop: (_value: React.SetStateAction<boolean>) => void;
+  triggerSync: (_value?: string) => void;
+};
 
 export const SyncContext = createContext<SyncContextType>({
   setForceStop: () => {},

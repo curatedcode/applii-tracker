@@ -1,29 +1,30 @@
 "use client";
 
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+
+import Button from "@/src/components/Button";
+import createDemoApplication from "@/src/components/Demo/createDemoApplication";
+import getNewMockApplicationId from "@/src/components/Demo/getNewDemoApplicationId";
+import ContactFields from "@/src/components/Form/ContactFields";
+import FormInput from "@/src/components/Form/FormInput";
+import FormSelectInput from "@/src/components/Form/FormSelectInput";
+import NoteFields from "@/src/components/Form/NoteFields";
+import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
+import InternalLink from "@/src/components/Links/InternalLink";
+import Modal from "@/src/components/Modal";
 import {
   ApplicationStatusLabelValueType,
   applicationStatusSelectOptions,
   applicationStatuses,
   applicationStatusesArray,
   formSchema,
-} from "@/src/utils/customVariables";
-import FormInput from "@/src/components/Form/FormInput";
-import FormSelectInput from "@/src/components/Form/FormSelectInput";
-import ContactFields from "@/src/components/Form/ContactFields";
-import NoteFields from "@/src/components/Form/NoteFields";
-import { useEffect, useState } from "react";
-import Button from "@/src/components/Button";
-import InternalLink from "@/src/components/Links/InternalLink";
+} from "@/src/types/applications";
 import dayjs from "dayjs";
-import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
-import toast from "react-hot-toast";
-import getNewMockApplicationId from "@/src/components/Demo/getNewDemoApplicationId";
-import createDemoApplication from "@/src/components/Demo/createDemoApplication";
-import Modal from "@/src/components/Modal";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Create() {
   const searchParams = useSearchParams();

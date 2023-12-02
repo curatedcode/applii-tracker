@@ -15,7 +15,7 @@ import {
   RectangleStackIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { defaultFocusClassName } from "../utils/customVariables";
+import { defaultFocusClassName } from "../types/global";
 
 export default function Home() {
   return (

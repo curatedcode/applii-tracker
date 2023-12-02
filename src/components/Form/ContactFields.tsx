@@ -1,8 +1,8 @@
+import { ArrayFieldProps } from "@/src/types/applications";
 import { TrashIcon, UserPlusIcon } from "@heroicons/react/24/outline";
-import { ArrayFieldProps } from "@/src/utils/customVariables";
 import { useFieldArray } from "react-hook-form";
-import FormInput from "./FormInput";
 import Button from "../Button";
+import FormInput from "./FormInput";
 
 export default function ContactsFields({
   register,
