@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 test("create application", async ({ page }) => {
   await page.goto("/boards");
 
-  await page.getByRole("link", { name: "Create" }).click();
+  await page.getByRole("link", { name: "Create", exact: true }).click();
 
   // fill out main fields
   await page
@@ -75,7 +75,7 @@ test("create application", async ({ page }) => {
 test("update application", async ({ page }) => {
   await page.goto("/boards");
 
-  await page.getByRole("link", { name: "Create" }).click();
+  await page.getByRole("link", { name: "Create", exact: true }).click();
 
   // fill out main fields
   await page
@@ -131,7 +131,7 @@ test("update application", async ({ page }) => {
 test("delete application", async ({ page }) => {
   await page.goto("/boards");
 
-  await page.getByRole("link", { name: "Create" }).click();
+  await page.getByRole("link", { name: "Create", exact: true }).click();
 
   // fill out main fields
   await page

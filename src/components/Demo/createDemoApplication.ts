@@ -1,4 +1,4 @@
-import { FullApplicationType } from "@/src/utils/customVariables";
+import { FullApplicationType } from "@/src/types/applications";
 import getAllApplicationsInStorage from "./getAllDemoApplicationsInStorage";
 
 export default function createDemoApplication(

@@ -1,11 +1,11 @@
 "use client";
 
-import { ApplicationStatusType } from "@/src/utils/customVariables";
-import formatDate from "@/src/components/Fn/formatDate";
-import { useRouter, useSearchParams } from "next/navigation";
-import ULItem from "@/src/components/ULItem";
-import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
 import getDemoApplication from "@/src/components/Demo/getDemoApplication";
+import formatDate from "@/src/components/Fn/formatDate";
+import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
+import ULItem from "@/src/components/ULItem";
+import { ApplicationStatusType } from "@/src/types/applications";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Application() {
   const id = Number(useSearchParams().get("id"));

@@ -1,6 +1,6 @@
 "use client";
 
-import { themeOptions } from "@/src/utils/customVariables";
+import { themeOptions } from "@/src/types/global";
 import { updateSetting } from "@/src/utils/db";
 import { useEffect } from "react";
 import useTheme from "../Hooks/useTheme";

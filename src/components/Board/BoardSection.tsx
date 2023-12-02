@@ -1,3 +1,8 @@
+import {
+  ApplicationStatusType,
+  FullApplicationType,
+} from "@/src/types/applications";
+import { SortByValueType } from "@/src/types/global";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import {
   ArchiveBoxXMarkIcon,
@@ -7,8 +12,15 @@ import {
   TrophyIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { BoardSectionProps } from "../../utils/customVariables";
 import BoardSectionCard from "./BoardSectionCard";
+
+export type BoardSectionProps = {
+  title: "Need To Apply" | "Applied" | "Interviewing" | "Offer" | "Closed";
+  cards: FullApplicationType[];
+  sortBy: SortByValueType;
+  mode?: "demo";
+  status: ApplicationStatusType;
+};
 
 export default function BoardSection({
   title,

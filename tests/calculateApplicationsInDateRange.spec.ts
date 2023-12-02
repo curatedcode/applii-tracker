@@ -1,8 +1,8 @@
 import calculateApplicationsInDateRange from "@/src/components/Fn/calculateApplicationsInDateRange";
-import { FullApplicationType } from "@/src/utils/customVariables";
+import { FullApplicationType } from "@/src/types/applications";
 import dayjs from "dayjs";
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import isBetween from "dayjs/plugin/isBetween";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 dayjs.extend(isBetween);
 
 const standardDateCreated = dayjs("03/12/2023").toISOString();

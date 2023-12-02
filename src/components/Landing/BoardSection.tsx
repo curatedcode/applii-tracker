@@ -1,8 +1,14 @@
-import { LandingBoardSectionProps } from "@/src/utils/customVariables";
+import { FullApplicationType } from "@/src/types/applications";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ClockIcon, TrophyIcon } from "@heroicons/react/24/solid";
-import BoardSectionCard from "./BoardSectionCard";
 import dayjs from "dayjs";
+import BoardSectionCard from "./BoardSectionCard";
+
+export type LandingBoardSectionProps = {
+  title: "Need To Apply" | "Offer";
+  cards: FullApplicationType[];
+  className?: string;
+};
 
 export default function BoardSection({
   title,

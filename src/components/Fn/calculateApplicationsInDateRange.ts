@@ -1,11 +1,20 @@
-import {
-  CalculateApplicationsInDateRangeProps,
-  FixedArray,
-  TimelineType,
-} from "@/src/utils/customVariables";
+import { FullApplicationType } from "@/src/types/applications";
+import { FixedArrayType, TimelineType } from "@/src/types/global";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 dayjs.extend(isBetween);
+
+export type CalculateApplicationsInDateRangeProps = {
+  applications: FullApplicationType[];
+  dateType:
+    | "dateCreated"
+    | "dateApplied"
+    | "dateInterviewing"
+    | "dateOffered"
+    | "dateClosed";
+  timeline: TimelineType;
+  labels: string[];
+};
 
 export default function calculateApplicationsInDateRange({
   applications,
@@ -13,12 +22,12 @@ export default function calculateApplicationsInDateRange({
   labels,
   timeline,
 }: CalculateApplicationsInDateRangeProps) {
-  const appsInYearRange: FixedArray<number, 13> = [
+  const appsInYearRange: FixedArrayType<number, 13> = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ];
-  const appsInSixMonthRange: FixedArray<number, 6> = [0, 0, 0, 0, 0, 0];
-  const appsInOneMonthRange: FixedArray<number, 4> = [0, 0, 0, 0];
-  const appsInWeekRange: FixedArray<number, 7> = [0, 0, 0, 0, 0, 0, 0];
+  const appsInSixMonthRange: FixedArrayType<number, 6> = [0, 0, 0, 0, 0, 0];
+  const appsInOneMonthRange: FixedArrayType<number, 4> = [0, 0, 0, 0];
+  const appsInWeekRange: FixedArrayType<number, 7> = [0, 0, 0, 0, 0, 0, 0];
 
   let appsInDateRange;
 

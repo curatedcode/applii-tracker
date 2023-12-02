@@ -1,8 +1,8 @@
+import { ArrayFieldProps } from "@/src/types/applications";
 import { DocumentPlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { ArrayFieldProps } from "@/src/utils/customVariables";
 import { useFieldArray } from "react-hook-form";
-import FormTextarea from "./FormTextarea";
 import Button from "../Button";
+import FormTextarea from "./FormTextarea";
 
 export default function NoteFields({
   register,

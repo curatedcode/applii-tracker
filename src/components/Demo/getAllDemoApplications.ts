@@ -1,7 +1,7 @@
-import {
-  GetAllApplicationsReturnType,
-  SortByValueType,
-} from "@/src/utils/customVariables";
+import { SortByValueType } from "@/src/types/global";
+import { GetAllApplicationsReturnType } from "@/src/utils/db";
+import dayjs from "dayjs";
+import getAllApplicationsInStorage from "./getAllDemoApplicationsInStorage";
 import {
   appliedMocks,
   closedMocks,
@@ -9,8 +9,6 @@ import {
   needToApplyMocks,
   offerMocks,
 } from "./mockDemoVariables";
-import getAllApplicationsInStorage from "./getAllDemoApplicationsInStorage";
-import dayjs from "dayjs";
 
 /**
  * Will get all default mock applications and check for any applications in session storage

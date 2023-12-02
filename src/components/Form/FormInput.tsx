@@ -1,8 +1,18 @@
-import {
-  FormInputProps,
-  defaultFocusClassName,
-} from "@/src/utils/customVariables";
+import { defaultFocusClassName } from "@/src/types/global";
+import { UseFormRegister } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
+
+export type FormInputProps = {
+  id: string;
+  type?: "text" | "email" | "date" | "number";
+  label: string;
+  registerName?: string;
+  register: UseFormRegister<any>;
+  error?: string;
+  className?: string;
+  placeholder?: string;
+  isRequired?: boolean;
+};
 
 export default function FormInput({
   id,

@@ -1,20 +1,21 @@
+import dayjs from "dayjs";
+import calculateApplicationsInDateRange from "../components/Fn/calculateApplicationsInDateRange";
+import calculateSimpleApplicationStats, {
+  CalculateSimpleApplicationStatsReturnType,
+} from "../components/Fn/calculateSimpleApplicationStats";
+import generateMetricLabels from "../components/Fn/generateMetricLabels";
 import {
   ApplicationType,
   CreateApplicationType,
   FullApplicationType,
-  GetAllApplicationsReturnType,
-  GetApplicationMetricsReturnType,
+  UpdateApplicationType,
+} from "../types/applications";
+import {
   ImportExportDataType,
   SettingsNameType,
   SettingsType,
-  TimelineType,
-  UpdateApplicationType,
-  promiseSeries,
-} from "./customVariables";
-import dayjs from "dayjs";
-import generateMetricLabels from "../components/Fn/generateMetricLabels";
-import calculateApplicationsInDateRange from "../components/Fn/calculateApplicationsInDateRange";
-import calculateSimpleApplicationStats from "../components/Fn/calculateSimpleApplicationStats";
+} from "../types/db";
+import { TimelineType, promiseSeries } from "../types/global";
 
 export async function applicationDB(): Promise<{
   applications: IDBObjectStore;
@@ -81,6 +82,14 @@ export async function getApplication({
 
   return application;
 }
+
+export type GetAllApplicationsReturnType = {
+  needToApply: FullApplicationType[];
+  applied: FullApplicationType[];
+  interviewing: FullApplicationType[];
+  offer: FullApplicationType[];
+  closed: FullApplicationType[];
+};
 
 export async function getAllApplications(
   sortBy: "dateModified" | "dateCreated",
@@ -236,6 +245,16 @@ export async function deleteApplication({ id }: { id: number }) {
 
   return application;
 }
+
+export type GetApplicationMetricsReturnType = {
+  needToApply: number[];
+  applied: number[];
+  interviewing: number[];
+  offer: number[];
+  closed: number[];
+  labels: string[];
+  simpleStats: CalculateSimpleApplicationStatsReturnType;
+};
 
 export async function getApplicationMetrics(
   timeline: TimelineType,

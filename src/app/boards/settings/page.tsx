@@ -6,7 +6,7 @@ import ExternalLink from "@/src/components/Links/ExternalLink";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
 import useSync from "@/src/components/Sync/useSync";
 import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
-import { syncSettingsSchema } from "@/src/utils/customVariables";
+import { syncSettingsSchema } from "@/src/types/db";
 import { getAllSettings, updateSetting } from "@/src/utils/db";
 import {
   generateDropboxAuthToken,

@@ -1,5 +1,12 @@
-import { ULItemProps } from "../utils/customVariables";
 import ExternalLink from "./Links/ExternalLink";
+
+export type ULItemProps = {
+  label: string;
+  body: string;
+  isLink?: boolean;
+  className?: string;
+  hiddenLabel?: boolean;
+};
 
 export default function ULItem({
   label,

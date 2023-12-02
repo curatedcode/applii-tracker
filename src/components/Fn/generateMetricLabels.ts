@@ -1,4 +1,4 @@
-import { TimelineType } from "@/src/utils/customVariables";
+import { TimelineType } from "@/src/types/global";
 import dayjs from "dayjs";
 
 /**

@@ -3,25 +3,25 @@
 import Button from "@/src/components/Button";
 import ContactsFields from "@/src/components/Form/ContactFields";
 import FormInput from "@/src/components/Form/FormInput";
-import NoteFields from "@/src/components/Form/NoteFields";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
+import NoteFields from "@/src/components/Form/NoteFields";
+import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
 import InternalLink from "@/src/components/Links/InternalLink";
 import EditApplicationSkeleton from "@/src/components/Loading/EditApplicationSkeleton";
+import Modal from "@/src/components/Modal";
 import {
   applicationStatusSelectOptions,
   applicationStatusesArray,
   formSchema,
-} from "@/src/utils/customVariables";
+} from "@/src/types/applications";
 import { getApplication, updateApplication } from "@/src/utils/db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
-import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
 import toast from "react-hot-toast";
-import Modal from "@/src/components/Modal";
+import { z } from "zod";
 
 export default function FormEdit() {
   const id = Number(useSearchParams().get("id"));

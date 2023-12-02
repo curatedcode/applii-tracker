@@ -11,8 +11,13 @@ import { Cog8ToothIcon as Cog8ToothIconSolid } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useState } from "react";
-import { NavbarProps, defaultFocusClassName } from "../utils/customVariables";
+import { defaultFocusClassName } from "../types/global";
 import useRelativeURL from "./Hooks/useRelativeURL";
+
+export type NavbarProps = {
+  items: { name: string; href: string }[];
+  showSettingsGear?: boolean;
+};
 
 export default function Navbar({ items, showSettingsGear }: NavbarProps) {
   const relativeURL = useRelativeURL();

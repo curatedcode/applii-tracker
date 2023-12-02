@@ -1,11 +1,11 @@
-import { Dropbox, DropboxAuth } from "dropbox";
-import { exportData, getAllData, importData } from "./db";
-import { DropboxResponseError } from "./customVariables";
-import toast from "react-hot-toast";
-import { RefObject } from "react";
-import env from "./env";
 import dayjs from "dayjs";
+import { Dropbox, DropboxAuth } from "dropbox";
+import { RefObject } from "react";
+import toast from "react-hot-toast";
+import { DropboxResponseError } from "../types/dropbox";
+import { exportData, getAllData, importData } from "./db";
 import { generateDropboxAuthToken } from "./dropbox";
+import env from "./env";
 
 export async function syncData(
   dbxToken: string,

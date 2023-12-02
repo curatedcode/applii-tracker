@@ -1,7 +1,5 @@
-import {
-  GetAllApplicationsReturnType,
-  zodFullApplicationArray,
-} from "@/src/utils/customVariables";
+import { zodFullApplicationArray } from "@/src/types/applications";
+import { GetAllApplicationsReturnType } from "@/src/utils/db";
 
 export default function getAllDemoApplicationsInStorage():
   | GetAllApplicationsReturnType

@@ -1,8 +1,14 @@
 "use client";
 
-import relativeDate from "../Fn/relativeDate";
-import { BoardSectionCardProps } from "../../utils/customVariables";
+import { FullApplicationType } from "@/src/types/applications";
+import { SortByValueType } from "@/src/types/global";
 import Link from "next/link";
+import relativeDate from "../Fn/relativeDate";
+
+export type BoardSectionCardProps = {
+  sortBy: SortByValueType;
+  mode?: "demo";
+} & FullApplicationType;
 
 export default function BoardSectionCard({
   id,

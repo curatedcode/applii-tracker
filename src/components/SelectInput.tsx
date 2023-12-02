@@ -1,10 +1,13 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
-import {
-  SelectInputProps,
-  defaultFocusClassName,
-} from "../utils/customVariables";
+import { OptionType, defaultFocusClassName } from "../types/global";
+
+export type SelectInputProps<TLabel, TValue> = {
+  options: OptionType<TLabel, TValue>[];
+  setSelected: React.Dispatch<React.SetStateAction<OptionType<TLabel, TValue>>>;
+  selected: OptionType<TLabel, TValue>;
+};
 
 export default function SelectInput<
   TLabel extends string,
