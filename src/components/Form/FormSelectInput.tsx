@@ -53,7 +53,7 @@ export default function FormSelectInput({
                   key={index}
                   data-testid={`${option.value}-option`}
                   className={({ active }) =>
-                    `${defaultFocusHoverClasses} relative cursor-default select-none py-2 pl-8 pr-4 ${
+                    `${defaultFocusHoverClasses} relative cursor-pointer select-none py-2 pl-8 pr-4 ${
                       active ? "bg-light-tertiary dark:bg-dark-tertiary" : ""
                     }`
                   }
