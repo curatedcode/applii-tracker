@@ -19,8 +19,8 @@ export async function promiseSeries(array: Promise<unknown>[]) {
 }
 
 // If you update this you need to change the tailwind config safelist accordingly
-export const defaultFocusClassName =
-  "outline-none transition-colors focus-within:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-dark-secondary focus-visible:ring-opacity-75 focus-visible:ring-offset-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary";
+export const defaultFocusHoverClasses =
+  "outline-none transition focus-within:outline-none hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-dark-secondary focus-visible:ring-opacity-75 focus-visible:ring-offset-dark-secondary dark:focus-visible:ring-light-secondary dark:focus-visible:ring-offset-light-secondary";
 
 export type TimelineType = "1 week" | "1 month" | "6 months" | "1 year";
 

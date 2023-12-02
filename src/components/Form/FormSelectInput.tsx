@@ -1,7 +1,7 @@
 "use client";
 
 import { FormOptionType } from "@/src/types/applications";
-import { defaultFocusClassName } from "@/src/types/global";
+import { defaultFocusHoverClasses } from "@/src/types/global";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
@@ -34,7 +34,7 @@ export default function FormSelectInput({
             {isRequired && <span className="text-red-500">*</span>}
           </Listbox.Label>
           <Listbox.Button
-            className={`relative w-full cursor-pointer rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm outline-none transition-all dark:bg-dark-secondary md:ml-0.5 ${defaultFocusClassName}`}
+            className={`${defaultFocusHoverClasses} relative w-full cursor-pointer rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm dark:bg-dark-secondary md:ml-0.5`}
           >
             <span className="block truncate">{selected.label}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -53,9 +53,9 @@ export default function FormSelectInput({
                   key={index}
                   data-testid={`${option.value}-option`}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-8 pr-4 ${
+                    `${defaultFocusHoverClasses} relative cursor-default select-none py-2 pl-8 pr-4 ${
                       active ? "bg-light-tertiary dark:bg-dark-tertiary" : ""
-                    } ${defaultFocusClassName}`
+                    }`
                   }
                   value={option}
                 >

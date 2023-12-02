@@ -1,4 +1,4 @@
-import { defaultFocusClassName } from "@/src/types/global";
+import { defaultFocusHoverClasses } from "@/src/types/global";
 import { UseFormRegister } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
 
@@ -40,7 +40,7 @@ export default function FormInput({
           type={type ?? "text"}
           aria-required={isRequired}
           placeholder={placeholder}
-          className={`w-full rounded-md bg-light-secondary px-3 py-1.5 transition-all placeholder:opacity-70 dark:bg-dark-secondary ${defaultFocusClassName} ${
+          className={`${defaultFocusHoverClasses} w-full rounded-md bg-light-secondary px-3 py-1.5 placeholder:opacity-70 dark:bg-dark-secondary ${
             error ? "ring-1 ring-red-500" : ""
           }`}
           {...register(registerName ?? id)}

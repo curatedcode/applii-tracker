@@ -1,4 +1,4 @@
-import { defaultFocusClassName } from "@/src/types/global";
+import { defaultFocusHoverClasses } from "@/src/types/global";
 
 export type ExternalLinkProps = {
   href: string;
@@ -22,7 +22,7 @@ export default function ExternalLink({
       <a
         rel="nofollow noreferrer"
         target={openInNewTab ? "_blank" : "_self"}
-        className={`flex h-fit min-w-[6rem] items-center justify-center gap-1 whitespace-nowrap rounded-md bg-light-secondary px-5 py-2 text-center text-sm font-medium dark:bg-dark-secondary ${defaultFocusClassName} ${className}`}
+        className={`${defaultFocusHoverClasses} flex h-fit min-w-[6rem] items-center justify-center gap-1 whitespace-nowrap rounded-md bg-light-secondary px-5 py-2 text-center text-sm font-medium dark:bg-dark-secondary ${className}`}
         {...props}
       >
         {children}
@@ -35,7 +35,7 @@ export default function ExternalLink({
       <a
         rel="nofollow noreferrer"
         target={openInNewTab ? "_blank" : "_self"}
-        className={`underline underline-offset-1 transition-opacity hover:opacity-80 ${defaultFocusClassName} ${className}`}
+        className={`${defaultFocusHoverClasses} underline underline-offset-1 ${className}`}
         {...props}
       >
         {children}
@@ -47,7 +47,7 @@ export default function ExternalLink({
     <a
       rel="nofollow noreferrer"
       target={openInNewTab ? "_blank" : "_self"}
-      className={`${defaultFocusClassName} ${className}`}
+      className={`${defaultFocusHoverClasses} ${className}`}
       {...props}
     >
       {children}

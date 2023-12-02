@@ -1,4 +1,4 @@
-import { defaultFocusClassName } from "@/src/types/global";
+import { defaultFocusHoverClasses } from "@/src/types/global";
 import { UseFormRegister } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
 
@@ -32,9 +32,9 @@ export default function FormTextarea({
         </label>
         <textarea
           id={id}
-          className={`w-full resize-none rounded-md bg-light-secondary px-3 py-1.5 outline-none transition-all duration-100 placeholder:opacity-70 dark:bg-dark-secondary ${
+          className={`${defaultFocusHoverClasses} w-full resize-none rounded-md bg-light-secondary px-3 py-1.5 placeholder:opacity-70 dark:bg-dark-secondary ${
             error ? "ring-1 ring-red-500" : ""
-          } ${defaultFocusClassName}`}
+          }`}
           aria-required={isRequired}
           {...props}
           {...register(registerName ?? id)}
