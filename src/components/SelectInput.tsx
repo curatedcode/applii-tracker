@@ -1,7 +1,7 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
-import { OptionType, defaultFocusClassName } from "../types/global";
+import { OptionType, defaultFocusHoverClasses } from "../types/global";
 
 export type SelectInputProps<TLabel, TValue> = {
   options: OptionType<TLabel, TValue>[];
@@ -18,7 +18,7 @@ export default function SelectInput<
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
           <Listbox.Button
-            className={`relative w-full cursor-default rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm transition-all dark:bg-dark-secondary ${defaultFocusClassName}`}
+            className={`${defaultFocusHoverClasses} relative w-full cursor-default rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm dark:bg-dark-secondary`}
           >
             <span className="block truncate">{selected.label}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -36,9 +36,9 @@ export default function SelectInput<
                 <Listbox.Option
                   key={index}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-1.5 pl-8 pr-4 ${
+                    `${defaultFocusHoverClasses} relative cursor-default select-none py-1.5 pl-8 pr-4 ${
                       active ? "bg-light-tertiary dark:bg-dark-tertiary" : ""
-                    } ${defaultFocusClassName}`
+                    }`
                   }
                   value={option}
                 >

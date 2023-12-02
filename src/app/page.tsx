@@ -15,7 +15,7 @@ import {
   RectangleStackIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { defaultFocusClassName } from "../types/global";
+import { defaultFocusHoverClasses } from "../types/global";
 
 export default function Home() {
   return (
@@ -45,20 +45,20 @@ export default function Home() {
             <div className="grid gap-4 text-sm font-medium">
               <Link
                 href="/boards"
-                className={`gradient-border + h-fit min-w-[6rem] animate-shift-gradient-x whitespace-nowrap rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-5 py-2 text-center font-medium transition-all hover:bg-none hover:text-black focus-visible:bg-none focus-visible:text-black dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary ${defaultFocusClassName}`}
+                className={`${defaultFocusHoverClasses} gradient-border h-fit min-w-[6rem] animate-shift-gradient-x whitespace-nowrap rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-5 py-2 text-center font-medium transition-all hover:bg-none hover:text-black focus-visible:bg-none focus-visible:text-black dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary`}
               >
                 Get started
               </Link>
               <div className="flex items-center gap-4">
                 <Link
                   href="/demo"
-                  className={`animate-shift-gradient-x rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-5 py-2 text-center font-medium ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary ${defaultFocusClassName}`}
+                  className={`${defaultFocusHoverClasses} animate-shift-gradient-x rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-5 py-2 text-center font-medium ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary`}
                 >
                   Demo
                 </Link>
                 <ExternalLink
                   href="https://github.com/curatedcode/applii-tracker"
-                  className={`animate-shift-gradient-x rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-5 py-2 text-center font-medium ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary ${defaultFocusClassName}`}
+                  className={`${defaultFocusHoverClasses} animate-shift-gradient-x rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-5 py-2 text-center font-medium ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary`}
                 >
                   Github
                 </ExternalLink>

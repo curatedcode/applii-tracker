@@ -21,7 +21,7 @@ export default function BoardSection({
 
   return (
     <div
-      className={`grid w-full max-w-board-section gap-1 rounded-md border-[3px] border-light-secondary bg-light-secondary p-1 py-2 shadow-lg shadow-light-tertiary dark:border-dark-secondary dark:bg-dark-secondary dark:shadow-dark-tertiary ${className}`}
+      className={`grid w-full max-w-board-section gap-1 rounded-md border-[3px] border-light-secondary bg-light-secondary p-1 py-2 shadow-lg shadow-light-tertiary ring-2 ring-light-tertiary dark:border-dark-secondary dark:bg-dark-secondary dark:shadow-dark-tertiary dark:ring-dark-tertiary ${className}`}
     >
       <div className="relative flex items-center justify-between gap-1 px-2">
         <h2 className="flex gap-2 text-lg font-medium">

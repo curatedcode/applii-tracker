@@ -11,7 +11,7 @@ import { Cog8ToothIcon as Cog8ToothIconSolid } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useState } from "react";
-import { defaultFocusClassName } from "../types/global";
+import { defaultFocusHoverClasses } from "../types/global";
 import useRelativeURL from "./Hooks/useRelativeURL";
 
 export type NavbarProps = {
@@ -78,11 +78,11 @@ export default function Navbar({ items, showSettingsGear }: NavbarProps) {
                     {navItems.map((item) => (
                       <Link
                         key={item.name}
-                        className={`border-b-2 px-3 py-2 text-sm font-medium transition-colors duration-100 hover:border-b-dark-tertiary dark:hover:border-b-light-tertiary ${
+                        className={`${defaultFocusHoverClasses} border-b-2 px-3 py-2 text-sm font-medium hover:border-b-dark-tertiary dark:hover:border-b-light-tertiary ${
                           item.current
                             ? "border-b-dark-tertiary dark:border-b-light-tertiary"
                             : "border-b-transparent"
-                        } ${defaultFocusClassName}`}
+                        }`}
                         href={item.href}
                         aria-current={item.current ? "page" : undefined}
                         onClick={() => setCurrentItem(item.href)}
@@ -96,12 +96,12 @@ export default function Navbar({ items, showSettingsGear }: NavbarProps) {
                       <span className="sr-only">Go to settings page</span>
                       {pathname === "/boards/settings" ? (
                         <Cog8ToothIconSolid
-                          className={`w-6 ${defaultFocusClassName}`}
+                          className={`${defaultFocusHoverClasses} w-6`}
                           aria-hidden="true"
                         />
                       ) : (
                         <Cog8ToothIconOutline
-                          className={`w-6 ${defaultFocusClassName}`}
+                          className={`${defaultFocusHoverClasses} w-6`}
                           aria-hidden="true"
                         />
                       )}
@@ -127,11 +127,11 @@ export default function Navbar({ items, showSettingsGear }: NavbarProps) {
                     key={item.name}
                     as={Link}
                     href={item.href}
-                    className={`border-l-2 bg-opacity-20 px-3 py-2 text-sm font-medium transition-colors duration-100 hover:cursor-pointer hover:border-l-inherit hover:bg-light-secondary hover:dark:bg-dark-secondary ${
+                    className={`${defaultFocusHoverClasses} border-l-2 bg-opacity-20 px-3 py-2 text-sm font-medium hover:cursor-pointer hover:border-l-inherit hover:bg-light-secondary hover:dark:bg-dark-secondary ${
                       item.current
                         ? "border-l-inherit bg-light-secondary bg-opacity-20 dark:bg-dark-secondary"
                         : "border-l-transparent"
-                    } ${defaultFocusClassName}`}
+                    }`}
                     aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}
