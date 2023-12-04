@@ -33,7 +33,10 @@ export async function syncData(
   await new Promise((resolve, reject) => {
     dbx
       .filesUpload({
-        path: "/data.json",
+        path:
+          process.env.NODE_ENV === "production"
+            ? "/data.json"
+            : "/data-dev.json",
         contents: JSON.stringify(allData),
         mode: { ".tag": "overwrite" },
       })
@@ -81,7 +84,10 @@ export async function exportDataToFile(anchorEl: RefObject<HTMLAnchorElement>) {
     "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
 
   anchorEl.current.setAttribute("href", fileURL);
-  anchorEl.current.setAttribute("download", "data.json");
+  anchorEl.current.setAttribute(
+    "download",
+    process.env.NODE_ENV === "production" ? "data.json" : "data-dev.json",
+  );
   anchorEl.current.click();
 
   toast.success("Exported successfully");
