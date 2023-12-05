@@ -45,7 +45,6 @@ export const zodFullApplication = z.object({
   notes: z
     .array(
       z.object({
-        title: z.string(),
         body: z.string(),
       }),
     )
@@ -96,7 +95,6 @@ export type UpdateApplicationType = {
 };
 
 export type NotesType = {
-  title: string;
   body: string;
 };
 
@@ -147,7 +145,7 @@ export const formSchema = z.object({
       }),
     )
     .optional(),
-  notes: z.array(z.object({ title: z.string(), body: z.string() })).optional(),
+  notes: z.array(z.object({ body: z.string() })).optional(),
 });
 
 export type FormContextType = {

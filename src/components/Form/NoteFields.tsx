@@ -41,7 +41,7 @@ export default function NoteFields({
         ))}
       </ul>
       <Button
-        onClick={() => append({ title: "", body: "" })}
+        onClick={() => append({ body: "" })}
         className="justify-self-center"
       >
         <DocumentPlusIcon className="w-4" aria-hidden="true" />
