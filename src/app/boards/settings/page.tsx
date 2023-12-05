@@ -45,7 +45,7 @@ export default function Settings() {
   const [fileInputError, setFileInputError] = useState<string>();
   const [showFileExportModal, setShowFileExportModal] = useState(false);
 
-  const [showFileImportModal, setShowFileImportModal] = useState(true);
+  const [showFileImportModal, setShowFileImportModal] = useState(false);
 
   const [isMounted, setIsMounted] = useState(false);
 
