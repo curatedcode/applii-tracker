@@ -167,11 +167,6 @@ export const applicationColors = {
   closed: "#D9534F",
 };
 
-export type FormOptionType = {
-  label: z.infer<typeof applicationStatusLabel>;
-  value: z.infer<typeof applicationStatuses>;
-};
-
 export const applicationStatusSelectOptions: ApplicationStatusLabelValueType[] =
   [
     { value: "needToApply", label: "Need To Apply" },
