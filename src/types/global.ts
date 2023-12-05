@@ -56,7 +56,10 @@ export const themeOptions: ThemeOption[] = [
 export type SortByValueType = "dateModified" | "dateCreated";
 export type SortByLabelType = "Date Modified" | "Date Created";
 
-export type OptionType<TLabel, TValue> = { label: TLabel; value: TValue };
+export type OptionType<TLabel, TValue> = {
+  label: TLabel;
+  value: TValue;
+};
 
 export const sortByOptions: OptionType<SortByLabelType, SortByValueType>[] = [
   { label: "Date Created", value: "dateCreated" },

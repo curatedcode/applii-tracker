@@ -30,7 +30,7 @@ export default function Modal({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/30" />
+          <div className="fixed inset-0 bg-black/30 blur-md" />
         </Transition.Child>
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
@@ -43,7 +43,7 @@ export default function Modal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="-mt-16 grid w-full max-w-md transform gap-2 overflow-hidden rounded-md bg-light-secondary p-6 px-5 py-8 text-center align-middle text-lg shadow-xl outline-none ring-1 ring-black ring-opacity-20 ring-offset-black transition-all focus-within:outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-black focus-visible:ring-offset-black dark:bg-dark-secondary">
+              <Dialog.Panel className="-mt-16 grid w-full max-w-md transform gap-3 overflow-hidden rounded-md bg-light-primary px-5 py-8 text-center align-middle text-lg shadow-xl outline-none ring-1 ring-dark-tertiary ring-opacity-20 ring-offset-dark-tertiary transition-all focus-within:outline-none dark:bg-dark-primary">
                 <Dialog.Title as="h3" className="text-2xl font-medium">
                   {title}
                 </Dialog.Title>

@@ -467,7 +467,7 @@ export async function exportData() {
     data.onsuccess = () => resolve(data.result);
   });
 
-  const applicationsPromise = new Promise<ApplicationType[]>(
+  const applicationsPromise = new Promise<FullApplicationType[]>(
     (resolve, reject) => {
       const data = DB.applications.getAll();
 

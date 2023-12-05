@@ -1,8 +1,10 @@
 import dayjs from "dayjs";
 import { Dropbox, DropboxAuth } from "dropbox";
+import JSONExport from "jsonexport";
 import { RefObject } from "react";
 import toast from "react-hot-toast";
 import { DropboxResponseError } from "../types/dropbox";
+import { FileExportTypeOptionsType } from "../types/file";
 import { exportData, getAllData, importData } from "./db";
 import { generateDropboxAuthToken } from "./dropbox";
 import env from "./env";
@@ -76,19 +78,37 @@ export async function importDataFromFile(file: File) {
   fr.readAsText(file);
 }
 
-export async function exportDataToFile(anchorEl: RefObject<HTMLAnchorElement>) {
+export type ExportDataToFileProps = {
+  anchorEl: RefObject<HTMLAnchorElement>;
+  fileType: FileExportTypeOptionsType;
+  fileName: string;
+};
+
+export async function exportDataToFile({
+  anchorEl,
+  fileType,
+  fileName,
+}: ExportDataToFileProps) {
   if (!anchorEl.current) return;
 
-  const data = await exportData();
-  const fileURL =
-    "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+  const rawData = await exportData();
 
-  anchorEl.current.setAttribute("href", fileURL);
-  anchorEl.current.setAttribute(
-    "download",
-    process.env.NODE_ENV === "production" ? "data.json" : "data-dev.json",
-  );
+  let blobURI: string;
+
+  if (fileType === "csv") {
+    const csvData = await JSONExport(rawData, {
+      headerPathString: "/",
+    });
+    const fileBlob = new Blob([csvData], { type: "text/csv" });
+    blobURI = URL.createObjectURL(fileBlob);
+  } else {
+    const jsonData = JSON.stringify(rawData);
+    const fileBlob = new Blob([jsonData], { type: "text/json" });
+    blobURI = URL.createObjectURL(fileBlob);
+  }
+
+  anchorEl.current.setAttribute("href", blobURI);
+  anchorEl.current.setAttribute("download", `${fileName}.${fileType}`);
   anchorEl.current.click();
-
-  toast.success("Exported successfully");
+  URL.revokeObjectURL(blobURI);
 }
