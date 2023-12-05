@@ -26,7 +26,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -45,6 +45,8 @@ export default function Settings() {
   const [fileInputError, setFileInputError] = useState<string>();
   const [showFileExportModal, setShowFileExportModal] = useState(false);
 
+  const [showFileImportModal, setShowFileImportModal] = useState(true);
+
   const [isMounted, setIsMounted] = useState(false);
 
   function submitSyncSettings() {
@@ -59,27 +61,38 @@ export default function Settings() {
     toast.success("Sync settings updated");
   }
 
-  function submitImportFile(e: ChangeEvent<HTMLInputElement>) {
-    const allFiles = e.currentTarget.files;
-    if (!allFiles) return;
-    if (allFiles.length < 1) return;
-    if (allFiles.length > 1) {
-      setFileInputError("Please select only one file");
+  function submitImportFile() {
+    if (!fileInputRef.current) {
+      toast.error("Error importing file");
       return;
     }
 
-    const file = allFiles[0];
+    const files = fileInputRef.current.files;
+
+    if (!files || files.length < 1) {
+      toast.error("Please select a file to import");
+      return;
+    }
+
+    if (files.length > 1) {
+      setFileInputError("Please select only one file to import");
+      return;
+    }
+
+    const file = files[0];
 
     if (file.type !== "application/json") {
       setFileInputError("Please select a JSON file");
       return;
     }
 
-    importDataFromFile(file).catch(() => {
-      const value = fileInputRef.current?.value;
-      if (!value) return;
-      fileInputRef.current.value = "";
-    });
+    importDataFromFile(file)
+      .catch(() => {
+        const value = fileInputRef.current?.value;
+        if (!value) return;
+        fileInputRef.current.value = "";
+      })
+      .finally(() => setShowFileImportModal(false));
   }
 
   function submitExportFile() {
@@ -222,7 +235,7 @@ export default function Settings() {
             accept=".json"
             ref={fileInputRef}
             onClick={() => setFileInputError(undefined)}
-            onChange={(e) => submitImportFile(e)}
+            onChange={() => setShowFileImportModal(true)}
           />
           <a aria-hidden="true" className="hidden" ref={fileExportRef}></a>
           <Button onClick={() => setShowFileExportModal(true)}>
@@ -242,6 +255,22 @@ export default function Settings() {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={showFileImportModal}
+        setIsOpen={setShowFileImportModal}
+        title="Import file"
+      >
+        <p className="px-4 text-sm">
+          Are you sure you want to import this file? Any existing data will be
+          overwritten.
+        </p>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          <Button onClick={() => setShowFileImportModal(false)}>Cancel</Button>
+          <Button style="inverse" onClick={() => submitImportFile()}>
+            Import
+          </Button>
+        </div>
+      </Modal>
       <Modal
         isOpen={showFileExportModal}
         setIsOpen={setShowFileExportModal}
