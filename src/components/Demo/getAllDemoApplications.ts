@@ -1,7 +1,11 @@
+import {
+  FormatApplicationsType,
+  FullApplicationType,
+  GroupedApplicationsType,
+} from "@/src/types/applications";
 import { SortByValueType } from "@/src/types/global";
-import { GetAllApplicationsReturnType } from "@/src/utils/db";
 import dayjs from "dayjs";
-import getAllApplicationsInStorage from "./getAllDemoApplicationsInStorage";
+import getAllDemoApplicationsInStorage from "./getAllDemoApplicationsInStorage";
 import {
   appliedMocks,
   closedMocks,
@@ -10,52 +14,80 @@ import {
   offerMocks,
 } from "./mockDemoVariables";
 
+function getAllDemoApplications(
+  _sortBy: SortByValueType,
+): FullApplicationType[];
+
+function getAllDemoApplications(
+  _sortBy: SortByValueType,
+  _format: FormatApplicationsType,
+): GroupedApplicationsType;
+
 /**
  * Will get all default mock applications and check for any applications in session storage
  */
-export default function getAllDemoApplications(
-  sortBy: SortByValueType,
-): GetAllApplicationsReturnType {
-  const defaultMockApplications = {
-    needToApply: needToApplyMocks,
-    applied: appliedMocks,
-    interviewing: interviewingMocks,
-    offer: offerMocks,
-    closed: closedMocks,
-  };
+function getAllDemoApplications(sortBy: SortByValueType, format?: "grouped") {
+  const appsInStorage = getAllDemoApplicationsInStorage("grouped");
 
-  const appsInStorage = getAllApplicationsInStorage();
+  if (!appsInStorage) {
+    if (format === "grouped") {
+      return {
+        needToApply: needToApplyMocks,
+        applied: appliedMocks,
+        interviewing: interviewingMocks,
+        offer: offerMocks,
+        closed: closedMocks,
+      };
+    }
 
-  if (!appsInStorage) return defaultMockApplications;
+    return needToApplyMocks.concat(
+      appliedMocks,
+      interviewingMocks,
+      offerMocks,
+      closedMocks,
+    );
+  }
 
-  const needToApplyMerged = appsInStorage.needToApply.concat(needToApplyMocks);
-  const appliedMerged = appsInStorage.applied.concat(appliedMocks);
-  const interviewingMerged =
-    appsInStorage.interviewing.concat(interviewingMocks);
-  const offerMerged = appsInStorage.offer.concat(offerMocks);
-  const closedMerged = appsInStorage.closed.concat(closedMocks);
+  if (format === "grouped") {
+    const needToApplyMerged =
+      appsInStorage.needToApply.concat(needToApplyMocks);
+    const appliedMerged = appsInStorage.applied.concat(appliedMocks);
+    const interviewingMerged =
+      appsInStorage.interviewing.concat(interviewingMocks);
+    const offerMerged = appsInStorage.offer.concat(offerMocks);
+    const closedMerged = appsInStorage.closed.concat(closedMocks);
 
-  const needToApplySorted = needToApplyMerged.sort((a, b) =>
-    dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-  );
-  const appliedSorted = appliedMerged.sort((a, b) =>
-    dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-  );
-  const interviewingSorted = interviewingMerged.sort((a, b) =>
-    dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-  );
-  const offerSorted = offerMerged.sort((a, b) =>
-    dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-  );
-  const closedSorted = closedMerged.sort((a, b) =>
-    dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-  );
+    const needToApplySorted = needToApplyMerged.sort((a, b) =>
+      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
+    );
+    const appliedSorted = appliedMerged.sort((a, b) =>
+      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
+    );
+    const interviewingSorted = interviewingMerged.sort((a, b) =>
+      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
+    );
+    const offerSorted = offerMerged.sort((a, b) =>
+      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
+    );
+    const closedSorted = closedMerged.sort((a, b) =>
+      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
+    );
 
-  return {
-    needToApply: needToApplySorted,
-    applied: appliedSorted,
-    interviewing: interviewingSorted,
-    offer: offerSorted,
-    closed: closedSorted,
-  };
+    return {
+      needToApply: needToApplySorted,
+      applied: appliedSorted,
+      interviewing: interviewingSorted,
+      offer: offerSorted,
+      closed: closedSorted,
+    };
+  }
+
+  return needToApplyMocks.concat(
+    appliedMocks,
+    interviewingMocks,
+    offerMocks,
+    closedMocks,
+  );
 }
+
+export default getAllDemoApplications;

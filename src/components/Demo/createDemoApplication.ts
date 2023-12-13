@@ -6,9 +6,9 @@ export default function createDemoApplication(
 ) {
   if (!window || !window.sessionStorage) return;
 
-  const dataInStorage = getAllApplicationsInStorage();
+  const applicationsInStorage = getAllApplicationsInStorage();
 
-  if (!dataInStorage) {
+  if (!applicationsInStorage) {
     window.sessionStorage.setItem(
       "demoApplications",
       JSON.stringify([application]),
@@ -16,12 +16,10 @@ export default function createDemoApplication(
     return;
   }
 
-  const { needToApply, applied, interviewing, offer, closed } = dataInStorage;
-
-  const dataMerged = needToApply.concat(applied, interviewing, offer, closed);
+  const mergedApplications = applicationsInStorage.push(application);
 
   window.sessionStorage.setItem(
     "demoApplications",
-    JSON.stringify([...dataMerged, application]),
+    JSON.stringify(mergedApplications),
   );
 }

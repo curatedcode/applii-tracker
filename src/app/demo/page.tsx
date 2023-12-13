@@ -1,16 +1,16 @@
 "use client";
 
 import BoardSection from "@/src/components/Board/BoardSection";
-import getAllMockApplications from "@/src/components/Demo/getAllDemoApplications";
+import getAllDemoApplications from "@/src/components/Demo/getAllDemoApplications";
 import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
 import SelectInput from "@/src/components/SelectInput";
+import { GroupedApplicationsType } from "@/src/types/applications";
 import {
   OptionType,
   SortByLabelType,
   SortByValueType,
   sortByOptions,
 } from "@/src/types/global";
-import { GetAllApplicationsReturnType } from "@/src/utils/db";
 
 import { useEffect, useState } from "react";
 
@@ -19,11 +19,10 @@ export default function Demo() {
     OptionType<SortByLabelType, SortByValueType>
   >(sortByOptions[1]);
 
-  const [applications, setApplications] =
-    useState<GetAllApplicationsReturnType>();
+  const [applications, setApplications] = useState<GroupedApplicationsType>();
 
   useEffect(() => {
-    setApplications(getAllMockApplications(sortBy.value));
+    setApplications(getAllDemoApplications(sortBy.value, "grouped"));
   }, [sortBy]);
 
   if (!applications) return <HomeSkeleton />;

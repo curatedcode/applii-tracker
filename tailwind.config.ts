@@ -73,6 +73,14 @@ const config: Config = {
             "background-position": "right bottom",
           },
         },
+        "make-visible": {
+          "0%": {
+            visibility: "hidden",
+          },
+          "100%": {
+            visibility: "visible",
+          },
+        },
       },
       animation: {
         "metric-loading":
@@ -80,6 +88,7 @@ const config: Config = {
         wiggle: "wiggle 10s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate",
         "shift-gradient-x":
           "shift-gradient-x 10s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate",
+        appear: "make-visible 0ms linear 50ms forwards",
       },
     },
   },

@@ -5,20 +5,18 @@ import BoardSection from "@/src/components/Board/BoardSection";
 import IndexedDBNotSupported from "@/src/components/IndexedDBNotSupported";
 import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
 import SelectInput from "@/src/components/SelectInput";
+import { GroupedApplicationsType } from "@/src/types/applications";
 import {
   OptionType,
   SortByLabelType,
   SortByValueType,
   sortByOptions,
 } from "@/src/types/global";
-import {
-  GetAllApplicationsReturnType,
-  getAllApplications,
-} from "@/src/utils/db";
+import { getAllApplications } from "@/src/utils/db";
 
 export default function Home() {
   const [allApplications, setAllApplications] =
-    useState<GetAllApplicationsReturnType>();
+    useState<GroupedApplicationsType>();
   const [isIndexedDBSupported, setIsIndexedDBSupported] =
     useState<boolean>(true);
 
@@ -32,7 +30,9 @@ export default function Home() {
       setIsIndexedDBSupported(false);
       return;
     }
-    getAllApplications(sortBy.value).then((data) => setAllApplications(data));
+    getAllApplications(sortBy.value, "grouped").then((data) =>
+      setAllApplications(data),
+    );
   }, [sortBy]);
 
   if (!isIndexedDBSupported) return <IndexedDBNotSupported />;
