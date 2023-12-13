@@ -1,13 +1,10 @@
 import dayjs from "dayjs";
-import calculateApplicationsInDateRange from "../components/Fn/calculateApplicationsInDateRange";
-import calculateSimpleApplicationStats, {
-  CalculateSimpleApplicationStatsReturnType,
-} from "../components/Fn/calculateSimpleApplicationStats";
-import generateMetricLabels from "../components/Fn/generateMetricLabels";
+import groupApplicationsByStatus from "../components/Fn/groupApplicationsByStatus";
 import {
-  ApplicationType,
   CreateApplicationType,
+  FormatApplicationsType,
   FullApplicationType,
+  GroupedApplicationsType,
   UpdateApplicationType,
 } from "../types/applications";
 import {
@@ -15,7 +12,7 @@ import {
   SettingsNameType,
   SettingsType,
 } from "../types/db";
-import { TimelineType, promiseSeries } from "../types/global";
+import { SortByValueType, promiseSeries } from "../types/global";
 
 export async function applicationDB(): Promise<{
   applications: IDBObjectStore;
@@ -83,20 +80,19 @@ export async function getApplication({
   return application;
 }
 
-export type GetAllApplicationsReturnType = {
-  needToApply: FullApplicationType[];
-  applied: FullApplicationType[];
-  interviewing: FullApplicationType[];
-  offer: FullApplicationType[];
-  closed: FullApplicationType[];
-};
+async function getAllApplications(
+  _sortBy: SortByValueType,
+): Promise<FullApplicationType[]>;
 
-export async function getAllApplications(
-  sortBy: "dateModified" | "dateCreated",
-): Promise<GetAllApplicationsReturnType> {
+async function getAllApplications(
+  _sortBy: SortByValueType,
+  _format: FormatApplicationsType,
+): Promise<GroupedApplicationsType>;
+
+async function getAllApplications(sortBy: SortByValueType, format?: "grouped") {
   const DB = (await applicationDB()).applications;
 
-  const applicationsPromise = new Promise<ApplicationType[]>(
+  const applicationsPromise = new Promise<FullApplicationType[]>(
     (resolve, reject) => {
       const data = DB.getAll();
 
@@ -106,45 +102,19 @@ export async function getAllApplications(
     },
   );
 
-  const applications: FullApplicationType[] = await applicationsPromise;
+  const applications = await applicationsPromise;
 
-  const applicationsSorted = applications.sort((a, b) =>
-    dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-  );
+  if (format === "grouped") {
+    const applicationsSorted = applications.sort((a, b) =>
+      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
+    );
 
-  const needToApplyApps: FullApplicationType[] = [];
-  const appliedApps: FullApplicationType[] = [];
-  const interviewingApps: FullApplicationType[] = [];
-  const offerApps: FullApplicationType[] = [];
-  const closedApps: FullApplicationType[] = [];
+    const grouped = groupApplicationsByStatus(applicationsSorted);
 
-  for (const application of applicationsSorted) {
-    switch (application.status) {
-      case "needToApply":
-        needToApplyApps.push(application);
-        break;
-      case "applied":
-        appliedApps.push(application);
-        break;
-      case "interviewing":
-        interviewingApps.push(application);
-        break;
-      case "offer":
-        offerApps.push(application);
-        break;
-      case "closed":
-        closedApps.push(application);
-        break;
-    }
+    return grouped;
   }
 
-  return {
-    needToApply: needToApplyApps,
-    applied: appliedApps,
-    interviewing: interviewingApps,
-    offer: offerApps,
-    closed: closedApps,
-  };
+  return applicationsPromise;
 }
 
 export async function createApplication({
@@ -244,76 +214,6 @@ export async function deleteApplication({ id }: { id: number }) {
   });
 
   return application;
-}
-
-export type GetApplicationMetricsReturnType = {
-  needToApply: number[];
-  applied: number[];
-  interviewing: number[];
-  offer: number[];
-  closed: number[];
-  labels: string[];
-  simpleStats: CalculateSimpleApplicationStatsReturnType;
-};
-
-export async function getApplicationMetrics(
-  timeline: TimelineType,
-): Promise<GetApplicationMetricsReturnType> {
-  const applicationData = await getAllApplications("dateCreated");
-  const { needToApply, applied, interviewing, offer, closed } = applicationData;
-
-  const needToApplyApps = calculateApplicationsInDateRange({
-    applications: needToApply,
-    dateType: "dateCreated",
-    labels: generateMetricLabels(timeline),
-    timeline,
-  });
-
-  const appliedApps = calculateApplicationsInDateRange({
-    applications: applied,
-    dateType: "dateApplied",
-    labels: generateMetricLabels(timeline),
-    timeline,
-  });
-
-  const interviewingApps = calculateApplicationsInDateRange({
-    applications: interviewing,
-    dateType: "dateInterviewing",
-    labels: generateMetricLabels(timeline),
-    timeline,
-  });
-
-  const offerApps = calculateApplicationsInDateRange({
-    applications: offer,
-    dateType: "dateOffered",
-    labels: generateMetricLabels(timeline),
-    timeline,
-  });
-
-  const closedApps = calculateApplicationsInDateRange({
-    applications: closed,
-    dateType: "dateClosed",
-    labels: generateMetricLabels(timeline),
-    timeline,
-  });
-
-  const simpleStats = calculateSimpleApplicationStats({
-    needToApplyApps,
-    appliedApps,
-    interviewingApps,
-    offerApps,
-    closedApps,
-  });
-
-  return {
-    needToApply: needToApplyApps,
-    applied: appliedApps,
-    interviewing: interviewingApps,
-    offer: offerApps,
-    closed: closedApps,
-    labels: generateMetricLabels(timeline),
-    simpleStats,
-  };
 }
 
 export async function createSetting({
@@ -485,3 +385,5 @@ export async function exportData() {
 
   return result;
 }
+
+export { getAllApplications };

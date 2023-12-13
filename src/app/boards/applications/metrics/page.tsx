@@ -1,57 +1,33 @@
 "use client";
 
 import MetricsSkeleton from "@/src/components/Loading/MetricsSkeleton";
+import { Chart } from "@/src/components/Metrics/Chart";
+import generateMetrics, {
+  GenerateMetricsReturnType,
+} from "@/src/components/Metrics/generateMetrics";
 import SelectInput from "@/src/components/SelectInput";
-import { applicationColors } from "@/src/types/applications";
 import { TimelineLabelValueType, timelineOptions } from "@/src/types/global";
-import {
-  GetApplicationMetricsReturnType,
-  getApplicationMetrics,
-} from "@/src/utils/db";
-import {
-  BarElement,
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  LinearScale,
-  Title,
-  Tooltip,
-} from "chart.js";
+import { getAllApplications } from "@/src/utils/db";
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-);
 
 export default function Metrics() {
-  const [metricsData, setMetricsData] =
-    useState<GetApplicationMetricsReturnType>();
+  const [metricsData, setMetricsData] = useState<GenerateMetricsReturnType>();
 
   const [timeline, setTimeline] = useState<TimelineLabelValueType>(
     timelineOptions[3],
   );
 
   useEffect(() => {
-    getApplicationMetrics(timeline.value).then((data) => setMetricsData(data));
+    getAllApplications("dateCreated").then((applications) =>
+      setMetricsData(
+        generateMetrics({ timeline: timeline.value, applications }),
+      ),
+    );
   }, [timeline]);
 
   if (!metricsData) return <MetricsSkeleton />;
 
-  const {
-    needToApply,
-    applied,
-    interviewing,
-    offer,
-    closed,
-    labels,
-    simpleStats,
-  } = metricsData;
+  const { chartData, simpleMetrics } = metricsData;
 
   return (
     <>
@@ -68,67 +44,23 @@ export default function Metrics() {
         />
       </div>
       <div className="grid w-full max-w-6xl justify-items-center gap-12 justify-self-center md:gap-20">
-        <Bar
-          id="metricsChart"
-          options={{
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "bottom" as const,
-                labels: {
-                  font: {
-                    size: 16,
-                    weight: "500",
-                  },
-                },
-                title: {
-                  display: true,
-                  padding: 6,
-                },
-              },
-            },
-          }}
-          data={{
-            labels,
-            datasets: [
-              {
-                label: "Need To Apply",
-                data: needToApply,
-                backgroundColor: applicationColors.needToApply,
-              },
-              {
-                label: "Applied",
-                data: applied,
-                backgroundColor: applicationColors.applied,
-              },
-              {
-                label: "Interview",
-                data: interviewing,
-                backgroundColor: applicationColors.interviewing,
-              },
-              {
-                label: "Offer",
-                data: offer,
-                backgroundColor: applicationColors.offer,
-              },
-              {
-                label: "Closed",
-                data: closed,
-                backgroundColor: applicationColors.closed,
-              },
-            ],
-          }}
-        />
-        <div className="grid h-fit w-full max-w-sm rounded-md bg-light-secondary px-4 py-3 text-lg dark:bg-dark-secondary">
-          <h1 className="mb-3 text-center text-2xl font-semibold">
-            Percent in each stage
+        <Chart data={chartData} />
+        <div className="grid h-fit w-full max-w-sm gap-2 divide-y divide-light-secondary rounded-md border border-light-secondary py-2 shadow shadow-light-tertiary dark:divide-dark-secondary dark:border-dark-secondary dark:shadow-dark-tertiary sm:-mt-12 sm:text-lg">
+          <h1 className="px-3 text-center text-xl font-semibold sm:text-2xl">
+            Applications in each stage
           </h1>
-          {simpleStats.percents.map((stat, index) => (
-            <div key={index} className="flex items-center justify-between">
-              <span>{stat.label}:</span>
-              <span>{stat.percent}</span>
-            </div>
-          ))}
+          <div className="px-3 pb-1 pt-2">
+            {simpleMetrics.percentages.map((stat, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <span>{stat.label}:</span>
+                <span>{stat.percentage}</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between px-3 pt-2">
+            <span>Total applications:</span>
+            <span>{simpleMetrics.totalApplications}</span>
+          </div>
         </div>
       </div>
     </>

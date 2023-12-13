@@ -157,14 +157,6 @@ export type FormContextType = {
   setIsFormCompleted: Dispatch<SetStateAction<boolean>>;
 };
 
-export const applicationColors = {
-  needToApply: "#ADD8E6",
-  applied: "#22C55E",
-  interviewing: "#FFDB58",
-  offer: "#4169E1",
-  closed: "#D9534F",
-};
-
 export const applicationStatusSelectOptions: ApplicationStatusLabelValueType[] =
   [
     { value: "needToApply", label: "Need To Apply" },
@@ -179,3 +171,13 @@ export type ArrayFieldProps = {
   control: Control<z.infer<typeof formSchema>>;
   className?: string;
 };
+
+export type GroupedApplicationsType = {
+  needToApply: FullApplicationType[];
+  applied: FullApplicationType[];
+  interviewing: FullApplicationType[];
+  offer: FullApplicationType[];
+  closed: FullApplicationType[];
+};
+
+export type FormatApplicationsType = "grouped";

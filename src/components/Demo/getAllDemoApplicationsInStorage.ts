@@ -1,9 +1,18 @@
-import { zodFullApplicationArray } from "@/src/types/applications";
-import { GetAllApplicationsReturnType } from "@/src/utils/db";
+import {
+  FormatApplicationsType,
+  FullApplicationType,
+  GroupedApplicationsType,
+  zodFullApplicationArray,
+} from "@/src/types/applications";
+import groupApplicationsByStatus from "../Fn/groupApplicationsByStatus";
 
-export default function getAllDemoApplicationsInStorage():
-  | GetAllApplicationsReturnType
-  | undefined {
+function getAllDemoApplicationsInStorage(): FullApplicationType[] | undefined;
+
+function getAllDemoApplicationsInStorage(
+  _format: FormatApplicationsType,
+): GroupedApplicationsType | undefined;
+
+function getAllDemoApplicationsInStorage(format?: "grouped") {
   if (typeof window === "undefined") return;
 
   const applicationsInStorage =
@@ -17,27 +26,13 @@ export default function getAllDemoApplicationsInStorage():
 
   if (!storedApps.success) return;
 
-  const needToApplyStoredApps = storedApps.data.filter(
-    (app) => app.status === "needToApply",
-  );
-  const appliedStoredApps = storedApps.data.filter(
-    (app) => app.status === "applied",
-  );
-  const interviewingStoredApps = storedApps.data.filter(
-    (app) => app.status === "interviewing",
-  );
-  const offerStoredApps = storedApps.data.filter(
-    (app) => app.status === "offer",
-  );
-  const closedStoredApps = storedApps.data.filter(
-    (app) => app.status === "closed",
-  );
+  if (format === "grouped") {
+    const applications = storedApps.data;
+    const grouped = groupApplicationsByStatus(applications);
+    return grouped;
+  }
 
-  return {
-    needToApply: needToApplyStoredApps,
-    applied: appliedStoredApps,
-    interviewing: interviewingStoredApps,
-    offer: offerStoredApps,
-    closed: closedStoredApps,
-  };
+  return storedApps.data;
 }
+
+export default getAllDemoApplicationsInStorage;

@@ -1,9 +1,3 @@
-export const typeSafeObjectEntries = <T extends Record<PropertyKey, unknown>>(
-  obj: T,
-): { [K in keyof T]: [K, T[K]] }[keyof T][] => {
-  return Object.entries(obj) as { [K in keyof T]: [K, T[K]] }[keyof T][];
-};
-
 type GrowToSizeType<
   T,
   N extends number,
@@ -65,3 +59,19 @@ export const sortByOptions: OptionType<SortByLabelType, SortByValueType>[] = [
   { label: "Date Created", value: "dateCreated" },
   { label: "Date Modified", value: "dateModified" },
 ];
+
+export const statusColors = {
+  needToApply: "#ADD8E6",
+  applied: "#22C55E",
+  interviewing: "#FFDB58",
+  offer: "#a891ee",
+  closed: "#D9534F",
+} as const;
+
+export const readableStatus = {
+  needToApply: "Need To Apply",
+  applied: "Applied",
+  interviewing: "Interviewing",
+  offer: "Offer",
+  closed: "Closed",
+} as const;

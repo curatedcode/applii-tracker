@@ -5,15 +5,7 @@ import getAllDemoApplications from "./getAllDemoApplications";
  * - Incremented 1 after the last application created
  */
 export default function getNewDemoApplicationId() {
-  const { needToApply, applied, interviewing, offer, closed } =
-    getAllDemoApplications("dateCreated");
+  const applications = getAllDemoApplications("dateCreated");
 
-  const allApplications = needToApply.concat(
-    applied,
-    interviewing,
-    offer,
-    closed,
-  );
-
-  return allApplications.length + 1;
+  return applications.length + 1;
 }
