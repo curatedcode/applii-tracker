@@ -1,6 +1,7 @@
 import {
   ApplicationStatusType,
   FullApplicationType,
+  applicationStatusLabel,
 } from "@/src/types/applications";
 import { SortByValueType } from "@/src/types/global";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
@@ -12,10 +13,11 @@ import {
   TrophyIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { z } from "zod";
 import BoardSectionCard from "./BoardSectionCard";
 
 export type BoardSectionProps = {
-  title: "Need To Apply" | "Applied" | "Interviewing" | "Offer" | "Closed";
+  title: z.infer<typeof applicationStatusLabel>;
   cards: FullApplicationType[];
   sortBy: SortByValueType;
   mode?: "demo";

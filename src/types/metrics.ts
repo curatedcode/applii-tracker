@@ -102,12 +102,4 @@ export type FormattedChartDataType = {
   ClosedColor: `#${string}`;
 };
 
-export const zodStatusSchema = z.enum([
-  "Need To Apply",
-  "Applied",
-  "Interviewing",
-  "Offer",
-  "Closed",
-]);
-
 export const colorVisibleAcrossThemes = "#666666";

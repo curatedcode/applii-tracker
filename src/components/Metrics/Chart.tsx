@@ -1,3 +1,4 @@
+import { applicationStatusLabel } from "@/src/types/applications";
 import { statusColors } from "@/src/types/global";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { BarTooltipProps, ComputedDatum, ResponsiveBar } from "@nivo/bar";
@@ -5,7 +6,6 @@ import {
   FormattedChartDataType,
   chartStageKeys,
   colorVisibleAcrossThemes,
-  zodStatusSchema,
 } from "../../types/metrics";
 
 export type ChartProps = {
@@ -14,7 +14,7 @@ export type ChartProps = {
 
 export function Chart({ data }: ChartProps) {
   function getBarColor(e: ComputedDatum<FormattedChartDataType>): `#${string}` {
-    const isStatus = zodStatusSchema.safeParse(e.id);
+    const isStatus = applicationStatusLabel.safeParse(e.id);
     if (!isStatus.success) return colorVisibleAcrossThemes;
 
     const status = isStatus.data;
@@ -39,7 +39,10 @@ export function Chart({ data }: ChartProps) {
         />
         <p>Rotate your device to view the chart</p>
       </div>
-      <div id="metricsChart" className="mb-4 hidden h-96 w-full overflow-hidden text-light-text dark:text-dark-text sm:flex">
+      <div
+        id="metricsChart"
+        className="mb-4 hidden h-96 w-full overflow-hidden text-light-text dark:text-dark-text sm:flex"
+      >
         <ResponsiveBar
           data={data}
           keys={chartStageKeys}
@@ -120,7 +123,7 @@ function ChartTooltip({
   return (
     <div
       role="tooltip"
-      className="animate-appear invisible flex items-center gap-1 rounded-md bg-light-secondary px-3 py-1.5 font-medium shadow dark:bg-dark-secondary"
+      className="invisible flex animate-appear items-center gap-1 rounded-md bg-light-secondary px-3 py-1.5 font-medium shadow dark:bg-dark-secondary"
     >
       <div
         aria-hidden="true"
