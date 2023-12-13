@@ -26,11 +26,14 @@ function getAllDemoApplications(
 /**
  * Will get all default mock applications and check for any applications in session storage
  */
-function getAllDemoApplications(sortBy: SortByValueType, format?: "grouped") {
-  const appsInStorage = getAllDemoApplicationsInStorage("grouped");
+function getAllDemoApplications(
+  sortBy: SortByValueType,
+  format?: FormatApplicationsType,
+) {
+  if (format === "grouped") {
+    const appsInStorage = getAllDemoApplicationsInStorage(format);
 
-  if (!appsInStorage) {
-    if (format === "grouped") {
+    if (!appsInStorage) {
       return {
         needToApply: needToApplyMocks,
         applied: appliedMocks,
@@ -40,15 +43,6 @@ function getAllDemoApplications(sortBy: SortByValueType, format?: "grouped") {
       };
     }
 
-    return needToApplyMocks.concat(
-      appliedMocks,
-      interviewingMocks,
-      offerMocks,
-      closedMocks,
-    );
-  }
-
-  if (format === "grouped") {
     const needToApplyMerged =
       appsInStorage.needToApply.concat(needToApplyMocks);
     const appliedMerged = appsInStorage.applied.concat(appliedMocks);
@@ -80,6 +74,18 @@ function getAllDemoApplications(sortBy: SortByValueType, format?: "grouped") {
       offer: offerSorted,
       closed: closedSorted,
     };
+  }
+
+  const appsInStorage = getAllDemoApplicationsInStorage();
+
+  if (appsInStorage) {
+    return needToApplyMocks.concat(
+      appliedMocks,
+      interviewingMocks,
+      offerMocks,
+      closedMocks,
+      appsInStorage,
+    );
   }
 
   return needToApplyMocks.concat(

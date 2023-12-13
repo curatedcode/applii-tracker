@@ -5,7 +5,7 @@ import {
   zodFullApplicationArray,
 } from "@/src/types/applications";
 
-function getAllDemoApplicationsInStorage(): FullApplicationType[];
+function getAllDemoApplicationsInStorage(): FullApplicationType[] | undefined;
 
 function getAllDemoApplicationsInStorage(
   _format: FormatApplicationsType,
