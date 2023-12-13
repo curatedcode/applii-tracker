@@ -67,3 +67,11 @@ export const statusColors = {
   offer: "#a891ee",
   closed: "#D9534F",
 } as const;
+
+export const readableStatus = {
+  needToApply: "Need To Apply",
+  applied: "Applied",
+  interviewing: "Interviewing",
+  offer: "Offer",
+  closed: "Closed",
+} as const;

@@ -4,20 +4,12 @@ import getDemoApplication from "@/src/components/Demo/getDemoApplication";
 import formatDate from "@/src/components/Fn/formatDate";
 import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
 import ULItem from "@/src/components/ULItem";
-import { ApplicationStatusType } from "@/src/types/applications";
+import { readableStatus } from "@/src/types/global";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Application() {
   const id = Number(useSearchParams().get("id"));
   const router = useRouter();
-
-  function readableStatus(status: ApplicationStatusType) {
-    if (status === "needToApply") return "Need to apply";
-    if (status === "applied") return "Applied";
-    if (status === "interviewing") return "Interviewing";
-    if (status === "offer") return "Offer";
-    return "Closed";
-  }
 
   if (!id || isNaN(id)) return router.push("/not-found");
 
@@ -67,7 +59,7 @@ export default function Application() {
               body={postingURL ?? "None"}
               isLink={postingURL ? true : false}
             />
-            <ULItem label="Status" body={readableStatus(status)} />
+            <ULItem label="Status" body={readableStatus[status]} />
             <ULItem label="Created on" body={formatDate(dateCreated)} />
             {status === "applied" && dateApplied && (
               <ULItem label="Applied on" body={formatDate(dateApplied)} />
