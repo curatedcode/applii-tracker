@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import groupApplicationsByStatus from "../components/Fn/groupApplicationsByStatus";
 import {
   CreateApplicationType,
   FormatApplicationsType,
@@ -108,39 +109,9 @@ async function getAllApplications(sortBy: SortByValueType, format?: "grouped") {
       dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
     );
 
-    const needToApplyApps: FullApplicationType[] = [];
-    const appliedApps: FullApplicationType[] = [];
-    const interviewingApps: FullApplicationType[] = [];
-    const offerApps: FullApplicationType[] = [];
-    const closedApps: FullApplicationType[] = [];
+    const grouped = groupApplicationsByStatus(applicationsSorted);
 
-    for (const application of applicationsSorted) {
-      switch (application.status) {
-        case "needToApply":
-          needToApplyApps.push(application);
-          break;
-        case "applied":
-          appliedApps.push(application);
-          break;
-        case "interviewing":
-          interviewingApps.push(application);
-          break;
-        case "offer":
-          offerApps.push(application);
-          break;
-        case "closed":
-          closedApps.push(application);
-          break;
-      }
-    }
-
-    return {
-      needToApply: needToApplyApps,
-      applied: appliedApps,
-      interviewing: interviewingApps,
-      offer: offerApps,
-      closed: closedApps,
-    };
+    return grouped;
   }
 
   return applicationsPromise;

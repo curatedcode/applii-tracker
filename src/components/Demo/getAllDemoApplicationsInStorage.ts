@@ -4,6 +4,7 @@ import {
   GroupedApplicationsType,
   zodFullApplicationArray,
 } from "@/src/types/applications";
+import groupApplicationsByStatus from "../Fn/groupApplicationsByStatus";
 
 function getAllDemoApplicationsInStorage(): FullApplicationType[] | undefined;
 
@@ -27,30 +28,8 @@ function getAllDemoApplicationsInStorage(format?: "grouped") {
 
   if (format === "grouped") {
     const applications = storedApps.data;
-
-    const needToApplyStoredApps = applications.filter(
-      (app) => app.status === "needToApply",
-    );
-    const appliedStoredApps = applications.filter(
-      (app) => app.status === "applied",
-    );
-    const interviewingStoredApps = applications.filter(
-      (app) => app.status === "interviewing",
-    );
-    const offerStoredApps = applications.filter(
-      (app) => app.status === "offer",
-    );
-    const closedStoredApps = applications.filter(
-      (app) => app.status === "closed",
-    );
-
-    return {
-      needToApply: needToApplyStoredApps,
-      applied: appliedStoredApps,
-      interviewing: interviewingStoredApps,
-      offer: offerStoredApps,
-      closed: closedStoredApps,
-    };
+    const grouped = groupApplicationsByStatus(applications);
+    return grouped;
   }
 
   return storedApps.data;
