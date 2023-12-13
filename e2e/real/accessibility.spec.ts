@@ -1,5 +1,5 @@
-import test, { expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import test, { expect } from "@playwright/test";
 
 test("homepage", async ({ page }) => {
   await page.goto("/boards");
@@ -24,7 +24,7 @@ test("metrics", async ({ page }) => {
 
   await page.waitForSelector("#loadingMetrics", { state: "attached" });
 
-  // disable scanning of ChartJS as aria is not controlled by me
+  // exclude nivo chart as most aria is not controlled by me.
   const results = await new AxeBuilder({ page })
     .exclude("#metricsChart")
     .analyze();
