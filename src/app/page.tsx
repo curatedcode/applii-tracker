@@ -45,7 +45,7 @@ export default function Home() {
             <div className="grid gap-4 text-sm font-medium">
               <Link
                 href="/boards"
-                className={`${defaultFocusHoverClasses} gradient-border h-fit min-w-[6rem] animate-shift-gradient-x whitespace-nowrap rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-5 py-2 text-center font-medium transition-all hover:bg-none hover:text-black focus-visible:bg-none focus-visible:text-black dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary`}
+                className={`${defaultFocusHoverClasses} gradient-border h-fit min-w-[6rem] animate-shift-gradient-x whitespace-nowrap rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-5 py-2 text-center font-medium transition-colors hover:bg-none hover:text-black focus-visible:bg-none focus-visible:text-black dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary`}
               >
                 Get started
               </Link>
