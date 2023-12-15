@@ -145,11 +145,10 @@ export default function FormEdit() {
         <div className="mt-4 flex justify-center gap-4">
           <InternalLink
             href={`/boards/applications/${currentPosition}-at-${currentCompany}?id=${id}`}
-            style="buttonShaded"
           >
             View
           </InternalLink>
-          <InternalLink href="/boards" style="buttonShaded">
+          <InternalLink href="/boards" style="inverse">
             Home
           </InternalLink>
         </div>

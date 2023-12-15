@@ -80,10 +80,8 @@ export default function Application() {
       >
         <p>Are you sure you want to delete this application?</p>
         <div className="mt-4 flex justify-center gap-4">
-          <Button onClick={() => setIsDeleteModalOpen(false)} style="inverse">
-            Cancel
-          </Button>
-          <Button onClick={() => deleteApp()} style="shaded">
+          <Button onClick={() => setIsDeleteModalOpen(false)}>Cancel</Button>
+          <Button onClick={() => deleteApp()} style="inverse">
             Delete
           </Button>
         </div>
