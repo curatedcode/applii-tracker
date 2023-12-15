@@ -120,11 +120,10 @@ export default function Create() {
         <div className="mt-4 flex justify-center gap-4">
           <InternalLink
             href={`/demo/applications/${currentPosition}-at-${currentCompany}?id=${applicationId}`}
-            style="buttonShaded"
           >
             View
           </InternalLink>
-          <InternalLink href="/demo" style="buttonShaded">
+          <InternalLink href="/demo" style="inverse">
             Home
           </InternalLink>
         </div>
