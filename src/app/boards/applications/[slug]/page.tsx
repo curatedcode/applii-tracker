@@ -4,7 +4,7 @@ import Button from "@/src/components/Button";
 import formatDate from "@/src/components/Fn/formatDate";
 import InternalLink from "@/src/components/Links/InternalLink";
 import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
-import Modal from "@/src/components/Modal";
+import Modal from "@/src/components/Modals/Modal";
 import ULItem from "@/src/components/ULItem";
 import {
   ApplicationStatusType,
@@ -77,17 +77,19 @@ export default function Application() {
         title="Delete Application"
         isOpen={isDeleteModalOpen}
         setIsOpen={setIsDeleteModalOpen}
-      >
-        <p>Are you sure you want to delete this application?</p>
-        <div className="mt-4 flex justify-center gap-4">
-          <Button onClick={() => setIsDeleteModalOpen(false)} style="inverse">
-            Cancel
-          </Button>
-          <Button onClick={() => deleteApp()} style="shaded">
-            Delete
-          </Button>
-        </div>
-      </Modal>
+        description="Are you sure you want to delete this application?"
+        primaryButton={{
+          as: "button",
+          body: "Delete",
+          onClick: () => deleteApp(),
+        }}
+        secondaryButton={{
+          as: "button",
+          body: "Cancel",
+          onClick: () => setIsDeleteModalOpen(false),
+        }}
+      />
+      {/* <TestModal /> */}
       <div className="grid justify-items-center gap-x-12 gap-y-8 md:grid-cols-2">
         <div className="grid w-full auto-rows-min">
           <h2

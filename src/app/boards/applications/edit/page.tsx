@@ -6,9 +6,8 @@ import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import NoteFields from "@/src/components/Form/NoteFields";
 import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
-import InternalLink from "@/src/components/Links/InternalLink";
 import EditApplicationSkeleton from "@/src/components/Loading/EditApplicationSkeleton";
-import Modal from "@/src/components/Modal";
+import Modal from "@/src/components/Modals/Modal";
 import {
   applicationStatusSelectOptions,
   applicationStatusesArray,
@@ -140,20 +139,18 @@ export default function FormEdit() {
         title="Application updated"
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
-      >
-        <p>Would you like to view this application or go home?</p>
-        <div className="mt-4 flex justify-center gap-4">
-          <InternalLink
-            href={`/boards/applications/${currentPosition}-at-${currentCompany}?id=${id}`}
-            style="buttonShaded"
-          >
-            View
-          </InternalLink>
-          <InternalLink href="/boards" style="buttonShaded">
-            Home
-          </InternalLink>
-        </div>
-      </Modal>
+        description="Would you like to view this application or go home?"
+        secondaryButton={{
+          as: "link",
+          href: `/boards/applications/${currentPosition}-at-${currentCompany}?id=${id}`,
+          body: "View",
+        }}
+        primaryButton={{
+          as: "link",
+          href: "/boards",
+          body: "Home",
+        }}
+      />
       <h1 className="mb-8 text-center text-3xl font-semibold">
         Edit your application
       </h1>
