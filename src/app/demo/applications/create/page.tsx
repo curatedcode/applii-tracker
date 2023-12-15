@@ -12,8 +12,7 @@ import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import NoteFields from "@/src/components/Form/NoteFields";
 import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
-import InternalLink from "@/src/components/Links/InternalLink";
-import Modal from "@/src/components/Modal";
+import Modal from "@/src/components/Modals/Modal";
 import {
   ApplicationStatusLabelValueType,
   applicationStatusSelectOptions,
@@ -113,27 +112,24 @@ export default function Create() {
         title="Application created"
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
-      >
-        <p className="text-base">
-          Would you like to view this application or go home?
-        </p>
-        <div className="mt-4 flex justify-center gap-4">
-          <InternalLink
-            href={`/demo/applications/${currentPosition}-at-${currentCompany}?id=${applicationId}`}
-          >
-            View
-          </InternalLink>
-          <InternalLink href="/demo" style="inverse">
-            Home
-          </InternalLink>
-        </div>
-      </Modal>
+        description="Would you like to view this application or go home?"
+        secondaryButton={{
+          as: "link",
+          href: `/demo/applications/${currentPosition}-at-${currentCompany}?id=${applicationId}`,
+          body: "View",
+        }}
+        primaryButton={{
+          as: "link",
+          href: "/demo",
+          body: "Home",
+        }}
+      />
       <h1 className="mb-8 text-center text-3xl font-semibold">
         Create your application
       </h1>
       <form
         onSubmit={handleSubmit(submit)}
-        className="grid justify-items-center gap-x-12 gap-y-8 md:grid-cols-2"
+        className="grid justify-items-center gap-x-12 gap-y-8 opacity-[0.97] md:grid-cols-2"
       >
         <div className="flex w-full flex-col">
           <h2 className="mb-6 self-center border-b px-1 text-lg font-semibold">

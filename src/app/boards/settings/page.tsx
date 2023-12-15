@@ -5,7 +5,8 @@ import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import ExternalLink from "@/src/components/Links/ExternalLink";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
-import Modal from "@/src/components/Modal";
+import Modal from "@/src/components/Modals/Modal";
+import ModalForm from "@/src/components/Modals/ModalForm";
 import useSync from "@/src/components/Sync/useSync";
 import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
 import { syncSettingsSchema } from "@/src/types/db";
@@ -137,10 +138,6 @@ export default function Settings() {
     },
   });
 
-  useEffect(() => {
-    console.log(fileExportFormErrors);
-  }, [fileExportFormErrors]);
-
   const currentFileExportFileType = watchFileExportForm("fileType");
 
   useEffect(() => {
@@ -259,59 +256,59 @@ export default function Settings() {
         isOpen={showFileImportModal}
         setIsOpen={setShowFileImportModal}
         title="Import file"
-      >
-        <p className="px-4 text-sm">
-          Are you sure you want to import this file? Any existing data will be
-          overwritten.
-        </p>
-        <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          <Button onClick={() => setShowFileImportModal(false)}>Cancel</Button>
-          <Button style="inverse" onClick={() => submitImportFile()}>
-            Import
-          </Button>
-        </div>
-      </Modal>
-      <Modal
+        description="Are you sure you want to import this file? Any existing data will be
+        overwritten!"
+        secondaryButton={{
+          as: "button",
+          onClick: () => setShowFileImportModal(false),
+          body: "Cancel",
+        }}
+        primaryButton={{
+          as: "button",
+          onClick: () => submitImportFile(),
+          body: "Import",
+        }}
+      />
+      <ModalForm
         isOpen={showFileExportModal}
         setIsOpen={setShowFileExportModal}
         title="Export settings"
+        description="Choose your file name and type"
+        secondaryButton={{
+          as: "button",
+          onClick: () => setShowFileExportModal(false),
+          body: "Cancel",
+        }}
+        primaryButton={{
+          as: "button",
+          type: "submit",
+          body: "Export",
+        }}
+        onSubmit={handleFileExportFormSubmit(submitExportFile)}
       >
-        <form
-          onSubmit={handleFileExportFormSubmit(submitExportFile)}
-          className="mt-4 grid gap-3 text-base"
-        >
-          <FormInput
-            id="fileExportName"
-            label="File name"
-            type="text"
-            register={registerFileExportForm}
-            error={fileExportFormErrors.fileName?.message}
-            registerName="fileName"
-          />
-          <Controller
-            name="fileType"
-            control={fileExportFormControl}
-            render={({ field: { onChange } }) => (
-              <FormSelectInput
-                label="File type"
-                selected={
-                  currentFileExportFileType ?? fileExportTypeSelectOptions[0]
-                }
-                setSelected={onChange}
-                options={fileExportTypeSelectOptions}
-              />
-            )}
-          />
-          <div className="mt-4 grid gap-2 sm:grid-cols-2">
-            <Button onClick={() => setShowFileExportModal(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" style="inverse">
-              Export
-            </Button>
-          </div>
-        </form>
-      </Modal>
+        <FormInput
+          id="fileExportName"
+          label="File name"
+          type="text"
+          register={registerFileExportForm}
+          error={fileExportFormErrors.fileName?.message}
+          registerName="fileName"
+        />
+        <Controller
+          name="fileType"
+          control={fileExportFormControl}
+          render={({ field: { onChange } }) => (
+            <FormSelectInput
+              label="File type"
+              selected={
+                currentFileExportFileType ?? fileExportTypeSelectOptions[0]
+              }
+              setSelected={onChange}
+              options={fileExportTypeSelectOptions}
+            />
+          )}
+        />
+      </ModalForm>
     </>
   );
 }
