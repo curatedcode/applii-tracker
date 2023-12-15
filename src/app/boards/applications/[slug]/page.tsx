@@ -89,7 +89,6 @@ export default function Application() {
           onClick: () => setIsDeleteModalOpen(false),
         }}
       />
-      {/* <TestModal /> */}
       <div className="grid justify-items-center gap-x-12 gap-y-8 md:grid-cols-2">
         <div className="grid w-full auto-rows-min">
           <h2
