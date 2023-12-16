@@ -2,13 +2,13 @@
 
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
-import ExternalLink from "../Links/ExternalLink";
 import Link from "next/link";
+import { Fragment } from "react";
+import ExternalLink from "../ExternalLink";
 
 export default function FAQAccordion() {
   return (
-    <div className="animate-shift-gradient-x mx-auto grid w-full max-w-3xl gap-4 rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-4 py-5 ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary">
+    <div className="mx-auto grid w-full max-w-3xl animate-shift-gradient-x gap-4 rounded-md bg-gradient-to-bl from-light-primary via-light-primary to-light-secondary px-4 py-5 ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary">
       <Disclosure>
         {({ open }) => (
           <>

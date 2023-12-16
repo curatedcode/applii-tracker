@@ -1,4 +1,4 @@
-import InternalLink from "@/src/components/Links/InternalLink";
+import Button from "../components/Button";
 
 export default function NotFound() {
   return (
@@ -8,9 +8,9 @@ export default function NotFound() {
       <p className="text-base md:text-lg">
         We can&apos;t find the page you&apos;re looking for
       </p>
-      <InternalLink href={"/"} style="button" className="mt-8">
+      <Button as="link" href={"/"} className="mt-8">
         Return home
-      </InternalLink>
+      </Button>
     </div>
   );
 }
