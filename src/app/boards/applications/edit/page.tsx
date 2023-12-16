@@ -244,7 +244,9 @@ export default function FormEdit() {
         <NoteFields register={register} control={control} />
         <div className="col-span-full mt-12 flex flex-row gap-6">
           <Button onClick={() => router.push("/boards")}>Cancel</Button>
-          <Button type="submit">Submit</Button>
+          <Button type="submit" style="inverse">
+            Submit
+          </Button>
         </div>
       </form>
     </>
