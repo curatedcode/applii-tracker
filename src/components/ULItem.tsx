@@ -1,4 +1,4 @@
-import ExternalLink from "./Links/ExternalLink";
+import ExternalLink from "./ExternalLink";
 
 export type ULItemProps = {
   label: string;

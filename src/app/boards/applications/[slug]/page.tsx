@@ -2,7 +2,6 @@
 
 import Button from "@/src/components/Button";
 import formatDate from "@/src/components/Fn/formatDate";
-import InternalLink from "@/src/components/Links/InternalLink";
 import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
 import Modal from "@/src/components/Modals/Modal";
 import ULItem from "@/src/components/ULItem";
@@ -67,9 +66,9 @@ export default function Application() {
           {position} at {company}
         </h1>
         <div className="flex gap-4">
-          <InternalLink href={`/boards/applications/edit?id=${id}`}>
+          <Button as="link" href={`/boards/applications/edit?id=${id}`}>
             Edit
-          </InternalLink>
+          </Button>
           <Button onClick={() => setIsDeleteModalOpen(true)}>Delete</Button>
         </div>
       </div>

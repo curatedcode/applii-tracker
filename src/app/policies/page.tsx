@@ -1,4 +1,4 @@
-import ExternalLink from "@/src/components/Links/ExternalLink";
+import ExternalLink from "@/src/components/ExternalLink";
 import Navbar from "@/src/components/Navbar";
 
 export default function Policies() {

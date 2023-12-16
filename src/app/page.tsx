@@ -3,10 +3,10 @@ import {
   needToApplyMocks,
   offerMocks,
 } from "@/src/components/Demo/mockDemoVariables";
+import ExternalLink from "@/src/components/ExternalLink";
 import BoardSection from "@/src/components/Landing/BoardSection";
 import FAQAccordion from "@/src/components/Landing/FAQAccordion";
 import StarryCanvas from "@/src/components/Landing/StarryCanvas";
-import ExternalLink from "@/src/components/Links/ExternalLink";
 import Navbar from "@/src/components/Navbar";
 import {
   ChartPieIcon,

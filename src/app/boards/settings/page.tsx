@@ -1,9 +1,9 @@
 "use client";
 
 import Button from "@/src/components/Button";
+import ExternalLink from "@/src/components/ExternalLink";
 import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
-import ExternalLink from "@/src/components/Links/ExternalLink";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
 import Modal from "@/src/components/Modals/Modal";
 import ModalForm from "@/src/components/Modals/ModalForm";

@@ -23,13 +23,16 @@ const config: Config = {
       width: {
         "8xl": "120rem",
         "board-section": "23rem",
+        button: "8rem",
       },
       maxWidth: {
         "8xl": "120rem",
         "board-section": "23rem",
+        button: "8rem",
       },
       minWidth: {
         "board-section": "23rem",
+        button: "8rem",
       },
       colors: {
         dark: {
@@ -106,7 +109,7 @@ const config: Config = {
     "focus-within:outline-none",
     "hover:opacity-95",
     "focus:outline-none",
-    "focus-visible:ring-2",
+    "focus-visible:ring-1",
     "focus-visible:ring-dark-secondary",
     "focus-visible:ring-opacity-75",
     "focus-visible:ring-offset-dark-secondary",
