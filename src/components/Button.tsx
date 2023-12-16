@@ -17,7 +17,7 @@ export type ButtonProps = {
   children: React.ReactNode;
   className?: string;
   title?: string;
-  style?: "icon" | "shaded" | "outline" | "inverse";
+  style?: "icon" | "inverse" | "default";
 } & (ButtonType | LinkType);
 
 export default function Button(props: ButtonProps) {
@@ -28,30 +28,6 @@ export default function Button(props: ButtonProps) {
       return (
         <Link
           className={`${defaultFocusHoverClasses} whitespace-nowrap rounded-md bg-light-secondary p-1.5 font-medium dark:bg-dark-secondary ${className}`}
-          href={props.href}
-          {...rest}
-        >
-          {children}
-        </Link>
-      );
-    }
-
-    if (style === "shaded") {
-      return (
-        <Link
-          className={`${defaultFocusHoverClasses} min-w-button flex h-fit items-center justify-center gap-1 whitespace-nowrap rounded-md bg-light-primary px-5 py-2 text-center text-sm font-medium text-light-text dark:bg-dark-primary dark:text-dark-text ${className}`}
-          href={props.href}
-          {...rest}
-        >
-          {children}
-        </Link>
-      );
-    }
-
-    if (style === "outline") {
-      return (
-        <Link
-          className={`${defaultFocusHoverClasses} min-w-button flex h-fit items-center justify-center gap-1 whitespace-nowrap rounded-md px-5 py-2 text-center text-sm font-medium text-light-text ring-1 ring-light-secondary hover:bg-light-secondary dark:text-dark-text dark:hover:bg-dark-secondary ${className}`}
           href={props.href}
           {...rest}
         >
@@ -87,30 +63,6 @@ export default function Button(props: ButtonProps) {
     return (
       <button
         className={`${defaultFocusHoverClasses} whitespace-nowrap rounded-md bg-light-secondary p-1.5 font-medium dark:bg-dark-secondary ${className}`}
-        type={props.type ?? "button"}
-        {...rest}
-      >
-        {children}
-      </button>
-    );
-  }
-
-  if (style === "shaded") {
-    return (
-      <button
-        className={`${defaultFocusHoverClasses} min-w-button flex h-fit items-center justify-center gap-1 whitespace-nowrap rounded-md bg-light-primary px-5 py-2 text-center text-sm font-medium text-light-text dark:bg-dark-primary dark:text-dark-text ${className}`}
-        type={props.type ?? "button"}
-        {...rest}
-      >
-        {children}
-      </button>
-    );
-  }
-
-  if (style === "outline") {
-    return (
-      <button
-        className={`${defaultFocusHoverClasses} min-w-button flex h-fit items-center justify-center gap-1 whitespace-nowrap rounded-md px-5 py-2 text-center text-sm font-medium text-light-text ring-1 ring-light-secondary hover:bg-light-secondary dark:text-dark-text dark:hover:bg-dark-secondary ${className}`}
         type={props.type ?? "button"}
         {...rest}
       >
