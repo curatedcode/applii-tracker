@@ -90,6 +90,24 @@ test("update application", async ({ page }) => {
   await page.getByTestId("applied-option").click();
   await page.getByLabel("Date Applied").fill("2023-10-10");
 
+  // fill out contact fields
+  await page.getByRole("button", { name: "Add Contact" }).click();
+  await page.getByRole("textbox", { name: "Name" }).fill("John Smith");
+  await page
+    .getByRole("textbox", { name: "Position" })
+    .nth(1)
+    .fill("Recruiter");
+  await page.getByRole("textbox", { name: "Phone" }).fill("123-456-7890");
+  await page
+    .getByRole("textbox", { name: "Email" })
+    .fill("johnsmith@gmail.com");
+
+  // fill out note fields
+  await page.getByRole("button", { name: "Add Note" }).click();
+  await page
+    .getByRole("textbox", { name: "Body" })
+    .fill("This is the body text of my first note");
+
   // submit and go to edit application page
   await page.getByRole("button", { name: "Submit" }).click();
   await page.getByRole("link", { name: "View" }).click();
@@ -110,6 +128,22 @@ test("update application", async ({ page }) => {
   await page.getByTestId("interviewing-option").click();
   await page.getByLabel("Date Interviewing").fill("2023-10-11");
 
+  // edit contact fields
+  await page.getByRole("textbox", { name: "Name" }).fill("Jack Black");
+  await page
+    .getByRole("textbox", { name: "Position" })
+    .nth(1)
+    .fill("Receptionist");
+  await page.getByRole("textbox", { name: "Phone" }).fill("098-765-4321");
+  await page
+    .getByRole("textbox", { name: "Email" })
+    .fill("jackblack@hotmail.com");
+
+  // edit note fields
+  await page
+    .getByRole("textbox", { name: "Body" })
+    .fill("This is the edited body text of my first note");
+
   // submit
   await page.getByRole("button", { name: "Submit" }).click();
   await page.getByRole("link", { name: "View" }).click();
@@ -126,6 +160,21 @@ test("update application", async ({ page }) => {
   } else {
     expect(page.getByText("10/11/2023", { exact: true })).toBeVisible();
   }
+
+  // contact fields
+  expect(page.getByText("Jack Black", { exact: true })).toBeVisible();
+  expect(page.getByText("Receptionist", { exact: true })).toBeVisible();
+  expect(page.getByText("098-765-4321", { exact: true })).toBeVisible();
+  expect(
+    page.getByText("jackblack@hotmail.com", { exact: true }),
+  ).toBeVisible();
+
+  // note field
+  expect(
+    page.getByText("This is the edited body text of my first note", {
+      exact: true,
+    }),
+  ).toBeVisible();
 });
 
 test("delete application", async ({ page }) => {
