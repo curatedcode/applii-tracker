@@ -167,6 +167,8 @@ export async function updateApplication({
   dateOffered,
   dateClosed,
   status,
+  contacts,
+  notes,
 }: UpdateApplicationType) {
   const DB = (await applicationDB()).applications;
 
@@ -188,7 +190,11 @@ export async function updateApplication({
         dateOffered: dateOffered ?? storedData.result.dateOffered,
         dateClosed: dateClosed ?? storedData.result.dateClosed,
         status: status ?? storedData.result.status,
+        contacts: contacts ?? storedData.result.contacts,
+        notes: notes ?? storedData.result.notes,
       };
+
+      console.log({ mergedData });
 
       const updateRequest = DB.put(mergedData);
       updateRequest.onerror = (event) =>
