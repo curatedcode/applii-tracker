@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { z } from "zod";
 import groupApplicationsByStatus from "../components/Fn/groupApplicationsByStatus";
 import {
   CreateApplicationType,
@@ -6,9 +7,14 @@ import {
   FullApplicationType,
   GroupedApplicationsType,
   UpdateApplicationType,
+  zodFullApplication,
+  zodFullApplicationArray,
 } from "../types/applications";
 import {
+  AllData,
   ImportExportDataType,
+  SettingType,
+  SettingsArrayType,
   SettingsNameType,
   SettingsType,
 } from "../types/db";
@@ -25,8 +31,8 @@ export async function applicationDB(): Promise<{
     const indexedDB = window.indexedDB;
     const DBrequest = indexedDB.open("appliiDatabase", 1);
 
-    DBrequest.onerror = (event) =>
-      reject(Error(`Unable to open database: ${event}`));
+    DBrequest.onerror = (error) =>
+      reject(Error(`Unable to open database. Error: ${error}`));
 
     DBrequest.onupgradeneeded = () => {
       const DB = DBrequest.result;
@@ -69,15 +75,26 @@ export async function getApplication({
 }): Promise<FullApplicationType> {
   const DB = (await applicationDB()).applications;
 
-  const application = new Promise<FullApplicationType>((resolve, reject) => {
+  const rawApplicationData = await new Promise((resolve, reject) => {
     const data = DB.get(id);
 
-    data.onerror = (event) =>
-      reject(Error(`Unable to fetch application with ID ${id}: ${event}`));
+    data.onerror = (error) =>
+      reject(
+        Error(`Unable to fetch application with ID ${id}. Error: ${error}`),
+      );
     data.onsuccess = () => resolve(data.result);
   });
 
-  return application;
+  const parsedApplicationData =
+    zodFullApplication.safeParse(rawApplicationData);
+
+  if (!parsedApplicationData.success) {
+    throw new Error(
+      `Application data received from database is incorrect type. Error: ${parsedApplicationData.error}`,
+    );
+  }
+
+  return parsedApplicationData.data;
 }
 
 async function getAllApplications(
@@ -92,20 +109,27 @@ async function getAllApplications(
 async function getAllApplications(sortBy: SortByValueType, format?: "grouped") {
   const DB = (await applicationDB()).applications;
 
-  const applicationsPromise = new Promise<FullApplicationType[]>(
-    (resolve, reject) => {
-      const data = DB.getAll();
+  const rawApplicationsData = await new Promise((resolve, reject) => {
+    const data = DB.getAll();
 
-      data.onerror = (event) =>
-        reject(Error(`Unable to fetch applications: ${event}`));
-      data.onsuccess = () => resolve(data.result);
-    },
-  );
+    data.onerror = (error) =>
+      reject(
+        Error(`Unable to fetch applications from database. Error: ${error}`),
+      );
+    data.onsuccess = () => resolve(data.result);
+  });
 
-  const applications = await applicationsPromise;
+  const parsedApplicationsData =
+    zodFullApplicationArray.safeParse(rawApplicationsData);
+
+  if (!parsedApplicationsData.success) {
+    throw new Error(
+      `Application data received from database is incorrect type. Error: ${parsedApplicationsData.error}`,
+    );
+  }
 
   if (format === "grouped") {
-    const applicationsSorted = applications.sort((a, b) =>
+    const applicationsSorted = parsedApplicationsData.data.sort((a, b) =>
       dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
     );
 
@@ -114,7 +138,7 @@ async function getAllApplications(sortBy: SortByValueType, format?: "grouped") {
     return grouped;
   }
 
-  return applicationsPromise;
+  return parsedApplicationsData.data;
 }
 
 export async function createApplication({
@@ -131,7 +155,7 @@ export async function createApplication({
 }: CreateApplicationType): Promise<{ id: number }> {
   const DB = (await applicationDB()).applications;
 
-  const application = new Promise((resolve, reject) => {
+  const applicationCreation = await new Promise((resolve, reject) => {
     const data = DB.add({
       position,
       company,
@@ -148,13 +172,19 @@ export async function createApplication({
     });
 
     data.onerror = (event) =>
-      reject(Error(`Unable to create application: ${event}`));
+      reject(Error(`Unable to add application to database. Error: ${event}`));
     data.onsuccess = () => resolve(data.result);
   });
 
-  const applicationId = (await application) as number;
+  const parsedApplicationCreation = z.number().safeParse(applicationCreation);
 
-  return { id: applicationId };
+  if (!parsedApplicationCreation.success) {
+    throw new Error(
+      `Unable to return an ID after creating the application. Error: ${parsedApplicationCreation.error}`,
+    );
+  }
+
+  return { id: parsedApplicationCreation.data };
 }
 
 export async function updateApplication({
@@ -172,152 +202,178 @@ export async function updateApplication({
 }: UpdateApplicationType) {
   const DB = (await applicationDB()).applications;
 
-  const updatePromise = new Promise((resolve, reject) => {
-    const storedData = DB.get(id);
-    storedData.onerror = (event) =>
-      reject(Error(`Unable to fetch application with ID ${id}: ${event}`));
-    storedData.onsuccess = () => {
+  await new Promise((resolve, reject) => {
+    const rawStoredData = DB.get(id);
+
+    rawStoredData.onerror = (error) =>
+      reject(
+        Error(`Unable to fetch application with ID ${id}. Error: ${error}`),
+      );
+
+    rawStoredData.onsuccess = () => {
+      const parsedStoredData = zodFullApplication.safeParse(
+        rawStoredData.result,
+      );
+
+      if (!parsedStoredData.success) {
+        reject(
+          Error(
+            `Application data received from database is incorrect type. Error: ${parsedStoredData.error}`,
+          ),
+        );
+        return;
+      }
+
+      const storedData = parsedStoredData.data;
       const mergedData = {
         id,
-        position: position ?? storedData.result.position,
-        company: company ?? storedData.result.company,
-        postingURL: postingURL ?? storedData.result.postingURL,
-        dateCreated: storedData.result.dateCreated,
+        position: position ?? storedData.position,
+        company: company ?? storedData.company,
+        postingURL: postingURL ?? storedData.postingURL,
+        dateCreated: storedData.dateCreated,
         dateModified: dayjs().toISOString(),
-        dateApplied: dateApplied ?? storedData.result.dateApplied,
-        dateInterviewing:
-          dateInterviewing ?? storedData.result.dateInterviewing,
-        dateOffered: dateOffered ?? storedData.result.dateOffered,
-        dateClosed: dateClosed ?? storedData.result.dateClosed,
-        status: status ?? storedData.result.status,
-        contacts: contacts ?? storedData.result.contacts,
-        notes: notes ?? storedData.result.notes,
+        dateApplied: dateApplied ?? storedData.dateApplied,
+        dateInterviewing: dateInterviewing ?? storedData.dateInterviewing,
+        dateOffered: dateOffered ?? storedData.dateOffered,
+        dateClosed: dateClosed ?? storedData.dateClosed,
+        status: status ?? storedData.status,
+        contacts: contacts ?? storedData.contacts,
+        notes: notes ?? storedData.notes,
       };
 
-      console.log({ mergedData });
-
       const updateRequest = DB.put(mergedData);
-      updateRequest.onerror = (event) =>
-        reject(Error(`Unable to update application with ID ${id}: ${event}`));
+      updateRequest.onerror = (error) =>
+        reject(
+          Error(`Unable to update application with ID ${id}. Error: ${error}`),
+        );
       updateRequest.onsuccess = () => resolve(null);
     };
   });
-
-  await updatePromise;
-
-  return;
 }
 
 export async function deleteApplication({ id }: { id: number }) {
   const DB = (await applicationDB()).applications;
 
-  const application = new Promise((resolve, reject) => {
+  await new Promise((resolve, reject) => {
     const deletion = DB.delete(id);
 
-    deletion.onerror = () =>
-      reject(Error(`Unable to delete application with ID ${id}`));
+    deletion.onerror = (error) =>
+      reject(
+        Error(`Unable to delete application with ID ${id}. Error: ${error}`),
+      );
     deletion.onsuccess = () => resolve(deletion.result);
   });
-
-  return application;
 }
 
-export async function createSetting({
-  name,
-  value,
-}: SettingsType): Promise<void> {
+export async function createSetting({ name, value }: SettingsType) {
   const DB = (await applicationDB()).settings;
 
-  const setting = await new Promise<void>((resolve, reject) => {
+  await new Promise((resolve, reject) => {
     const data = DB.add({ name, value });
 
-    data.onerror = () => reject("Unable to add setting");
-    data.onsuccess = () => resolve();
+    data.onerror = (error) =>
+      reject(`Unable to add setting to database. Error: ${error}`);
+    data.onsuccess = () => resolve(null);
   });
-
-  return setting;
 }
 
 export async function getAllSettings(): Promise<SettingsType[]> {
   const DB = (await applicationDB()).settings;
 
-  const setting = await new Promise<SettingsType[]>((resolve, reject) => {
+  const rawSettingsData = await new Promise((resolve, reject) => {
     const data = DB.getAll();
 
-    data.onerror = () => reject("Unable to fetch all setting");
+    data.onerror = (error) =>
+      reject(`Unable to fetch all settings from database. Error: ${error}`);
     data.onsuccess = () => resolve(data.result);
   });
 
-  return setting;
+  const parsedSettingsData = SettingsArrayType.safeParse(rawSettingsData);
+
+  if (!parsedSettingsData.success) {
+    throw new Error(
+      `Settings data received from database is incorrect type. Error: ${parsedSettingsData.error}`,
+    );
+  }
+
+  return parsedSettingsData.data;
 }
 
 export async function getSetting({
   name,
 }: {
   name: SettingsNameType;
-}): Promise<SettingsType> {
+}): Promise<SettingsType | undefined> {
   const DB = (await applicationDB()).settings;
 
-  const setting = await new Promise<SettingsType>((resolve, reject) => {
+  const rawSettingData = await new Promise((resolve, reject) => {
     const data = DB.get(name);
 
-    data.onerror = () => reject("Unable to fetch setting");
+    data.onerror = (error) =>
+      reject(`Unable to fetch setting with name: ${name}. Error: ${error}`);
     data.onsuccess = () => resolve(data.result);
   });
 
-  return setting;
+  if (typeof rawSettingData === "undefined") {
+    return undefined;
+  }
+
+  const parsedSettingData = SettingType.safeParse(rawSettingData);
+
+  if (!parsedSettingData.success) {
+    throw new Error(
+      `Data received from database is incorrect type. Error: ${parsedSettingData.error}`,
+    );
+  }
+
+  return parsedSettingData.data;
 }
 
-export async function updateSetting({
-  name,
-  value,
-}: SettingsType): Promise<void> {
+export async function updateSetting({ name, value }: SettingsType) {
   const DB = (await applicationDB()).settings;
 
-  const setting = await new Promise<void>((resolve, reject) => {
+  await new Promise((resolve, reject) => {
     const data = DB.put({ name, value });
 
-    data.onerror = () => reject("Unable to update setting");
-    data.onsuccess = () => resolve();
+    data.onerror = (error) =>
+      reject(`Unable to update setting with name: ${name}. Error: ${error}`);
+    data.onsuccess = () => resolve(null);
   });
-
-  return setting;
 }
 
 export async function deleteSetting({ name }: { name: string }): Promise<void> {
   const DB = (await applicationDB()).settings;
 
-  const setting = await new Promise<void>((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     const data = DB.delete(name);
 
-    data.onerror = () => reject("Unable to delete setting");
+    data.onerror = (error) =>
+      reject(`Unable to delete setting with name: ${name}. Error: ${error}`);
     data.onsuccess = () => resolve(data.result);
   });
-
-  return setting;
 }
 
 export async function getAllData(): Promise<{
   applications: FullApplicationType[];
   settings: SettingsType[];
 }> {
-  const DB = await applicationDB();
-
-  // Ugly but only way to ensure that indexedDB transactions don't fire in parallel
-  const data = new Promise<{
-    applications: FullApplicationType[];
-    settings: SettingsType[];
-  }>((resolve, reject) => {
-    const applications = DB.applications.getAll();
-    applications.onerror = () => reject("Unable to fetch applications data");
-    applications.onsuccess = () => {
+  const rawData = await new Promise((resolve) => {
+    getAllApplications("dateCreated").then((applications) =>
       getAllSettings().then((settings) => {
-        resolve({ applications: applications.result, settings });
-      });
-    };
+        resolve({ applications, settings });
+      }),
+    );
   });
 
-  return data;
+  const parsedData = AllData.safeParse(rawData);
+
+  if (!parsedData.success) {
+    throw new Error(
+      `Data received from database is incorrect type. Error: ${parsedData.error}`,
+    );
+  }
+
+  return parsedData.data;
 }
 
 export async function importData(data: ImportExportDataType): Promise<void> {
@@ -325,20 +381,20 @@ export async function importData(data: ImportExportDataType): Promise<void> {
 
   const DB = await applicationDB();
 
-  const deleteApplications = new Promise<void>((resolve, reject) => {
+  const deleteApplications = new Promise((resolve, reject) => {
     const deleteOperation = DB.applications.clear();
 
-    deleteOperation.onerror = (e) =>
-      reject(`Error clearing applications store: ${e}`);
-    deleteOperation.onsuccess = () => resolve();
+    deleteOperation.onerror = (error) =>
+      reject(`Error clearing applications store. Error: ${error}`);
+    deleteOperation.onsuccess = () => resolve(null);
   });
 
-  const deleteSettings = new Promise<void>((resolve, reject) => {
+  const deleteSettings = new Promise((resolve, reject) => {
     const deleteOperation = DB.settings.clear();
 
-    deleteOperation.onerror = (e) =>
-      reject(`Error clearing applications store: ${e}`);
-    deleteOperation.onsuccess = () => resolve();
+    deleteOperation.onerror = (error) =>
+      reject(`Error clearing settings store. Error: ${error}`);
+    deleteOperation.onsuccess = () => resolve(null);
   });
 
   await promiseSeries([deleteApplications, deleteSettings]);
@@ -356,40 +412,23 @@ export async function importApplication(application: FullApplicationType) {
   await new Promise((resolve, reject) => {
     const data = DB.add(application);
 
-    data.onerror = (event) =>
-      reject(Error(`Unable to create application: ${event}`));
+    data.onerror = (error) =>
+      reject(Error(`Unable to create application. Error: ${error}`));
     data.onsuccess = () => resolve(data.result);
   });
 }
 
-export async function exportData() {
-  const DB = await applicationDB();
+export async function exportData(): Promise<{
+  settings: SettingsType[];
+  applications: FullApplicationType[];
+}> {
+  const settings = await getAllSettings();
+  const applications = await getAllApplications("dateCreated");
 
-  const settingsPromise = new Promise<SettingsType[]>((resolve, reject) => {
-    const data = DB.settings.getAll();
-
-    data.onerror = (event) =>
-      reject(Error(`Unable to fetch settings: ${event}`));
-    data.onsuccess = () => resolve(data.result);
-  });
-
-  const applicationsPromise = new Promise<FullApplicationType[]>(
-    (resolve, reject) => {
-      const data = DB.applications.getAll();
-
-      data.onerror = (event) =>
-        reject(Error(`Unable to fetch applications: ${event}`));
-      data.onsuccess = () => resolve(data.result);
-    },
-  );
-
-  const result = await settingsPromise.then(async (settings) => {
-    const applications = await applicationsPromise;
-
-    return { settings, applications };
-  });
-
-  return result;
+  return {
+    applications,
+    settings,
+  };
 }
 
 export { getAllApplications };
