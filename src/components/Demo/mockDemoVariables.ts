@@ -203,7 +203,7 @@ export const appliedMocks: FullApplicationType[] = [
     ],
     notes: [],
     dateCreated: "2023-09-03T04:00:00.000Z",
-    dateModified: "2023-09-03T06:00:00.000Z",
+    dateModified: "2023-10-10T06:00:00.000Z",
     dateApplied: "2023-09-05T04:00:00.000Z",
   },
 ];

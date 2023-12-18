@@ -4,7 +4,7 @@ import {
   GroupedApplicationsType,
 } from "@/src/types/applications";
 import { SortByValueType } from "@/src/types/global";
-import dayjs from "dayjs";
+import sortApplicationsByDate from "../Fn/sortApplicationsByDate";
 import getAllDemoApplicationsInStorage from "./getAllDemoApplicationsInStorage";
 import {
   appliedMocks,
@@ -35,37 +35,40 @@ function getAllDemoApplications(
 
     if (!appsInStorage) {
       return {
-        needToApply: needToApplyMocks,
-        applied: appliedMocks,
-        interviewing: interviewingMocks,
-        offer: offerMocks,
-        closed: closedMocks,
+        needToApply: sortApplicationsByDate({
+          applications: needToApplyMocks,
+          sortBy,
+        }),
+        applied: sortApplicationsByDate({ applications: appliedMocks, sortBy }),
+        interviewing: sortApplicationsByDate({
+          applications: interviewingMocks,
+          sortBy,
+        }),
+        offer: sortApplicationsByDate({ applications: offerMocks, sortBy }),
+        closed: sortApplicationsByDate({ applications: closedMocks, sortBy }),
       };
     }
 
-    const needToApplyMerged =
-      appsInStorage.needToApply.concat(needToApplyMocks);
-    const appliedMerged = appsInStorage.applied.concat(appliedMocks);
-    const interviewingMerged =
-      appsInStorage.interviewing.concat(interviewingMocks);
-    const offerMerged = appsInStorage.offer.concat(offerMocks);
-    const closedMerged = appsInStorage.closed.concat(closedMocks);
-
-    const needToApplySorted = needToApplyMerged.sort((a, b) =>
-      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-    );
-    const appliedSorted = appliedMerged.sort((a, b) =>
-      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-    );
-    const interviewingSorted = interviewingMerged.sort((a, b) =>
-      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-    );
-    const offerSorted = offerMerged.sort((a, b) =>
-      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-    );
-    const closedSorted = closedMerged.sort((a, b) =>
-      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-    );
+    const needToApplySorted = sortApplicationsByDate({
+      applications: appsInStorage.needToApply.concat(needToApplyMocks),
+      sortBy,
+    });
+    const appliedSorted = sortApplicationsByDate({
+      applications: appsInStorage.applied.concat(appliedMocks),
+      sortBy,
+    });
+    const interviewingSorted = sortApplicationsByDate({
+      applications: appsInStorage.interviewing.concat(interviewingMocks),
+      sortBy,
+    });
+    const offerSorted = sortApplicationsByDate({
+      applications: appsInStorage.offer.concat(offerMocks),
+      sortBy,
+    });
+    const closedSorted = sortApplicationsByDate({
+      applications: appsInStorage.closed.concat(closedMocks),
+      sortBy,
+    });
 
     return {
       needToApply: needToApplySorted,
@@ -78,22 +81,34 @@ function getAllDemoApplications(
 
   const appsInStorage = getAllDemoApplicationsInStorage();
 
-  if (appsInStorage) {
-    return needToApplyMocks.concat(
+  if (!appsInStorage) {
+    const allApplications = needToApplyMocks.concat(
       appliedMocks,
       interviewingMocks,
       offerMocks,
       closedMocks,
-      appsInStorage,
     );
+    const applicationsSorted = sortApplicationsByDate({
+      applications: allApplications,
+      sortBy,
+    });
+
+    return applicationsSorted;
   }
 
-  return needToApplyMocks.concat(
+  const allApplications = needToApplyMocks.concat(
     appliedMocks,
     interviewingMocks,
     offerMocks,
     closedMocks,
+    appsInStorage,
   );
+  const applicationsSorted = sortApplicationsByDate({
+    applications: allApplications,
+    sortBy,
+  });
+
+  return applicationsSorted;
 }
 
 export default getAllDemoApplications;
