@@ -1,8 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-  needToApplyMocks,
-  offerMocks,
-} from "@/src/components/Demo/mockDemoVariables";
 import ExternalLink from "@/src/components/ExternalLink";
 import BoardSection from "@/src/components/Landing/BoardSection";
 import FAQAccordion from "@/src/components/Landing/FAQAccordion";
@@ -16,6 +12,7 @@ import {
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { defaultFocusHoverClasses } from "../types/global";
+import { needToApplyMocks, offerMocks } from "../types/landing";
 
 export default function Home() {
   return (

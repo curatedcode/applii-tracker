@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { z } from "zod";
 import groupApplicationsByStatus from "../components/Fn/groupApplicationsByStatus";
+import sortApplicationsByDate from "../components/Fn/sortApplicationsByDate";
 import {
   CreateApplicationType,
   FormatApplicationsType,
@@ -129,9 +130,10 @@ async function getAllApplications(sortBy: SortByValueType, format?: "grouped") {
   }
 
   if (format === "grouped") {
-    const applicationsSorted = parsedApplicationsData.data.sort((a, b) =>
-      dayjs(a[sortBy]).isAfter(dayjs(b[sortBy])) ? -1 : 1,
-    );
+    const applicationsSorted = sortApplicationsByDate({
+      applications: parsedApplicationsData.data,
+      sortBy,
+    });
 
     const grouped = groupApplicationsByStatus(applicationsSorted);
 

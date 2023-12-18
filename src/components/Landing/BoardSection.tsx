@@ -1,7 +1,6 @@
 import { FullApplicationType } from "@/src/types/applications";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ClockIcon, TrophyIcon } from "@heroicons/react/24/solid";
-import dayjs from "dayjs";
 import BoardSectionCard from "./BoardSectionCard";
 
 export type LandingBoardSectionProps = {
@@ -15,10 +14,6 @@ export default function BoardSection({
   cards,
   className,
 }: LandingBoardSectionProps) {
-  const cardsSorted = cards.sort((a, b) =>
-    dayjs(a.dateCreated).isAfter(dayjs(b.dateCreated)) ? -1 : 1,
-  );
-
   return (
     <div
       className={`grid w-full max-w-board-section gap-1 rounded-md border-[3px] border-light-secondary bg-light-secondary p-1 py-2 shadow-lg shadow-light-tertiary ring-2 ring-light-tertiary dark:border-dark-secondary dark:bg-dark-secondary dark:shadow-dark-tertiary dark:ring-dark-tertiary ${className}`}
@@ -43,7 +38,7 @@ export default function BoardSection({
         </div>
       </div>
       <div className="grid h-board-section w-full auto-rows-min gap-2 overflow-auto px-2 py-1">
-        {cardsSorted.map((card, index) => (
+        {cards.map((card, index) => (
           <BoardSectionCard key={index} {...card} />
         ))}
       </div>
