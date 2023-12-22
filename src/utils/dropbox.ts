@@ -4,7 +4,7 @@ import { DropboxGetAccessTokenResponseType } from "../types/dropbox";
 import env from "./env";
 
 const dbxAuth = new DropboxAuth({ clientId: env.DROPBOX_APP_KEY });
-const redirectURL = `${env.APP_URL}/settings`;
+const redirectURL = `${env.APP_URL}/boards/settings`;
 
 export async function getDropboxAuthURL(): Promise<string> {
   const authUrl = await dbxAuth
