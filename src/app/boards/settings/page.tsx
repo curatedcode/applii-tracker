@@ -184,15 +184,15 @@ export default function Settings() {
       </div>
       <div className="grid w-full max-w-md gap-6 justify-self-center">
         <ThemeSelectInput />
-        <div className="grid auto-rows-min gap-2">
-          <div className="flex h-9 items-center justify-between gap-2">
+        <div className="grid auto-rows-min gap-3">
+          <div className="flex items-center justify-between gap-3">
             <span>Sync data to dropbox account</span>
             {!showSyncSettings && (
               <Button onClick={() => setShowSyncSettings(true)}>Edit</Button>
             )}
           </div>
           {showSyncSettings && (
-            <div className="grid gap-2">
+            <div className="grid gap-3">
               <ExternalLink
                 href={dbxAuthURL}
                 style="button"
@@ -202,7 +202,7 @@ export default function Settings() {
               </ExternalLink>
               <form
                 onSubmit={handleSettingFormSubmit(submitSyncSettings)}
-                className="grid gap-4"
+                className="grid gap-3"
               >
                 <FormInput
                   id="syncIntervalInput"
@@ -213,7 +213,7 @@ export default function Settings() {
                   error={settingFormErrors.syncInterval?.message}
                   registerName="syncInterval"
                 />
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   <Button onClick={() => setShowSyncSettings(false)}>
                     Cancel
                   </Button>
