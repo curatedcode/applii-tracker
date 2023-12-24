@@ -1,5 +1,5 @@
 import Navbar from "@/src/components/Navbar";
-import SyncProvider from "@/src/components/Sync/SyncProvider";
+import SyncProvider from "@/src/components/SyncProvider";
 import Toaster from "@/src/components/Toaster";
 
 export default function RootLayout({

@@ -1,10 +1,16 @@
 "use client";
 
 import { getSetting } from "@/src/utils/db";
-import { syncData } from "@/src/utils/sync";
-import { createContext, useEffect, useState } from "react";
+import syncData from "@/src/utils/syncData";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import toast from "react-hot-toast";
-import useConnectionStatus from "../Hooks/useConnectionStatus";
+import useConnectionStatus from "./Hooks/useConnectionStatus";
 
 export type SyncContextType = {
   setForceStop: (_value: React.SetStateAction<boolean>) => void;
@@ -16,6 +22,8 @@ export const SyncContext = createContext<SyncContextType>({
   triggerSync: () => {},
 });
 
+export const useSync = () => useContext(SyncContext);
+
 export default function SyncProvider({
   children,
 }: {
@@ -23,46 +31,24 @@ export default function SyncProvider({
 }) {
   const [forceStop, setForceStop] = useState(false);
   const [syncInterval, setSyncInterval] = useState<number>(600_000);
-  const [dbxAccessToken, setDbxAccessToken] = useState<string>();
 
   const { online } = useConnectionStatus();
 
-  function triggerSync() {
-    if (!dbxAccessToken || forceStop) return;
-    syncData(dbxAccessToken)
+  const triggerSync = useCallback(() => {
+    if (forceStop) return;
+    syncData()
       .then(() => {
         toast.success("Synced successfully");
       })
-      .catch((err: { message: string }) => {
-        if (!err || !err.message) {
+      .catch((err) => {
+        if (typeof err !== "string") {
           toast.error("Sync error occurred");
           return;
         }
 
-        toast.error(err.message);
+        toast.error(err);
       });
-  }
-
-  useEffect(() => {
-    const dbxAccessToken = window.localStorage.getItem("dbxAccessToken");
-    if (!dbxAccessToken) return;
-    setDbxAccessToken(dbxAccessToken);
-  }, []);
-
-  useEffect(() => {
-    function checkForDBXTokenChange() {
-      const dbxAccessTokenInStorage =
-        window.localStorage.getItem("dbxAccessToken");
-      if (!dbxAccessTokenInStorage) return;
-
-      setDbxAccessToken(dbxAccessTokenInStorage);
-    }
-
-    window.addEventListener("storage", checkForDBXTokenChange);
-
-    return () => window.removeEventListener("storage", checkForDBXTokenChange);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [forceStop]);
 
   useEffect(() => {
     getSetting({ name: "syncInterval" }).then((setting) =>
@@ -71,7 +57,7 @@ export default function SyncProvider({
   }, []);
 
   useEffect(() => {
-    if (!dbxAccessToken || forceStop) return;
+    if (forceStop) return;
     if (!online) {
       toast.error("No internet connection");
       return;
@@ -80,8 +66,7 @@ export default function SyncProvider({
     const interval = setInterval(() => triggerSync(), syncInterval);
 
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [forceStop, online, syncInterval, dbxAccessToken]);
+  }, [forceStop, online, syncInterval, triggerSync]);
 
   return (
     <SyncContext.Provider value={{ setForceStop, triggerSync }}>
