@@ -1,32 +1,36 @@
-import dayjs from "dayjs";
 import { Dropbox, DropboxAuth } from "dropbox";
-import { DropboxResponseError } from "../types/dropbox";
+import { DropboxResponseError, dropboxTokenNames } from "../types/dropbox";
 import { getAllData } from "./db";
-import { generateDropboxAuthToken } from "./dropbox";
 import env from "./env";
 
-export default async function syncData(
-  dbxToken: string,
-): Promise<void | Error> {
+export default async function syncData(): Promise<void | Error> {
+  const accessToken = window.localStorage.getItem(
+    dropboxTokenNames.accessToken,
+  );
+  const refreshToken = window.localStorage.getItem(
+    dropboxTokenNames.refreshToken,
+  );
+
+  if (!accessToken || !refreshToken) {
+    return new Error("Missing dropbox tokens");
+  }
+
   const allData = await getAllData();
 
-  const dbx = new Dropbox({
-    accessToken: dbxToken,
+  const dbxAuth = new DropboxAuth({
+    clientId: env.DROPBOX_APP_KEY,
+    refreshToken,
+    accessToken,
   });
 
-  const dbxAuth = new DropboxAuth({ clientId: env.DROPBOX_APP_KEY });
+  // dropbox type def file is incorrect. This is a promise
+  await dbxAuth.checkAndRefreshAccessToken();
 
-  dbxAuth.setAccessToken(dbxToken);
-  const expiresAtDate = dayjs(dbxAuth.getAccessTokenExpiresAt());
-
-  const differenceInMinutes = expiresAtDate.diff(dayjs(), "minutes");
-
-  if (differenceInMinutes <= 1) {
-    const refreshToken = window.localStorage.getItem("dbxRefreshToken");
-    if (!refreshToken) return;
-
-    await generateDropboxAuthToken({ initialToken: refreshToken });
-  }
+  const dbx = new Dropbox({
+    accessToken: dbxAuth.getAccessToken(),
+    auth: dbxAuth,
+    clientId: env.DROPBOX_APP_KEY,
+  });
 
   await new Promise((resolve, reject) => {
     dbx
