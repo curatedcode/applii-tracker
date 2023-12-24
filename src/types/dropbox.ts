@@ -44,3 +44,10 @@ export type DropboxGetAccessTokenResponseType = {
   };
   status: number;
 };
+
+export const dropboxTokenNames = {
+  refreshToken: "dbxRefreshToken",
+  initialAuthToken: "dbxTokenParam",
+  accessToken: "dbxAccessToken",
+  codeVerifier: "dbxCodeVerifier",
+} as const;

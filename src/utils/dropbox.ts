@@ -1,6 +1,8 @@
 import { DropboxAuth } from "dropbox";
-import toast from "react-hot-toast";
-import { DropboxGetAccessTokenResponseType } from "../types/dropbox";
+import {
+  DropboxGetAccessTokenResponseType,
+  dropboxTokenNames,
+} from "../types/dropbox";
 import env from "./env";
 
 const dbxAuth = new DropboxAuth({ clientId: env.DROPBOX_APP_KEY });
@@ -19,7 +21,7 @@ export async function getDropboxAuthURL(): Promise<string> {
     )
     .then((value) => {
       const codeVerifier = dbxAuth.getCodeVerifier();
-      window.sessionStorage.setItem("codeVerifier", codeVerifier);
+      window.localStorage.setItem(dropboxTokenNames.codeVerifier, codeVerifier);
       return value as string;
     });
 
@@ -27,57 +29,30 @@ export async function getDropboxAuthURL(): Promise<string> {
 }
 
 /**
- *
- * @param dropboxGeneratedToken - the initial token generated after getting access to dropbox
- * @returns The token that will be used to access the apps dropbox folder
+ * This will create and store an access token that can be used to read/write from the users dropbox account
+ * @param initialToken the token you received back from dropbox after the user granted permissions
  */
-export async function generateDropboxAuthToken({
-  initialToken,
-  isSetup,
-}: {
-  initialToken: string;
-  isSetup?: boolean;
-}): Promise<void> {
-  const codeVerifier = window.sessionStorage.getItem("codeVerifier");
+export async function initializeDropboxAuthToken(
+  initialToken: string,
+): Promise<void> {
+  const codeVerifier = window.localStorage.getItem(
+    dropboxTokenNames.codeVerifier,
+  );
 
   if (!codeVerifier) {
-    toast.error("Dropbox sync error: 1");
-    return;
+    throw new Error("Unable to retrieve codeVerifier from localStorage");
   }
 
-  if (isSetup) {
-    dbxAuth.setCodeVerifier(codeVerifier);
-    window.sessionStorage.removeItem("codeVerifier");
-    dbxAuth
-      .getAccessTokenFromCode(redirectURL, initialToken)
-      .then((value) => {
-        const typedValue = value as DropboxGetAccessTokenResponseType;
-        window.localStorage.setItem(
-          "dbxRefreshToken",
-          typedValue.result.refresh_token,
-        );
-        window.localStorage.setItem(
-          "dbxAccessToken",
-          typedValue.result.access_token,
-        );
-      })
-      .catch(() => {
-        toast.error("Dropbox sync error: 2");
-      });
-
-    return;
-  }
-
-  const refreshToken = window.localStorage.getItem("dbxRefreshToken");
-
-  if (!refreshToken) {
-    toast.error("Dropbox sync error: 3");
-    return;
-  }
-
-  dbxAuth.setRefreshToken(refreshToken);
-  // dropbox type def file is incorrect. this is actually a promise.
-  await dbxAuth.checkAndRefreshAccessToken();
-
-  window.localStorage.setItem("dbxAccessToken", dbxAuth.getAccessToken());
+  dbxAuth.setCodeVerifier(codeVerifier);
+  dbxAuth.getAccessTokenFromCode(redirectURL, initialToken).then((value) => {
+    const typedValue = value as DropboxGetAccessTokenResponseType;
+    window.localStorage.setItem(
+      dropboxTokenNames.refreshToken,
+      typedValue.result.refresh_token,
+    );
+    window.localStorage.setItem(
+      dropboxTokenNames.accessToken,
+      typedValue.result.access_token,
+    );
+  });
 }

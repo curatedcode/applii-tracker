@@ -1,15 +1,16 @@
 "use client";
 
 import Button from "@/src/components/Button";
-import ExternalLink from "@/src/components/ExternalLink";
 import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
 import Modal from "@/src/components/Modals/Modal";
 import ModalForm from "@/src/components/Modals/ModalForm";
-import useSync from "@/src/components/Sync/useSync";
+import PromiseLink from "@/src/components/PromiseLink";
+import { useSync } from "@/src/components/SyncProvider";
 import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
 import { syncSettingsSchema } from "@/src/types/db";
+import { dropboxTokenNames } from "@/src/types/dropbox";
 import {
   defaultFileExportName,
   fileExportFormSchema,
@@ -17,10 +18,11 @@ import {
 } from "@/src/types/file";
 import { getAllSettings, updateSetting } from "@/src/utils/db";
 import {
-  generateDropboxAuthToken,
   getDropboxAuthURL,
+  initializeDropboxAuthToken,
 } from "@/src/utils/dropbox";
-import { exportDataToFile, importDataFromFile } from "@/src/utils/sync";
+import { exportDataToFile } from "@/src/utils/exportDataToFile";
+import { importDataFromFile } from "@/src/utils/importDataFromFile";
 import {
   ArrowDownTrayIcon,
   ArrowUpTrayIcon,
@@ -38,8 +40,6 @@ export default function Settings() {
 
   const searchParams = useSearchParams();
   const dropboxTokenParam = searchParams.get("code");
-
-  const [dbxAuthURL, setDbxAuthURL] = useState("");
 
   const fileExportRef = useRef<HTMLAnchorElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -142,10 +142,16 @@ export default function Settings() {
 
   useEffect(() => {
     if (!dropboxTokenParam) return;
-    generateDropboxAuthToken({
-      initialToken: dropboxTokenParam,
-      isSetup: true,
-    }).then(() => {
+    const oldDbxToken = window.localStorage.getItem(
+      dropboxTokenNames.initialAuthToken,
+    );
+    if (oldDbxToken && oldDbxToken === dropboxTokenParam) return;
+
+    window.localStorage.setItem(
+      dropboxTokenNames.initialAuthToken,
+      dropboxTokenParam,
+    );
+    initializeDropboxAuthToken(dropboxTokenParam).then(() => {
       triggerSync();
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,7 +175,6 @@ export default function Settings() {
 
   useEffect(() => {
     setIsMounted(true);
-    getDropboxAuthURL().then((url) => setDbxAuthURL(url));
   }, []);
 
   if (!isMounted) return <SettingsSkeleton />;
@@ -193,13 +198,14 @@ export default function Settings() {
           </div>
           {showSyncSettings && (
             <div className="grid gap-3">
-              <ExternalLink
-                href={dbxAuthURL}
-                style="button"
+              <PromiseLink
+                promise={getDropboxAuthURL}
+                loading={"Fetching url"}
+                error={"Failed to get url"}
                 openInNewTab={false}
               >
                 Get new dropbox token
-              </ExternalLink>
+              </PromiseLink>
               <form
                 onSubmit={handleSettingFormSubmit(submitSyncSettings)}
                 className="grid gap-3"
@@ -217,9 +223,7 @@ export default function Settings() {
                   <Button onClick={() => setShowSyncSettings(false)}>
                     Cancel
                   </Button>
-                  <Button type="submit" style="inverse" className="w-full">
-                    Save
-                  </Button>
+                  <Button type="submit">Save</Button>
                 </div>
               </form>
             </div>
