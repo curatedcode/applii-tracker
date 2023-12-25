@@ -36,18 +36,18 @@ export default function SyncProvider({
 
   const triggerSync = useCallback(() => {
     if (forceStop) return;
-    syncData()
-      .then(() => {
-        toast.success("Synced successfully");
-      })
-      .catch((err) => {
-        if (typeof err !== "string") {
-          toast.error("Sync error occurred");
-          return;
-        }
+    const syncPromise = syncData();
 
-        toast.error(err);
-      });
+    toast.promise(syncPromise, {
+      success: "Synced successfully",
+      loading: "Syncing data...",
+      error: (err) => {
+        if (typeof err !== "string") {
+          return "Sync error (U1)";
+        }
+        return err;
+      },
+    });
   }, [forceStop]);
 
   useEffect(() => {
