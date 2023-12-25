@@ -17,10 +17,7 @@ import {
   fileExportTypeSelectOptions,
 } from "@/src/types/file";
 import { getAllSettings, updateSetting } from "@/src/utils/db";
-import {
-  getDropboxAuthURL,
-  initializeDropboxAuthToken,
-} from "@/src/utils/dropbox";
+import { createDropboxToken, getDropboxAuthURL } from "@/src/utils/dropbox";
 import { exportDataToFile } from "@/src/utils/exportDataToFile";
 import { importDataFromFile } from "@/src/utils/importDataFromFile";
 import {
@@ -151,7 +148,7 @@ export default function Settings() {
       dropboxTokenNames.initialAuthToken,
       dropboxTokenParam,
     );
-    initializeDropboxAuthToken(dropboxTokenParam).then(() => {
+    createDropboxToken(dropboxTokenParam).then(() => {
       triggerSync();
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

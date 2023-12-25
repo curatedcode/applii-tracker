@@ -1,4 +1,5 @@
 import { DropboxResponse, files } from "dropbox";
+import { z } from "zod";
 
 export interface DropboxFetchFileType
   extends DropboxResponse<files.FileMetadata> {
@@ -17,12 +18,19 @@ export interface DropboxFetchFileType
   };
 }
 
-export type DropboxResponseError = {
-  error: { error: { ".tag": string }; error_summary: string };
-  headers: Headers;
-  name: string;
-  status: number;
-};
+export const dropboxResponseError = z.object({
+  error: z.object({
+    error: z.object({
+      ".tag": z.string(),
+    }),
+    error_summary: z.string(),
+  }),
+  headers: z.unknown(),
+  name: z.string(),
+  status: z.number(),
+});
+
+export type DropboxResponseError = z.infer<typeof dropboxResponseError>;
 
 export type GenerateDropboxAuthReturnType = {
   codeVerifier: string;
@@ -30,20 +38,24 @@ export type GenerateDropboxAuthReturnType = {
   url: string;
 };
 
-export type DropboxGetAccessTokenResponseType = {
-  result: {
-    access_token: string;
-    expires_in: number;
-    token_type: string;
-    scope: string;
-    account_id?: string;
-    team_id?: string;
-    refresh_token: string;
-    id_token?: string;
-    uid: string;
-  };
-  status: number;
-};
+export const dropboxGetAccessTokenResponse = z.object({
+  result: z.object({
+    access_token: z.string(),
+    expires_in: z.number(),
+    token_type: z.string(),
+    scope: z.string(),
+    account_id: z.string().optional(),
+    team_id: z.string().optional(),
+    refresh_token: z.string(),
+    id_token: z.string().optional(),
+    uid: z.string(),
+  }),
+  status: z.number(),
+});
+
+export type DropboxGetAccessTokenResponse = z.infer<
+  typeof dropboxGetAccessTokenResponse
+>;
 
 export const dropboxTokenNames = {
   refreshToken: "dbxRefreshToken",

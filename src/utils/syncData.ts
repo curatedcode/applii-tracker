@@ -1,7 +1,8 @@
 import { Dropbox, DropboxAuth } from "dropbox";
-import { DropboxResponseError, dropboxTokenNames } from "../types/dropbox";
+import { dropboxResponseError, dropboxTokenNames } from "../types/dropbox";
 import { getAllData } from "./db";
 import env from "./env";
+import storeSyncError from "./storeSyncError";
 
 export default async function syncData(): Promise<void | Error> {
   const accessToken = window.localStorage.getItem(
@@ -12,7 +13,7 @@ export default async function syncData(): Promise<void | Error> {
   );
 
   if (!accessToken || !refreshToken) {
-    return new Error("Missing dropbox tokens");
+    return new Error("Sync error (D1)");
   }
 
   const allData = await getAllData();
@@ -23,8 +24,13 @@ export default async function syncData(): Promise<void | Error> {
     accessToken,
   });
 
-  // dropbox type def file is incorrect. This is a promise
-  await dbxAuth.checkAndRefreshAccessToken();
+  try {
+    // dropbox type def file is incorrect. This is a promise
+    await dbxAuth.checkAndRefreshAccessToken();
+  } catch (error) {
+    storeSyncError({ error });
+    throw new Error("Sync error (D1)");
+  }
 
   const dbx = new Dropbox({
     accessToken: dbxAuth.getAccessToken(),
@@ -43,17 +49,29 @@ export default async function syncData(): Promise<void | Error> {
         mode: { ".tag": "overwrite" },
       })
       .then(() => resolve(undefined))
-      .catch((err) => {
-        const typedErr = err as DropboxResponseError;
-        const errStatus = typedErr.status;
+      .catch((error) => {
+        const errorParsed = dropboxResponseError.safeParse(error);
 
-        if (errStatus >= 400 && errStatus <= 499) {
-          reject("Incorrect sync token");
+        if (!errorParsed.success) {
+          storeSyncError({
+            error: `Dropbox file upload error type is invalid. Data: ${error} Date: ${new Date().toISOString()}`,
+          });
+          reject("Sync error (D2)");
+          return;
         }
-        if (errStatus >= 500 && errStatus <= 599) {
-          reject("Sync server issues");
+
+        const errorStatus = errorParsed.data.status;
+
+        if (errorStatus >= 400 && errorStatus <= 499) {
+          reject("Sync error (D3)");
+          return;
         }
-        reject("Sync issue occurred");
+        if (errorStatus >= 500 && errorStatus <= 599) {
+          reject("Sync error (D4)");
+          return;
+        }
+
+        reject("Sync error (D5)");
       });
   });
 }
