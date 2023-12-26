@@ -225,6 +225,7 @@ export default function Settings() {
               </form>
             </div>
           )}
+          <Button onClick={() => triggerSync()}>Trigger sync manually</Button>
         </div>
         <div className="grid gap-6">
           <input
