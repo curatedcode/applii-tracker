@@ -1,26 +1,25 @@
 "use client";
 
 import Button from "@/src/components/Button";
-import ExternalLink from "@/src/components/ExternalLink";
 import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
 import Modal from "@/src/components/Modals/Modal";
 import ModalForm from "@/src/components/Modals/ModalForm";
-import useSync from "@/src/components/Sync/useSync";
+import PromiseLink from "@/src/components/PromiseLink";
+import { useSync } from "@/src/components/SyncProvider";
 import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
 import { syncSettingsSchema } from "@/src/types/db";
+import { dropboxTokenNames } from "@/src/types/dropbox";
 import {
   defaultFileExportName,
   fileExportFormSchema,
   fileExportTypeSelectOptions,
 } from "@/src/types/file";
 import { getAllSettings, updateSetting } from "@/src/utils/db";
-import {
-  generateDropboxAuthToken,
-  getDropboxAuthURL,
-} from "@/src/utils/dropbox";
-import { exportDataToFile, importDataFromFile } from "@/src/utils/sync";
+import { createDropboxToken, getDropboxAuthURL } from "@/src/utils/dropbox";
+import { exportDataToFile } from "@/src/utils/exportDataToFile";
+import { importDataFromFile } from "@/src/utils/importDataFromFile";
 import {
   ArrowDownTrayIcon,
   ArrowUpTrayIcon,
@@ -38,8 +37,6 @@ export default function Settings() {
 
   const searchParams = useSearchParams();
   const dropboxTokenParam = searchParams.get("code");
-
-  const [dbxAuthURL, setDbxAuthURL] = useState("");
 
   const fileExportRef = useRef<HTMLAnchorElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -142,10 +139,16 @@ export default function Settings() {
 
   useEffect(() => {
     if (!dropboxTokenParam) return;
-    generateDropboxAuthToken({
-      initialToken: dropboxTokenParam,
-      isSetup: true,
-    }).then(() => {
+    const oldDbxToken = window.localStorage.getItem(
+      dropboxTokenNames.initialAuthToken,
+    );
+    if (oldDbxToken && oldDbxToken === dropboxTokenParam) return;
+
+    window.localStorage.setItem(
+      dropboxTokenNames.initialAuthToken,
+      dropboxTokenParam,
+    );
+    createDropboxToken(dropboxTokenParam).then(() => {
       triggerSync();
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,7 +172,6 @@ export default function Settings() {
 
   useEffect(() => {
     setIsMounted(true);
-    getDropboxAuthURL().then((url) => setDbxAuthURL(url));
   }, []);
 
   if (!isMounted) return <SettingsSkeleton />;
@@ -184,25 +186,26 @@ export default function Settings() {
       </div>
       <div className="grid w-full max-w-md gap-6 justify-self-center">
         <ThemeSelectInput />
-        <div className="grid auto-rows-min gap-2">
-          <div className="flex h-9 items-center justify-between gap-2">
+        <div className="grid auto-rows-min gap-3">
+          <div className="flex items-center justify-between gap-3">
             <span>Sync data to dropbox account</span>
             {!showSyncSettings && (
               <Button onClick={() => setShowSyncSettings(true)}>Edit</Button>
             )}
           </div>
           {showSyncSettings && (
-            <div className="grid gap-2">
-              <ExternalLink
-                href={dbxAuthURL}
-                style="button"
+            <div className="grid gap-3">
+              <PromiseLink
+                promise={getDropboxAuthURL}
+                loading={"Fetching url"}
+                error={"Failed to get url"}
                 openInNewTab={false}
               >
                 Get new dropbox token
-              </ExternalLink>
+              </PromiseLink>
               <form
                 onSubmit={handleSettingFormSubmit(submitSyncSettings)}
-                className="grid gap-4"
+                className="grid gap-3"
               >
                 <FormInput
                   id="syncIntervalInput"
@@ -213,17 +216,16 @@ export default function Settings() {
                   error={settingFormErrors.syncInterval?.message}
                   registerName="syncInterval"
                 />
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   <Button onClick={() => setShowSyncSettings(false)}>
                     Cancel
                   </Button>
-                  <Button type="submit" style="inverse" className="w-full">
-                    Save
-                  </Button>
+                  <Button type="submit">Save</Button>
                 </div>
               </form>
             </div>
           )}
+          <Button onClick={() => triggerSync()}>Trigger sync manually</Button>
         </div>
         <div className="grid gap-6">
           <input

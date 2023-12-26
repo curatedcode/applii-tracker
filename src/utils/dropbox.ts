@@ -1,10 +1,14 @@
 import { DropboxAuth } from "dropbox";
-import toast from "react-hot-toast";
-import { DropboxGetAccessTokenResponseType } from "../types/dropbox";
+import {
+  DropboxGetAccessTokenResponse,
+  dropboxGetAccessTokenResponse,
+  dropboxTokenNames,
+} from "../types/dropbox";
 import env from "./env";
+import storeSyncError from "./storeSyncError";
 
 const dbxAuth = new DropboxAuth({ clientId: env.DROPBOX_APP_KEY });
-const redirectURL = `${env.APP_URL}/settings`;
+const redirectURL = `${env.APP_URL}/boards/settings`;
 
 export async function getDropboxAuthURL(): Promise<string> {
   const authUrl = await dbxAuth
@@ -19,7 +23,8 @@ export async function getDropboxAuthURL(): Promise<string> {
     )
     .then((value) => {
       const codeVerifier = dbxAuth.getCodeVerifier();
-      window.sessionStorage.setItem("codeVerifier", codeVerifier);
+      window.localStorage.setItem(dropboxTokenNames.codeVerifier, codeVerifier);
+      // Dropbox returns the URL as String so we need to override it
       return value as string;
     });
 
@@ -27,57 +32,47 @@ export async function getDropboxAuthURL(): Promise<string> {
 }
 
 /**
- *
- * @param dropboxGeneratedToken - the initial token generated after getting access to dropbox
- * @returns The token that will be used to access the apps dropbox folder
+ * This will create and store an access token that can be used to read/write from the users dropbox account
+ * @param initialToken the token you received back from dropbox after the user granted permissions
  */
-export async function generateDropboxAuthToken({
-  initialToken,
-  isSetup,
-}: {
-  initialToken: string;
-  isSetup?: boolean;
-}): Promise<void> {
-  const codeVerifier = window.sessionStorage.getItem("codeVerifier");
+export async function createDropboxToken(initialToken: string): Promise<void> {
+  const codeVerifier = window.localStorage.getItem(
+    dropboxTokenNames.codeVerifier,
+  );
 
   if (!codeVerifier) {
-    toast.error("Dropbox sync error: 1");
-    return;
+    throw new Error("Unable to retrieve codeVerifier from localStorage");
   }
 
-  if (isSetup) {
-    dbxAuth.setCodeVerifier(codeVerifier);
-    window.sessionStorage.removeItem("codeVerifier");
-    dbxAuth
-      .getAccessTokenFromCode(redirectURL, initialToken)
-      .then((value) => {
-        const typedValue = value as DropboxGetAccessTokenResponseType;
-        window.localStorage.setItem(
-          "dbxRefreshToken",
-          typedValue.result.refresh_token,
-        );
-        window.localStorage.setItem(
-          "dbxAccessToken",
-          typedValue.result.access_token,
-        );
-      })
-      .catch(() => {
-        toast.error("Dropbox sync error: 2");
+  dbxAuth.setCodeVerifier(codeVerifier);
+  dbxAuth.getAccessTokenFromCode(redirectURL, initialToken).then((value) => {
+    const valueParsed = dropboxGetAccessTokenResponse.safeParse(value);
+
+    if (!valueParsed.success) {
+      storeSyncError({
+        error: `Dropbox Auth getAccessTokenFromCode return type is incorrect. Data: ${value}. Date: ${new Date().toISOString()}`,
       });
+      const typedValue = value as DropboxGetAccessTokenResponse;
+      window.localStorage.setItem(
+        dropboxTokenNames.refreshToken,
+        typedValue.result.refresh_token,
+      );
+      window.localStorage.setItem(
+        dropboxTokenNames.accessToken,
+        typedValue.result.access_token,
+      );
+      return;
+    }
 
-    return;
-  }
+    const tokens = valueParsed.data.result;
 
-  const refreshToken = window.localStorage.getItem("dbxRefreshToken");
-
-  if (!refreshToken) {
-    toast.error("Dropbox sync error: 3");
-    return;
-  }
-
-  dbxAuth.setRefreshToken(refreshToken);
-  // dropbox type def file is incorrect. this is actually a promise.
-  await dbxAuth.checkAndRefreshAccessToken();
-
-  window.localStorage.setItem("dbxAccessToken", dbxAuth.getAccessToken());
+    window.localStorage.setItem(
+      dropboxTokenNames.refreshToken,
+      tokens.refresh_token,
+    );
+    window.localStorage.setItem(
+      dropboxTokenNames.accessToken,
+      tokens.access_token,
+    );
+  });
 }
