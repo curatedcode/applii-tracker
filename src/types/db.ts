@@ -14,7 +14,10 @@ export const SettingsArrayType = z.array(
 );
 
 export const syncSettingsSchema = z.object({
-  syncInterval: z.string().optional(),
+  syncInterval: z
+    .string()
+    .min(1, { message: "Sync interval must not be blank" })
+    .optional(),
 });
 
 export const AllData = z.object({
