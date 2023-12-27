@@ -9,7 +9,6 @@ export default function Policies() {
           { name: "Home", href: "/" },
           { name: "Features", href: "/#features" },
           { name: "FAQ", href: "/#faq" },
-          { name: "Demo", href: "/demo" },
         ]}
       />
       <main className="grid gap-8">
@@ -44,7 +43,7 @@ export default function Policies() {
                 personal information, and it does not store the users&apos;
                 application information. The responsibility for application data
                 storage lies with the users&apos; chosen sync providers (e.g.,
-                Dropbox, Google Drive).
+                Dropbox, Google Drive, etc.).
               </li>
             </ul>
             <li>

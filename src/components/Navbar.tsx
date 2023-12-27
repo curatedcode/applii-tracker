@@ -45,71 +45,65 @@ export default function Navbar({ items, showSettingsGear }: NavbarProps) {
   }
 
   return (
-    <Disclosure as="nav" className="mb-8 sm:mb-12">
+    <Disclosure as="nav" className="mb-8 p-1 sm:mb-12">
       {({ open }) => (
         <>
-          <div>
-            <div className="relative flex h-16 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-0.5">
-                  <span className="absolute -inset-0.5" />
-                  <span className="sr-only">Open main menu</span>
-                  {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
-              </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <Link
-                  className="flex flex-shrink-0 items-center"
-                  tabIndex={-1}
-                  href="/"
-                >
-                  <img
-                    className="h-8 w-auto"
-                    src="/media/applii-logo.svg"
-                    alt="Applii logo"
-                  />
-                </Link>
-                <div className="hidden items-center gap-4 sm:ml-6 sm:flex sm:w-full">
-                  <div className="flex space-x-4">
-                    {navItems.map((item) => (
-                      <Link
-                        key={item.name}
-                        className={`${defaultFocusHoverClasses} border-b-2 px-3 py-2 text-sm font-medium hover:border-b-dark-tertiary dark:hover:border-b-light-tertiary ${
-                          item.current
-                            ? "border-b-dark-tertiary dark:border-b-light-tertiary"
-                            : "border-b-transparent"
-                        }`}
-                        href={item.href}
-                        aria-current={item.current ? "page" : undefined}
-                        onClick={() => setCurrentItem(item.href)}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                  {showSettingsGear && (
-                    <Link href="/boards/settings" className="ml-auto">
-                      <span className="sr-only">Go to settings page</span>
-                      {pathname === "/boards/settings" ? (
-                        <Cog8ToothIconSolid
-                          className={`${defaultFocusHoverClasses} w-6`}
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <Cog8ToothIconOutline
-                          className={`${defaultFocusHoverClasses} w-6`}
-                          aria-hidden="true"
-                        />
-                      )}
-                    </Link>
-                  )}
-                </div>
-              </div>
+          <div className="flex h-16 items-center justify-between sm:justify-start">
+            <div className="flex items-center sm:hidden">
+              <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-0.5">
+                <span className="absolute -inset-0.5" />
+                <span className="sr-only">Open main menu</span>
+                {open ? (
+                  <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                )}
+              </Disclosure.Button>
             </div>
+            <Link tabIndex={-1} href="/" className="mx-auto sm:mx-0">
+              <img
+                className="h-8"
+                src="/media/applii-logo.svg"
+                alt="Applii logo"
+              />
+            </Link>
+            <div className="hidden space-x-4 sm:ml-6 sm:flex sm:items-center">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  className={`${defaultFocusHoverClasses} border-b-2 px-3 py-2 text-sm font-medium hover:border-b-dark-tertiary dark:hover:border-b-light-tertiary ${
+                    item.current
+                      ? "border-b-dark-tertiary dark:border-b-light-tertiary"
+                      : "border-b-transparent"
+                  }`}
+                  href={item.href}
+                  aria-current={item.current ? "page" : undefined}
+                  onClick={() => setCurrentItem(item.href)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+            {showSettingsGear && (
+              <Link
+                href="/boards/settings"
+                className="my-auto justify-self-end sm:ml-auto"
+                onClick={() => setCurrentItem("/boards/settings")}
+              >
+                <span className="sr-only">Go to settings page</span>
+                {pathname === "/boards/settings" ? (
+                  <Cog8ToothIconSolid
+                    className={`${defaultFocusHoverClasses} w-6`}
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <Cog8ToothIconOutline
+                    className={`${defaultFocusHoverClasses} w-6`}
+                    aria-hidden="true"
+                  />
+                )}
+              </Link>
+            )}
           </div>
           <Disclosure.Panel className="sm:hidden">
             <Transition
@@ -121,7 +115,7 @@ export default function Navbar({ items, showSettingsGear }: NavbarProps) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-80"
             >
-              <div className="grid space-y-1 px-2 pb-3 pt-2">
+              <div className="grid space-y-1 border-b border-b-light-secondary px-2 pb-4 pt-2 dark:border-b-dark-secondary">
                 {navItems.map((item) => (
                   <Disclosure.Button
                     key={item.name}
