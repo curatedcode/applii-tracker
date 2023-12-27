@@ -1,5 +1,3 @@
-"use client";
-
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect } from "react";
 import useScrollbar from "../Hooks/useScrollbar";
@@ -32,31 +30,29 @@ export default function ModalForm({
 
   useEffect(() => {
     const htmlElement = document.getElementsByTagName("html").item(0);
-    if (!htmlElement) return;
-    if (!isOpen) return;
+
+    if (!htmlElement || !isOpen) return;
+
     htmlElement.style.overflow = "hidden";
     htmlElement.style.paddingRight = `${scrollbar.width}px`;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
+  function closeModal() {
+    setIsOpen(false);
+    // stop janky transition exit
+    setTimeout(() => {
+      const htmlElement = document.getElementsByTagName("html").item(0);
+      if (!htmlElement) return;
+
+      htmlElement.style.removeProperty("overflow");
+      htmlElement.style.removeProperty("padding-right");
+    }, 100);
+  }
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-10"
-        onClose={() => {
-          setIsOpen(false);
-          // stop janky transition exit
-          // if you change transition duration you need to update this
-          setTimeout(() => {
-            const htmlElement = document.getElementsByTagName("html").item(0);
-            if (!htmlElement) return;
-
-            htmlElement.style.removeProperty("overflow");
-            htmlElement.style.removeProperty("padding-right");
-          }, 100);
-        }}
-      >
+      <Dialog as="div" className="relative z-10" onClose={closeModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-100"
@@ -86,7 +82,7 @@ export default function ModalForm({
                 <p className="text-base">{description}</p>
                 <form className="mt-4 grid gap-3 text-base" onSubmit={onSubmit}>
                   {children}
-                  <ModalButtons {...buttons} />
+                  <ModalButtons {...buttons} closeModal={closeModal} />
                 </form>
               </Dialog.Panel>
             </Transition.Child>

@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["applii", "jsonexport"]
+  "cSpell.words": ["applii", "jsonexport"],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
