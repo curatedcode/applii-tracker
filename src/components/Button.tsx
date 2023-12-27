@@ -40,7 +40,7 @@ export default function Button(props: ButtonProps) {
     if (style === "inverse") {
       return (
         <Link
-          className={`${defaultFocusHoverClasses} flex h-fit min-w-button items-center justify-center gap-1 whitespace-nowrap rounded-md bg-dark-secondary px-5 py-2 text-center text-sm font-medium text-dark-text dark:bg-light-secondary dark:text-light-text ${className}`}
+          className={`${defaultFocusHoverClasses} flex h-fit min-w-button items-center justify-center gap-1 whitespace-nowrap rounded-md bg-dark-secondary px-5 py-2 text-center text-sm font-medium text-white dark:bg-light-secondary dark:text-light-text ${className}`}
           href={props.href}
           {...rest}
         >
@@ -75,7 +75,7 @@ export default function Button(props: ButtonProps) {
   if (style === "inverse") {
     return (
       <button
-        className={`${defaultFocusHoverClasses} flex h-fit min-w-button items-center justify-center gap-1 whitespace-nowrap rounded-md bg-dark-secondary px-5 py-2 text-center text-sm font-medium text-dark-text dark:bg-light-secondary dark:text-light-text ${className}`}
+        className={`${defaultFocusHoverClasses} flex h-fit min-w-button items-center justify-center gap-1 whitespace-nowrap rounded-md bg-dark-secondary px-5 py-2 text-center text-sm font-medium text-white dark:bg-light-secondary dark:text-light-text ${className}`}
         type={props.type ?? "button"}
         {...rest}
       >
