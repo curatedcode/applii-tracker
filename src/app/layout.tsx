@@ -24,7 +24,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <div className="flex min-h-screen w-full max-w-7xl flex-col justify-self-center px-4">
-            <div className="mb-32">{children}</div>
+            <div className="mb-48">{children}</div>
             <Footer />
           </div>
         </ThemeProvider>
