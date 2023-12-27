@@ -1,14 +1,16 @@
 "use client";
 
 import Button from "@/src/components/Button";
+import ErrorMessage from "@/src/components/Form/ErrorMessage";
 import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
+import useTheme from "@/src/components/Hooks/useTheme";
 import SettingsSkeleton from "@/src/components/Loading/SettingsSkeleton";
 import Modal from "@/src/components/Modals/Modal";
 import ModalForm from "@/src/components/Modals/ModalForm";
 import PromiseLink from "@/src/components/PromiseLink";
+import SelectInput from "@/src/components/SelectInput";
 import { useSync } from "@/src/components/SyncProvider";
-import ThemeSelectInput from "@/src/components/Theme/ThemeSelectInput";
 import { syncSettingsSchema } from "@/src/types/db";
 import { dropboxTokenNames } from "@/src/types/dropbox";
 import {
@@ -16,6 +18,7 @@ import {
   fileExportFormSchema,
   fileExportTypeSelectOptions,
 } from "@/src/types/file";
+import { defaultFocusHoverClasses, themeOptions } from "@/src/types/global";
 import { getAllSettings, updateSetting } from "@/src/utils/db";
 import { createDropboxToken, getDropboxAuthURL } from "@/src/utils/dropbox";
 import { exportDataToFile } from "@/src/utils/exportDataToFile";
@@ -33,7 +36,8 @@ import { z } from "zod";
 
 export default function Settings() {
   const { triggerSync } = useSync();
-  const [showSyncSettings, setShowSyncSettings] = useState(false);
+
+  const { currentTheme, setCurrentTheme } = useTheme();
 
   const searchParams = useSearchParams();
   const dropboxTokenParam = searchParams.get("code");
@@ -48,8 +52,6 @@ export default function Settings() {
   const [isMounted, setIsMounted] = useState(false);
 
   function submitSyncSettings() {
-    setShowSyncSettings(false);
-
     const { syncInterval } = getFormSettingValues();
 
     if (syncInterval) {
@@ -85,12 +87,17 @@ export default function Settings() {
     }
 
     importDataFromFile(file)
-      .catch(() => {
-        const value = fileInputRef.current?.value;
-        if (!value) return;
+      .catch((e) => {
+        console.log({ fileImportError: e });
+        toast.error("Error importing file. Try again");
+        if (!fileInputRef.current?.value) return;
         fileInputRef.current.value = "";
       })
-      .finally(() => setShowFileImportModal(false));
+      .finally(() => {
+        setShowFileImportModal(false);
+        if (!fileInputRef.current?.value) return;
+        fileInputRef.current.value = "";
+      });
   }
 
   function submitExportFile() {
@@ -171,6 +178,11 @@ export default function Settings() {
   }, [setFileExportFormValue]);
 
   useEffect(() => {
+    if (!currentTheme) return;
+    updateSetting({ name: "theme", value: currentTheme.value });
+  }, [currentTheme]);
+
+  useEffect(() => {
     setIsMounted(true);
   }, []);
 
@@ -184,133 +196,163 @@ export default function Settings() {
       <div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-center md:gap-4">
         <h1 className="text-3xl font-semibold">Settings</h1>
       </div>
-      <div className="grid w-full max-w-md gap-6 justify-self-center">
-        <ThemeSelectInput />
-        <div className="grid auto-rows-min gap-3">
-          <div className="flex items-center justify-between gap-3">
-            <span>Sync data to dropbox account</span>
-            {!showSyncSettings && (
-              <Button onClick={() => setShowSyncSettings(true)}>Edit</Button>
-            )}
+      <div className="grid w-full max-w-lg gap-8 divide-y divide-light-secondary justify-self-center dark:divide-dark-secondary">
+        <div className="space-y-4 pt-4">
+          <div className="mb-6 space-y-1">
+            <h2 className="text-xl font-medium">Appearance</h2>
+            <p className="text-sm">Customize the appearance of the app</p>
           </div>
-          {showSyncSettings && (
-            <div className="grid gap-3">
-              <PromiseLink
-                promise={getDropboxAuthURL}
-                loading={"Fetching url"}
-                error={"Failed to get url"}
-                openInNewTab={false}
-              >
-                Get new dropbox token
-              </PromiseLink>
-              <form
-                onSubmit={handleSettingFormSubmit(submitSyncSettings)}
-                className="grid gap-3"
-              >
-                <FormInput
-                  id="syncIntervalInput"
-                  label="Sync Interval (in minutes)"
-                  type="number"
-                  register={registerFormSetting}
-                  placeholder="Ex: 120 is 2 hours"
-                  error={settingFormErrors.syncInterval?.message}
-                  registerName="syncInterval"
-                />
-                <div className="grid grid-cols-2 gap-3">
-                  <Button onClick={() => setShowSyncSettings(false)}>
-                    Cancel
-                  </Button>
-                  <Button type="submit">Save</Button>
-                </div>
-              </form>
-            </div>
-          )}
-          <Button onClick={() => triggerSync()}>Trigger sync manually</Button>
-        </div>
-        <div className="grid gap-6">
-          <input
-            type="file"
-            className="hidden"
-            accept=".json"
-            ref={fileInputRef}
-            onClick={() => setFileInputError(undefined)}
-            onChange={() => setShowFileImportModal(true)}
+          <SelectInput
+            options={themeOptions}
+            selected={currentTheme ?? themeOptions[2]}
+            setSelected={setCurrentTheme}
+            label="Theme"
           />
-          <a aria-hidden="true" className="hidden" ref={fileExportRef}></a>
-          <Button onClick={() => setShowFileExportModal(true)}>
-            <ArrowUpTrayIcon className="w-4" aria-hidden="true" />
-            <span>Export data</span>
-          </Button>
-          <div className="grid gap-1">
-            <Button onClick={() => fileInputRef.current?.click()}>
-              <ArrowDownTrayIcon className="w-4" aria-hidden="true" />
-              <span>Import data from file</span>
+        </div>
+        <div className="space-y-4 pt-4">
+          <div className="mb-6 space-y-1">
+            <h2 className="text-xl font-medium">Data</h2>
+            <p className="text-sm">Import and export all your data</p>
+          </div>
+          <div className="grid gap-4">
+            <input
+              type="file"
+              className="hidden"
+              accept=".json"
+              ref={fileInputRef}
+              onClick={() => setFileInputError(undefined)}
+              onChange={() => setShowFileImportModal(true)}
+            />
+            <a aria-hidden="true" className="hidden" ref={fileExportRef}></a>
+            <Button onClick={() => setShowFileExportModal(true)}>
+              <ArrowUpTrayIcon className="w-4" aria-hidden="true" />
+              <span>Export data</span>
             </Button>
-            {fileInputError && (
-              <span role="alert" className="text-red-500">
-                * {fileInputError}
-              </span>
-            )}
+            <div className="grid gap-1">
+              <Button onClick={() => fileInputRef.current?.click()}>
+                <ArrowDownTrayIcon className="w-4" aria-hidden="true" />
+                <span>Import data from file</span>
+              </Button>
+              {fileInputError && (
+                <span role="alert" className="text-red-500">
+                  * {fileInputError}
+                </span>
+              )}
+            </div>
+          </div>
+          <Modal
+            isOpen={showFileImportModal}
+            setIsOpen={setShowFileImportModal}
+            title="Import file"
+            description="Are you sure you want to import this file? Any existing data will be overwritten!"
+            secondaryButton={{
+              as: "button",
+              onClick: () => setShowFileImportModal(false),
+              body: "Cancel",
+            }}
+            primaryButton={{
+              as: "button",
+              onClick: () => submitImportFile(),
+              body: "Import",
+            }}
+          />
+          <ModalForm
+            isOpen={showFileExportModal}
+            setIsOpen={setShowFileExportModal}
+            title="Export settings"
+            description="Choose your file name and type"
+            secondaryButton={{
+              as: "button",
+              onClick: () => setShowFileExportModal(false),
+              body: "Cancel",
+            }}
+            primaryButton={{
+              as: "button",
+              type: "submit",
+              body: "Export",
+            }}
+            onSubmit={handleFileExportFormSubmit(submitExportFile)}
+          >
+            <FormInput
+              id="fileExportName"
+              label="File name"
+              type="text"
+              register={registerFileExportForm}
+              error={fileExportFormErrors.fileName?.message}
+              registerName="fileName"
+            />
+            <Controller
+              name="fileType"
+              control={fileExportFormControl}
+              render={({ field: { onChange } }) => (
+                <FormSelectInput
+                  label="File type"
+                  selected={
+                    currentFileExportFileType ?? fileExportTypeSelectOptions[0]
+                  }
+                  setSelected={onChange}
+                  options={fileExportTypeSelectOptions}
+                />
+              )}
+            />
+          </ModalForm>
+        </div>
+        <div className="space-y-4 pt-4">
+          <div className="mb-6 space-y-1">
+            <h2 className="text-xl font-medium">Sync</h2>
+            <p className="text-sm">Edit your sync settings</p>
+          </div>
+          <div className="grid gap-4">
+            <Button onClick={() => triggerSync()}>Trigger sync manually</Button>
+            <PromiseLink
+              promise={getDropboxAuthURL}
+              loading={"Fetching url"}
+              error={"Failed to get url"}
+              openInNewTab={false}
+            >
+              Get new dropbox token
+            </PromiseLink>
+            <form
+              onSubmit={handleSettingFormSubmit(submitSyncSettings)}
+              className="flex w-full flex-col items-center gap-4 md:flex-row"
+            >
+              <div className="grid w-full gap-1">
+                <div className="flex w-full flex-col md:flex-row md:items-center md:gap-1">
+                  <label
+                    htmlFor="syncInterval"
+                    className="mb-1 ml-1 flex gap-1 text-sm leading-tight opacity-80 md:mb-0 md:ml-0 md:w-32"
+                  >
+                    Sync Interval &#40;in minutes&#41;
+                  </label>
+                  <input
+                    id="syncInterval"
+                    type="number"
+                    min={1}
+                    placeholder="Ex: 120 is 2 hours"
+                    className={`${defaultFocusHoverClasses} w-full rounded-md bg-light-secondary px-3 py-1.5 placeholder:opacity-70 dark:bg-dark-secondary ${
+                      settingFormErrors.syncInterval?.message
+                        ? "ring-1 ring-red-500"
+                        : ""
+                    }`}
+                    {...registerFormSetting("syncInterval")}
+                  />
+                </div>
+                <ErrorMessage error={settingFormErrors.syncInterval?.message} />
+              </div>
+              <Button
+                type="submit"
+                style="inverse"
+                className="w-full md:hidden"
+              >
+                Update interval
+              </Button>
+              <Button type="submit" style="inverse" className="hidden md:flex">
+                Save
+              </Button>
+            </form>
           </div>
         </div>
       </div>
-      <Modal
-        isOpen={showFileImportModal}
-        setIsOpen={setShowFileImportModal}
-        title="Import file"
-        description="Are you sure you want to import this file? Any existing data will be
-        overwritten!"
-        secondaryButton={{
-          as: "button",
-          onClick: () => setShowFileImportModal(false),
-          body: "Cancel",
-        }}
-        primaryButton={{
-          as: "button",
-          onClick: () => submitImportFile(),
-          body: "Import",
-        }}
-      />
-      <ModalForm
-        isOpen={showFileExportModal}
-        setIsOpen={setShowFileExportModal}
-        title="Export settings"
-        description="Choose your file name and type"
-        secondaryButton={{
-          as: "button",
-          onClick: () => setShowFileExportModal(false),
-          body: "Cancel",
-        }}
-        primaryButton={{
-          as: "button",
-          type: "submit",
-          body: "Export",
-        }}
-        onSubmit={handleFileExportFormSubmit(submitExportFile)}
-      >
-        <FormInput
-          id="fileExportName"
-          label="File name"
-          type="text"
-          register={registerFileExportForm}
-          error={fileExportFormErrors.fileName?.message}
-          registerName="fileName"
-        />
-        <Controller
-          name="fileType"
-          control={fileExportFormControl}
-          render={({ field: { onChange } }) => (
-            <FormSelectInput
-              label="File type"
-              selected={
-                currentFileExportFileType ?? fileExportTypeSelectOptions[0]
-              }
-              setSelected={onChange}
-              options={fileExportTypeSelectOptions}
-            />
-          )}
-        />
-      </ModalForm>
     </>
   );
 }
