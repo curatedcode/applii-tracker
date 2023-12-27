@@ -7,24 +7,39 @@ export type SelectInputProps<TLabel, TValue> = {
   options: OptionType<TLabel, TValue>[];
   setSelected: React.Dispatch<React.SetStateAction<OptionType<TLabel, TValue>>>;
   selected: OptionType<TLabel, TValue>;
+  label?: string;
 };
 
 export default function SelectInput<
   TLabel extends string,
   TValue extends string,
->({ options, setSelected, selected }: SelectInputProps<TLabel, TValue>) {
+>({ options, setSelected, selected, label }: SelectInputProps<TLabel, TValue>) {
   return (
-    <div className="w-40 text-sm">
+    <div className={`text-sm ${label ? "w-full" : "w-40"}`}>
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
-          <Listbox.Button
-            className={`${defaultFocusHoverClasses} relative w-full cursor-pointer rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm dark:bg-dark-secondary`}
-          >
-            <span className="block truncate">{selected.label}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon className="h-5 w-5" aria-hidden="true" />
-            </span>
-          </Listbox.Button>
+          {label ? (
+            <div className="flex flex-col gap-1">
+              <Listbox.Label className="text-base">{label}</Listbox.Label>
+              <Listbox.Button
+                className={`${defaultFocusHoverClasses} relative w-40 cursor-pointer rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm dark:bg-dark-secondary`}
+              >
+                <span className="block truncate">{selected.label}</span>
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <ChevronUpDownIcon className="h-5 w-5" aria-hidden="true" />
+                </span>
+              </Listbox.Button>
+            </div>
+          ) : (
+            <Listbox.Button
+              className={`${defaultFocusHoverClasses} relative w-full cursor-pointer rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm dark:bg-dark-secondary`}
+            >
+              <span className="block truncate">{selected.label}</span>
+              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <ChevronUpDownIcon className="h-5 w-5" aria-hidden="true" />
+              </span>
+            </Listbox.Button>
+          )}
           <Transition
             as={Fragment}
             leave="transition ease-in duration-100"
