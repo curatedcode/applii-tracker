@@ -10,6 +10,7 @@ export type ButtonType = {
 export type LinkType = {
   as: "link";
   href: string;
+  onClick?: () => void;
 };
 
 export type ButtonProps = {
