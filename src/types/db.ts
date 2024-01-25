@@ -10,22 +10,22 @@ export const SettingType = z.object({ name: SettingsNames, value: z.string() });
 export type SettingsType = z.infer<typeof SettingType>;
 
 export const SettingsArrayType = z.array(
-  z.object({ name: SettingsNames, value: z.string() }),
+	z.object({ name: SettingsNames, value: z.string() }),
 );
 
 export const syncSettingsSchema = z.object({
-  syncInterval: z
-    .string()
-    .min(1, { message: "Sync interval must not be blank" })
-    .optional(),
+	syncInterval: z
+		.string()
+		.min(1, { message: "Sync interval must not be blank" })
+		.optional(),
 });
 
 export const AllData = z.object({
-  applications: zodFullApplicationArray,
-  settings: SettingsArrayType,
+	applications: zodFullApplicationArray,
+	settings: SettingsArrayType,
 });
 
 export type ImportExportDataType = {
-  applications: FullApplicationType[];
-  settings: SettingsType[];
+	applications: FullApplicationType[];
+	settings: SettingsType[];
 };
