@@ -5,16 +5,15 @@ import { useTheme as useNextTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export default function useTheme() {
-  const { theme, setTheme } = useNextTheme();
-  const [currentTheme, setCurrentTheme] = useState<ThemeOption>(
-    themeOptions.find((option) => option.value === theme) ?? themeOptions[0],
-  );
+	const { theme, setTheme } = useNextTheme();
+	const [currentTheme, setCurrentTheme] = useState<ThemeOption>(
+		themeOptions.find((option) => option.value === theme) ?? themeOptions[0],
+	);
 
-  useEffect(() => {
-    if (!currentTheme) return;
-    setTheme(currentTheme.value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTheme]);
+	useEffect(() => {
+		if (!currentTheme) return;
+		setTheme(currentTheme.value);
+	}, [currentTheme, setTheme]);
 
-  return { currentTheme, setCurrentTheme };
+	return { currentTheme, setCurrentTheme };
 }

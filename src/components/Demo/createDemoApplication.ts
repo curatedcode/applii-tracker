@@ -2,24 +2,24 @@ import { FullApplicationType } from "@/src/types/applications";
 import getAllApplicationsInStorage from "./getAllDemoApplicationsInStorage";
 
 export default function createDemoApplication(
-  application: FullApplicationType,
+	application: FullApplicationType,
 ) {
-  if (!window || !window.sessionStorage) return;
+	if (!window || !window.sessionStorage) return;
 
-  const applicationsInStorage = getAllApplicationsInStorage();
+	const applicationsInStorage = getAllApplicationsInStorage();
 
-  if (!applicationsInStorage) {
-    window.sessionStorage.setItem(
-      "demoApplications",
-      JSON.stringify([application]),
-    );
-    return;
-  }
+	if (!applicationsInStorage) {
+		window.sessionStorage.setItem(
+			"demoApplications",
+			JSON.stringify([application]),
+		);
+		return;
+	}
 
-  const mergedApplications = applicationsInStorage.push(application);
+	const mergedApplications = applicationsInStorage.push(application);
 
-  window.sessionStorage.setItem(
-    "demoApplications",
-    JSON.stringify(mergedApplications),
-  );
+	window.sessionStorage.setItem(
+		"demoApplications",
+		JSON.stringify(mergedApplications),
+	);
 }

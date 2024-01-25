@@ -5,179 +5,179 @@ import { z } from "zod";
 export type ApplicationStatusType = z.infer<typeof applicationStatuses>;
 
 export const applicationStatusesArray: ApplicationStatusType[] = [
-  "needToApply",
-  "applied",
-  "interviewing",
-  "offer",
-  "closed",
+	"needToApply",
+	"applied",
+	"interviewing",
+	"offer",
+	"closed",
 ];
 
 export const applicationStatuses = z.enum([
-  "needToApply",
-  "applied",
-  "interviewing",
-  "offer",
-  "closed",
+	"needToApply",
+	"applied",
+	"interviewing",
+	"offer",
+	"closed",
 ]);
 
 export const zodFullApplication = z.object({
-  id: z.number(),
-  position: z.string(),
-  company: z.string(),
-  postingURL: z.string().optional(),
-  status: applicationStatuses,
-  dateCreated: z.string(),
-  dateModified: z.string(),
-  dateApplied: z.string().optional(),
-  dateInterviewing: z.string().optional(),
-  dateOffered: z.string().optional(),
-  dateClosed: z.string().optional(),
-  contacts: z
-    .array(
-      z.object({
-        name: z.string(),
-        position: z.string().optional(),
-        phone: z.string().optional(),
-        email: z.string().optional(),
-      }),
-    )
-    .optional(),
-  notes: z
-    .array(
-      z.object({
-        body: z.string(),
-      }),
-    )
-    .optional(),
+	id: z.number(),
+	position: z.string(),
+	company: z.string(),
+	postingURL: z.string().optional(),
+	status: applicationStatuses,
+	dateCreated: z.string(),
+	dateModified: z.string(),
+	dateApplied: z.string().optional(),
+	dateInterviewing: z.string().optional(),
+	dateOffered: z.string().optional(),
+	dateClosed: z.string().optional(),
+	contacts: z
+		.array(
+			z.object({
+				name: z.string(),
+				position: z.string().optional(),
+				phone: z.string().optional(),
+				email: z.string().optional(),
+			}),
+		)
+		.optional(),
+	notes: z
+		.array(
+			z.object({
+				body: z.string(),
+			}),
+		)
+		.optional(),
 });
 
 export const zodFullApplicationArray = z.array(zodFullApplication);
 
 export type ApplicationType = {
-  id: number;
-  position: string;
-  company: string;
-  postingURL?: string;
-  status: ApplicationStatusType;
-  dateCreated: string;
-  dateModified: string;
-  dateApplied?: string;
-  dateInterviewing?: string;
-  dateOffered?: string;
-  dateClosed?: string;
+	id: number;
+	position: string;
+	company: string;
+	postingURL?: string;
+	status: ApplicationStatusType;
+	dateCreated: string;
+	dateModified: string;
+	dateApplied?: string;
+	dateInterviewing?: string;
+	dateOffered?: string;
+	dateClosed?: string;
 };
 
 export type CreateApplicationType = {
-  position: string;
-  company: string;
-  postingURL?: string;
-  status: ApplicationStatusType;
-  dateApplied?: string;
-  dateInterviewing?: string;
-  dateOffered?: string;
-  dateClosed?: string;
-  notes?: NotesType[];
-  contacts?: ContactType[];
+	position: string;
+	company: string;
+	postingURL?: string;
+	status: ApplicationStatusType;
+	dateApplied?: string;
+	dateInterviewing?: string;
+	dateOffered?: string;
+	dateClosed?: string;
+	notes?: NotesType[];
+	contacts?: ContactType[];
 };
 
 export type UpdateApplicationType = {
-  id: number;
-  position: string;
-  company: string;
-  postingURL?: string;
-  status: ApplicationStatusType;
-  dateApplied?: string;
-  dateInterviewing?: string;
-  dateOffered?: string;
-  dateClosed?: string;
-  notes?: NotesType[];
-  contacts?: ContactType[];
+	id: number;
+	position: string;
+	company: string;
+	postingURL?: string;
+	status: ApplicationStatusType;
+	dateApplied?: string;
+	dateInterviewing?: string;
+	dateOffered?: string;
+	dateClosed?: string;
+	notes?: NotesType[];
+	contacts?: ContactType[];
 };
 
 export type NotesType = {
-  body: string;
+	body: string;
 };
 
 export type ContactType = {
-  name: string;
-  position?: string;
-  phone?: string;
-  email?: string;
+	name: string;
+	position?: string;
+	phone?: string;
+	email?: string;
 };
 
 export type FullApplicationType = {
-  notes?: NotesType[];
-  contacts?: ContactType[];
+	notes?: NotesType[];
+	contacts?: ContactType[];
 } & ApplicationType;
 
 export type ApplicationStatusLabelValueType = {
-  label: z.infer<typeof applicationStatusLabel>;
-  value: z.infer<typeof applicationStatuses>;
+	label: z.infer<typeof applicationStatusLabel>;
+	value: z.infer<typeof applicationStatuses>;
 };
 
 export const applicationStatusLabel = z.enum([
-  "Need To Apply",
-  "Applied",
-  "Interviewing",
-  "Offer",
-  "Closed",
+	"Need To Apply",
+	"Applied",
+	"Interviewing",
+	"Offer",
+	"Closed",
 ]);
 
 export const formSchema = z.object({
-  position: z.string().min(1, { message: "Position can't be empty" }),
-  company: z.string().min(1, { message: "Company can't be empty" }),
-  postingURL: z.string().optional(),
-  status: z.object({
-    label: applicationStatusLabel,
-    value: applicationStatuses,
-  }),
-  dateApplied: z.string().optional(),
-  dateInterviewing: z.string().optional(),
-  dateOffered: z.string().optional(),
-  dateClosed: z.string().optional(),
-  contacts: z
-    .array(
-      z.object({
-        name: z.string(),
-        position: z.string().optional(),
-        phone: z.string().optional(),
-        email: z.string().optional(),
-      }),
-    )
-    .optional(),
-  notes: z.array(z.object({ body: z.string() })).optional(),
+	position: z.string().min(1, { message: "Position can't be empty" }),
+	company: z.string().min(1, { message: "Company can't be empty" }),
+	postingURL: z.string().optional(),
+	status: z.object({
+		label: applicationStatusLabel,
+		value: applicationStatuses,
+	}),
+	dateApplied: z.string().optional(),
+	dateInterviewing: z.string().optional(),
+	dateOffered: z.string().optional(),
+	dateClosed: z.string().optional(),
+	contacts: z
+		.array(
+			z.object({
+				name: z.string(),
+				position: z.string().optional(),
+				phone: z.string().optional(),
+				email: z.string().optional(),
+			}),
+		)
+		.optional(),
+	notes: z.array(z.object({ body: z.string() })).optional(),
 });
 
 export type FormContextType = {
-  contactsData: ContactType[];
-  setContactsData: Dispatch<SetStateAction<ContactType[]>>;
-  notesData: NotesType[];
-  setNotesData: Dispatch<SetStateAction<NotesType[]>>;
-  isFormCompleted: boolean;
-  setIsFormCompleted: Dispatch<SetStateAction<boolean>>;
+	contactsData: ContactType[];
+	setContactsData: Dispatch<SetStateAction<ContactType[]>>;
+	notesData: NotesType[];
+	setNotesData: Dispatch<SetStateAction<NotesType[]>>;
+	isFormCompleted: boolean;
+	setIsFormCompleted: Dispatch<SetStateAction<boolean>>;
 };
 
 export const applicationStatusSelectOptions: ApplicationStatusLabelValueType[] =
-  [
-    { value: "needToApply", label: "Need To Apply" },
-    { value: "applied", label: "Applied" },
-    { value: "interviewing", label: "Interviewing" },
-    { value: "offer", label: "Offer" },
-    { value: "closed", label: "Closed" },
-  ];
+	[
+		{ value: "needToApply", label: "Need To Apply" },
+		{ value: "applied", label: "Applied" },
+		{ value: "interviewing", label: "Interviewing" },
+		{ value: "offer", label: "Offer" },
+		{ value: "closed", label: "Closed" },
+	];
 
 export type ArrayFieldProps = {
-  register: UseFormRegister<z.infer<typeof formSchema>>;
-  control: Control<z.infer<typeof formSchema>>;
-  className?: string;
+	register: UseFormRegister<z.infer<typeof formSchema>>;
+	control: Control<z.infer<typeof formSchema>>;
+	className?: string;
 };
 
 export type GroupedApplicationsType = {
-  needToApply: FullApplicationType[];
-  applied: FullApplicationType[];
-  interviewing: FullApplicationType[];
-  offer: FullApplicationType[];
-  closed: FullApplicationType[];
+	needToApply: FullApplicationType[];
+	applied: FullApplicationType[];
+	interviewing: FullApplicationType[];
+	offer: FullApplicationType[];
+	closed: FullApplicationType[];
 };
 
 export type FormatApplicationsType = "grouped";

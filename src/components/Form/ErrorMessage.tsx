@@ -1,9 +1,9 @@
 export default function ErrorMessage({ error }: { error?: string }) {
-  if (!error) return null;
+	if (!error) return null;
 
-  return (
-    <span role="alert" className="text-sm text-red-500">
-      * {error}
-    </span>
-  );
+	return (
+		<span role="alert" className="text-sm text-red-500">
+			* {error}
+		</span>
+	);
 }

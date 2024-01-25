@@ -4,37 +4,37 @@ import { FormattedChartDataType } from "@/src/types/metrics";
 import formatApplicationData from "./formatApplicationData";
 import generateMetricLabels from "./generateMetricLabels";
 import generateSimpleMetrics, {
-  GenerateSimpleMetricsReturnType,
+	GenerateSimpleMetricsReturnType,
 } from "./generateSimpleMetrics";
 import groupApplicationsByDateRange from "./groupApplicationsByDateRange";
 
 export type GenerateMetricsProps = {
-  timeline: TimelineType;
-  applications: FullApplicationType[];
+	timeline: TimelineType;
+	applications: FullApplicationType[];
 };
 
 export type GenerateMetricsReturnType = {
-  chartData: FormattedChartDataType[];
-  simpleMetrics: GenerateSimpleMetricsReturnType;
+	chartData: FormattedChartDataType[];
+	simpleMetrics: GenerateSimpleMetricsReturnType;
 };
 
 export default function generateMetrics({
-  timeline,
-  applications,
+	timeline,
+	applications,
 }: GenerateMetricsProps): GenerateMetricsReturnType {
-  const labels = generateMetricLabels(timeline);
-  const applicationsInDateRange = groupApplicationsByDateRange({
-    applications,
-    timeline,
-    labels,
-  });
+	const labels = generateMetricLabels(timeline);
+	const applicationsInDateRange = groupApplicationsByDateRange({
+		applications,
+		timeline,
+		labels,
+	});
 
-  const simpleMetrics = generateSimpleMetrics(applicationsInDateRange);
+	const simpleMetrics = generateSimpleMetrics(applicationsInDateRange);
 
-  const dataFormatted = formatApplicationData(applicationsInDateRange);
+	const dataFormatted = formatApplicationData(applicationsInDateRange);
 
-  return {
-    chartData: dataFormatted,
-    simpleMetrics,
-  };
+	return {
+		chartData: dataFormatted,
+		simpleMetrics,
+	};
 }

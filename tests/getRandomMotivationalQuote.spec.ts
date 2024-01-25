@@ -2,7 +2,7 @@ import getRandomMotivationalQuote from "@/src/components/Motivational/getRandomM
 import { expect, test } from "vitest";
 
 test("gets a quote back", () => {
-  const result = getRandomMotivationalQuote();
+	const result = getRandomMotivationalQuote();
 
-  expect(typeof result).toStrictEqual("string");
+	expect(typeof result).toStrictEqual("string");
 });

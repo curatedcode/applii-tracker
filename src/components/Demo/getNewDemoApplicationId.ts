@@ -5,7 +5,7 @@ import getAllDemoApplications from "./getAllDemoApplications";
  * - Incremented 1 after the last application created
  */
 export default function getNewDemoApplicationId() {
-  const applications = getAllDemoApplications("dateCreated");
+	const applications = getAllDemoApplications("dateCreated");
 
-  return applications.length + 1;
+	return applications.length + 1;
 }
