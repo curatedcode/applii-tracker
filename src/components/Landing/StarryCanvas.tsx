@@ -1,17 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import Particles from "react-particles";
-import type { Engine } from "tsparticles-engine";
-import { loadSlim } from "tsparticles-slim";
+import { ISourceOptions } from "@tsparticles/engine";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import { useEffect, useMemo, useState } from "react";
 
 export default function StarryCanvas() {
-	const particlesId = "particlesBG";
-
 	const [prefersDarkScheme, setPrefersDarkScheme] = useState(false);
+	const [init, setInit] = useState(false);
 
-	const particlesInit = useCallback(async (engine: Engine) => {
-		await loadSlim(engine);
+	useEffect(() => {
+		initParticlesEngine(async (engine) => {
+			await loadSlim(engine);
+		}).then(() => setInit(true));
 	}, []);
 
 	useEffect(() => {
@@ -33,129 +34,70 @@ export default function StarryCanvas() {
 			);
 	}, []);
 
-	// no way to reinitialize particles after creation
+	const options: ISourceOptions = useMemo(
+		() => ({
+			detectRetina: true,
+			fpsLimit: 30,
+			interactivity: {
+				detectsOn: "canvas",
+				events: {
+					resize: { enable: true },
+				},
+			},
+			particles: {
+				color: {
+					value: prefersDarkScheme ? "#fcfdfd" : "#262626",
+				},
+				number: {
+					density: {
+						enable: true,
+						height: 1080,
+						width: 1920,
+					},
 
-	if (prefersDarkScheme) {
+					limit: { mode: "delete", value: 0 },
+					value: 200,
+				},
+				opacity: {
+					animation: {
+						enable: true,
+						startValue: "min",
+						speed: 0.25,
+						sync: false,
+						mode: "random",
+					},
+					value: prefersDarkScheme ? 0.2 : 0.3,
+				},
+				move: {
+					direction: "bottom",
+					enable: true,
+					speed: 0.05,
+					straight: true,
+				},
+				shape: {
+					type: "circle",
+				},
+				size: {
+					animation: {
+						mode: "random",
+						startValue: "min",
+						enable: true,
+					},
+					value: 1,
+				},
+			},
+		}),
+		[prefersDarkScheme],
+	);
+
+	if (init)
 		return (
 			<Particles
-				id={particlesId}
-				init={particlesInit}
-				style={{ position: "fixed" }}
+				id="particlesBG"
 				className="pointer-events-none fixed z-[-1] h-full w-full"
-				options={{
-					detectRetina: true,
-					fpsLimit: 30,
-					interactivity: {
-						detectsOn: "canvas",
-						events: {
-							resize: true,
-						},
-					},
-					particles: {
-						color: {
-							value: "#fcfdfd",
-						},
-						number: {
-							density: {
-								enable: true,
-								area: 1080,
-							},
-							limit: 0,
-							value: 200,
-						},
-						opacity: {
-							animation: {
-								enable: true,
-								minimumValue: 0.05,
-								speed: 0.25,
-								sync: false,
-							},
-							random: {
-								enable: true,
-								minimumValue: 0.05,
-							},
-							value: 1,
-						},
-						move: {
-							direction: "bottom",
-							enable: true,
-							speed: 0.05,
-							straight: true,
-						},
-						shape: {
-							type: "circle",
-						},
-						size: {
-							random: {
-								enable: true,
-								minimumValue: 0.5,
-							},
-							value: 1,
-						},
-					},
-				}}
+				options={options}
 			/>
 		);
-	}
 
-	return (
-		<Particles
-			id={particlesId}
-			init={particlesInit}
-			style={{ position: "fixed" }}
-			className="pointer-events-none fixed z-[-1] h-full w-full"
-			options={{
-				detectRetina: true,
-				fpsLimit: 30,
-				interactivity: {
-					detectsOn: "canvas",
-					events: {
-						resize: true,
-					},
-				},
-				particles: {
-					color: {
-						value: "#262626",
-					},
-					number: {
-						density: {
-							enable: true,
-							area: 1080,
-						},
-						limit: 0,
-						value: 200,
-					},
-					opacity: {
-						animation: {
-							enable: true,
-							minimumValue: 0.05,
-							speed: 0.25,
-							sync: false,
-						},
-						random: {
-							enable: true,
-							minimumValue: 0.05,
-						},
-						value: 1,
-					},
-					move: {
-						direction: "bottom",
-						enable: true,
-						speed: 0.05,
-						straight: true,
-					},
-					shape: {
-						type: "circle",
-					},
-					size: {
-						random: {
-							enable: true,
-							minimumValue: 0.5,
-						},
-						value: 1,
-					},
-				},
-			}}
-		/>
-	);
+	return <></>;
 }
