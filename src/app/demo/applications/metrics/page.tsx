@@ -45,7 +45,10 @@ export default function Metrics() {
 				/>
 			</div>
 			<div className="grid w-full max-w-6xl justify-items-center gap-12 justify-self-center md:gap-20">
-				<Chart data={chartData} />
+				<Chart
+					data={chartData}
+					totalApplications={simpleMetrics.totalApplications}
+				/>
 				<div className="grid h-fit w-full max-w-sm gap-2 divide-y divide-light-secondary rounded-md border border-light-secondary py-2 shadow shadow-light-tertiary dark:divide-dark-secondary dark:border-dark-secondary dark:shadow-dark-tertiary sm:-mt-12 sm:text-lg">
 					<h1 className="px-3 text-center text-xl font-semibold sm:text-2xl">
 						Applications in each stage
