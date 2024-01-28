@@ -2,7 +2,6 @@ import { FullApplicationType } from "@/src/types/applications";
 import { TimelineType } from "@/src/types/global";
 import { FormattedChartDataType } from "@/src/types/metrics";
 import formatApplicationData from "./formatApplicationData";
-import generateMetricLabels from "./generateMetricLabels";
 import generateSimpleMetrics, {
 	GenerateSimpleMetricsReturnType,
 } from "./generateSimpleMetrics";
@@ -22,11 +21,9 @@ export default function generateMetrics({
 	timeline,
 	applications,
 }: GenerateMetricsProps): GenerateMetricsReturnType {
-	const labels = generateMetricLabels(timeline);
 	const applicationsInDateRange = groupApplicationsByDateRange({
 		applications,
 		timeline,
-		labels,
 	});
 
 	const simpleMetrics = generateSimpleMetrics(applicationsInDateRange);

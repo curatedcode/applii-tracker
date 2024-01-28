@@ -33,7 +33,7 @@ describe("generates metrics", () => {
 
 		expect(chartData).toStrictEqual([
 			{
-				date: "Nov, 2022",
+				date: "Nov",
 				"Need To Apply": 0,
 				"Need To ApplyColor": statusColors.needToApply,
 				Applied: 0,
@@ -46,7 +46,7 @@ describe("generates metrics", () => {
 				ClosedColor: statusColors.closed,
 			},
 			{
-				date: "Dec, 2022",
+				date: "Dec",
 				"Need To Apply": 0,
 				"Need To ApplyColor": statusColors.needToApply,
 				Applied: 0,

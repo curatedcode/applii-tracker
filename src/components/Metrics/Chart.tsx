@@ -10,9 +10,10 @@ import {
 
 export type ChartProps = {
 	data: FormattedChartDataType[];
+	totalApplications: number;
 };
 
-export function Chart({ data }: ChartProps) {
+export function Chart({ data, totalApplications }: ChartProps) {
 	function getBarColor(e: ComputedDatum<FormattedChartDataType>): `#${string}` {
 		const isStatus = applicationStatusLabel.safeParse(e.id);
 		if (!isStatus.success) return colorVisibleAcrossThemes;
@@ -26,6 +27,10 @@ export function Chart({ data }: ChartProps) {
 
 		return colorVisibleAcrossThemes;
 	}
+
+	const tickValues = new Array(totalApplications)
+		.fill(null)
+		.map((_, i) => i + 1);
 
 	return (
 		<>
@@ -47,7 +52,7 @@ export function Chart({ data }: ChartProps) {
 					data={data}
 					keys={chartStageKeys}
 					indexBy="date"
-					margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
+					margin={{ top: 50, right: 25, bottom: 50, left: 50 }}
 					padding={0.3}
 					valueScale={{ type: "linear" }}
 					indexScale={{ type: "band", round: true }}
@@ -79,6 +84,7 @@ export function Chart({ data }: ChartProps) {
 						legendPosition: "middle",
 						legendOffset: -40,
 						truncateTickAt: 0,
+						tickValues,
 					}}
 					labelSkipWidth={12}
 					labelSkipHeight={12}

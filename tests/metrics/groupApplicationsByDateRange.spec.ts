@@ -1,4 +1,3 @@
-import generateMetricLabels from "@/src/components/Metrics/generateMetricLabels";
 import groupApplicationsByDateRange from "@/src/components/Metrics/groupApplicationsByDateRange";
 import { FullApplicationType } from "@/src/types/applications";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
@@ -15,17 +14,15 @@ describe("group applications by date range", () => {
 	test("1 year grouping", () => {
 		vi.setSystemTime("10/05/2023");
 
-		const labels = generateMetricLabels("1 year");
 		const grouped = groupApplicationsByDateRange({
 			applications,
-			labels,
 			timeline: "1 year",
 		});
 
 		expect(grouped).toStrictEqual([
-			{ label: "Oct, 2022", applications: [] },
-			{ label: "Nov, 2022", applications: [] },
-			{ label: "Dec, 2022", applications: [] },
+			{ label: "Oct", applications: [] },
+			{ label: "Nov", applications: [] },
+			{ label: "Dec", applications: [] },
 			{ label: "Jan", applications: [] },
 			{ label: "Feb", applications: [] },
 			{ label: "Mar", applications: [] },
@@ -181,10 +178,8 @@ describe("group applications by date range", () => {
 	test("6 months grouping", () => {
 		vi.setSystemTime("10/05/2023");
 
-		const labels = generateMetricLabels("6 months");
 		const grouped = groupApplicationsByDateRange({
 			applications,
-			labels,
 			timeline: "6 months",
 		});
 
@@ -316,10 +311,8 @@ describe("group applications by date range", () => {
 	test("1 month grouping", () => {
 		vi.setSystemTime("10/05/2023");
 
-		const labels = generateMetricLabels("1 month");
 		const grouped = groupApplicationsByDateRange({
 			applications,
-			labels,
 			timeline: "1 month",
 		});
 
@@ -372,10 +365,8 @@ describe("group applications by date range", () => {
 	test("1 week grouping", () => {
 		vi.setSystemTime("10/05/2023");
 
-		const labels = generateMetricLabels("1 week");
 		const grouped = groupApplicationsByDateRange({
 			applications,
-			labels,
 			timeline: "1 week",
 		});
 
