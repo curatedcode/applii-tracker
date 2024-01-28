@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Work_Sans } from "next/font/google";
 import Footer from "../components/Footer";
 import ThemeProvider from "../components/ThemeProvider";
@@ -9,6 +9,9 @@ export const metadata: Metadata = {
 	title: "Applii",
 	description:
 		"Comprehensive job application tracker, helping you organize, monitor, and manage your job applications effortlessly",
+};
+
+export const viewport: Viewport = {
 	themeColor: "#191919",
 };
 
