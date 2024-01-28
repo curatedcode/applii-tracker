@@ -49,7 +49,7 @@ export default function Navbar({ items, showSettingsGear }: NavbarProps) {
 			{({ open }) => (
 				<>
 					<div className="flex h-16 items-center justify-between sm:justify-start">
-						<div className="flex items-center sm:hidden">
+						<div className="flex items-center sm:hidden -mr-8 sm:-mr-0">
 							<Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-0.5">
 								<span className="absolute -inset-0.5" />
 								<span className="sr-only">Open main menu</span>
