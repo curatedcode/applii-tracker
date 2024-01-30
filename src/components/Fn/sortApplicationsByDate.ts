@@ -1,9 +1,9 @@
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import { SortByValueType } from "@/src/types/global";
 import dayjs from "dayjs";
 
 export type SortApplicationsByDateProps = {
-	applications: FullApplicationType[];
+	applications: ApplicationType[];
 	sortBy: SortByValueType;
 };
 

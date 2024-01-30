@@ -142,4 +142,22 @@
       --gradient-border-angle: 360deg;
     }
   }
+
+	#formCardColorInputColorPicker .react-colorful {
+		width: auto;
+	}
+
+	#formCardColorInputColorPicker .react-colorful .react-colorful__saturation {
+		border-radius: 0.375rem 0.375rem 0px 0px;
+	}
+
+	#formCardColorInputColorPicker .react-colorful .react-colorful__last-control {
+		border-radius: 0px 0px 0.375rem 0.375rem;
+	}
+
+	#formCardColorInputColorPicker .react-colorful .react-colorful__pointer {
+		cursor: pointer;
+		z-index: 0;
+	}
+
 }

@@ -2,12 +2,14 @@
 	"$schema": "https://biomejs.dev/schemas/1.4.1/schema.json",
 	"files": {
 		"ignore": [
-			"node_modules/**",
-			".vscode/**",
-			"next/**",
-			".github/**",
 			".git/**",
-			"playwright-report/**"
+			".github/**",
+			".next/**",
+			".vscode/**",
+			"node_modules/**",
+			"playwright-report/**",
+			"next/**",
+			"next-end.d.ts"
 		]
 	},
 	"organizeImports": {
@@ -16,12 +18,14 @@
 	"linter": {
 		"enabled": true,
 		"ignore": [
-			"node_modules/**",
-			".vscode/**",
-			"next/**",
-			".github/**",
 			".git/**",
-			"playwright-report/**"
+			".github/**",
+			".next/**",
+			".vscode/**",
+			"node_modules/**",
+			"playwright-report/**",
+			"next/**",
+			"next-end.d.ts"
 		],
 		"rules": {
 			"recommended": true,

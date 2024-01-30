@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
-import { FullApplicationType } from "./applications";
+import { ApplicationType } from "./applications";
 
 const currentDate = dayjs();
 
-export const needToApplyMocks: FullApplicationType[] = [
+export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 2,
 		position: "Project Coordinator",
@@ -13,6 +13,7 @@ export const needToApplyMocks: FullApplicationType[] = [
 		notes: [],
 		dateCreated: currentDate.subtract(1, "week").toISOString(),
 		dateModified: "2023-08-28T06:00:00.000Z",
+		cardColor: "#30C5D2",
 	},
 	{
 		id: 3,
@@ -23,6 +24,7 @@ export const needToApplyMocks: FullApplicationType[] = [
 		notes: [],
 		dateCreated: currentDate.subtract(3, "week").toISOString(),
 		dateModified: "2023-11-12T20:00:00.000Z",
+		cardColor: "#6EF195",
 	},
 	{
 		id: 1,
@@ -34,6 +36,7 @@ export const needToApplyMocks: FullApplicationType[] = [
 		notes: [],
 		dateCreated: currentDate.subtract(1, "month").toISOString(),
 		dateModified: "2023-06-13T06:00:00.000Z",
+		cardColor: "#1C90BF",
 	},
 	{
 		id: 5,
@@ -44,6 +47,7 @@ export const needToApplyMocks: FullApplicationType[] = [
 		notes: [],
 		dateCreated: currentDate.subtract(1.5, "month").toISOString(),
 		dateModified: "2023-10-12T20:00:00.000Z",
+		cardColor: "#FCB0F3",
 	},
 	{
 		id: 4,
@@ -54,10 +58,11 @@ export const needToApplyMocks: FullApplicationType[] = [
 		notes: [],
 		dateCreated: currentDate.subtract(3, "month").toISOString(),
 		dateModified: "2023-10-12T20:00:00.000Z",
+		cardColor: "#1A2766",
 	},
 ];
 
-export const offerMocks: FullApplicationType[] = [
+export const offerMocks: ApplicationType[] = [
 	{
 		id: 11,
 		position: "Sales Representative",
@@ -70,6 +75,7 @@ export const offerMocks: FullApplicationType[] = [
 		dateApplied: "2023-11-09T04:00:00.000Z",
 		dateInterviewing: "2023-11-11T04:00:00.000Z",
 		dateOffered: "2023-11-13T04:00:00.000Z",
+		cardColor: "#FCB0F3",
 	},
 	{
 		id: 10,
@@ -83,5 +89,6 @@ export const offerMocks: FullApplicationType[] = [
 		dateApplied: "2023-10-06T04:00:00.000Z",
 		dateInterviewing: "2023-10-08T04:00:00.000Z",
 		dateOffered: "2023-10-10T04:00:00.000Z",
+		cardColor: "#F8997D",
 	},
 ];

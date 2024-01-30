@@ -20,7 +20,7 @@ export const applicationStatuses = z.enum([
 	"closed",
 ]);
 
-export const zodFullApplication = z.object({
+export const application = z.object({
 	id: z.number(),
 	position: z.string(),
 	company: z.string(),
@@ -49,50 +49,10 @@ export const zodFullApplication = z.object({
 			}),
 		)
 		.optional(),
+	cardColor: z.string(),
 });
 
-export const zodFullApplicationArray = z.array(zodFullApplication);
-
-export type ApplicationType = {
-	id: number;
-	position: string;
-	company: string;
-	postingURL?: string;
-	status: ApplicationStatusType;
-	dateCreated: string;
-	dateModified: string;
-	dateApplied?: string;
-	dateInterviewing?: string;
-	dateOffered?: string;
-	dateClosed?: string;
-};
-
-export type CreateApplicationType = {
-	position: string;
-	company: string;
-	postingURL?: string;
-	status: ApplicationStatusType;
-	dateApplied?: string;
-	dateInterviewing?: string;
-	dateOffered?: string;
-	dateClosed?: string;
-	notes?: NotesType[];
-	contacts?: ContactType[];
-};
-
-export type UpdateApplicationType = {
-	id: number;
-	position: string;
-	company: string;
-	postingURL?: string;
-	status: ApplicationStatusType;
-	dateApplied?: string;
-	dateInterviewing?: string;
-	dateOffered?: string;
-	dateClosed?: string;
-	notes?: NotesType[];
-	contacts?: ContactType[];
-};
+export type ApplicationType = z.infer<typeof application>;
 
 export type NotesType = {
 	body: string;
@@ -104,11 +64,6 @@ export type ContactType = {
 	phone?: string;
 	email?: string;
 };
-
-export type FullApplicationType = {
-	notes?: NotesType[];
-	contacts?: ContactType[];
-} & ApplicationType;
 
 export type ApplicationStatusLabelValueType = {
 	label: z.infer<typeof applicationStatusLabel>;
@@ -146,6 +101,7 @@ export const formSchema = z.object({
 		)
 		.optional(),
 	notes: z.array(z.object({ body: z.string() })).optional(),
+	cardColor: z.string(),
 });
 
 export type FormContextType = {
@@ -173,11 +129,11 @@ export type ArrayFieldProps = {
 };
 
 export type GroupedApplicationsType = {
-	needToApply: FullApplicationType[];
-	applied: FullApplicationType[];
-	interviewing: FullApplicationType[];
-	offer: FullApplicationType[];
-	closed: FullApplicationType[];
+	needToApply: ApplicationType[];
+	applied: ApplicationType[];
+	interviewing: ApplicationType[];
+	offer: ApplicationType[];
+	closed: ApplicationType[];
 };
 
 export type FormatApplicationsType = "grouped";

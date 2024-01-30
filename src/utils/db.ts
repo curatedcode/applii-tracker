@@ -3,13 +3,10 @@ import { z } from "zod";
 import groupApplicationsByStatus from "../components/Fn/groupApplicationsByStatus";
 import sortApplicationsByDate from "../components/Fn/sortApplicationsByDate";
 import {
-	CreateApplicationType,
+	ApplicationType,
 	FormatApplicationsType,
-	FullApplicationType,
 	GroupedApplicationsType,
-	UpdateApplicationType,
-	zodFullApplication,
-	zodFullApplicationArray,
+	application,
 } from "../types/applications";
 import {
 	AllData,
@@ -19,7 +16,7 @@ import {
 	SettingsNameType,
 	SettingsType,
 } from "../types/db";
-import { SortByValueType, promiseSeries } from "../types/global";
+import { Optional, SortByValueType, promiseSeries } from "../types/global";
 
 export async function applicationDB(): Promise<{
 	applications: IDBObjectStore;
@@ -73,7 +70,7 @@ export async function getApplication({
 	id,
 }: {
 	id: number;
-}): Promise<FullApplicationType> {
+}): Promise<ApplicationType> {
 	const DB = (await applicationDB()).applications;
 
 	const rawApplicationData = await new Promise((resolve, reject) => {
@@ -86,8 +83,7 @@ export async function getApplication({
 		data.onsuccess = () => resolve(data.result);
 	});
 
-	const parsedApplicationData =
-		zodFullApplication.safeParse(rawApplicationData);
+	const parsedApplicationData = application.safeParse(rawApplicationData);
 
 	if (!parsedApplicationData.success) {
 		throw new Error(
@@ -100,7 +96,7 @@ export async function getApplication({
 
 async function getAllApplications(
 	_sortBy: SortByValueType,
-): Promise<FullApplicationType[]>;
+): Promise<ApplicationType[]>;
 
 async function getAllApplications(
 	_sortBy: SortByValueType,
@@ -120,8 +116,9 @@ async function getAllApplications(sortBy: SortByValueType, format?: "grouped") {
 		data.onsuccess = () => resolve(data.result);
 	});
 
-	const parsedApplicationsData =
-		zodFullApplicationArray.safeParse(rawApplicationsData);
+	const parsedApplicationsData = z
+		.array(application)
+		.safeParse(rawApplicationsData);
 
 	if (!parsedApplicationsData.success) {
 		throw new Error(
@@ -144,33 +141,18 @@ async function getAllApplications(sortBy: SortByValueType, format?: "grouped") {
 }
 
 export async function createApplication({
-	position,
-	company,
-	postingURL,
-	dateApplied,
-	dateInterviewing,
-	dateOffered,
-	dateClosed,
-	status,
-	notes,
-	contacts,
-}: CreateApplicationType): Promise<{ id: number }> {
+	...applicationData
+}: Optional<
+	Omit<ApplicationType, "id">,
+	"dateCreated" | "dateModified"
+>): Promise<{ id: number }> {
 	const DB = (await applicationDB()).applications;
 
 	const applicationCreation = await new Promise((resolve, reject) => {
 		const data = DB.add({
-			position,
-			company,
-			postingURL,
-			status,
-			notes,
-			contacts,
+			...applicationData,
 			dateCreated: dayjs().toISOString(),
 			dateModified: dayjs().toISOString(),
-			dateApplied,
-			dateInterviewing,
-			dateOffered,
-			dateClosed,
 		});
 
 		data.onerror = (event) =>
@@ -201,7 +183,8 @@ export async function updateApplication({
 	status,
 	contacts,
 	notes,
-}: UpdateApplicationType) {
+	cardColor,
+}: Partial<ApplicationType> & { id: number }) {
 	const DB = (await applicationDB()).applications;
 
 	await new Promise((resolve, reject) => {
@@ -213,9 +196,7 @@ export async function updateApplication({
 			);
 
 		rawStoredData.onsuccess = () => {
-			const parsedStoredData = zodFullApplication.safeParse(
-				rawStoredData.result,
-			);
+			const parsedStoredData = application.safeParse(rawStoredData.result);
 
 			if (!parsedStoredData.success) {
 				reject(
@@ -241,6 +222,7 @@ export async function updateApplication({
 				status: status ?? storedData.status,
 				contacts: contacts ?? storedData.contacts,
 				notes: notes ?? storedData.notes,
+				cardColor: cardColor ?? storedData.cardColor,
 			};
 
 			const updateRequest = DB.put(mergedData);
@@ -287,7 +269,10 @@ export async function getAllSettings(): Promise<SettingsType[]> {
 
 		data.onerror = (error) =>
 			reject(`Unable to fetch all settings from database. Error: ${error}`);
-		data.onsuccess = () => resolve(data.result);
+		data.onsuccess = () => {
+			console.log(data);
+			resolve(data.result);
+		};
 	});
 
 	const parsedSettingsData = SettingsArrayType.safeParse(rawSettingsData);
@@ -356,7 +341,7 @@ export async function deleteSetting({ name }: { name: string }): Promise<void> {
 }
 
 export async function getAllData(): Promise<{
-	applications: FullApplicationType[];
+	applications: ApplicationType[];
 	settings: SettingsType[];
 }> {
 	const rawData = await new Promise((resolve) => {
@@ -408,7 +393,7 @@ export async function importData(data: ImportExportDataType): Promise<void> {
 	await promiseSeries(uploadSettings);
 }
 
-export async function importApplication(application: FullApplicationType) {
+export async function importApplication(application: ApplicationType) {
 	const DB = (await applicationDB()).applications;
 
 	await new Promise((resolve, reject) => {
@@ -422,7 +407,7 @@ export async function importApplication(application: FullApplicationType) {
 
 export async function exportData(): Promise<{
 	settings: SettingsType[];
-	applications: FullApplicationType[];
+	applications: ApplicationType[];
 }> {
 	const settings = await getAllSettings();
 	const applications = await getAllApplications("dateCreated");

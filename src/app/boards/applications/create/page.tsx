@@ -1,7 +1,9 @@
 "use client";
 
 import Button from "@/src/components/Button";
+import getRandomHexColor from "@/src/components/Fn/getRandomHexColor";
 import ContactFields from "@/src/components/Form/ContactFields";
+import FormCardColorInput from "@/src/components/Form/FormCardColorInput";
 import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import NoteFields from "@/src/components/Form/NoteFields";
@@ -46,6 +48,11 @@ export default function Create() {
 	const currentCompany = watch("company");
 
 	const currentStatus = watch("status");
+	const currentCardColor = watch("cardColor");
+
+	useEffect(() => {
+		console.log(currentCardColor, typeof currentCardColor);
+	}, [currentCardColor]);
 
 	const { usagePercent } = useStorageUsage();
 
@@ -198,6 +205,20 @@ export default function Create() {
 							error={errors.dateClosed?.message}
 							register={register}
 							className={currentStatusIndex >= 4 ? "" : "hidden"}
+						/>
+						<Controller
+							name="cardColor"
+							control={control}
+							render={({ field: { onChange } }) => (
+								<FormCardColorInput
+									id="cardColorInput"
+									label="Card Color"
+									company={currentCompany}
+									position={currentPosition}
+									color={currentCardColor ?? getRandomHexColor()}
+									setColor={onChange}
+								/>
+							)}
 						/>
 					</div>
 				</div>

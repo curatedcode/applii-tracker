@@ -1,14 +1,15 @@
 "use client";
 
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import { SortByValueType } from "@/src/types/global";
 import Link from "next/link";
+import getContrastingColor from "../Fn/getContrastingColor";
 import relativeDate from "../Fn/relativeDate";
 
 export type BoardSectionCardProps = {
 	sortBy: SortByValueType;
 	mode?: "demo";
-} & FullApplicationType;
+} & ApplicationType;
 
 export default function BoardSectionCard({
 	id,
@@ -17,8 +18,8 @@ export default function BoardSectionCard({
 	dateModified,
 	dateCreated,
 	sortBy,
-	status,
 	mode,
+	cardColor,
 }: BoardSectionCardProps) {
 	const date = relativeDate(
 		sortBy === "dateCreated" ? dateCreated : dateModified,
@@ -30,11 +31,18 @@ export default function BoardSectionCard({
 			? `/demo/applications/${position}-at-${company}?id=${id}`
 			: `/boards/applications/${position}-at-${company}?id=${id}`;
 
+	const hexColor = cardColor.slice(1);
+
 	return (
 		<Link
 			href={applicationLink}
-			className={`bg-card-${status} h-board-section-card rounded-md px-3 py-2 text-black`}
+			className="h-board-section-card rounded-md px-3 py-2"
 			data-testid="board-section-card"
+			data-axe-ignore={true}
+			style={{
+				backgroundColor: cardColor,
+				color: getContrastingColor(hexColor),
+			}}
 			aria-label={`Open application for ${position} at ${company}`}
 		>
 			<div className="relative flex h-full flex-col justify-between">

@@ -28,6 +28,7 @@ export default function Application() {
 		dateInterviewing,
 		dateOffered,
 		dateClosed,
+		cardColor,
 	} = application;
 
 	return (
@@ -76,6 +77,16 @@ export default function Application() {
 						{status === "closed" && dateClosed && (
 							<ULItem label="Closed on" body={formatDate(dateClosed)} />
 						)}
+						<li className="grid gap-1 xs:flex xs:gap-2 items-center">
+							<span className="min-w-[8rem] max-w-[8rem] font-semibold">
+								Card color:
+							</span>
+							<span
+								title={cardColor}
+								className="h-4 w-12"
+								style={{ backgroundColor: cardColor }}
+							/>
+						</li>
 					</ul>
 				</div>
 				<div className="grid w-full gap-8">

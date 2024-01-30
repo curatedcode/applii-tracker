@@ -1,6 +1,6 @@
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 
-export const needToApplyMocks: FullApplicationType[] = [
+export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 1,
 		position: "Marketing Manager",
@@ -38,6 +38,7 @@ export const needToApplyMocks: FullApplicationType[] = [
 		],
 		dateCreated: "2023-06-13T04:00:00.000Z",
 		dateModified: "2023-06-13T06:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 2,
@@ -55,6 +56,7 @@ export const needToApplyMocks: FullApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-08-28T04:00:00.000Z",
 		dateModified: "2023-08-28T06:00:00.000Z",
+		cardColor: "#1565c0",
 	},
 	{
 		id: 3,
@@ -72,6 +74,7 @@ export const needToApplyMocks: FullApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-07-28T04:00:00.000Z",
 		dateModified: "2023-11-12T20:00:00.000Z",
+		cardColor: "#2e7d32",
 	},
 	{
 		id: 4,
@@ -82,6 +85,7 @@ export const needToApplyMocks: FullApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-04-28T04:00:00.000Z",
 		dateModified: "2023-10-12T20:00:00.000Z",
+		cardColor: "#f9a825",
 	},
 	{
 		id: 5,
@@ -113,10 +117,11 @@ export const needToApplyMocks: FullApplicationType[] = [
 		],
 		dateCreated: "2023-04-28T04:00:00.000Z",
 		dateModified: "2023-10-12T20:00:00.000Z",
+		cardColor: "#6a1b9a",
 	},
 ];
 
-export const appliedMocks: FullApplicationType[] = [
+export const appliedMocks: ApplicationType[] = [
 	{
 		id: 6,
 		position: "Data Analyst",
@@ -131,6 +136,7 @@ export const appliedMocks: FullApplicationType[] = [
 		dateCreated: "2023-10-08T04:00:00.000Z",
 		dateModified: "2023-10-08T06:00:00.000Z",
 		dateApplied: "2023-10-10T04:00:00.000Z",
+		cardColor: "#ef6c00",
 	},
 	{
 		id: 7,
@@ -175,6 +181,7 @@ export const appliedMocks: FullApplicationType[] = [
 		dateCreated: "2023-07-17T04:00:00.000Z",
 		dateModified: "2023-07-17T06:00:00.000Z",
 		dateApplied: "2023-07-22T04:00:00.000Z",
+		cardColor: "#4e342e",
 	},
 	{
 		id: 8,
@@ -205,10 +212,11 @@ export const appliedMocks: FullApplicationType[] = [
 		dateCreated: "2023-09-03T04:00:00.000Z",
 		dateModified: "2023-10-10T06:00:00.000Z",
 		dateApplied: "2023-09-05T04:00:00.000Z",
+		cardColor: "#37474f",
 	},
 ];
 
-export const interviewingMocks: FullApplicationType[] = [
+export const interviewingMocks: ApplicationType[] = [
 	{
 		id: 9,
 		position: "Human Resources Specialist",
@@ -241,10 +249,11 @@ export const interviewingMocks: FullApplicationType[] = [
 		dateModified: "2023-05-22T06:00:00.000Z",
 		dateApplied: "2023-05-24T04:00:00.000Z",
 		dateInterviewing: "2023-05-26T04:00:00.000Z",
+		cardColor: "#ad1457",
 	},
 ];
 
-export const offerMocks: FullApplicationType[] = [
+export const offerMocks: ApplicationType[] = [
 	{
 		id: 10,
 		position: "Human Resources Specialist",
@@ -267,6 +276,7 @@ export const offerMocks: FullApplicationType[] = [
 		dateApplied: "2023-10-06T04:00:00.000Z",
 		dateInterviewing: "2023-10-08T04:00:00.000Z",
 		dateOffered: "2023-10-10T04:00:00.000Z",
+		cardColor: "#00838f",
 	},
 	{
 		id: 11,
@@ -293,10 +303,11 @@ export const offerMocks: FullApplicationType[] = [
 		dateApplied: "2023-11-09T04:00:00.000Z",
 		dateInterviewing: "2023-11-11T04:00:00.000Z",
 		dateOffered: "2023-11-13T04:00:00.000Z",
+		cardColor: "#fdd835",
 	},
 ];
 
-export const closedMocks: FullApplicationType[] = [
+export const closedMocks: ApplicationType[] = [
 	{
 		id: 12,
 		position: "Sales Representative",
@@ -324,6 +335,7 @@ export const closedMocks: FullApplicationType[] = [
 		dateInterviewing: "2023-11-09T04:00:00.000Z",
 		dateOffered: "2023-11-11T04:00:00.000Z",
 		dateClosed: "2023-11-13T04:00:00.000Z",
+		cardColor: "#009688",
 	},
 ];
 

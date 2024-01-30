@@ -14,13 +14,16 @@ export default function Toaster() {
 				},
 				error: {
 					icon: (
-						<XCircleIcon className="w-6 text-card-closed" aria-hidden="true" />
+						<XCircleIcon
+							className="w-6 text-applii-closed"
+							aria-hidden="true"
+						/>
 					),
 				},
 				success: {
 					icon: (
 						<CheckCircleIcon
-							className="w-6 text-card-applied"
+							className="w-6 text-applii-applied"
 							aria-hidden="true"
 						/>
 					),

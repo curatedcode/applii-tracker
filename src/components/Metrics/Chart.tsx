@@ -45,8 +45,8 @@ export function Chart({ data, totalApplications }: ChartProps) {
 				<p>Rotate your device to view the chart</p>
 			</div>
 			<div
-				id="metricsChart"
 				className="mb-4 hidden h-96 w-full overflow-hidden text-light-text dark:text-dark-text sm:flex"
+				data-axe-ignore={true}
 			>
 				<ResponsiveBar
 					data={data}

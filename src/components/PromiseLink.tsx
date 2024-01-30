@@ -91,7 +91,7 @@ export default function PromiseLink({
 				aria-label="error"
 				className={`${defaultFocusHoverClasses} pointer-events-none flex h-fit min-w-button cursor-wait items-center justify-center gap-1 whitespace-nowrap rounded-md bg-light-secondary px-5 py-1.5 text-center text-sm font-medium dark:bg-dark-secondary ${className}`}
 			>
-				<XCircleIcon className="w-6 text-card-closed" aria-hidden="true" />
+				<XCircleIcon className="w-6 text-applii-closed" aria-hidden="true" />
 				{error}
 			</div>
 		);

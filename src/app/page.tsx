@@ -85,7 +85,7 @@ export default function Home() {
 						<div className="flex animate-shift-gradient-x flex-col gap-2 rounded-md bg-gradient-to-bl from-light-primary to-light-secondary px-4 py-3 ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary">
 							<h2 className="flex items-center gap-2 text-lg font-semibold">
 								<RectangleStackIcon
-									className="w-5 text-card-needToApply"
+									className="w-5 text-applii-needToApply"
 									aria-hidden="true"
 								/>
 								Organize applications
@@ -99,7 +99,7 @@ export default function Home() {
 						<div className="flex animate-shift-gradient-x flex-col gap-2 rounded-md bg-gradient-to-bl from-light-primary to-light-secondary px-4 py-3 ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary">
 							<h2 className="flex items-center gap-2 text-lg font-semibold">
 								<ChartPieIcon
-									className="w-5 text-card-interviewing"
+									className="w-5 text-applii-interviewing"
 									aria-hidden="true"
 								/>
 								Monitor your progress
@@ -113,7 +113,7 @@ export default function Home() {
 						<div className="flex animate-shift-gradient-x flex-col gap-2 rounded-md bg-gradient-to-bl from-light-primary to-light-secondary px-4 py-3 ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary">
 							<h2 className="flex items-center gap-2 text-lg font-semibold">
 								<DevicePhoneMobileIcon
-									className="w-5 text-card-offer"
+									className="w-5 text-applii-offer"
 									aria-hidden="true"
 								/>
 								Local-first
@@ -127,7 +127,7 @@ export default function Home() {
 						<div className="flex animate-shift-gradient-x flex-col gap-2 rounded-md bg-gradient-to-bl from-light-primary to-light-secondary px-4 py-3 ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary">
 							<h2 className="flex items-center gap-2 text-lg font-semibold">
 								<LockOpenIcon
-									className="w-5 text-card-applied"
+									className="w-5 text-applii-applied"
 									aria-hidden="true"
 								/>
 								Open-source

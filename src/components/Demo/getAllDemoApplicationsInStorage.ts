@@ -1,12 +1,13 @@
 import {
+	ApplicationType,
 	FormatApplicationsType,
-	FullApplicationType,
 	GroupedApplicationsType,
-	zodFullApplicationArray,
+	application,
 } from "@/src/types/applications";
+import { z } from "zod";
 import groupApplicationsByStatus from "../Fn/groupApplicationsByStatus";
 
-function getAllDemoApplicationsInStorage(): FullApplicationType[] | undefined;
+function getAllDemoApplicationsInStorage(): ApplicationType[] | undefined;
 
 function getAllDemoApplicationsInStorage(
 	_format: FormatApplicationsType,
@@ -20,9 +21,9 @@ function getAllDemoApplicationsInStorage(format?: "grouped") {
 
 	if (!applicationsInStorage) return;
 
-	const storedApps = zodFullApplicationArray.safeParse(
-		JSON.parse(applicationsInStorage),
-	);
+	const storedApps = z
+		.array(application)
+		.safeParse(JSON.parse(applicationsInStorage));
 
 	if (!storedApps.success) return;
 

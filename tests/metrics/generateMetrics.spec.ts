@@ -1,5 +1,5 @@
 import generateMetrics from "@/src/components/Metrics/generateMetrics";
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import { statusColors } from "@/src/types/global";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
@@ -495,7 +495,7 @@ describe("generates metrics", () => {
 	});
 });
 
-const applications: FullApplicationType[] = [
+const applications: ApplicationType[] = [
 	{
 		id: 1,
 		position: "Marketing Manager",

@@ -1,4 +1,4 @@
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import { TimelineType } from "@/src/types/global";
 import { FormattedChartDataType } from "@/src/types/metrics";
 import formatApplicationData from "./formatApplicationData";
@@ -9,7 +9,7 @@ import groupApplicationsByDateRange from "./groupApplicationsByDateRange";
 
 export type GenerateMetricsProps = {
 	timeline: TimelineType;
-	applications: FullApplicationType[];
+	applications: ApplicationType[];
 };
 
 export type GenerateMetricsReturnType = {

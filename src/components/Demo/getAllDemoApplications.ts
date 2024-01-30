@@ -1,6 +1,6 @@
 import {
+	ApplicationType,
 	FormatApplicationsType,
-	FullApplicationType,
 	GroupedApplicationsType,
 } from "@/src/types/applications";
 import { SortByValueType } from "@/src/types/global";
@@ -14,9 +14,7 @@ import {
 	offerMocks,
 } from "./mockDemoVariables";
 
-function getAllDemoApplications(
-	_sortBy: SortByValueType,
-): FullApplicationType[];
+function getAllDemoApplications(_sortBy: SortByValueType): ApplicationType[];
 
 function getAllDemoApplications(
 	_sortBy: SortByValueType,

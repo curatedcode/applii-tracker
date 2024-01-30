@@ -1,7 +1,9 @@
 "use client";
 
 import Button from "@/src/components/Button";
+import getRandomHexColor from "@/src/components/Fn/getRandomHexColor";
 import ContactsFields from "@/src/components/Form/ContactFields";
+import FormCardColorInput from "@/src/components/Form/FormCardColorInput";
 import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import NoteFields from "@/src/components/Form/NoteFields";
@@ -46,6 +48,7 @@ export default function FormEdit() {
 	const currentStatus = watch("status");
 	const currentPosition = watch("position");
 	const currentCompany = watch("company");
+	const currentCardColor = watch("cardColor");
 
 	const { usagePercent } = useStorageUsage();
 
@@ -236,6 +239,20 @@ export default function FormEdit() {
 							error={errors.dateClosed?.message}
 							register={register}
 							className={currentStatusIndex >= 4 ? "" : "hidden"}
+						/>
+						<Controller
+							name="cardColor"
+							control={control}
+							render={({ field: { onChange } }) => (
+								<FormCardColorInput
+									id="cardColorInput"
+									label="Card Color"
+									company={currentCompany}
+									position={currentPosition}
+									color={currentCardColor ?? getRandomHexColor()}
+									setColor={onChange}
+								/>
+							)}
 						/>
 					</div>
 				</div>

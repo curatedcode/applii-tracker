@@ -1,7 +1,6 @@
-import AxeBuilder from "@axe-core/playwright";
-import test, { expect } from "@playwright/test";
+import { expect, test } from "../axe-test";
 
-test("homepage", async ({ page }) => {
+test("homepage", async ({ page, axeBuilder }) => {
 	await page.goto("/demo");
 
 	// set dark mode
@@ -11,12 +10,12 @@ test("homepage", async ({ page }) => {
 
 	await page.waitForSelector("#loadingHome", { state: "attached" });
 
-	const results = await new AxeBuilder({ page }).analyze();
+	const accessibilityResults = await axeBuilder().analyze();
 
-	expect(results.violations).toEqual([]);
+	expect(accessibilityResults.violations).toEqual([]);
 });
 
-test("create page", async ({ page }) => {
+test("create page", async ({ page, axeBuilder }) => {
 	await page.goto("/demo/applications/create");
 
 	// set dark mode
@@ -24,12 +23,12 @@ test("create page", async ({ page }) => {
 		localStorage.setItem("theme", "dark");
 	});
 
-	const results = await new AxeBuilder({ page }).analyze();
+	const accessibilityResults = await axeBuilder().analyze();
 
-	expect(results.violations).toEqual([]);
+	expect(accessibilityResults.violations).toEqual([]);
 });
 
-test("metrics", async ({ page }) => {
+test("metrics", async ({ page, axeBuilder }) => {
 	await page.goto("/demo/applications/metrics");
 
 	// set dark mode
@@ -39,10 +38,7 @@ test("metrics", async ({ page }) => {
 
 	await page.waitForSelector("#loadingMetrics", { state: "attached" });
 
-	// exclude nivo chart as most aria is not controlled by me.
-	const results = await new AxeBuilder({ page })
-		.exclude("#metricsChart")
-		.analyze();
+	const accessibilityResults = await axeBuilder().analyze();
 
-	expect(results.violations).toEqual([]);
+	expect(accessibilityResults.violations).toEqual([]);
 });
