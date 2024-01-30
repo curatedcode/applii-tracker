@@ -7,10 +7,10 @@ dayjs.extend(updateLocale);
 
 dayjs.updateLocale("en", {
 	relativeTime: {
-		past: "1m",
-		s: "1m",
-		m: "1m",
-		mm: "%dm",
+		past: "1min",
+		s: "%ds",
+		m: "1min",
+		mm: "%dmin",
 		h: "1h",
 		hh: "%dh",
 		d: "1d",
@@ -35,20 +35,26 @@ dayjs.updateLocale("en", {
 			{ l: "yy", d: "year" },
 		],
 	},
+	rounding: Math.floor,
 });
 
 export default function relativeDate(
 	date: string,
 	sortBy: SortByValueType,
-): {
-	time: string;
-	title: string;
-} {
-	const currentDate = dayjs();
-	const dateFrom = currentDate.from(date, true);
+): { time: string; title: string } {
+	let dateFrom = dayjs().from(date, true);
 
-	if (sortBy === "dateCreated") {
-		return { time: dateFrom, title: `Created ${dateFrom} ago` };
+	if (dateFrom === "0s") {
+		dateFrom = "Now";
 	}
-	return { time: dateFrom, title: `Updated ${dateFrom} ago` };
+
+	const titleBase = dateFrom === "Now" ? "now" : `${dateFrom} ago`;
+
+	return {
+		time: dateFrom,
+		title:
+			sortBy === "dateCreated"
+				? `Created ${titleBase}`
+				: `Updated ${titleBase}`,
+	};
 }
