@@ -143,12 +143,6 @@
     }
   }
 
-	#cardColorInput > .react-colorful__saturation {
-		/* border-top-left-radius: 999% !important ;
-		border-top-right-radius: 0.375rem !important ; */
-		margin: 4px;
-	}
-
 	#formCardColorInputColorPicker .react-colorful {
 		width: auto;
 	}
@@ -163,6 +157,7 @@
 
 	#formCardColorInputColorPicker .react-colorful .react-colorful__pointer {
 		cursor: pointer;
+		z-index: 0;
 	}
 
 }
