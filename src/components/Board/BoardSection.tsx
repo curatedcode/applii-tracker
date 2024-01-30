@@ -1,6 +1,6 @@
 import {
 	ApplicationStatusType,
-	FullApplicationType,
+	ApplicationType,
 	applicationStatusLabel,
 } from "@/src/types/applications";
 import { SortByValueType } from "@/src/types/global";
@@ -18,7 +18,7 @@ import BoardSectionCard from "./BoardSectionCard";
 
 export type BoardSectionProps = {
 	title: z.infer<typeof applicationStatusLabel>;
-	cards: FullApplicationType[];
+	cards: ApplicationType[];
 	sortBy: SortByValueType;
 	mode?: "demo";
 	status: ApplicationStatusType;
@@ -40,25 +40,28 @@ export default function BoardSection({
 		switch (status) {
 			case "needToApply":
 				return (
-					<ClockIcon className="w-5 text-card-needToApply" aria-hidden="true" />
+					<ClockIcon
+						className="w-5 text-applii-needToApply"
+						aria-hidden="true"
+					/>
 				);
 			case "applied":
-				return <EnvelopeIcon className="w-5 text-card-applied" />;
+				return <EnvelopeIcon className="w-5 text-applii-applied" />;
 			case "interviewing":
 				return (
 					<ChatBubbleBottomCenterTextIcon
-						className="w-5 text-card-interviewing"
+						className="w-5 text-applii-interviewing"
 						aria-hidden="true"
 					/>
 				);
 			case "offer":
 				return (
-					<TrophyIcon className="w-5 text-card-offer" aria-hidden="true" />
+					<TrophyIcon className="w-5 text-applii-offer" aria-hidden="true" />
 				);
 			case "closed":
 				return (
 					<ArchiveBoxXMarkIcon
-						className="w-5 text-card-closed"
+						className="w-5 text-applii-closed"
 						aria-hidden="true"
 					/>
 				);

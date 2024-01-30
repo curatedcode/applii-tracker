@@ -1,4 +1,4 @@
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import { TimelineType } from "@/src/types/global";
 import {
 	ApplicationsInDateRangeType,
@@ -9,7 +9,7 @@ import isBetween from "dayjs/plugin/isBetween";
 dayjs.extend(isBetween);
 
 export type GroupApplicationsByDateRangeProps = {
-	applications: FullApplicationType[];
+	applications: ApplicationType[];
 	timeline: TimelineType;
 };
 

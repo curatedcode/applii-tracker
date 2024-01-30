@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { FullApplicationType, zodFullApplicationArray } from "./applications";
+import { ApplicationType, application } from "./applications";
 
 const SettingsNames = z.enum(["syncInterval", "theme"]);
 
@@ -21,11 +21,11 @@ export const syncSettingsSchema = z.object({
 });
 
 export const AllData = z.object({
-	applications: zodFullApplicationArray,
+	applications: z.array(application),
 	settings: SettingsArrayType,
 });
 
 export type ImportExportDataType = {
-	applications: FullApplicationType[];
+	applications: ApplicationType[];
 	settings: SettingsType[];
 };

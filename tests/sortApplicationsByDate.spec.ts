@@ -1,5 +1,5 @@
 import sortApplicationsByDate from "@/src/components/Fn/sortApplicationsByDate";
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import { describe, expect, test } from "vitest";
 
 describe("sorts applications in desc order", () => {
@@ -302,7 +302,7 @@ describe("sorts applications in desc order", () => {
 	});
 });
 
-const applications: FullApplicationType[] = [
+const applications: ApplicationType[] = [
 	{
 		id: 1,
 		position: "Marketing Manager",

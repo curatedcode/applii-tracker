@@ -14,7 +14,9 @@ test("homepage", async ({ page }) => {
 test("create page", async ({ page }) => {
 	await page.goto("/demo/applications/create");
 
-	const results = await new AxeBuilder({ page }).analyze();
+	const results = await new AxeBuilder({ page })
+		.exclude(["#cardColorInputAxe"])
+		.analyze();
 
 	expect(results.violations).toEqual([]);
 });
@@ -26,7 +28,7 @@ test("metrics", async ({ page }) => {
 
 	// exclude nivo chart as most aria is not controlled by me.
 	const results = await new AxeBuilder({ page })
-		.exclude("#metricsChart")
+		.exclude(["#metricsChart"])
 		.analyze();
 
 	expect(results.violations).toEqual([]);

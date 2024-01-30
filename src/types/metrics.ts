@@ -1,4 +1,4 @@
-import { FullApplicationType } from "./applications";
+import { ApplicationType } from "./applications";
 
 export type ChartDataType = {
 	date: string;
@@ -19,7 +19,7 @@ export const chartStageKeys = [
 
 export type ApplicationsInDateRangeType = {
 	label: string;
-	applications: FullApplicationType[];
+	applications: ApplicationType[];
 };
 
 export const timelineUnits = {

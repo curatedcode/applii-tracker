@@ -47,7 +47,7 @@ const config: Config = {
 					tertiary: "#dadad8",
 					text: "#37352f",
 				},
-				card: {
+				applii: {
 					needToApply: "#ADD8E6",
 					applied: "#22C55E",
 					interviewing: "#FFDB58",
@@ -99,11 +99,6 @@ const config: Config = {
 		hoverOnlyWhenSupported: true,
 	},
 	safelist: [
-		"bg-card-needToApply",
-		"bg-card-applied",
-		"bg-card-interviewing",
-		"bg-card-offer",
-		"bg-card-closed",
 		"outline-none",
 		"transition-colors",
 		"focus-within:outline-none",

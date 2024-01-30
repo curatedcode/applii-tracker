@@ -1,9 +1,7 @@
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import getAllApplicationsInStorage from "./getAllDemoApplicationsInStorage";
 
-export default function createDemoApplication(
-	application: FullApplicationType,
-) {
+export default function createDemoApplication(application: ApplicationType) {
 	if (!window || !window.sessionStorage) return;
 
 	const applicationsInStorage = getAllApplicationsInStorage();

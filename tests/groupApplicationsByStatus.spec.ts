@@ -1,5 +1,5 @@
 import groupApplicationsByStatus from "@/src/components/Fn/groupApplicationsByStatus";
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import { expect, test } from "vitest";
 
 test("groups applications by status", () => {
@@ -158,7 +158,7 @@ test("groups applications by status", () => {
 	});
 });
 
-const applications: FullApplicationType[] = [
+const applications: ApplicationType[] = [
 	{
 		id: 1,
 		position: "Marketing Manager",

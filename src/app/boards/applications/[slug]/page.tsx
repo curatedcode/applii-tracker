@@ -7,7 +7,7 @@ import Modal from "@/src/components/Modals/Modal";
 import ULItem from "@/src/components/ULItem";
 import {
 	ApplicationStatusType,
-	FullApplicationType,
+	ApplicationType,
 } from "@/src/types/applications";
 import { deleteApplication, getApplication } from "@/src/utils/db";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -17,7 +17,7 @@ export default function Application() {
 	const id = Number(useSearchParams().get("id"));
 	const router = useRouter();
 
-	const [application, setApplication] = useState<FullApplicationType>();
+	const [application, setApplication] = useState<ApplicationType>();
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
 	function readableStatus(status: ApplicationStatusType) {
@@ -53,6 +53,7 @@ export default function Application() {
 		dateInterviewing,
 		dateOffered,
 		dateClosed,
+		cardColor,
 	} = application;
 
 	return (
@@ -123,6 +124,16 @@ export default function Application() {
 						{status === "closed" && dateClosed && (
 							<ULItem label="Closed on" body={formatDate(dateClosed)} />
 						)}
+						<li className="grid gap-1 xs:flex xs:gap-2 items-center">
+							<span className="min-w-[8rem] max-w-[8rem] font-semibold">
+								Card color:
+							</span>
+							<span
+								title={cardColor}
+								className="h-4 w-12"
+								style={{ backgroundColor: cardColor }}
+							/>
+						</li>
 					</ul>
 				</div>
 				<div className="grid w-full gap-8">

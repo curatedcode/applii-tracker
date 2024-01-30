@@ -1,13 +1,13 @@
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 
 export default function groupApplicationsByStatus(
-	applications: FullApplicationType[],
+	applications: ApplicationType[],
 ) {
-	const needToApply: FullApplicationType[] = [];
-	const applied: FullApplicationType[] = [];
-	const interviewing: FullApplicationType[] = [];
-	const offer: FullApplicationType[] = [];
-	const closed: FullApplicationType[] = [];
+	const needToApply: ApplicationType[] = [];
+	const applied: ApplicationType[] = [];
+	const interviewing: ApplicationType[] = [];
+	const offer: ApplicationType[] = [];
+	const closed: ApplicationType[] = [];
 
 	for (let i = 0; i < applications.length; i++) {
 		const application = applications[i];

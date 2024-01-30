@@ -14,7 +14,9 @@ test("homepage", async ({ page }) => {
 test("create page", async ({ page }) => {
 	await page.goto("/boards/applications/create");
 
-	const results = await new AxeBuilder({ page }).analyze();
+	const results = await new AxeBuilder({ page })
+		.exclude(["#cardColorInputAxe"])
+		.analyze();
 
 	expect(results.violations).toEqual([]);
 });

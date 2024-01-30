@@ -1,11 +1,11 @@
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ClockIcon, TrophyIcon } from "@heroicons/react/24/solid";
 import BoardSectionCard from "./BoardSectionCard";
 
 export type LandingBoardSectionProps = {
 	title: "Need To Apply" | "Offer";
-	cards: FullApplicationType[];
+	cards: ApplicationType[];
 	className?: string;
 };
 
@@ -22,11 +22,11 @@ export default function BoardSection({
 				<h2 className="flex gap-2 text-lg font-medium">
 					{title === "Need To Apply" ? (
 						<ClockIcon
-							className="w-5 text-card-needToApply"
+							className="w-5 text-applii-needToApply"
 							aria-hidden="true"
 						/>
 					) : (
-						<TrophyIcon className="w-5 text-card-offer" aria-hidden="true" />
+						<TrophyIcon className="w-5 text-applii-offer" aria-hidden="true" />
 					)}
 					<span>{title}</span>
 				</h2>

@@ -1,4 +1,4 @@
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
 import { statusColors } from "@/src/types/global";
 import {
 	ApplicationsInDateRangeType,
@@ -11,11 +11,11 @@ export default function formatApplicationData(
 	const dataFormatted = data.map((data) => {
 		const { label, applications } = data;
 
-		const needToApplyApps: FullApplicationType[] = [];
-		const appliedApps: FullApplicationType[] = [];
-		const interviewingApps: FullApplicationType[] = [];
-		const offerApps: FullApplicationType[] = [];
-		const closedApps: FullApplicationType[] = [];
+		const needToApplyApps: ApplicationType[] = [];
+		const appliedApps: ApplicationType[] = [];
+		const interviewingApps: ApplicationType[] = [];
+		const offerApps: ApplicationType[] = [];
+		const closedApps: ApplicationType[] = [];
 
 		for (const application of applications) {
 			const status = application.status;

@@ -1,17 +1,21 @@
-import { FullApplicationType } from "@/src/types/applications";
+import { ApplicationType } from "@/src/types/applications";
+import getContrastYIQ from "../Fn/getContrastYIQ";
 import relativeDate from "../Fn/relativeDate";
 
 export default function BoardSectionCard({
 	position,
 	company,
 	dateCreated,
-	status,
-}: FullApplicationType) {
+	cardColor,
+}: ApplicationType) {
 	const date = relativeDate(dateCreated, "dateCreated");
+
+	const hexColor = cardColor.slice(1);
 
 	return (
 		<div
-			className={`bg-card-${status} h-board-section-card rounded-md px-3 py-2 text-black`}
+			className="h-board-section-card rounded-md px-3 py-2 text-black"
+			style={{ backgroundColor: cardColor, color: getContrastYIQ(hexColor) }}
 		>
 			<div className="relative flex h-full flex-col justify-between">
 				<div className="grid font-medium">

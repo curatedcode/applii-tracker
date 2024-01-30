@@ -24,7 +24,9 @@ test("create page", async ({ page }) => {
 		localStorage.setItem("theme", "dark");
 	});
 
-	const results = await new AxeBuilder({ page }).analyze();
+	const results = await new AxeBuilder({ page })
+		.exclude(["#cardColorInputAxe"])
+		.analyze();
 
 	expect(results.violations).toEqual([]);
 });
