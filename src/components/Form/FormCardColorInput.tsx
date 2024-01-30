@@ -33,7 +33,7 @@ function FormCardColorInput({
 	if (!isMounted) return <div className="h-[304px]" />;
 
 	return (
-		<div className="grid gap-1" id={`${id}Axe`}>
+		<div className="grid gap-1" data-axe-ignore={true}>
 			<div className="flex flex-col md:flex-row md:gap-1">
 				<label
 					htmlFor={id}

@@ -1,7 +1,6 @@
-import AxeBuilder from "@axe-core/playwright";
-import test, { expect } from "@playwright/test";
+import { expect, test } from "../axe-test";
 
-test("landing page", async ({ page }) => {
+test("landing page", async ({ page, axeBuilder }) => {
 	await page.goto("/");
 
 	// set light mode
@@ -9,10 +8,7 @@ test("landing page", async ({ page }) => {
 		localStorage.setItem("theme", "light");
 	});
 
-	// ignore particles background
-	const results = await new AxeBuilder({ page })
-		.exclude("#particlesBG")
-		.analyze();
+	const accessibilityResults = await axeBuilder().analyze();
 
-	expect(results.violations).toEqual([]);
+	expect(accessibilityResults.violations).toEqual([]);
 });

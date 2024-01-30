@@ -1,63 +1,63 @@
-import getContrastYIQ from "@/src/components/Fn/getContrastYIQ";
+import getContrastingColor from "@/src/components/Fn/getContrastingColor";
 import { describe, expect, test } from "vitest";
 
 describe("is black text readable", () => {
 	test("returns black", () => {
-		const result = getContrastYIQ("ffffff");
+		const result = getContrastingColor("ffffff");
 
 		expect(result).toEqual("black");
 	});
 
 	test("returns white", () => {
-		const result = getContrastYIQ("000000");
+		const result = getContrastingColor("000000");
 
 		expect(result).toEqual("white");
 	});
 
 	test("returns white", () => {
-		const result = getContrastYIQ("EF4444");
+		const result = getContrastingColor("EF4444");
 
 		expect(result).toEqual("white");
 	});
 
 	test("returns black", () => {
-		const result = getContrastYIQ("FAA31B");
+		const result = getContrastingColor("FAA31B");
 
 		expect(result).toEqual("black");
 	});
 
 	test("returns black", () => {
-		const result = getContrastYIQ("FFF000");
+		const result = getContrastingColor("FFF000");
 
 		expect(result).toEqual("black");
 	});
 
 	test("returns black", () => {
-		const result = getContrastYIQ("82C341");
+		const result = getContrastingColor("82C341");
 
 		expect(result).toEqual("black");
 	});
 
 	test("returns white", () => {
-		const result = getContrastYIQ("009F75");
+		const result = getContrastingColor("009F75");
 
 		expect(result).toEqual("white");
 	});
 
 	test("returns black", () => {
-		const result = getContrastYIQ("88C6ED");
+		const result = getContrastingColor("88C6ED");
 
 		expect(result).toEqual("black");
 	});
 
 	test("returns white", () => {
-		const result = getContrastYIQ("394BA0");
+		const result = getContrastingColor("394BA0");
 
 		expect(result).toEqual("white");
 	});
 
 	test("returns white", () => {
-		const result = getContrastYIQ("D54799");
+		const result = getContrastingColor("D54799");
 
 		expect(result).toEqual("white");
 	});

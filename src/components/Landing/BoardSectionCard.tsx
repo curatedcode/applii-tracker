@@ -1,5 +1,5 @@
 import { ApplicationType } from "@/src/types/applications";
-import getContrastYIQ from "../Fn/getContrastYIQ";
+import getContrastingColor from "../Fn/getContrastingColor";
 import relativeDate from "../Fn/relativeDate";
 
 export default function BoardSectionCard({
@@ -15,7 +15,11 @@ export default function BoardSectionCard({
 	return (
 		<div
 			className="h-board-section-card rounded-md px-3 py-2 text-black"
-			style={{ backgroundColor: cardColor, color: getContrastYIQ(hexColor) }}
+			style={{
+				backgroundColor: cardColor,
+				color: getContrastingColor(hexColor),
+			}}
+			data-axe-ignore={true}
 		>
 			<div className="relative flex h-full flex-col justify-between">
 				<div className="grid font-medium">

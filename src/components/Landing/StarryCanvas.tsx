@@ -93,9 +93,9 @@ export default function StarryCanvas() {
 	if (init)
 		return (
 			<Particles
-				id="particlesBG"
 				className="pointer-events-none fixed z-[-1] h-full w-full"
 				options={options}
+				data-axe-ignore={true}
 			/>
 		);
 

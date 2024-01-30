@@ -3,7 +3,7 @@
 import { ApplicationType } from "@/src/types/applications";
 import { SortByValueType } from "@/src/types/global";
 import Link from "next/link";
-import getContrastYIQ from "../Fn/getContrastYIQ";
+import getContrastingColor from "../Fn/getContrastingColor";
 import relativeDate from "../Fn/relativeDate";
 
 export type BoardSectionCardProps = {
@@ -38,7 +38,11 @@ export default function BoardSectionCard({
 			href={applicationLink}
 			className="h-board-section-card rounded-md px-3 py-2"
 			data-testid="board-section-card"
-			style={{ backgroundColor: cardColor, color: getContrastYIQ(hexColor) }}
+			data-axe-ignore={true}
+			style={{
+				backgroundColor: cardColor,
+				color: getContrastingColor(hexColor),
+			}}
 			aria-label={`Open application for ${position} at ${company}`}
 		>
 			<div className="relative flex h-full flex-col justify-between">

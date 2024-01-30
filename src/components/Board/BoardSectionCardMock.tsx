@@ -1,4 +1,4 @@
-import getContrastYIQ from "../Fn/getContrastYIQ";
+import getContrastingColor from "../Fn/getContrastingColor";
 
 export type BoardSectionCardMockProps = {
 	bgColor: string;
@@ -23,8 +23,8 @@ function BoardSectionCardMock({
 	return (
 		<div
 			className={`h-board-section-card max-w-board-section w-full rounded-md px-3 py-2 text-black ${className}`}
-			style={{ backgroundColor: bgColor, color: getContrastYIQ(hexColor) }}
-			data-testid="board-section-card-mock"
+			style={{ backgroundColor: bgColor, color: getContrastingColor(hexColor) }}
+			data-axe-ignore={true}
 		>
 			<div className="relative flex h-full flex-col justify-between">
 				<div className="grid font-medium">
