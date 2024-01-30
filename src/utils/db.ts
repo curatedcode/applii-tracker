@@ -9,12 +9,11 @@ import {
 	application,
 } from "../types/applications";
 import {
-	AllData,
 	ImportExportDataType,
-	SettingType,
-	SettingsArrayType,
 	SettingsNameType,
 	SettingsType,
+	allData,
+	settingsKeyValue,
 } from "../types/db";
 import { Optional, SortByValueType, promiseSeries } from "../types/global";
 
@@ -270,12 +269,13 @@ export async function getAllSettings(): Promise<SettingsType[]> {
 		data.onerror = (error) =>
 			reject(`Unable to fetch all settings from database. Error: ${error}`);
 		data.onsuccess = () => {
-			console.log(data);
 			resolve(data.result);
 		};
 	});
 
-	const parsedSettingsData = SettingsArrayType.safeParse(rawSettingsData);
+	const parsedSettingsData = z
+		.array(settingsKeyValue)
+		.safeParse(rawSettingsData);
 
 	if (!parsedSettingsData.success) {
 		throw new Error(
@@ -305,7 +305,7 @@ export async function getSetting({
 		return undefined;
 	}
 
-	const parsedSettingData = SettingType.safeParse(rawSettingData);
+	const parsedSettingData = settingsKeyValue.safeParse(rawSettingData);
 
 	if (!parsedSettingData.success) {
 		throw new Error(
@@ -352,7 +352,7 @@ export async function getAllData(): Promise<{
 		);
 	});
 
-	const parsedData = AllData.safeParse(rawData);
+	const parsedData = allData.safeParse(rawData);
 
 	if (!parsedData.success) {
 		throw new Error(

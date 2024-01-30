@@ -28,11 +28,14 @@ import {
 	ArrowUpTrayIcon,
 } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
+dayjs.extend(relativeTime);
 
 export default function Settings() {
 	const { triggerSync } = useSync();
@@ -50,6 +53,8 @@ export default function Settings() {
 	const [showFileImportModal, setShowFileImportModal] = useState(false);
 
 	const [isMounted, setIsMounted] = useState(false);
+
+	const [lastSuccessfulSync, setLastSuccessfulSync] = useState("Never");
 
 	function submitSyncSettings() {
 		const { syncInterval } = getFormSettingValues();
@@ -164,6 +169,12 @@ export default function Settings() {
 		getAllSettings().then((allSettings) => {
 			const syncInterval = allSettings.find(
 				(setting) => setting.name === "syncInterval",
+			);
+			const lastSynced = allSettings.find(
+				(setting) => setting.name === "lastSuccessfulSync",
+			);
+			setLastSuccessfulSync(
+				lastSynced ? dayjs(lastSynced.value).fromNow() : "Never",
 			);
 			setFormSettingValue(
 				"syncInterval",
@@ -303,6 +314,7 @@ export default function Settings() {
 					<div className="mb-6 space-y-1">
 						<h2 className="text-xl font-medium">Sync</h2>
 						<p className="text-sm">Edit your sync settings</p>
+						<p className="text-sm">Last synced {lastSuccessfulSync}</p>
 					</div>
 					<div className="grid gap-4">
 						<Button onClick={() => triggerSync()}>Trigger sync manually</Button>

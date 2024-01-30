@@ -1,7 +1,8 @@
 "use client";
 
-import { getSetting } from "@/src/utils/db";
+import { getSetting, updateSetting } from "@/src/utils/db";
 import syncData from "@/src/utils/syncData";
+import dayjs from "dayjs";
 import {
 	createContext,
 	useCallback,
@@ -36,7 +37,12 @@ export default function SyncProvider({
 
 	const triggerSync = useCallback(() => {
 		if (forceStop) return;
-		const syncPromise = syncData();
+		const syncPromise = syncData().then(() =>
+			updateSetting({
+				name: "lastSuccessfulSync",
+				value: dayjs().toISOString(),
+			}),
+		);
 
 		toast.promise(syncPromise, {
 			success: "Synced successfully",

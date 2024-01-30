@@ -1,17 +1,16 @@
 import { z } from "zod";
 import { ApplicationType, application } from "./applications";
 
-const SettingsNames = z.enum(["syncInterval", "theme"]);
+const SettingsNames = z.enum(["syncInterval", "theme", "lastSuccessfulSync"]);
 
 export type SettingsNameType = z.infer<typeof SettingsNames>;
 
-export const SettingType = z.object({ name: SettingsNames, value: z.string() });
+export const settingsKeyValue = z.object({
+	name: SettingsNames,
+	value: z.string(),
+});
 
-export type SettingsType = z.infer<typeof SettingType>;
-
-export const SettingsArrayType = z.array(
-	z.object({ name: SettingsNames, value: z.string() }),
-);
+export type SettingsType = z.infer<typeof settingsKeyValue>;
 
 export const syncSettingsSchema = z.object({
 	syncInterval: z
@@ -20,9 +19,9 @@ export const syncSettingsSchema = z.object({
 		.optional(),
 });
 
-export const AllData = z.object({
+export const allData = z.object({
 	applications: z.array(application),
-	settings: SettingsArrayType,
+	settings: z.array(settingsKeyValue),
 });
 
 export type ImportExportDataType = {
