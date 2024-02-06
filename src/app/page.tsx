@@ -79,7 +79,7 @@ export default function Home() {
 						</div>
 					</div>
 				</section>
-				<section id="features">
+				<section id="features" className="scroll-mt-12">
 					<h1 className="sr-only">Features</h1>
 					<div className="grid gap-8 sm:auto-rows-fr sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
 						<div className="flex animate-shift-gradient-x flex-col gap-2 rounded-md bg-gradient-to-bl from-light-primary to-light-secondary px-4 py-3 ring-2 ring-light-secondary dark:from-dark-primary dark:via-dark-primary dark:to-dark-secondary dark:ring-dark-secondary">
@@ -146,7 +146,7 @@ export default function Home() {
 						</div>
 					</div>
 				</section>
-				<section id="faq" className="mt-40">
+				<section id="faq" className="mt-40 scroll-mt-12">
 					<FAQAccordion />
 				</section>
 			</main>
