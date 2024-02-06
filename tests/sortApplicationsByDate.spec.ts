@@ -19,6 +19,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-07-28T04:00:00.000Z",
 				dateModified: "2023-11-12T20:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 11,
@@ -32,6 +33,7 @@ describe("sorts applications in desc order", () => {
 				dateApplied: "2023-11-09T04:00:00.000Z",
 				dateInterviewing: "2023-11-11T04:00:00.000Z",
 				dateOffered: "2023-11-13T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 12,
@@ -47,6 +49,7 @@ describe("sorts applications in desc order", () => {
 				dateInterviewing: "2023-11-09T04:00:00.000Z",
 				dateOffered: "2023-11-11T04:00:00.000Z",
 				dateClosed: "2023-11-13T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 4,
@@ -57,6 +60,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-04-28T05:00:00.000Z",
 				dateModified: "2023-10-12T21:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 5,
@@ -67,6 +71,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-04-28T04:00:00.000Z",
 				dateModified: "2023-10-12T20:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 6,
@@ -79,6 +84,7 @@ describe("sorts applications in desc order", () => {
 				dateCreated: "2023-10-08T04:00:00.000Z",
 				dateModified: "2023-10-08T06:00:00.000Z",
 				dateApplied: "2023-10-10T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 10,
@@ -92,6 +98,7 @@ describe("sorts applications in desc order", () => {
 				dateApplied: "2023-10-06T04:00:00.000Z",
 				dateInterviewing: "2023-10-08T04:00:00.000Z",
 				dateOffered: "2023-10-10T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 8,
@@ -103,6 +110,7 @@ describe("sorts applications in desc order", () => {
 				dateCreated: "2023-09-05T04:00:00.000Z",
 				dateModified: "2023-09-05T06:00:00.000Z",
 				dateApplied: "2023-09-07T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 2,
@@ -113,6 +121,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-08-28T04:00:00.000Z",
 				dateModified: "2023-08-28T06:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 7,
@@ -124,6 +133,7 @@ describe("sorts applications in desc order", () => {
 				dateCreated: "2023-07-17T04:00:00.000Z",
 				dateModified: "2023-07-17T06:00:00.000Z",
 				dateApplied: "2023-07-22T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 1,
@@ -135,6 +145,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-06-13T04:00:00.000Z",
 				dateModified: "2023-06-13T06:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 9,
@@ -148,6 +159,7 @@ describe("sorts applications in desc order", () => {
 				dateModified: "2023-05-22T06:00:00.000Z",
 				dateApplied: "2023-05-24T04:00:00.000Z",
 				dateInterviewing: "2023-05-26T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 		]);
 	});
@@ -171,6 +183,7 @@ describe("sorts applications in desc order", () => {
 				dateApplied: "2023-11-09T04:00:00.000Z",
 				dateInterviewing: "2023-11-11T04:00:00.000Z",
 				dateOffered: "2023-11-13T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 12,
@@ -186,6 +199,7 @@ describe("sorts applications in desc order", () => {
 				dateInterviewing: "2023-11-09T04:00:00.000Z",
 				dateOffered: "2023-11-11T04:00:00.000Z",
 				dateClosed: "2023-11-13T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 6,
@@ -198,6 +212,7 @@ describe("sorts applications in desc order", () => {
 				dateCreated: "2023-10-08T04:00:00.000Z",
 				dateModified: "2023-10-08T06:00:00.000Z",
 				dateApplied: "2023-10-10T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 10,
@@ -211,6 +226,7 @@ describe("sorts applications in desc order", () => {
 				dateApplied: "2023-10-06T04:00:00.000Z",
 				dateInterviewing: "2023-10-08T04:00:00.000Z",
 				dateOffered: "2023-10-10T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 8,
@@ -222,6 +238,7 @@ describe("sorts applications in desc order", () => {
 				dateCreated: "2023-09-05T04:00:00.000Z",
 				dateModified: "2023-09-05T06:00:00.000Z",
 				dateApplied: "2023-09-07T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 2,
@@ -232,6 +249,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-08-28T04:00:00.000Z",
 				dateModified: "2023-08-28T06:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 3,
@@ -242,6 +260,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-07-28T04:00:00.000Z",
 				dateModified: "2023-11-12T20:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 7,
@@ -253,6 +272,7 @@ describe("sorts applications in desc order", () => {
 				dateCreated: "2023-07-17T04:00:00.000Z",
 				dateModified: "2023-07-17T06:00:00.000Z",
 				dateApplied: "2023-07-22T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 1,
@@ -264,6 +284,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-06-13T04:00:00.000Z",
 				dateModified: "2023-06-13T06:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 9,
@@ -277,6 +298,7 @@ describe("sorts applications in desc order", () => {
 				dateModified: "2023-05-22T06:00:00.000Z",
 				dateApplied: "2023-05-24T04:00:00.000Z",
 				dateInterviewing: "2023-05-26T04:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 4,
@@ -287,6 +309,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-04-28T05:00:00.000Z",
 				dateModified: "2023-10-12T21:00:00.000Z",
+				cardColor: "#c62828",
 			},
 			{
 				id: 5,
@@ -297,6 +320,7 @@ describe("sorts applications in desc order", () => {
 				notes: [],
 				dateCreated: "2023-04-28T04:00:00.000Z",
 				dateModified: "2023-10-12T20:00:00.000Z",
+				cardColor: "#c62828",
 			},
 		]);
 	});
@@ -313,6 +337,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-06-13T04:00:00.000Z",
 		dateModified: "2023-06-13T06:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 2,
@@ -323,6 +348,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-08-28T04:00:00.000Z",
 		dateModified: "2023-08-28T06:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 3,
@@ -333,6 +359,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-07-28T04:00:00.000Z",
 		dateModified: "2023-11-12T20:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 4,
@@ -343,6 +370,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-04-28T05:00:00.000Z",
 		dateModified: "2023-10-12T21:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 5,
@@ -353,6 +381,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-04-28T04:00:00.000Z",
 		dateModified: "2023-10-12T20:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 6,
@@ -365,6 +394,7 @@ const applications: ApplicationType[] = [
 		dateCreated: "2023-10-08T04:00:00.000Z",
 		dateModified: "2023-10-08T06:00:00.000Z",
 		dateApplied: "2023-10-10T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 7,
@@ -376,6 +406,7 @@ const applications: ApplicationType[] = [
 		dateCreated: "2023-07-17T04:00:00.000Z",
 		dateModified: "2023-07-17T06:00:00.000Z",
 		dateApplied: "2023-07-22T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 8,
@@ -387,6 +418,7 @@ const applications: ApplicationType[] = [
 		dateCreated: "2023-09-05T04:00:00.000Z",
 		dateModified: "2023-09-05T06:00:00.000Z",
 		dateApplied: "2023-09-07T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 9,
@@ -400,6 +432,7 @@ const applications: ApplicationType[] = [
 		dateModified: "2023-05-22T06:00:00.000Z",
 		dateApplied: "2023-05-24T04:00:00.000Z",
 		dateInterviewing: "2023-05-26T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 10,
@@ -413,6 +446,7 @@ const applications: ApplicationType[] = [
 		dateApplied: "2023-10-06T04:00:00.000Z",
 		dateInterviewing: "2023-10-08T04:00:00.000Z",
 		dateOffered: "2023-10-10T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 11,
@@ -426,6 +460,7 @@ const applications: ApplicationType[] = [
 		dateApplied: "2023-11-09T04:00:00.000Z",
 		dateInterviewing: "2023-11-11T04:00:00.000Z",
 		dateOffered: "2023-11-13T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 12,
@@ -441,5 +476,6 @@ const applications: ApplicationType[] = [
 		dateInterviewing: "2023-11-09T04:00:00.000Z",
 		dateOffered: "2023-11-11T04:00:00.000Z",
 		dateClosed: "2023-11-13T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 ];

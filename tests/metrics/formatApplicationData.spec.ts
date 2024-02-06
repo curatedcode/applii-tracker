@@ -20,6 +20,7 @@ test("returns data in correct format", () => {
 					notes: [],
 					dateCreated: "2023-04-28T04:00:00.000Z",
 					dateModified: "2023-10-12T20:00:00.000Z",
+					cardColor: "#c62828",
 				},
 				{
 					id: 5,
@@ -30,6 +31,7 @@ test("returns data in correct format", () => {
 					notes: [],
 					dateCreated: "2023-04-28T04:00:00.000Z",
 					dateModified: "2023-10-12T20:00:00.000Z",
+					cardColor: "#c62828",
 				},
 			],
 		},
@@ -48,6 +50,7 @@ test("returns data in correct format", () => {
 					dateModified: "2023-05-22T06:00:00.000Z",
 					dateApplied: "2023-05-24T04:00:00.000Z",
 					dateInterviewing: "2023-05-26T04:00:00.000Z",
+					cardColor: "#c62828",
 				},
 			],
 		},
