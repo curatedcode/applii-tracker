@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import ExternalLink from "@/src/components/ExternalLink";
 import BoardSection from "@/src/components/Landing/BoardSection";
 import FAQAccordion from "@/src/components/Landing/FAQAccordion";

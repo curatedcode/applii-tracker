@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
 import { Disclosure, Transition } from "@headlessui/react";
 import {
 	Bars3Icon,
@@ -50,7 +49,7 @@ export default function Navbar({ items, showSettingsGear }: NavbarProps) {
 				<>
 					<div className="flex h-16 items-center justify-between sm:justify-start">
 						<div className="flex items-center sm:hidden -mr-8 sm:-mr-0">
-							<Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-0.5">
+							<Disclosure.Button className="relative inline-flex items-center justify-center rounded-md">
 								<span className="absolute -inset-0.5" />
 								<span className="sr-only">Open main menu</span>
 								{open ? (
@@ -60,7 +59,7 @@ export default function Navbar({ items, showSettingsGear }: NavbarProps) {
 								)}
 							</Disclosure.Button>
 						</div>
-						<Link tabIndex={-1} href="/" className="mx-auto sm:mx-0">
+						<Link tabIndex={-1} href="/" className="pl-7 sm:pl-0">
 							<img
 								className="h-8"
 								src="/media/applii-logo.svg"
@@ -127,6 +126,7 @@ export default function Navbar({ items, showSettingsGear }: NavbarProps) {
 												: "border-l-transparent"
 										}`}
 										aria-current={item.current ? "page" : undefined}
+										onClick={() => setCurrentItem(item.href)}
 									>
 										{item.name}
 									</Disclosure.Button>
