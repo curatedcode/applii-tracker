@@ -33,7 +33,7 @@ describe("generates metrics", () => {
 
 		expect(chartData).toStrictEqual([
 			{
-				date: "Nov",
+				date: "Nov, 2022",
 				"Need To Apply": 0,
 				"Need To ApplyColor": statusColors.needToApply,
 				Applied: 0,
@@ -46,7 +46,7 @@ describe("generates metrics", () => {
 				ClosedColor: statusColors.closed,
 			},
 			{
-				date: "Dec",
+				date: "Dec, 2022",
 				"Need To Apply": 0,
 				"Need To ApplyColor": statusColors.needToApply,
 				Applied: 0,
@@ -506,6 +506,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-06-13T04:00:00.000Z",
 		dateModified: "2023-06-13T06:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 2,
@@ -516,6 +517,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-08-28T04:00:00.000Z",
 		dateModified: "2023-08-28T06:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 3,
@@ -526,6 +528,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-07-28T04:00:00.000Z",
 		dateModified: "2023-11-12T20:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 4,
@@ -536,6 +539,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-04-28T04:00:00.000Z",
 		dateModified: "2023-10-12T20:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 5,
@@ -546,6 +550,7 @@ const applications: ApplicationType[] = [
 		notes: [],
 		dateCreated: "2023-04-28T04:00:00.000Z",
 		dateModified: "2023-10-12T20:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 6,
@@ -558,6 +563,7 @@ const applications: ApplicationType[] = [
 		dateCreated: "2023-10-08T04:00:00.000Z",
 		dateModified: "2023-10-08T06:00:00.000Z",
 		dateApplied: "2023-10-10T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 7,
@@ -569,6 +575,7 @@ const applications: ApplicationType[] = [
 		dateCreated: "2023-07-17T04:00:00.000Z",
 		dateModified: "2023-07-17T06:00:00.000Z",
 		dateApplied: "2023-07-22T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 8,
@@ -580,6 +587,7 @@ const applications: ApplicationType[] = [
 		dateCreated: "2023-09-03T04:00:00.000Z",
 		dateModified: "2023-09-03T06:00:00.000Z",
 		dateApplied: "2023-09-05T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 9,
@@ -593,6 +601,7 @@ const applications: ApplicationType[] = [
 		dateModified: "2023-05-22T06:00:00.000Z",
 		dateApplied: "2023-05-24T04:00:00.000Z",
 		dateInterviewing: "2023-05-26T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 10,
@@ -606,6 +615,7 @@ const applications: ApplicationType[] = [
 		dateApplied: "2023-10-06T04:00:00.000Z",
 		dateInterviewing: "2023-10-08T04:00:00.000Z",
 		dateOffered: "2023-10-10T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 11,
@@ -619,6 +629,7 @@ const applications: ApplicationType[] = [
 		dateApplied: "2023-11-09T04:00:00.000Z",
 		dateInterviewing: "2023-11-11T04:00:00.000Z",
 		dateOffered: "2023-11-13T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 	{
 		id: 12,
@@ -634,5 +645,6 @@ const applications: ApplicationType[] = [
 		dateInterviewing: "2023-11-09T04:00:00.000Z",
 		dateOffered: "2023-11-11T04:00:00.000Z",
 		dateClosed: "2023-11-13T04:00:00.000Z",
+		cardColor: "#c62828",
 	},
 ];

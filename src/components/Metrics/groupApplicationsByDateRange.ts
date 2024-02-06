@@ -25,16 +25,15 @@ export default function groupApplicationsByDateRange({
 	const applicationsInDateRange: ApplicationsInDateRangeType[] = [];
 
 	const labels: string[] = [];
-	const currentDate = dayjs();
 
 	for (let i = 0; i < timelineUnits[timeline]; i++) {
 		if (timeline === "1 year" || timeline === "6 months") {
-			const dateOffset = currentDate.subtract(i, "months");
+			const dateOffset = dayjs().subtract(i, "months");
 			labels.unshift(dateOffset.toISOString());
 		}
 
 		if (timeline === "1 month") {
-			const dateOffsetEnd = currentDate.subtract(i * 7 + i, "days");
+			const dateOffsetEnd = dayjs().subtract(i * 7 + i, "days");
 			const dateOffsetStart = dateOffsetEnd.subtract(7, "days");
 
 			const date = `${dateOffsetStart.toISOString()} ${dateOffsetEnd.toISOString()}`;
@@ -43,28 +42,51 @@ export default function groupApplicationsByDateRange({
 		}
 
 		if (timeline === "1 week") {
-			const dateOffset = currentDate.subtract(i, "days");
+			const dateOffset = dayjs().subtract(i, "days");
 			labels.unshift(dateOffset.toISOString());
 		}
 	}
 
 	for (let i = 0; i < timelineUnits[timeline]; i++) {
-		let label: string;
+		let label = "";
+		const labelAsDayjs = dayjs(labels[i]);
 
-		switch (timeline) {
-			case "1 week":
-				label = dayjs(labels[i]).format("MM/DD");
-				break;
-			case "1 month": {
-				const startDate = labels[i].split(" ")[0];
-				const endDate = labels[i].split(" ")[1];
-				label = `${dayjs(startDate).format("MM/DD")} - ${dayjs(endDate).format(
-					"MM/DD",
-				)}`;
-				break;
+		if (timeline === "1 week") {
+			if (labelAsDayjs.year() === dayjs().year()) {
+				label = labelAsDayjs.format("MM/DD");
+			} else {
+				label = labelAsDayjs.format("MM/DD/YY");
 			}
-			default:
-				label = dayjs(labels[i]).format("MMM");
+		}
+
+		if (timeline === "1 month") {
+			const startDate = dayjs(labels[i].split(" ")[0]);
+			const endDate = dayjs(labels[i].split(" ")[1]);
+
+			let firstHalf: string;
+			let secondHalf: string;
+
+			if (startDate.year() === dayjs().year()) {
+				firstHalf = startDate.format("MM/DD");
+			} else {
+				firstHalf = startDate.format("MM/DD/YY");
+			}
+
+			if (startDate.year() === dayjs().year()) {
+				secondHalf = endDate.format("MM/DD");
+			} else {
+				secondHalf = endDate.format("MM/DD/YY");
+			}
+
+			label = `${firstHalf} - ${secondHalf}`;
+		}
+
+		if (timeline === "6 months" || timeline === "1 year") {
+			if (labelAsDayjs.year() === dayjs().year()) {
+				label = labelAsDayjs.format("MMM");
+			} else {
+				label = labelAsDayjs.format("MMM, YYYY");
+			}
 		}
 
 		applicationsInDateRange.push({ label, applications: [] });
