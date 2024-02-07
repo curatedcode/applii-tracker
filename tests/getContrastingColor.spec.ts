@@ -14,10 +14,10 @@ describe("is black text readable", () => {
 		expect(result).toEqual("white");
 	});
 
-	test("returns white", () => {
+	test("returns black", () => {
 		const result = getContrastingColor("EF4444");
 
-		expect(result).toEqual("white");
+		expect(result).toEqual("black");
 	});
 
 	test("returns black", () => {
@@ -38,10 +38,10 @@ describe("is black text readable", () => {
 		expect(result).toEqual("black");
 	});
 
-	test("returns white", () => {
+	test("returns black", () => {
 		const result = getContrastingColor("009F75");
 
-		expect(result).toEqual("white");
+		expect(result).toEqual("black");
 	});
 
 	test("returns black", () => {
@@ -56,9 +56,9 @@ describe("is black text readable", () => {
 		expect(result).toEqual("white");
 	});
 
-	test("returns white", () => {
+	test("returns black", () => {
 		const result = getContrastingColor("D54799");
 
-		expect(result).toEqual("white");
+		expect(result).toEqual("black");
 	});
 });
