@@ -1,9 +1,9 @@
-import {
+import type {
 	ApplicationStatusType,
 	ApplicationType,
 	applicationStatusLabel,
 } from "@/src/types/applications";
-import { SortByValueType } from "@/src/types/global";
+import type { SortByValueType } from "@/src/types/global";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import {
 	ArchiveBoxXMarkIcon,
@@ -13,31 +13,51 @@ import {
 	TrophyIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { z } from "zod";
+import type { z } from "zod";
+import LandingBoardSectionCard from "../Landing/BoardSectionCard";
 import BoardSectionCard from "./BoardSectionCard";
 
-export type BoardSectionProps = {
+type DefaultSectionType = {
+	mode?: "default";
 	title: z.infer<typeof applicationStatusLabel>;
-	cards: ApplicationType[];
 	sortBy: SortByValueType;
-	mode?: "demo";
 	status: ApplicationStatusType;
 };
 
-export default function BoardSection({
-	title,
-	cards,
-	mode,
-	status,
-	...cardProps
-}: BoardSectionProps) {
-	const createLink =
-		mode === "demo"
-			? `/demo/applications/create?status=${status}`
-			: `/boards/applications/create?status=${status}`;
+type DemoSectionType = {
+	mode: "demo";
+	title: z.infer<typeof applicationStatusLabel>;
+	sortBy: SortByValueType;
+};
+
+type LandingSectionType = {
+	mode: "landing";
+	title: "Need To Apply" | "Offer";
+};
+
+export type BoardSectionProps = {
+	cards: ApplicationType[];
+	className?: string;
+	status: ApplicationStatusType;
+} & (DefaultSectionType | DemoSectionType | LandingSectionType);
+
+export default function BoardSection(props: BoardSectionProps) {
+	const { mode, cards, className } = props;
+	let quickCreateLink = "";
+
+	switch (mode) {
+		case "demo":
+			quickCreateLink = `/demo/applications/create?status=${props}`;
+			break;
+		case "landing":
+			quickCreateLink = "";
+			break;
+		default:
+			quickCreateLink = `/boards/applications/create?status=${props.status}`;
+	}
 
 	function Icon(): React.ReactNode {
-		switch (status) {
+		switch (props.status) {
 			case "needToApply":
 				return (
 					<ClockIcon
@@ -69,29 +89,49 @@ export default function BoardSection({
 	}
 
 	return (
-		<div className="grid w-full max-w-board-section gap-1 rounded-md border-[3px] border-light-secondary bg-light-secondary p-1 py-2 ring-2 ring-light-tertiary dark:border-dark-secondary dark:bg-dark-secondary dark:ring-dark-tertiary">
+		<div
+			className={`grid w-full max-w-board-section gap-1 rounded-md border-[3px] border-light-secondary bg-light-secondary p-1 py-2 ring-2 ring-light-tertiary dark:border-dark-secondary dark:bg-dark-secondary dark:ring-dark-tertiary text-light-text dark:text-dark-text ${className}`}
+		>
 			<div className="relative flex items-center justify-between gap-1 px-2">
 				<h2 className="flex gap-2 text-lg font-medium">
 					{Icon()}
-					<span>{title}</span>
+					<span>{props.title}</span>
 				</h2>
-				<Link href={createLink} aria-label={`Create new ${title} application`}>
-					<PlusCircleIcon
-						className="h-6 w-6 transition-opacity hover:opacity-80"
-						aria-hidden="true"
-					/>
-				</Link>
+				{mode === "landing" ? (
+					<div>
+						<PlusCircleIcon
+							className="h-6 w-6 transition-opacity hover:opacity-80"
+							aria-hidden="true"
+						/>
+					</div>
+				) : (
+					<Link
+						href={quickCreateLink}
+						aria-label={`Create new ${props.title} application`}
+					>
+						<PlusCircleIcon
+							className="h-6 w-6 transition-opacity hover:opacity-80"
+							aria-hidden="true"
+						/>
+					</Link>
+				)}
 			</div>
 			<div className="grid h-board-section w-full auto-rows-min gap-2 overflow-auto px-2 py-1">
 				{cards.length > 0 ? (
-					cards.map((card) => (
-						<BoardSectionCard
-							key={crypto.randomUUID()}
-							mode={mode}
-							{...card}
-							{...cardProps}
-						/>
-					))
+					mode === "landing" ? (
+						cards.map((card) => (
+							<LandingBoardSectionCard key={card.id} {...card} />
+						))
+					) : (
+						cards.map((card) => (
+							<BoardSectionCard
+								key={card.id}
+								mode={mode}
+								sortBy={props.sortBy}
+								{...card}
+							/>
+						))
+					)
 				) : (
 					<span className="mt-4 justify-self-center">
 						Nothing to show yet...

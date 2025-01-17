@@ -10,7 +10,7 @@ import NoteFields from "@/src/components/Form/NoteFields";
 import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
 import Modal from "@/src/components/Modals/Modal";
 import {
-	ApplicationStatusLabelValueType,
+	type ApplicationStatusLabelValueType,
 	applicationStatusSelectOptions,
 	applicationStatuses,
 	applicationStatusesArray,
@@ -23,7 +23,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { z } from "zod";
+import type { z } from "zod";
 
 export default function Create() {
 	const searchParams = useSearchParams();

@@ -1,4 +1,4 @@
-import { ApplicationType } from "@/src/types/applications";
+import type { ApplicationType } from "@/src/types/applications";
 import dayjs from "dayjs";
 
 export const needToApplyMocks: ApplicationType[] = [

@@ -1,8 +1,12 @@
 import { applicationStatusLabel } from "@/src/types/applications";
 import { statusColors } from "@/src/types/global";
-import { BarTooltipProps, ComputedDatum, ResponsiveBar } from "@nivo/bar";
 import {
-	FormattedChartDataType,
+	type BarTooltipProps,
+	type ComputedDatum,
+	ResponsiveBar,
+} from "@nivo/bar";
+import {
+	type FormattedChartDataType,
 	chartStageKeys,
 	colorVisibleAcrossThemes,
 } from "../../types/metrics";
@@ -12,7 +16,7 @@ export type ChartProps = {
 	totalApplications: number;
 };
 
-export function Chart({ data, totalApplications }: ChartProps) {
+export default function Chart({ data, totalApplications }: ChartProps) {
 	function getBarColor(e: ComputedDatum<FormattedChartDataType>): `#${string}` {
 		const isStatus = applicationStatusLabel.safeParse(e.id);
 		if (!isStatus.success) return colorVisibleAcrossThemes;

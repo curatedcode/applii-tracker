@@ -4,11 +4,11 @@ import BoardSection from "@/src/components/Board/BoardSection";
 import getAllDemoApplications from "@/src/components/Demo/getAllDemoApplications";
 import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
 import SelectInput from "@/src/components/SelectInput";
-import { GroupedApplicationsType } from "@/src/types/applications";
+import type { GroupedApplicationsType } from "@/src/types/applications";
 import {
-	OptionType,
-	SortByLabelType,
-	SortByValueType,
+	type OptionType,
+	type SortByLabelType,
+	type SortByValueType,
 	sortByOptions,
 } from "@/src/types/global";
 
@@ -36,14 +36,14 @@ export default function Demo() {
 			</div>
 			<div className="mb-12 grid justify-items-center gap-2 justify-self-center text-sm md:flex md:items-center md:gap-4">
 				<h1 className="text-3xl font-semibold">All applications</h1>
-				<div className="h-0 border-l md:h-full" />
+				<div className="h-0 border-l border-l-light-tertiary dark:border-l-dark-tertiary md:h-full" />
 				<SelectInput
 					options={sortByOptions}
 					selected={sortBy}
 					setSelected={setSortBy}
 				/>
 			</div>
-			<div className="flex flex-wrap justify-center gap-4 justify-self-center">
+			<div className="flex w-full flex-wrap justify-center gap-4 justify-self-center">
 				<BoardSection
 					title="Need To Apply"
 					cards={needToApply}

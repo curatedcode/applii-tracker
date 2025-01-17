@@ -1,6 +1,6 @@
 import { DropboxAuth } from "dropbox";
 import {
-	DropboxGetAccessTokenResponse,
+	type DropboxGetAccessTokenResponse,
 	dropboxGetAccessTokenResponse,
 	dropboxTokenNames,
 } from "../types/dropbox";

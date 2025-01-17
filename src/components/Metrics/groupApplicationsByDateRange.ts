@@ -1,7 +1,7 @@
-import { ApplicationType } from "@/src/types/applications";
-import { TimelineType } from "@/src/types/global";
+import type { ApplicationType } from "@/src/types/applications";
+import type { TimelineType } from "@/src/types/global";
 import {
-	ApplicationsInDateRangeType,
+	type ApplicationsInDateRangeType,
 	timelineUnits,
 } from "@/src/types/metrics";
 import dayjs from "dayjs";

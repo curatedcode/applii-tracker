@@ -1,4 +1,4 @@
-import { SortByValueType } from "@/src/types/global";
+import type { SortByValueType } from "@/src/types/global";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";

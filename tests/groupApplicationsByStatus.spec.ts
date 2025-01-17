@@ -1,5 +1,5 @@
 import groupApplicationsByStatus from "@/src/components/Fn/groupApplicationsByStatus";
-import { ApplicationType } from "@/src/types/applications";
+import type { ApplicationType } from "@/src/types/applications";
 import { expect, test } from "vitest";
 
 test("groups applications by status", () => {

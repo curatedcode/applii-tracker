@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ApplicationType, application } from "./applications";
+import { type ApplicationType, application } from "./applications";
 
 const SettingsNames = z.enum(["syncInterval", "theme", "lastSuccessfulSync"]);
 

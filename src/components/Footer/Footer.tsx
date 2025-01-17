@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import getRandomMotivationalQuote from "./Motivational/getRandomMotivationalQuote";
+import getRandomMotivationalQuote from "../Motivational/getRandomMotivationalQuote";
 
 export default function Footer() {
 	const motivationalQuote = getRandomMotivationalQuote();

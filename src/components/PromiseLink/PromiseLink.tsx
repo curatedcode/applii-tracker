@@ -2,8 +2,8 @@
 
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
-import { defaultFocusHoverClasses } from "../types/global";
-import LoadingSpinnerIcon from "./LoadingSpinnerIcon";
+import { defaultFocusHoverClasses } from "../../types/global";
+import LoadingSpinnerIcon from "../LoadingSpinnerIcon";
 
 export type PromiseLinkProps = {
 	promise: () => Promise<string>;
@@ -14,6 +14,7 @@ export type PromiseLinkProps = {
 	children: React.ReactNode;
 	className?: string;
 	openInNewTab?: boolean;
+	errorRetryTime?: number;
 };
 
 /**
@@ -22,9 +23,10 @@ export type PromiseLinkProps = {
  * @param error message displayed if the promise fails
  * @param maxRetries the max number of retires (default: 3)
  * @param tryAgainOnError if you want the promise to be re-run after a failure (default: false)
- * @param children this will be displayed before the link is clicked and after the promise resolves
+ * @param children this will be displayed before the link is clicked
  * @param className any classes you need
  * @param openInNewTab if you want the link to open in a new tab (default: true)
+ * @param errorRetryTime shows the initial button after a set time, in ms, after an error. Set to 0 to disable. (default: 3000)
  */
 export default function PromiseLink({
 	promise,
@@ -35,6 +37,7 @@ export default function PromiseLink({
 	tryAgainOnError = false,
 	children,
 	openInNewTab = true,
+	errorRetryTime = 3000,
 }: PromiseLinkProps) {
 	const linkRef = useRef<HTMLAnchorElement>(null);
 	const [promiseHref, setPromiseHref] = useState<string>();
@@ -68,10 +71,17 @@ export default function PromiseLink({
 		linkRef.current?.click();
 	}, [promiseHref]);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: retryPromise changes on every re-render and should not be used as a hook dependency.
 	useEffect(() => {
 		if (!isError || !tryAgainOnError) return;
 		retryPromise();
 	}, [isError, tryAgainOnError]);
+
+	useEffect(() => {
+		if (!isError) return;
+		if (errorRetryTime <= 0) return;
+		setTimeout(() => setIsError(false), errorRetryTime);
+	}, [isError, errorRetryTime]);
 
 	if (isLoading) {
 		return (

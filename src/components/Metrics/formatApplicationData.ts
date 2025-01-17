@@ -1,6 +1,6 @@
-import { ApplicationType } from "@/src/types/applications";
+import type { ApplicationType } from "@/src/types/applications";
 import { statusColors } from "@/src/types/global";
-import {
+import type {
 	ApplicationsInDateRangeType,
 	FormattedChartDataType,
 } from "@/src/types/metrics";

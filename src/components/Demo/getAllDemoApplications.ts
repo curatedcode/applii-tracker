@@ -1,9 +1,9 @@
-import {
+import type {
 	ApplicationType,
 	FormatApplicationsType,
 	GroupedApplicationsType,
 } from "@/src/types/applications";
-import { SortByValueType } from "@/src/types/global";
+import type { SortByValueType } from "@/src/types/global";
 import sortApplicationsByDate from "../Fn/sortApplicationsByDate";
 import getAllDemoApplicationsInStorage from "./getAllDemoApplicationsInStorage";
 import {

@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import getContrastingColor from "@/src/components/Fn/getContrastingColor";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import BoardSectionCardMock from "../Board/BoardSectionCardMock";
 import ErrorMessage from "./ErrorMessage";
 
-export type FormColorInputProps = {
+export type FormCardColorInputProps = {
 	id: string;
 	label: string;
 	color: string;
@@ -23,7 +24,7 @@ function FormCardColorInput({
 	error,
 	company,
 	position,
-}: FormColorInputProps) {
+}: FormCardColorInputProps) {
 	const [isMounted, setIsMounted] = useState(false);
 
 	useEffect(() => {
@@ -45,11 +46,23 @@ function FormCardColorInput({
 					<div id="formCardColorInputColorPicker" className="w-full">
 						<HexColorPicker id={id} color={color} onChange={setColor} />
 					</div>
-					<BoardSectionCardMock
-						company={company}
-						position={position}
-						bgColor={color}
-					/>
+					<div
+						className="h-board-section-card max-w-board-section w-full rounded-md relative flex flex-col justify-between px-3 py-2"
+						style={{
+							backgroundColor: color,
+							color: getContrastingColor(color.slice(1)),
+						}}
+					>
+						<div className="grid font-medium">
+							<span className="line-clamp-1">
+								{position ?? "Account Manager"}
+							</span>
+							<span className="line-clamp-1">
+								{company ?? "Leading Company"}
+							</span>
+						</div>
+						<span className="absolute bottom-2 right-3 text-sm">1m</span>
+					</div>
 				</div>
 			</div>
 			<ErrorMessage error={error} />

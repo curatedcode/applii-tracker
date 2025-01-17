@@ -1,4 +1,4 @@
-import { ArrayFieldProps } from "@/src/types/applications";
+import type { ArrayFieldProps } from "@/src/types/applications";
 import { DocumentPlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useFieldArray } from "react-hook-form";
 import Button from "../Button";

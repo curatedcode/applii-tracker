@@ -35,6 +35,7 @@ export default function useScrollbar() {
 		setScrollbarWidth(scrollbarWidth);
 	}
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: updateScrollbarWidth changes on every re-render and should not be used as a hook dependency.
 	useEffect(() => {
 		updateScrollbarWidth();
 		window.addEventListener("resize", updateScrollbarWidth);

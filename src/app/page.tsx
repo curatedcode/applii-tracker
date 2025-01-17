@@ -1,5 +1,5 @@
+import BoardSection from "@/src/components/Board/BoardSection";
 import ExternalLink from "@/src/components/ExternalLink";
-import BoardSection from "@/src/components/Landing/BoardSection";
 import FAQAccordion from "@/src/components/Landing/FAQAccordion";
 import StarryCanvas from "@/src/components/Landing/StarryCanvas";
 import Navbar from "@/src/components/Navbar";
@@ -65,12 +65,16 @@ export default function Home() {
 						<div className="relative flex rotate-2">
 							<BoardSection
 								title="Need To Apply"
+								mode="landing"
+								status="needToApply"
 								cards={needToApplyMocks}
 								className="fix-blurry-text animation-delay-1000 min-w-board-section animate-wiggle"
 							/>
 							<div className="group w-full">
 								<BoardSection
 									title="Offer"
+									mode="landing"
+									status="offer"
 									cards={offerMocks}
 									className="fix-blurry-text absolute -top-3 right-1 z-[-1] animate-wiggle transition-all group-hover:top-0 group-hover:z-[1] group-hover:rotate-2"
 								/>

@@ -1,4 +1,4 @@
-import { ApplicationType } from "./applications";
+import type { ApplicationType } from "./applications";
 
 export type ChartDataType = {
 	date: string;

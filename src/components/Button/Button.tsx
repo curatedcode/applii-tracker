@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { defaultFocusHoverClasses } from "../types/global";
+import { defaultFocusHoverClasses } from "../../types/global";
 
 export type ButtonType = {
 	as?: "button";

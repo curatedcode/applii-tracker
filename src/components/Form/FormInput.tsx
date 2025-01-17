@@ -1,5 +1,5 @@
 import { defaultFocusHoverClasses } from "@/src/types/global";
-import { UseFormRegister } from "react-hook-form";
+import type { UseFormRegister } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
 
 export type FormInputProps = {

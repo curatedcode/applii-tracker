@@ -5,7 +5,7 @@ import formatDate from "@/src/components/Fn/formatDate";
 import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
 import Modal from "@/src/components/Modals/Modal";
 import ULItem from "@/src/components/ULItem";
-import {
+import type {
 	ApplicationStatusType,
 	ApplicationType,
 } from "@/src/types/applications";
@@ -105,7 +105,7 @@ export default function Application() {
 						<ULItem
 							label="Posting URL"
 							body={postingURL ?? "None"}
-							isLink={postingURL ? true : false}
+							isLink={!!postingURL}
 						/>
 						<ULItem label="Status" body={readableStatus(status)} />
 						<ULItem label="Created on" body={formatDate(dateCreated)} />

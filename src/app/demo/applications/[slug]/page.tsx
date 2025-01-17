@@ -58,7 +58,7 @@ export default function Application() {
 						<ULItem
 							label="Posting URL"
 							body={postingURL ?? "None"}
-							isLink={postingURL ? true : false}
+							isLink={!!postingURL}
 						/>
 						<ULItem label="Status" body={readableStatus[status]} />
 						<ULItem label="Created on" body={formatDate(dateCreated)} />

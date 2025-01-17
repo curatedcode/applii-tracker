@@ -1,7 +1,7 @@
 import {
-	ApplicationType,
-	FormatApplicationsType,
-	GroupedApplicationsType,
+	type ApplicationType,
+	type FormatApplicationsType,
+	type GroupedApplicationsType,
 	application,
 } from "@/src/types/applications";
 import { z } from "zod";
