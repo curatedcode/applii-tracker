@@ -1,7 +1,7 @@
 "use client";
 
 import MetricsSkeleton from "@/src/components/Loading/MetricsSkeleton";
-import { Chart } from "@/src/components/Metrics/Chart";
+import Chart from "@/src/components/Metrics/Chart";
 import generateMetrics, {
 	GenerateMetricsReturnType,
 } from "@/src/components/Metrics/generateMetrics";

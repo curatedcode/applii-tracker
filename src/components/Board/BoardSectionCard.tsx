@@ -8,7 +8,7 @@ import relativeDate from "../Fn/relativeDate";
 
 export type BoardSectionCardProps = {
 	sortBy: SortByValueType;
-	mode?: "demo";
+	mode?: "demo" | "default";
 } & ApplicationType;
 
 export default function BoardSectionCard({
@@ -36,27 +36,21 @@ export default function BoardSectionCard({
 	return (
 		<Link
 			href={applicationLink}
-			className="h-board-section-card rounded-md px-3 py-2"
+			className="h-board-section-card rounded-md max-w-board-section w-full px-3 py-2 relative flex flex-col justify-between"
 			data-testid="board-section-card"
-			data-axe-ignore={true}
 			style={{
 				backgroundColor: cardColor,
 				color: getContrastingColor(hexColor),
 			}}
 			aria-label={`Open application for ${position} at ${company}`}
 		>
-			<div className="relative flex h-full flex-col justify-between">
-				<div className="grid font-medium">
-					<span className="line-clamp-1">{position}</span>
-					<span className="line-clamp-1">{company}</span>
-				</div>
-				<span
-					className="absolute bottom-0.5 right-0 text-sm"
-					title={date.title}
-				>
-					{date.time}
-				</span>
+			<div className="grid font-medium">
+				<span className="line-clamp-1">{position}</span>
+				<span className="line-clamp-1">{company}</span>
 			</div>
+			<span className="absolute bottom-2 right-3 text-sm" title={date.title}>
+				{date.time}
+			</span>
 		</Link>
 	);
 }

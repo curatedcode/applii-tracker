@@ -1,6 +1,6 @@
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { Toaster as ToasterRenderer } from "react-hot-toast";
-import LoadingSpinnerIcon from "./LoadingSpinnerIcon";
+import LoadingSpinnerIcon from "../LoadingSpinnerIcon";
 
 export default function Toaster() {
 	return (

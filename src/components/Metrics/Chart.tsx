@@ -12,7 +12,7 @@ export type ChartProps = {
 	totalApplications: number;
 };
 
-export function Chart({ data, totalApplications }: ChartProps) {
+export default function Chart({ data, totalApplications }: ChartProps) {
 	function getBarColor(e: ComputedDatum<FormattedChartDataType>): `#${string}` {
 		const isStatus = applicationStatusLabel.safeParse(e.id);
 		if (!isStatus.success) return colorVisibleAcrossThemes;
