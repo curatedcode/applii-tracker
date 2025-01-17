@@ -1,5 +1,5 @@
 import generateMetrics from "@/src/components/Metrics/generateMetrics";
-import { ApplicationType } from "@/src/types/applications";
+import type { ApplicationType } from "@/src/types/applications";
 import { statusColors } from "@/src/types/global";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 

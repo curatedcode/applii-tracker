@@ -1,4 +1,4 @@
-import { ApplicationType } from "@/src/types/applications";
+import type { ApplicationType } from "@/src/types/applications";
 import getAllApplicationsInStorage from "./getAllDemoApplicationsInStorage";
 
 export default function createDemoApplication(application: ApplicationType) {

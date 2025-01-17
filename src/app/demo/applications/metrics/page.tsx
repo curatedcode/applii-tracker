@@ -4,10 +4,13 @@ import getAllDemoApplications from "@/src/components/Demo/getAllDemoApplications
 import MetricsSkeleton from "@/src/components/Loading/MetricsSkeleton";
 import Chart from "@/src/components/Metrics/Chart";
 import generateMetrics, {
-	GenerateMetricsReturnType,
+	type GenerateMetricsReturnType,
 } from "@/src/components/Metrics/generateMetrics";
 import SelectInput from "@/src/components/SelectInput";
-import { TimelineLabelValueType, timelineOptions } from "@/src/types/global";
+import {
+	type TimelineLabelValueType,
+	timelineOptions,
+} from "@/src/types/global";
 import { useEffect, useState } from "react";
 
 export default function Metrics() {

@@ -1,7 +1,7 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
-import { OptionType, defaultFocusHoverClasses } from "../../types/global";
+import { type OptionType, defaultFocusHoverClasses } from "../../types/global";
 
 export type SelectInputProps<TLabel, TValue> = {
 	options: OptionType<TLabel, TValue>[];

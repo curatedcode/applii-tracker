@@ -1,6 +1,6 @@
 import formatApplicationData from "@/src/components/Metrics/formatApplicationData";
 import { statusColors } from "@/src/types/global";
-import {
+import type {
 	ApplicationsInDateRangeType,
 	FormattedChartDataType,
 } from "@/src/types/metrics";

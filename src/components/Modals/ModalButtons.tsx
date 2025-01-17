@@ -1,4 +1,4 @@
-import Button, { ButtonType, LinkType } from "../Button";
+import Button, { type ButtonType, type LinkType } from "../Button";
 
 export type ModalButtonType = {
 	body: React.ReactNode;

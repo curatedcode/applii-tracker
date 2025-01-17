@@ -4,11 +4,11 @@ import BoardSection from "@/src/components/Board/BoardSection";
 import getAllDemoApplications from "@/src/components/Demo/getAllDemoApplications";
 import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
 import SelectInput from "@/src/components/SelectInput";
-import { GroupedApplicationsType } from "@/src/types/applications";
+import type { GroupedApplicationsType } from "@/src/types/applications";
 import {
-	OptionType,
-	SortByLabelType,
-	SortByValueType,
+	type OptionType,
+	type SortByLabelType,
+	type SortByValueType,
 	sortByOptions,
 } from "@/src/types/global";
 

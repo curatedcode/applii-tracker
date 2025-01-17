@@ -1,5 +1,5 @@
 import sortApplicationsByDate from "@/src/components/Fn/sortApplicationsByDate";
-import { ApplicationType } from "@/src/types/applications";
+import type { ApplicationType } from "@/src/types/applications";
 import { describe, expect, test } from "vitest";
 
 describe("sorts applications in desc order", () => {

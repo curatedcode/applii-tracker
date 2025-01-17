@@ -1,5 +1,5 @@
 import groupApplicationsByDateRange from "@/src/components/Metrics/groupApplicationsByDateRange";
-import { ApplicationType } from "@/src/types/applications";
+import type { ApplicationType } from "@/src/types/applications";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 describe("group applications by date range", () => {

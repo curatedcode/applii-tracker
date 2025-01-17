@@ -1,5 +1,5 @@
-import { ApplicationType } from "@/src/types/applications";
-import { TimelineType } from "@/src/types/global";
+import type { ApplicationType } from "@/src/types/applications";
+import type { TimelineType } from "@/src/types/global";
 import type { Meta, StoryObj } from "@storybook/react";
 import dayjs from "dayjs";
 import Chart from "./Chart";

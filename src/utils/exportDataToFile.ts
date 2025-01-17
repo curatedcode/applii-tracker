@@ -1,6 +1,6 @@
 import jsonexport from "jsonexport";
-import { RefObject } from "react";
-import { FileExportTypeOptionsType } from "../types/file";
+import type { RefObject } from "react";
+import type { FileExportTypeOptionsType } from "../types/file";
 import { exportData } from "./db";
 
 export type ExportDataToFileProps = {

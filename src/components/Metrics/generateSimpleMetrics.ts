@@ -1,5 +1,5 @@
-import { FixedArrayType } from "@/src/types/global";
-import { ApplicationsInDateRangeType } from "@/src/types/metrics";
+import type { FixedArrayType } from "@/src/types/global";
+import type { ApplicationsInDateRangeType } from "@/src/types/metrics";
 
 export type GenerateSimpleMetricsReturnType = {
 	percentages: FixedArrayType<{ percentage: string; label: string }, 5>;

@@ -1,6 +1,6 @@
 "use client";
 
-import { OptionType, defaultFocusHoverClasses } from "@/src/types/global";
+import { type OptionType, defaultFocusHoverClasses } from "@/src/types/global";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Fragment, useEffect } from "react";
@@ -30,7 +30,7 @@ export default function FormSelectInput<
 }: FormSelectInputProps<TLabel, TValue>) {
 	useEffect(() => {
 		setSelected(options[0]);
-	}, [options[0]]);
+	}, [options[0], setSelected]);
 
 	return (
 		<div className="grid gap-1">

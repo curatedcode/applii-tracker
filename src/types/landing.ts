@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { ApplicationType } from "./applications";
+import type { ApplicationType } from "./applications";
 
 export const needToApplyMocks: ApplicationType[] = [
 	{

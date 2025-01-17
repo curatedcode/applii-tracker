@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { action } from "@storybook/addon-actions";
-import React from "react";
-import { FormProvider, UseFormReturn, useForm } from "react-hook-form";
-import { z } from "zod";
+import type React from "react";
+import { FormProvider, type UseFormReturn, useForm } from "react-hook-form";
+import type { z } from "zod";
 
 export type FormWrapperProps<TZodSchema extends z.AnyZodObject> = {
 	children: (_: {

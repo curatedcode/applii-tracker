@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { z } from "zod";
 import { FormWrapper } from "../../../.storybook/helpers";
-import FormTextarea, { FormTextareaProps } from "./FormTextarea";
+import FormTextarea, { type FormTextareaProps } from "./FormTextarea";
 
 type Story = StoryObj<typeof meta>;
 

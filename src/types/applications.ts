@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import { Control, UseFormRegister } from "react-hook-form";
+import type { Dispatch, SetStateAction } from "react";
+import type { Control, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
 
 export type ApplicationStatusType = z.infer<typeof applicationStatuses>;

@@ -1,4 +1,4 @@
-import { ApplicationType } from "@/src/types/applications";
+import type { ApplicationType } from "@/src/types/applications";
 import type { Meta, StoryObj } from "@storybook/react";
 import dayjs from "dayjs";
 import BoardSection from "./BoardSection";

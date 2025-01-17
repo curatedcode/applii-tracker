@@ -8,9 +8,9 @@ function getContrastingColor(hexColor: string) {
 		);
 	}
 
-	const r = parseInt(hexColor.substring(0, 2), 16);
-	const g = parseInt(hexColor.substring(2, 4), 16);
-	const b = parseInt(hexColor.substring(4, 6), 16);
+	const r = Number.parseInt(hexColor.substring(0, 2), 16);
+	const g = Number.parseInt(hexColor.substring(2, 4), 16);
+	const b = Number.parseInt(hexColor.substring(4, 6), 16);
 
 	const uiColors = [r / 255, g / 255, b / 255];
 

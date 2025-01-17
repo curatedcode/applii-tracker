@@ -1,9 +1,9 @@
-import { ApplicationType } from "@/src/types/applications";
-import { TimelineType } from "@/src/types/global";
-import { FormattedChartDataType } from "@/src/types/metrics";
+import type { ApplicationType } from "@/src/types/applications";
+import type { TimelineType } from "@/src/types/global";
+import type { FormattedChartDataType } from "@/src/types/metrics";
 import formatApplicationData from "./formatApplicationData";
 import generateSimpleMetrics, {
-	GenerateSimpleMetricsReturnType,
+	type GenerateSimpleMetricsReturnType,
 } from "./generateSimpleMetrics";
 import groupApplicationsByDateRange from "./groupApplicationsByDateRange";
 

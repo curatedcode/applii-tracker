@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeOption, themeOptions } from "@/src/types/global";
+import { type ThemeOption, themeOptions } from "@/src/types/global";
 import { useTheme as useNextTheme } from "next-themes";
 import { useEffect, useState } from "react";
 

@@ -71,6 +71,7 @@ export default function PromiseLink({
 		linkRef.current?.click();
 	}, [promiseHref]);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: retryPromise changes on every re-render and should not be used as a hook dependency.
 	useEffect(() => {
 		if (!isError || !tryAgainOnError) return;
 		retryPromise();

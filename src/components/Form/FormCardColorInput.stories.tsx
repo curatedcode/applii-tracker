@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import FormCardColorInput, {
-	FormCardColorInputProps,
+	type FormCardColorInputProps,
 } from "./FormCardColorInput";
 
 function Template(args: FormCardColorInputProps) {

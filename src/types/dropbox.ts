@@ -1,4 +1,4 @@
-import { DropboxResponse, files } from "dropbox";
+import type { DropboxResponse, files } from "dropbox";
 import { z } from "zod";
 
 export interface DropboxFetchFileType

@@ -1,4 +1,4 @@
-import { ApplicationType } from "@/src/types/applications";
+import type { ApplicationType } from "@/src/types/applications";
 import getContrastingColor from "../Fn/getContrastingColor";
 import relativeDate from "../Fn/relativeDate";
 

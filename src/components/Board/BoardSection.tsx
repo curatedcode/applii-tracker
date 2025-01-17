@@ -1,9 +1,9 @@
-import {
+import type {
 	ApplicationStatusType,
 	ApplicationType,
 	applicationStatusLabel,
 } from "@/src/types/applications";
-import { SortByValueType } from "@/src/types/global";
+import type { SortByValueType } from "@/src/types/global";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import {
 	ArchiveBoxXMarkIcon,
@@ -13,7 +13,7 @@ import {
 	TrophyIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { z } from "zod";
+import type { z } from "zod";
 import LandingBoardSectionCard from "../Landing/BoardSectionCard";
 import BoardSectionCard from "./BoardSectionCard";
 

@@ -3,19 +3,23 @@ import { z } from "zod";
 import groupApplicationsByStatus from "../components/Fn/groupApplicationsByStatus";
 import sortApplicationsByDate from "../components/Fn/sortApplicationsByDate";
 import {
-	ApplicationType,
-	FormatApplicationsType,
-	GroupedApplicationsType,
+	type ApplicationType,
+	type FormatApplicationsType,
+	type GroupedApplicationsType,
 	application,
 } from "../types/applications";
 import {
-	ImportExportDataType,
-	SettingsNameType,
-	SettingsType,
+	type ImportExportDataType,
+	type SettingsNameType,
+	type SettingsType,
 	allData,
 	settingsKeyValue,
 } from "../types/db";
-import { Optional, SortByValueType, promiseSeries } from "../types/global";
+import {
+	type Optional,
+	type SortByValueType,
+	promiseSeries,
+} from "../types/global";
 
 export async function applicationDB(): Promise<{
 	applications: IDBObjectStore;

@@ -1,7 +1,8 @@
 "use client";
 
 import getContrastingColor from "@/src/components/Fn/getContrastingColor";
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import ErrorMessage from "./ErrorMessage";
 

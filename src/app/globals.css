@@ -3,145 +3,145 @@
 @tailwind utilities;
 
 @layer utilities {
-  * {
-    overscroll-behavior: contain;
-  }
+	* {
+		overscroll-behavior: contain;
+	}
 
-  ::-webkit-scrollbar {
-    width: 14px;
-    height: 14px;
-    transition-property: color, background-color, border-color,
-      text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-  }
+	::-webkit-scrollbar {
+		width: 14px;
+		height: 14px;
+		transition-property: color, background-color, border-color,
+			text-decoration-color, fill, stroke;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 150ms;
+	}
 
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
 
-  ::-webkit-scrollbar-thumb {
-    background: #dadad8;
-    background-clip: padding-box;
-    border: 2px transparent solid;
-    border-radius: 100vh;
-  }
+	::-webkit-scrollbar-thumb {
+		background: #dadad8;
+		background-clip: padding-box;
+		border: 2px transparent solid;
+		border-radius: 100vh;
+	}
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #cececa;
-    background-clip: padding-box;
-    border: 2px transparent solid;
-    border-radius: 100vh;
-  }
+	::-webkit-scrollbar-thumb:hover {
+		background: #cececa;
+		background-clip: padding-box;
+		border: 2px transparent solid;
+		border-radius: 100vh;
+	}
 
-  ::-webkit-scrollbar-thumb:active {
-    background: #c1c1bd;
-    background-clip: padding-box;
-    border: 2px transparent solid;
-    border-radius: 100vh;
-  }
+	::-webkit-scrollbar-thumb:active {
+		background: #c1c1bd;
+		background-clip: padding-box;
+		border: 2px transparent solid;
+		border-radius: 100vh;
+	}
 
-  @media (prefers-color-scheme: dark) {
-    ::-webkit-scrollbar {
-      width: 14px;
-      height: 14px;
-      transition-property: color, background-color, border-color,
-        text-decoration-color, fill, stroke;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 150ms;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #414141;
-      background-clip: padding-box;
-      border: 2px transparent solid;
-      border-radius: 100vh;
-    }
+	@media (prefers-color-scheme: dark) {
+		::-webkit-scrollbar {
+			width: 14px;
+			height: 14px;
+			transition-property: color, background-color, border-color,
+				text-decoration-color, fill, stroke;
+			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+			transition-duration: 150ms;
+		}
+		::-webkit-scrollbar-thumb {
+			background: #414141;
+			background-clip: padding-box;
+			border: 2px transparent solid;
+			border-radius: 100vh;
+		}
 
-    ::-webkit-scrollbar-thumb:hover {
-      background: #515151;
-      background-clip: padding-box;
-      border: 2px transparent solid;
-      border-radius: 100vh;
-    }
+		::-webkit-scrollbar-thumb:hover {
+			background: #515151;
+			background-clip: padding-box;
+			border: 2px transparent solid;
+			border-radius: 100vh;
+		}
 
-    ::-webkit-scrollbar-thumb:active {
-      background: #616161;
-      background-clip: padding-box;
-      border: 2px transparent solid;
-      border-radius: 100vh;
-    }
-  }
+		::-webkit-scrollbar-thumb:active {
+			background: #616161;
+			background-clip: padding-box;
+			border: 2px transparent solid;
+			border-radius: 100vh;
+		}
+	}
 
-  .fix-blurry-text {
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
+	.fix-blurry-text {
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+	}
 
-  .animation-delay-1000 {
-    animation-delay: 1s;
-  }
+	.animation-delay-1000 {
+		animation-delay: 1s;
+	}
 
-  [type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 0.4;
-    background-color: transparent;
-    cursor: pointer;
-    width: 18px;
-    height: 18px;
-    transition-property: opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 50ms;
-  }
+	[type="date"]::-webkit-calendar-picker-indicator {
+		opacity: 0.4;
+		background-color: transparent;
+		cursor: pointer;
+		width: 18px;
+		height: 18px;
+		transition-property: opacity;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 50ms;
+	}
 
-  @media (prefers-color-scheme: dark) {
-    [type="date"]::-webkit-calendar-picker-indicator {
-      opacity: 0.6;
-    }
-  }
+	@media (prefers-color-scheme: dark) {
+		[type="date"]::-webkit-calendar-picker-indicator {
+			opacity: 0.6;
+		}
+	}
 
-  @property --gradient-border-angle {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-  }
+	@property --gradient-border-angle {
+		syntax: "<angle>";
+		initial-value: 0deg;
+		inherits: false;
+	}
 
-  .gradient-border {
-    position: relative;
+	.gradient-border {
+		position: relative;
 
-    --gradient-border-clr-1: #add8e6; /* needToApply card color*/
-    --gradient-border-clr-2: #22c55e; /* applied card color*/
-    --gradient-border-clr-3: #a891ee; /* offer card color*/
-  }
+		--gradient-border-clr-1: #add8e6; /* needToApply card color*/
+		--gradient-border-clr-2: #22c55e; /* applied card color*/
+		--gradient-border-clr-3: #a891ee; /* offer card color*/
+	}
 
-  .gradient-border::before,
-  .gradient-border::after {
-    content: "";
-    position: absolute;
-    inset: -0.15rem;
-    z-index: -1;
-    background: conic-gradient(
-      from var(--gradient-border-angle),
-      var(--gradient-border-clr-1),
-      var(--gradient-border-clr-2),
-      var(--gradient-border-clr-3),
-      var(--gradient-border-clr-2),
-      var(--gradient-border-clr-1)
-    );
-    border-radius: inherit;
-    animation: gradient-border-rotation 5s linear infinite;
-  }
+	.gradient-border::before,
+	.gradient-border::after {
+		content: "";
+		position: absolute;
+		inset: -0.15rem;
+		z-index: -1;
+		background: conic-gradient(
+			from var(--gradient-border-angle),
+			var(--gradient-border-clr-1),
+			var(--gradient-border-clr-2),
+			var(--gradient-border-clr-3),
+			var(--gradient-border-clr-2),
+			var(--gradient-border-clr-1)
+		);
+		border-radius: inherit;
+		animation: gradient-border-rotation 5s linear infinite;
+	}
 
-  .gradient-border::after {
-    filter: blur(0.25rem);
-  }
+	.gradient-border::after {
+		filter: blur(0.25rem);
+	}
 
-  @keyframes gradient-border-rotation {
-    0% {
-      --gradient-border-angle: 0deg;
-    }
-    100% {
-      --gradient-border-angle: 360deg;
-    }
-  }
+	@keyframes gradient-border-rotation {
+		0% {
+			--gradient-border-angle: 0deg;
+		}
+		100% {
+			--gradient-border-angle: 360deg;
+		}
+	}
 
 	#formCardColorInputColorPicker .react-colorful {
 		width: auto;
@@ -159,5 +159,4 @@
 		cursor: pointer;
 		z-index: 0;
 	}
-
 }

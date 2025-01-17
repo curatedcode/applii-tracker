@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { OptionType } from "./global";
+import type { OptionType } from "./global";
 
 export const fileExportTypeOptionsValue = z.enum(["csv", "json"]);
 export const fileExportTypeOptionsLabel = z.enum(["CSV", "JSON"]);

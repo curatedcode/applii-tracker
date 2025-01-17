@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 
 import Button from "@/src/components/Button";
 import createDemoApplication from "@/src/components/Demo/createDemoApplication";
@@ -16,7 +16,7 @@ import NoteFields from "@/src/components/Form/NoteFields";
 import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
 import Modal from "@/src/components/Modals/Modal";
 import {
-	ApplicationStatusLabelValueType,
+	type ApplicationStatusLabelValueType,
 	applicationStatusSelectOptions,
 	applicationStatuses,
 	applicationStatusesArray,

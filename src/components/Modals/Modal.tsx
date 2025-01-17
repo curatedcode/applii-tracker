@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect } from "react";
 import useScrollbar from "../Hooks/useScrollbar";
-import ModalButtons, { ModalButtonType } from "./ModalButtons";
+import ModalButtons, { type ModalButtonType } from "./ModalButtons";
 
 export type ModalProps = {
 	title: string;
