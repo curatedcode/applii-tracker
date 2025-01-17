@@ -14,6 +14,7 @@ export type PromiseLinkProps = {
 	children: React.ReactNode;
 	className?: string;
 	openInNewTab?: boolean;
+	errorRetryTime?: number;
 };
 
 /**
@@ -25,6 +26,7 @@ export type PromiseLinkProps = {
  * @param children this will be displayed before the link is clicked
  * @param className any classes you need
  * @param openInNewTab if you want the link to open in a new tab (default: true)
+ * @param errorRetryTime shows the initial button after a set time, in ms, after an error. Set to 0 to disable. (default: 3000)
  */
 export default function PromiseLink({
 	promise,
@@ -35,6 +37,7 @@ export default function PromiseLink({
 	tryAgainOnError = false,
 	children,
 	openInNewTab = true,
+	errorRetryTime = 3000,
 }: PromiseLinkProps) {
 	const linkRef = useRef<HTMLAnchorElement>(null);
 	const [promiseHref, setPromiseHref] = useState<string>();
@@ -72,6 +75,12 @@ export default function PromiseLink({
 		if (!isError || !tryAgainOnError) return;
 		retryPromise();
 	}, [isError, tryAgainOnError]);
+
+	useEffect(() => {
+		if (!isError) return;
+		if (errorRetryTime <= 0) return;
+		setTimeout(() => setIsError(false), errorRetryTime);
+	}, [isError, errorRetryTime]);
 
 	if (isLoading) {
 		return (
