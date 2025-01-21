@@ -9,10 +9,12 @@ export default function createDemoApplication(
 
 	const applicationsInStorage = getAllApplicationsInStorage();
 
-	const contactsFormatted = application.contacts.map((contact, i) => ({
-		...contact,
-		id: id * i,
-	}));
+	const contactsFormatted = application.contacts
+		? application.contacts.map((contact, i) => ({
+				...contact,
+				id: id * i,
+			}))
+		: [];
 
 	const applicationParsed = zApplication.GET.parse({
 		...application,

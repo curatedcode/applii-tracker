@@ -145,6 +145,8 @@ const company = {
 				const promises = idsAsArray.map(async (id) => {
 					const companyData = await promisifyIDBRequest(db.company.get(id));
 
+					if (!companyData.contactIds) return companyData;
+
 					const contactsPromise = companyData.contactIds.map((id) =>
 						promisifyIDBRequest(db.contact.get(id)),
 					);
@@ -210,6 +212,8 @@ const company = {
 				if (typeof companyId !== "number")
 					throw new Error("Id returned from company insert is not a number");
 
+				if (!companyData.contacts) return companyId;
+
 				const contactPromises = companyData.contacts.map(async (contact) => {
 					let id: number;
 
@@ -267,6 +271,9 @@ const company = {
 
 		return runTransaction(["company", "contact"], "readwrite", async (db) => {
 			const promises = dataAsArray.map(async (companyData) => {
+				if (!companyData.contacts)
+					return promisifyIDBRequest(db.company.put(companyData));
+
 				const contactPromises = companyData.contacts.map(async (contact) => {
 					let id: number;
 
@@ -587,7 +594,6 @@ const application = {
 					const appId = await promisifyIDBRequest(
 						db.application.add({
 							...data,
-							contactIds: [],
 							companyId: 0,
 						}),
 					);
@@ -601,7 +607,7 @@ const application = {
 
 					if (!("id" in data.company)) {
 						const id = await promisifyIDBRequest(
-							db.company.add({ ...data.company, contactIds: [] }),
+							db.company.add({ ...data.company }),
 						);
 
 						if (typeof id !== "number")
@@ -613,7 +619,9 @@ const application = {
 						companyId = data.company.id as number;
 					}
 
-					const contactsToInsert = data.contacts.filter((v) => !("id" in v));
+					const contactsToInsert = data.contacts
+						? data.contacts.filter((v) => !("id" in v))
+						: [];
 
 					const contactsInsertedIds = await Promise.all(
 						contactsToInsert.map((contact) =>
@@ -623,9 +631,9 @@ const application = {
 						),
 					);
 
-					const contactsToUpdate = data.contacts.filter(
-						(v) => "id" in v,
-					) as zContact["GET"][];
+					const contactsToUpdate = data.contacts
+						? (data.contacts.filter((v) => "id" in v) as zContact["GET"][])
+						: [];
 
 					await Promise.all(
 						contactsToUpdate.map((val) =>
@@ -718,7 +726,7 @@ const application = {
 
 					if (!("id" in data.company)) {
 						const id = await promisifyIDBRequest(
-							db.company.add({ ...data.company, contactIds: [] }),
+							db.company.add({ ...data.company }),
 						);
 
 						if (typeof id !== "number")
@@ -730,7 +738,9 @@ const application = {
 						companyId = data.company.id as number;
 					}
 
-					const contactsToInsert = data.contacts.filter((v) => !("id" in v));
+					const contactsToInsert = data.contacts
+						? data.contacts.filter((v) => !("id" in v))
+						: [];
 
 					const contactsInsertedIds = await Promise.all(
 						contactsToInsert.map((contact) =>
@@ -744,9 +754,9 @@ const application = {
 						),
 					);
 
-					const contactsToUpdate = data.contacts.filter(
-						(v) => "id" in v,
-					) as zContact["GET"][];
+					const contactsToUpdate = data.contacts
+						? (data.contacts.filter((v) => "id" in v) as zContact["GET"][])
+						: [];
 
 					await Promise.all(
 						contactsToUpdate.map((val) =>

@@ -120,7 +120,7 @@ export const zCompanyBase = {
 		address: z.string().optional(),
 		industry: z.string().optional(),
 		notes: z.array(zNote).optional(),
-		contactIds: z.array(z.number()),
+		contactIds: z.array(z.number()).optional(),
 	}),
 	INSERT: z.object({
 		name: z.string().min(1, { message: "Name can't be empty" }),
@@ -128,7 +128,7 @@ export const zCompanyBase = {
 		address: z.string().optional(),
 		industry: z.string().optional(),
 		notes: z.array(zNote).optional(),
-		contactIds: z.array(z.number()),
+		contactIds: z.array(z.number()).optional(),
 	}),
 	PUT: z.object({
 		id: z.number(),
@@ -137,7 +137,7 @@ export const zCompanyBase = {
 		address: z.string().optional(),
 		industry: z.string().optional(),
 		notes: z.array(zNote).optional(),
-		contactIds: z.array(z.number()),
+		contactIds: z.array(z.number()).optional(),
 	}),
 };
 
@@ -149,13 +149,13 @@ export type zCompanyBase = {
 
 export const zCompany = {
 	GET: zCompanyBase.GET.extend({
-		contacts: z.array(zContact.GET.partial({ id: true })),
+		contacts: z.array(zContact.GET.partial({ id: true })).optional(),
 	}),
 	INSERT: zCompanyBase.INSERT.extend({
-		contacts: z.array(zContact.GET.partial({ id: true })),
+		contacts: z.array(zContact.GET.partial({ id: true })).optional(),
 	}),
 	PUT: zCompanyBase.PUT.extend({
-		contacts: z.array(zContact.GET.partial({ id: true })),
+		contacts: z.array(zContact.GET.partial({ id: true })).optional(),
 	}),
 };
 
@@ -174,6 +174,32 @@ export const zStatus = z.enum([
 ]);
 
 export type zStatus = z.infer<typeof zStatus>;
+
+export const zWageBase = z.object({
+	currency: z.string().length(3),
+});
+
+export const zWageHourly = zWageBase.extend({
+	type: z.literal("hourly"),
+	rate: z.number(),
+});
+
+export const zWageSalary = zWageBase.extend({
+	type: z.literal("salary"),
+	annualSalary: z.number(),
+});
+
+export const zWageContract = zWageBase.extend({
+	type: z.literal("contract"),
+	totalAmount: z.number(),
+	duration: z.string(),
+});
+
+export const zWage = z.discriminatedUnion("type", [
+	zWageHourly,
+	zWageSalary,
+	zWageContract,
+]);
 
 export const zApplicationBase = {
 	GET: z.object({
@@ -197,6 +223,23 @@ export const zApplicationBase = {
 		notes: z.array(zNote).optional(),
 		contactIds: z.array(z.number()).optional(),
 		companyId: z.number(),
+		wage: zWage.optional(),
+		type: z
+			.enum(["full-time", "part-time", "contract", "internship", "freelance"])
+			.optional(),
+		applicationMethod: z
+			.enum([
+				"online",
+				"in-person",
+				"email",
+				"referral",
+				"job fair",
+				"recruitment agency",
+				"other",
+			])
+			.optional(),
+		location: z.enum(["in-person", "remote", "hybrid"]).optional(),
+		customFields: z.array(z.record(z.string(), z.string())).optional(),
 	}),
 	INSERT: z.object({
 		position: z.string().min(1, { message: "Position can't be empty" }),
@@ -218,6 +261,23 @@ export const zApplicationBase = {
 		notes: z.array(zNote).optional(),
 		contactIds: z.array(z.number()).optional(),
 		companyId: z.number(),
+		wage: zWage.optional(),
+		type: z
+			.enum(["full-time", "part-time", "contract", "internship", "freelance"])
+			.optional(),
+		applicationMethod: z
+			.enum([
+				"online",
+				"in-person",
+				"email",
+				"referral",
+				"job fair",
+				"recruitment agency",
+				"other",
+			])
+			.optional(),
+		location: z.enum(["in-person", "remote", "hybrid"]).optional(),
+		customFields: z.array(z.record(z.string(), z.string())).optional(),
 	}),
 	PUT: z.object({
 		id: z.number(),
@@ -240,6 +300,23 @@ export const zApplicationBase = {
 		notes: z.array(zNote).optional(),
 		contactIds: z.array(z.number()).optional(),
 		companyId: z.number(),
+		wage: zWage.optional(),
+		type: z
+			.enum(["full-time", "part-time", "contract", "internship", "freelance"])
+			.optional(),
+		applicationMethod: z
+			.enum([
+				"online",
+				"in-person",
+				"email",
+				"referral",
+				"job fair",
+				"recruitment agency",
+				"other",
+			])
+			.optional(),
+		location: z.enum(["in-person", "remote", "hybrid"]).optional(),
+		customFields: z.array(z.record(z.string(), z.string())).optional(),
 	}),
 };
 
@@ -251,15 +328,15 @@ export type zApplicationBase = {
 
 export const zApplication = {
 	GET: zApplicationBase.GET.extend({
-		contacts: z.array(zContact.GET),
+		contacts: z.array(zContact.GET).optional(),
 		company: zCompany.GET,
 	}),
 	INSERT: zApplicationBase.INSERT.omit({ companyId: true }).extend({
-		contacts: z.array(zContact.GET.partial({ id: true })),
+		contacts: z.array(zContact.GET.partial({ id: true })).optional(),
 		company: zCompany.GET.partial({ id: true }),
 	}),
 	PUT: zApplicationBase.PUT.omit({ companyId: true }).extend({
-		contacts: z.array(zContact.GET.partial({ id: true })),
+		contacts: z.array(zContact.GET.partial({ id: true })).optional(),
 		company: zCompany.GET.partial({ id: true }),
 		companyId: z.number().optional(),
 	}),
