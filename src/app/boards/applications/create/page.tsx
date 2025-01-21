@@ -39,8 +39,6 @@ export default function Create() {
 		defaultValues: {
 			company: {
 				name: "Awesome Company!",
-				contactIds: [],
-				contacts: [],
 			},
 			status: {
 				label: "Need To Apply",

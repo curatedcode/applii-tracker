@@ -13,7 +13,7 @@ export default function Application() {
 	if (!id || Number.isNaN(id)) return router.push("/not-found");
 
 	const application = getDemoApplication(id);
-	console.log(application);
+
 	if (!application) return <ViewApplicationSkeleton />;
 
 	const {
