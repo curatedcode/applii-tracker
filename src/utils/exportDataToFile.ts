@@ -1,7 +1,7 @@
+import { exportData } from "@/src/utils/db/helpers";
 import jsonexport from "jsonexport";
 import type { RefObject } from "react";
 import type { FileExportTypeOptionsType } from "../types/file";
-import { exportData } from "./db";
 
 export type ExportDataToFileProps = {
 	anchorEl: RefObject<HTMLAnchorElement>;

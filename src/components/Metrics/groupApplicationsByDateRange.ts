@@ -1,4 +1,4 @@
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import type { TimelineType } from "@/src/types/global";
 import {
 	type ApplicationsInDateRangeType,
@@ -9,12 +9,12 @@ import isBetween from "dayjs/plugin/isBetween";
 dayjs.extend(isBetween);
 
 export type GroupApplicationsByDateRangeProps = {
-	applications: ApplicationType[];
+	applications: zApplication["GET"][];
 	timeline: TimelineType;
 };
 
 /**
- * @param applications - An array of applications to be group
+ * @param applications - An array of applications to group
  * @param timeline - "1 year", "6 months", "1 month", "1 week"
  * @returns An object containing the label and applications in the labels range
  */

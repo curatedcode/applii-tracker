@@ -1,12 +1,8 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import type { z } from "zod";
-
 import Button from "@/src/components/Button";
 import createDemoApplication from "@/src/components/Demo/createDemoApplication";
-import getNewMockApplicationId from "@/src/components/Demo/getNewDemoApplicationId";
+import getNewDemoApplicationId from "@/src/components/Demo/getNewDemoApplicationId";
 import getRandomHexColor from "@/src/components/Fn/getRandomHexColor";
 import ContactFields from "@/src/components/Form/ContactFields";
 import FormCardColorInput from "@/src/components/Form/FormCardColorInput";
@@ -18,13 +14,14 @@ import Modal from "@/src/components/Modals/Modal";
 import {
 	type ApplicationStatusLabelValueType,
 	applicationStatusSelectOptions,
-	applicationStatuses,
-	applicationStatusesArray,
-	formSchema,
+	zApplicationForm,
 } from "@/src/types/applications";
+import { zApplication } from "@/src/types/db";
+import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function Create() {
@@ -38,8 +35,21 @@ export default function Create() {
 		control,
 		watch,
 		setValue,
-	} = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	} = useForm<zApplicationForm>({
+		resolver: zodResolver(zApplicationForm),
+		defaultValues: {
+			company: {
+				name: "Awesome Company!",
+				contactIds: [],
+				contacts: [],
+			},
+			status: {
+				label: "Need To Apply",
+				value: "Need To Apply",
+			},
+			dateCreated: "",
+			dateModified: "",
+		},
 	});
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -69,19 +79,21 @@ export default function Create() {
 			return dayjs(date).toISOString();
 		}
 
-		const newId = getNewMockApplicationId();
+		const newId = getNewDemoApplicationId();
 
-		createDemoApplication({
-			id: newId,
-			dateCreated: dayjs().toISOString(),
-			dateModified: dayjs().toISOString(),
-			dateApplied: formatDate(dateApplied),
-			dateInterviewing: formatDate(dateInterviewing),
-			dateOffered: formatDate(dateOffered),
-			dateClosed: formatDate(dateClosed),
-			status: status.value,
-			...rest,
-		});
+		createDemoApplication(
+			{
+				...rest,
+				dateCreated: dayjs().toISOString(),
+				dateModified: dayjs().toISOString(),
+				dateApplied: formatDate(dateApplied),
+				dateInterviewing: formatDate(dateInterviewing),
+				dateOffered: formatDate(dateOffered),
+				dateClosed: formatDate(dateClosed),
+				status: status.value,
+			},
+			newId,
+		);
 
 		if (usagePercent && usagePercent >= 80) {
 			toast.error("Storage almost full");
@@ -93,20 +105,22 @@ export default function Create() {
 
 	useEffect(() => {
 		if (!currentStatus) return;
-		const statusIndex = applicationStatusesArray.indexOf(currentStatus.value);
+		const statusIndex = zApplication.GET.shape.status.options.indexOf(
+			currentStatus.value,
+		);
 		setCurrentStatusIndex(statusIndex);
 	}, [currentStatus]);
 
 	useEffect(() => {
 		const statusParam = searchParams.get("status");
-		const parsedStatus = applicationStatuses.safeParse(statusParam);
+		const parsedStatus = zApplication.GET.shape.status.safeParse(statusParam);
 
 		if (!parsedStatus.success) return;
 		const statusOption = applicationStatusSelectOptions.find(
 			(val) => val.value === parsedStatus.data,
 		) as ApplicationStatusLabelValueType;
 		setValue("status", statusOption);
-	}, [searchParams, setValue]);
+	}, [setValue, searchParams]);
 
 	return (
 		<>
@@ -115,15 +129,15 @@ export default function Create() {
 				isOpen={isModalOpen}
 				setIsOpen={setIsModalOpen}
 				description="Would you like to view this application or go home?"
-				secondaryButton={{
-					as: "link",
-					href: `/demo/applications/${currentPosition}-at-${currentCompany}?id=${applicationId}`,
-					body: "View",
-				}}
 				primaryButton={{
 					as: "link",
-					href: "/demo",
 					body: "Home",
+					href: "/demo",
+				}}
+				secondaryButton={{
+					as: "link",
+					body: "View",
+					href: `/demo/applications/${currentPosition}-at-${currentCompany.name}?id=${applicationId}`,
 				}}
 			/>
 			<h1 className="mb-8 text-center text-3xl font-semibold">
@@ -148,7 +162,7 @@ export default function Create() {
 						/>
 						<FormInput
 							id="companyInput"
-							registerName="company"
+							registerName="company.name"
 							label="Company"
 							error={errors.company?.message}
 							register={register}
@@ -167,7 +181,7 @@ export default function Create() {
 							render={({ field: { onChange } }) => (
 								<FormSelectInput
 									label="Status"
-									selected={currentStatus ?? applicationStatusSelectOptions[0]}
+									selected={currentStatus}
 									setSelected={onChange}
 									options={applicationStatusSelectOptions}
 								/>
@@ -216,7 +230,7 @@ export default function Create() {
 								<FormCardColorInput
 									id="cardColorInput"
 									label="Card Color"
-									company={currentCompany}
+									company={currentCompany.name}
 									position={currentPosition}
 									color={currentCardColor ?? getRandomHexColor()}
 									setColor={onChange}

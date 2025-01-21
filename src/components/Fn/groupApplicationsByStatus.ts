@@ -1,31 +1,31 @@
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 
 export default function groupApplicationsByStatus(
-	applications: ApplicationType[],
+	applications: zApplication["GET"][],
 ) {
-	const needToApply: ApplicationType[] = [];
-	const applied: ApplicationType[] = [];
-	const interviewing: ApplicationType[] = [];
-	const offer: ApplicationType[] = [];
-	const closed: ApplicationType[] = [];
+	const needToApply: zApplication["GET"][] = [];
+	const applied: zApplication["GET"][] = [];
+	const interviewing: zApplication["GET"][] = [];
+	const offer: zApplication["GET"][] = [];
+	const closed: zApplication["GET"][] = [];
 
 	for (let i = 0; i < applications.length; i++) {
 		const application = applications[i];
 
 		switch (application.status) {
-			case "needToApply":
+			case "Need To Apply":
 				needToApply.push(application);
 				break;
-			case "applied":
+			case "Applied":
 				applied.push(application);
 				break;
-			case "interviewing":
+			case "Interviewing":
 				interviewing.push(application);
 				break;
-			case "offer":
+			case "Offer":
 				offer.push(application);
 				break;
-			case "closed":
+			case "Closed":
 				closed.push(application);
 				break;
 		}

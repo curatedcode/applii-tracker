@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 
 import BoardSection from "@/src/components/Board/BoardSection";
+import groupApplicationsByStatus from "@/src/components/Fn/groupApplicationsByStatus";
+import sortApplicationsByDate from "@/src/components/Fn/sortApplicationsByDate";
 import IndexedDBNotSupported from "@/src/components/IndexedDBNotSupported";
 import HomeSkeleton from "@/src/components/Loading/HomeSkeleton";
 import SelectInput from "@/src/components/SelectInput";
@@ -12,7 +14,7 @@ import {
 	type SortByValueType,
 	sortByOptions,
 } from "@/src/types/global";
-import { getAllApplications } from "@/src/utils/db";
+import db from "@/src/utils/db";
 
 export default function Home() {
 	const [allApplications, setAllApplications] =
@@ -30,9 +32,14 @@ export default function Home() {
 			setIsIndexedDBSupported(false);
 			return;
 		}
-		getAllApplications(sortBy.value, "grouped").then((data) =>
-			setAllApplications(data),
-		);
+
+		db.application.getAll().then((data) => {
+			const sorted = sortApplicationsByDate({
+				applications: data,
+				sortBy: sortBy.value,
+			});
+			setAllApplications(groupApplicationsByStatus(sorted));
+		});
 	}, [sortBy]);
 
 	if (!isIndexedDBSupported) return <IndexedDBNotSupported />;
@@ -60,31 +67,31 @@ export default function Home() {
 					title="Need To Apply"
 					cards={needToApply}
 					sortBy={sortBy.value}
-					status="needToApply"
+					status="Need To Apply"
 				/>
 				<BoardSection
 					title="Applied"
 					cards={applied}
 					sortBy={sortBy.value}
-					status="applied"
+					status="Applied"
 				/>
 				<BoardSection
 					title="Interviewing"
 					cards={interviewing}
 					sortBy={sortBy.value}
-					status="interviewing"
+					status="Interviewing"
 				/>
 				<BoardSection
 					title="Offer"
 					cards={offer}
 					sortBy={sortBy.value}
-					status="offer"
+					status="Offer"
 				/>
 				<BoardSection
 					title="Closed"
 					cards={closed}
 					sortBy={sortBy.value}
-					status="closed"
+					status="Closed"
 				/>
 			</div>
 		</>

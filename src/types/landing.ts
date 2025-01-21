@@ -1,13 +1,19 @@
+import type { zApplication } from "@/src/types/db";
 import dayjs from "dayjs";
-import type { ApplicationType } from "./applications";
 
-export const needToApplyMocks: ApplicationType[] = [
+export const needToApplyMocks: zApplication["GET"][] = [
 	{
 		id: 1,
 		position: "Marketing Manager",
-		company: "Coca-Cola",
+		company: {
+			id: 0,
+			name: "Coca-Cola",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
 		postingURL: "example.com",
-		status: "needToApply",
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().toISOString(),
@@ -17,8 +23,14 @@ export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 2,
 		position: "Project Coordinator",
-		company: "UNICEF",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "UNICEF",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().subtract(1, "week").toISOString(),
@@ -28,8 +40,14 @@ export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 3,
 		position: "Data Engineer",
-		company: "Daylight Solutions",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Daylight Solutions",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().subtract(3, "week").toISOString(),
@@ -39,8 +57,14 @@ export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 5,
 		position: "Senior Data Analyst",
-		company: "Acme Inc.",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Acme Inc.",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().subtract(1.5, "month").toISOString(),
@@ -50,8 +74,14 @@ export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 4,
 		position: "Project Manager",
-		company: "Mason Consulting",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Mason Consulting",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().subtract(3, "month").toISOString(),
@@ -60,12 +90,18 @@ export const needToApplyMocks: ApplicationType[] = [
 	},
 ];
 
-export const offerMocks: ApplicationType[] = [
+export const offerMocks: zApplication["GET"][] = [
 	{
 		id: 11,
 		position: "Sales Representative",
-		company: "Apple",
-		status: "offer",
+		company: {
+			id: 0,
+			name: "Apple",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Offer",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().subtract(1, "week").toISOString(),
@@ -78,8 +114,14 @@ export const offerMocks: ApplicationType[] = [
 	{
 		id: 10,
 		position: "Human Resources Specialist",
-		company: "Amazon",
-		status: "offer",
+		company: {
+			id: 0,
+			name: "Amazon",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Offer",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().subtract(1, "month").toISOString(),

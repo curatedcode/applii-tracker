@@ -1,5 +1,5 @@
 import generateMetrics from "@/src/components/Metrics/generateMetrics";
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import { statusColors } from "@/src/types/global";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
@@ -495,13 +495,19 @@ describe("generates metrics", () => {
 	});
 });
 
-const applications: ApplicationType[] = [
+const applications: zApplication["GET"][] = [
 	{
 		id: 1,
 		position: "Marketing Manager",
-		company: "Coca-Cola",
+		company: {
+			id: 0,
+			name: "Coca-Cola",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
 		postingURL: "example.com",
-		status: "needToApply",
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-06-13T04:00:00.000Z",
@@ -511,8 +517,14 @@ const applications: ApplicationType[] = [
 	{
 		id: 2,
 		position: "Project Coordinator",
-		company: "UNICEF",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "UNICEF",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-08-28T04:00:00.000Z",
@@ -522,8 +534,14 @@ const applications: ApplicationType[] = [
 	{
 		id: 3,
 		position: "Data Engineer",
-		company: "Daylight Solutions",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Daylight Solutions",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-07-28T04:00:00.000Z",
@@ -533,8 +551,14 @@ const applications: ApplicationType[] = [
 	{
 		id: 4,
 		position: "Project Manager",
-		company: "Mason Consulting",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Mason Consulting",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-04-28T04:00:00.000Z",
@@ -544,8 +568,14 @@ const applications: ApplicationType[] = [
 	{
 		id: 5,
 		position: "Senior Data Analyst",
-		company: "Acme Inc.",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Acme Inc.",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-04-28T04:00:00.000Z",
@@ -555,9 +585,15 @@ const applications: ApplicationType[] = [
 	{
 		id: 6,
 		position: "Data Analyst",
-		company: "Netflix",
+		company: {
+			id: 0,
+			name: "Netflix",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
 		postingURL: "example.com",
-		status: "applied",
+		status: "Applied",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-10-08T04:00:00.000Z",
@@ -568,8 +604,14 @@ const applications: ApplicationType[] = [
 	{
 		id: 7,
 		position: "Accountant",
-		company: "Deloitte",
-		status: "applied",
+		company: {
+			id: 0,
+			name: "Deloitte",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Applied",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-07-17T04:00:00.000Z",
@@ -580,8 +622,14 @@ const applications: ApplicationType[] = [
 	{
 		id: 8,
 		position: "Graphic Designer",
-		company: "Adobe",
-		status: "applied",
+		company: {
+			id: 0,
+			name: "Adobe",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Applied",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-09-03T04:00:00.000Z",
@@ -592,9 +640,15 @@ const applications: ApplicationType[] = [
 	{
 		id: 9,
 		position: "Human Resources Specialist",
-		company: "Amazon",
+		company: {
+			id: 0,
+			name: "Amazon",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
 		postingURL: "example.com",
-		status: "interviewing",
+		status: "Interviewing",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-05-22T04:00:00.000Z",
@@ -606,8 +660,14 @@ const applications: ApplicationType[] = [
 	{
 		id: 10,
 		position: "Human Resources Specialist",
-		company: "Amazon",
-		status: "offer",
+		company: {
+			id: 0,
+			name: "Amazon",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Offer",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-10-04T04:00:00.000Z",
@@ -620,8 +680,14 @@ const applications: ApplicationType[] = [
 	{
 		id: 11,
 		position: "Sales Representative",
-		company: "Apple",
-		status: "offer",
+		company: {
+			id: 0,
+			name: "Apple",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Offer",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-11-07T05:00:00.000Z",
@@ -634,9 +700,15 @@ const applications: ApplicationType[] = [
 	{
 		id: 12,
 		position: "Sales Representative",
-		company: "Apple",
+		company: {
+			id: 0,
+			name: "Apple",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
 		postingURL: "example.com",
-		status: "closed",
+		status: "Closed",
 		contacts: [],
 		notes: [],
 		dateCreated: "2023-11-05T04:00:00.000Z",

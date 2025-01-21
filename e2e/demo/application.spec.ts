@@ -16,7 +16,7 @@ test("create application", async ({ page }) => {
 		.getByRole("textbox", { name: "Posting URL" })
 		.fill("www.youtube.com");
 	await page.getByLabel("Status").click();
-	await page.getByTestId("applied-option").click();
+	await page.getByTestId("Applied-option").click();
 	await page.getByLabel("Date Applied").fill("2023-10-10");
 
 	// fill out contact fields

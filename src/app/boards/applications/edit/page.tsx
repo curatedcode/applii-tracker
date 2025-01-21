@@ -1,7 +1,6 @@
 "use client";
 
 import Button from "@/src/components/Button";
-import getRandomHexColor from "@/src/components/Fn/getRandomHexColor";
 import ContactsFields from "@/src/components/Form/ContactFields";
 import FormCardColorInput from "@/src/components/Form/FormCardColorInput";
 import FormInput from "@/src/components/Form/FormInput";
@@ -12,10 +11,10 @@ import EditApplicationSkeleton from "@/src/components/Loading/EditApplicationSke
 import Modal from "@/src/components/Modals/Modal";
 import {
 	applicationStatusSelectOptions,
-	applicationStatusesArray,
-	formSchema,
+	zApplicationForm,
 } from "@/src/types/applications";
-import { getApplication, updateApplication } from "@/src/utils/db";
+import { zApplication } from "@/src/types/db";
+import db from "@/src/utils/db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -36,8 +35,12 @@ export default function FormEdit() {
 		register,
 		control,
 		watch,
-	} = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	} = useForm<z.infer<typeof zApplicationForm>>({
+		resolver: zodResolver(zApplicationForm),
+		defaultValues: {
+			dateCreated: "",
+			dateModified: "",
+		},
 	});
 
 	const [isDataFetched, setIsDataFetched] = useState(false);
@@ -67,14 +70,17 @@ export default function FormEdit() {
 			return dayjs(date).toISOString();
 		}
 
-		await updateApplication({
-			id,
-			dateApplied: formatDate(dateApplied),
-			dateInterviewing: formatDate(dateInterviewing),
-			dateOffered: formatDate(dateOffered),
-			dateClosed: formatDate(dateClosed),
-			status: status.value,
-			...rest,
+		await db.application.put({
+			data: {
+				...rest,
+				id,
+				dateModified: dayjs().toISOString(),
+				dateApplied: formatDate(dateApplied),
+				dateInterviewing: formatDate(dateInterviewing),
+				dateOffered: formatDate(dateOffered),
+				dateClosed: formatDate(dateClosed),
+				status: status.value,
+			},
 		});
 
 		if (usagePercent && usagePercent >= 80) {
@@ -86,7 +92,7 @@ export default function FormEdit() {
 
 	useEffect(() => {
 		if (!window) return;
-		getApplication({ id }).then((data) => {
+		db.application.get({ id }).then((data) => {
 			const {
 				position,
 				company,
@@ -98,6 +104,7 @@ export default function FormEdit() {
 				dateInterviewing,
 				dateOffered,
 				dateClosed,
+				cardColor,
 			} = data;
 
 			setValue("position", position);
@@ -106,7 +113,7 @@ export default function FormEdit() {
 				"status",
 				applicationStatusSelectOptions.find(
 					(option) => option.value === status,
-				) ?? { label: "Need To Apply", value: "needToApply" },
+				) ?? { label: "Need To Apply", value: "Need To Apply" },
 			);
 			setValue("postingURL", postingURL);
 			setValue("contacts", contacts);
@@ -118,6 +125,7 @@ export default function FormEdit() {
 			);
 			setValue("dateOffered", dayjs(dateOffered).format("YYYY-MM-DD"));
 			setValue("dateClosed", dayjs(dateClosed).format("YYYY-MM-DD"));
+			setValue("cardColor", cardColor);
 
 			setIsDataFetched(true);
 		});
@@ -125,7 +133,9 @@ export default function FormEdit() {
 
 	useEffect(() => {
 		if (!currentStatus) return;
-		const statusIndex = applicationStatusesArray.indexOf(currentStatus.value);
+		const statusIndex = zApplication.GET.shape.status.options.indexOf(
+			currentStatus.value,
+		);
 		setCurrentStatusIndex(statusIndex);
 	}, [currentStatus]);
 
@@ -175,7 +185,7 @@ export default function FormEdit() {
 						/>
 						<FormInput
 							id="companyInput"
-							registerName="company"
+							registerName="company.name"
 							label="Company"
 							error={errors.company?.message}
 							register={register}
@@ -247,9 +257,9 @@ export default function FormEdit() {
 								<FormCardColorInput
 									id="cardColorInput"
 									label="Card Color"
-									company={currentCompany}
+									company={currentCompany.name}
 									position={currentPosition}
-									color={currentCardColor ?? getRandomHexColor()}
+									color={currentCardColor}
 									setColor={onChange}
 								/>
 							)}

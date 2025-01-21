@@ -1,4 +1,4 @@
-import { syncErrorType } from "../types/sync";
+import { z } from "zod";
 
 export type StoreSyncErrorProps = {
 	error: unknown;
@@ -13,7 +13,7 @@ export default function storeSyncError({ error }: StoreSyncErrorProps) {
 		return;
 	}
 
-	const errorsInStorageParsed = syncErrorType.safeParse(errorsInStorage);
+	const errorsInStorageParsed = z.array(z.any()).safeParse(errorsInStorage);
 
 	if (!errorsInStorageParsed.success) {
 		localStorage.setItem("errorsInStorage", JSON.stringify([errorAsString]));

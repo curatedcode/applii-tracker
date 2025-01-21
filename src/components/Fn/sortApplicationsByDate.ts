@@ -1,9 +1,9 @@
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import type { SortByValueType } from "@/src/types/global";
 import dayjs from "dayjs";
 
 export type SortApplicationsByDateProps = {
-	applications: ApplicationType[];
+	applications: zApplication["GET"][];
 	sortBy: SortByValueType;
 };
 

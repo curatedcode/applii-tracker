@@ -1,5 +1,6 @@
 "use client";
 
+import sortApplicationsByDate from "@/src/components/Fn/sortApplicationsByDate";
 import MetricsSkeleton from "@/src/components/Loading/MetricsSkeleton";
 import Chart from "@/src/components/Metrics/Chart";
 import generateMetrics, {
@@ -10,7 +11,7 @@ import {
 	type TimelineLabelValueType,
 	timelineOptions,
 } from "@/src/types/global";
-import { getAllApplications } from "@/src/utils/db";
+import db from "@/src/utils/db";
 import { useEffect, useState } from "react";
 
 export default function Metrics() {
@@ -21,11 +22,16 @@ export default function Metrics() {
 	);
 
 	useEffect(() => {
-		getAllApplications("dateCreated").then((applications) =>
+		db.application.getAll().then((data) => {
+			const sorted = sortApplicationsByDate({
+				applications: data,
+				sortBy: "dateCreated",
+			});
+
 			setMetricsData(
-				generateMetrics({ timeline: timeline.value, applications }),
-			),
-		);
+				generateMetrics({ timeline: timeline.value, applications: sorted }),
+			);
+		});
 	}, [timeline]);
 
 	if (!metricsData) return <MetricsSkeleton />;

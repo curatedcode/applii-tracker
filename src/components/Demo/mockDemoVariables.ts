@@ -1,13 +1,19 @@
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import dayjs from "dayjs";
 
-export const needToApplyMocks: ApplicationType[] = [
+export const needToApplyMocks: zApplication["GET"][] = [
 	{
 		id: 1,
 		position: "Marketing Manager",
-		company: "Coca-Cola",
+		company: {
+			id: 0,
+			name: "Coca-Cola",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
 		postingURL: "example.com",
-		status: "needToApply",
+		status: "Need To Apply",
 		contacts: [
 			{
 				name: "Alice Jones",
@@ -44,8 +50,14 @@ export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 2,
 		position: "Project Coordinator",
-		company: "UNICEF",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "UNICEF",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [
 			{
 				name: "Carol Lee",
@@ -62,8 +74,14 @@ export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 3,
 		position: "Data Engineer",
-		company: "Daylight Solutions",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Daylight Solutions",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [
 			{
 				name: "James Dalton",
@@ -80,8 +98,14 @@ export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 4,
 		position: "Project Manager",
-		company: "Mason Consulting",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Mason Consulting",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().subtract(9, "month").toISOString(),
@@ -91,8 +115,14 @@ export const needToApplyMocks: ApplicationType[] = [
 	{
 		id: 5,
 		position: "Senior Data Analyst",
-		company: "Acme Inc.",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Acme Inc.",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [
 			{
 				name: "Liam Williams",
@@ -122,13 +152,20 @@ export const needToApplyMocks: ApplicationType[] = [
 	},
 ];
 
-export const appliedMocks: ApplicationType[] = [
+export const appliedMocks: zApplication["GET"][] = [
 	{
 		id: 6,
 		position: "Data Analyst",
-		company: "Netflix",
+		company: {
+			id: 0,
+			name: "Netflix",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
 		postingURL: "example.com",
-		status: "applied",
+		status: "Applied",
+		contacts: [],
 		notes: [
 			{
 				body: "I have sent a thank you email to the hiring manager after the interview. I have thanked them for their time and consideration, reiterated my interest and enthusiasm for the position, and highlighted some of the key points that we discussed. I have also asked them about the next steps and the timeline for the hiring process.",
@@ -142,8 +179,14 @@ export const appliedMocks: ApplicationType[] = [
 	{
 		id: 7,
 		position: "Accountant",
-		company: "Deloitte",
-		status: "applied",
+		company: {
+			id: 0,
+			name: "Deloitte",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Applied",
 		contacts: [
 			{
 				name: "David Chen",
@@ -187,8 +230,14 @@ export const appliedMocks: ApplicationType[] = [
 	{
 		id: 8,
 		position: "Graphic Designer",
-		company: "Adobe",
-		status: "applied",
+		company: {
+			id: 0,
+			name: "Adobe",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Applied",
 		contacts: [
 			{
 				name: "Grace Kim",
@@ -217,13 +266,19 @@ export const appliedMocks: ApplicationType[] = [
 	},
 ];
 
-export const interviewingMocks: ApplicationType[] = [
+export const interviewingMocks: zApplication["GET"][] = [
 	{
 		id: 9,
 		position: "Human Resources Specialist",
-		company: "Amazon",
+		company: {
+			id: 0,
+			name: "Amazon",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
 		postingURL: "example.com",
-		status: "interviewing",
+		status: "Interviewing",
 		contacts: [
 			{
 				name: "Jack Taylor",
@@ -254,12 +309,18 @@ export const interviewingMocks: ApplicationType[] = [
 	},
 ];
 
-export const offerMocks: ApplicationType[] = [
+export const offerMocks: zApplication["GET"][] = [
 	{
 		id: 10,
 		position: "Human Resources Specialist",
-		company: "Amazon",
-		status: "offer",
+		company: {
+			id: 0,
+			name: "Amazon",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Offer",
 		contacts: [],
 		notes: [
 			{
@@ -282,8 +343,14 @@ export const offerMocks: ApplicationType[] = [
 	{
 		id: 11,
 		position: "Sales Representative",
-		company: "Apple",
-		status: "offer",
+		company: {
+			id: 0,
+			name: "Apple",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Offer",
 		contacts: [
 			{
 				name: "Liam Williams",
@@ -308,13 +375,19 @@ export const offerMocks: ApplicationType[] = [
 	},
 ];
 
-export const closedMocks: ApplicationType[] = [
+export const closedMocks: zApplication["GET"][] = [
 	{
 		id: 12,
 		position: "Sales Representative",
-		company: "Apple",
+		company: {
+			id: 0,
+			name: "Apple",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
 		postingURL: "example.com",
-		status: "closed",
+		status: "Closed",
 		contacts: [
 			{
 				name: "Noah Martin",

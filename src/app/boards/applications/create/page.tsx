@@ -12,18 +12,16 @@ import Modal from "@/src/components/Modals/Modal";
 import {
 	type ApplicationStatusLabelValueType,
 	applicationStatusSelectOptions,
-	applicationStatuses,
-	applicationStatusesArray,
-	formSchema,
+	zApplicationForm,
 } from "@/src/types/applications";
-import { createApplication } from "@/src/utils/db";
+import { zApplication } from "@/src/types/db";
+import db from "@/src/utils/db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import type { z } from "zod";
 
 export default function Create() {
 	const searchParams = useSearchParams();
@@ -36,8 +34,21 @@ export default function Create() {
 		control,
 		watch,
 		setValue,
-	} = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	} = useForm<zApplicationForm>({
+		resolver: zodResolver(zApplicationForm),
+		defaultValues: {
+			company: {
+				name: "Awesome Company!",
+				contactIds: [],
+				contacts: [],
+			},
+			status: {
+				label: "Need To Apply",
+				value: "Need To Apply",
+			},
+			dateCreated: "",
+			dateModified: "",
+		},
 	});
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,10 +60,6 @@ export default function Create() {
 
 	const currentStatus = watch("status");
 	const currentCardColor = watch("cardColor");
-
-	useEffect(() => {
-		console.log(currentCardColor, typeof currentCardColor);
-	}, [currentCardColor]);
 
 	const { usagePercent } = useStorageUsage();
 
@@ -71,32 +78,38 @@ export default function Create() {
 			return dayjs(date).toISOString();
 		}
 
-		const result = await createApplication({
-			dateApplied: formatDate(dateApplied),
-			dateInterviewing: formatDate(dateInterviewing),
-			dateOffered: formatDate(dateOffered),
-			dateClosed: formatDate(dateClosed),
-			status: status.value,
-			...rest,
+		const insertedId = await db.application.insert({
+			data: {
+				...rest,
+				dateCreated: dayjs().toISOString(),
+				dateModified: dayjs().toISOString(),
+				dateApplied: formatDate(dateApplied),
+				dateInterviewing: formatDate(dateInterviewing),
+				dateOffered: formatDate(dateOffered),
+				dateClosed: formatDate(dateClosed),
+				status: status.value,
+			},
 		});
 
 		if (usagePercent && usagePercent >= 80) {
 			toast.error("Storage almost full");
 		}
 
-		setApplicationId(result.id);
+		setApplicationId(insertedId);
 		setIsModalOpen(true);
 	}
 
 	useEffect(() => {
 		if (!currentStatus) return;
-		const statusIndex = applicationStatusesArray.indexOf(currentStatus.value);
+		const statusIndex = zApplication.GET.shape.status.options.indexOf(
+			currentStatus.value,
+		);
 		setCurrentStatusIndex(statusIndex);
 	}, [currentStatus]);
 
 	useEffect(() => {
 		const statusParam = searchParams.get("status");
-		const parsedStatus = applicationStatuses.safeParse(statusParam);
+		const parsedStatus = zApplication.GET.shape.status.safeParse(statusParam);
 
 		if (!parsedStatus.success) return;
 		const statusOption = applicationStatusSelectOptions.find(
@@ -104,6 +117,10 @@ export default function Create() {
 		) as ApplicationStatusLabelValueType;
 		setValue("status", statusOption);
 	}, [setValue, searchParams]);
+
+	/**
+	 * @todo add toasts to undo delete actions when making the form
+	 */
 
 	return (
 		<>
@@ -120,7 +137,7 @@ export default function Create() {
 				secondaryButton={{
 					as: "link",
 					body: "View",
-					href: `/boards/applications/${currentPosition}-at-${currentCompany}?id=${applicationId}`,
+					href: `/boards/applications/${currentPosition}-at-${currentCompany.name}?id=${applicationId}`,
 				}}
 			/>
 			<h1 className="mb-8 text-center text-3xl font-semibold">
@@ -145,7 +162,7 @@ export default function Create() {
 						/>
 						<FormInput
 							id="companyInput"
-							registerName="company"
+							registerName="company.name"
 							label="Company"
 							error={errors.company?.message}
 							register={register}
@@ -164,7 +181,7 @@ export default function Create() {
 							render={({ field: { onChange } }) => (
 								<FormSelectInput
 									label="Status"
-									selected={currentStatus ?? applicationStatusSelectOptions[0]}
+									selected={currentStatus}
 									setSelected={onChange}
 									options={applicationStatusSelectOptions}
 								/>
@@ -213,7 +230,7 @@ export default function Create() {
 								<FormCardColorInput
 									id="cardColorInput"
 									label="Card Color"
-									company={currentCompany}
+									company={currentCompany.name}
 									position={currentPosition}
 									color={currentCardColor ?? getRandomHexColor()}
 									setColor={onChange}

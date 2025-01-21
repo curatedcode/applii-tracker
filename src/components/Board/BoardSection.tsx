@@ -1,8 +1,5 @@
-import type {
-	ApplicationStatusType,
-	ApplicationType,
-	applicationStatusLabel,
-} from "@/src/types/applications";
+import type { applicationStatusLabel } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import type { SortByValueType } from "@/src/types/global";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import {
@@ -19,9 +16,9 @@ import BoardSectionCard from "./BoardSectionCard";
 
 type DefaultSectionType = {
 	mode?: "default";
-	title: z.infer<typeof applicationStatusLabel>;
+	title: zApplication["GET"]["status"];
 	sortBy: SortByValueType;
-	status: ApplicationStatusType;
+	status: zApplication["GET"]["status"];
 };
 
 type DemoSectionType = {
@@ -36,9 +33,9 @@ type LandingSectionType = {
 };
 
 export type BoardSectionProps = {
-	cards: ApplicationType[];
+	cards: zApplication["GET"][];
 	className?: string;
-	status: ApplicationStatusType;
+	status: zApplication["GET"]["status"];
 } & (DefaultSectionType | DemoSectionType | LandingSectionType);
 
 export default function BoardSection(props: BoardSectionProps) {
@@ -58,27 +55,27 @@ export default function BoardSection(props: BoardSectionProps) {
 
 	function Icon(): React.ReactNode {
 		switch (props.status) {
-			case "needToApply":
+			case "Need To Apply":
 				return (
 					<ClockIcon
 						className="w-5 text-applii-needToApply"
 						aria-hidden="true"
 					/>
 				);
-			case "applied":
+			case "Applied":
 				return <EnvelopeIcon className="w-5 text-applii-applied" />;
-			case "interviewing":
+			case "Interviewing":
 				return (
 					<ChatBubbleBottomCenterTextIcon
 						className="w-5 text-applii-interviewing"
 						aria-hidden="true"
 					/>
 				);
-			case "offer":
+			case "Offer":
 				return (
 					<TrophyIcon className="w-5 text-applii-offer" aria-hidden="true" />
 				);
-			case "closed":
+			case "Closed":
 				return (
 					<ArchiveBoxXMarkIcon
 						className="w-5 text-applii-closed"
