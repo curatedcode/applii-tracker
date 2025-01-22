@@ -12,12 +12,25 @@ test("create application", async ({ page }) => {
 		.first()
 		.fill("Software Engineer");
 	await page.getByRole("textbox", { name: "Company" }).fill("Microsoft");
-	await page
-		.getByRole("textbox", { name: "Posting URL" })
-		.fill("www.youtube.com");
 	await page.getByLabel("Status").click();
 	await page.getByTestId("Applied-option").click();
 	await page.getByLabel("Date Applied").fill("2023-10-10");
+
+	// fill out optional fields
+	await page.getByLabel("Pay type", { exact: true }).click();
+	await page.getByTestId("Hourly-option").click();
+	await page.getByLabel("Rate").fill("23");
+	await page.getByLabel("Job type").click();
+	await page.getByTestId("Full-time-option").click();
+	await page.getByLabel("Submission").click();
+	await page.getByTestId("Email-option").click();
+	await page.getByLabel("Location").click();
+	await page.getByTestId("Remote-option").click();
+
+	// fill out custom fields
+	await page.getByRole("button", { name: "Add field" }).click();
+	await page.getByRole("textbox", { name: "Label" }).fill("Recruiter name");
+	await page.getByRole("textbox", { name: "Value" }).fill("Jacob Stringer");
 
 	// fill out contact fields
 	await page.getByRole("button", { name: "Add Contact" }).click();
@@ -52,7 +65,6 @@ test("create application", async ({ page }) => {
 	// main fields
 	expect(page.getByText("Software Engineer", { exact: true })).toBeVisible();
 	expect(page.getByText("Microsoft", { exact: true })).toBeVisible();
-	expect(page.getByText("www.youtube.com", { exact: true })).toBeVisible();
 	expect(page.getByText("Applied", { exact: true })).toBeVisible();
 	// if current year is same as date year then it will show a shortened version
 	if (dayjs().year() === 2023) {
@@ -60,6 +72,17 @@ test("create application", async ({ page }) => {
 	} else {
 		expect(page.getByText("10/10/2023", { exact: true })).toBeVisible();
 	}
+
+	// optional fields
+	expect(page.getByText("Hourly", { exact: true })).toBeVisible();
+	expect(page.getByText("23", { exact: true })).toBeVisible();
+	expect(page.getByText("Full-time", { exact: true })).toBeVisible();
+	expect(page.getByText("Email", { exact: true })).toBeVisible();
+	expect(page.getByText("Remote", { exact: true })).toBeVisible();
+
+	// custom fields
+	expect(page.getByText("Recruiter name:", { exact: true })).toBeVisible();
+	expect(page.getByText("Jacob Stringer", { exact: true })).toBeVisible();
 
 	// contact fields
 	expect(page.getByText("John Smith", { exact: true })).toBeVisible();

@@ -25,27 +25,23 @@ export default function ContactsFields({
 						<FormInput
 							id={`contactNameInput${index}`}
 							label="Name"
-							registerName={`contacts.${index}.name`}
-							register={register}
 							isRequired
+							{...register(`contacts.${index}.name`)}
 						/>
 						<FormInput
 							id={`contactPositionInput${index}`}
 							label="Position"
-							registerName={`contacts.${index}.position`}
-							register={register}
+							{...register(`contacts.${index}.position`)}
 						/>
 						<FormInput
 							id={`contactPhoneInput${index}`}
 							label="Phone"
-							registerName={`contacts.${index}.phone`}
-							register={register}
+							{...register(`contacts.${index}.phone`)}
 						/>
 						<FormInput
 							id={`contactEmailInput${index}`}
 							label="Email"
-							registerName={`contacts.${index}.email`}
-							register={register}
+							{...register(`contacts.${index}.email`)}
 						/>
 						<Button
 							onClick={() => remove(index)}

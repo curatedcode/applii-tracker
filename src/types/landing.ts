@@ -12,13 +12,15 @@ export const needToApplyMocks: zApplication["GET"][] = [
 			contactIds: [],
 		},
 		companyId: 0,
-		postingURL: "example.com",
 		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().toISOString(),
 		dateModified: "2023-06-13T06:00:00.000Z",
 		cardColor: "#1C90BF",
+		location: "In-person",
+		submission: "Job Fair",
+		jobType: "Full-time",
 	},
 	{
 		id: 2,
@@ -36,6 +38,9 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		dateCreated: dayjs().subtract(1, "week").toISOString(),
 		dateModified: "2023-08-28T06:00:00.000Z",
 		cardColor: "#30C5D2",
+		location: "Hybrid",
+		submission: "Job Fair",
+		jobType: "Internship",
 	},
 	{
 		id: 3,
@@ -53,6 +58,10 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		dateCreated: dayjs().subtract(3, "week").toISOString(),
 		dateModified: "2023-11-12T20:00:00.000Z",
 		cardColor: "#6EF195",
+		location: "Remote",
+		submission: "Recruitment Agency",
+		jobType: "Part-time",
+		customFields: [{ label: "Recruiter Name", value: "Jason Jackson" }],
 	},
 	{
 		id: 5,
@@ -70,6 +79,13 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		dateCreated: dayjs().subtract(1.5, "month").toISOString(),
 		dateModified: "2023-10-12T20:00:00.000Z",
 		cardColor: "#FCB0F3",
+		location: "Hybrid",
+		submission: "Email",
+		jobType: "Freelance",
+		wage: {
+			payType: "Hourly",
+			rate: 22,
+		},
 	},
 	{
 		id: 4,
@@ -87,6 +103,13 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		dateCreated: dayjs().subtract(3, "month").toISOString(),
 		dateModified: "2023-10-12T20:00:00.000Z",
 		cardColor: "#1A2766",
+		location: "Hybrid",
+		submission: "Online",
+		jobType: "Full-time",
+		wage: {
+			payType: "Salary",
+			annualSalary: 75000,
+		},
 	},
 ];
 
@@ -110,6 +133,14 @@ export const offerMocks: zApplication["GET"][] = [
 		dateInterviewing: "2023-11-11T04:00:00.000Z",
 		dateOffered: "2023-11-13T04:00:00.000Z",
 		cardColor: "#FCB0F3",
+		location: "Remote",
+		submission: "Other",
+		jobType: "Contract",
+		wage: {
+			payType: "Contract",
+			duration: "1 year",
+			totalAmount: 40000,
+		},
 	},
 	{
 		id: 10,
@@ -130,5 +161,9 @@ export const offerMocks: zApplication["GET"][] = [
 		dateInterviewing: "2023-10-08T04:00:00.000Z",
 		dateOffered: "2023-10-10T04:00:00.000Z",
 		cardColor: "#F8997D",
+		location: "In-person",
+		submission: "Referral",
+		jobType: "Freelance",
+		customFields: [{ label: "Commission", value: "400 per contract" }],
 	},
 ];

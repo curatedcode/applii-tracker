@@ -12,16 +12,17 @@ export const needToApplyMocks: zApplication["GET"][] = [
 			contactIds: [],
 		},
 		companyId: 0,
-		postingURL: "example.com",
 		status: "Need To Apply",
 		contacts: [
 			{
+				id: 1,
 				name: "Alice Jones",
 				phone: "222-333-4444",
 				email: "alicejones@examples.com",
 				position: "Accountant",
 			},
 			{
+				id: 2,
 				name: "Bob Smith",
 				phone: "222-333-4444",
 				email: "bobsmith@examples.com",
@@ -46,6 +47,9 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		dateCreated: dayjs().subtract(7, "month").toISOString(),
 		dateModified: dayjs().subtract(7, "month").toISOString(),
 		cardColor: "#c62828",
+		location: "In-person",
+		submission: "Job Fair",
+		jobType: "Full-time",
 	},
 	{
 		id: 2,
@@ -60,6 +64,7 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		status: "Need To Apply",
 		contacts: [
 			{
+				id: 4,
 				name: "Carol Lee",
 				phone: "222-333-4444",
 				email: "carollee@examples.com",
@@ -70,6 +75,9 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		dateCreated: dayjs().subtract(5, "month").toISOString(),
 		dateModified: dayjs().subtract(5, "month").add(2, "hour").toISOString(),
 		cardColor: "#1565c0",
+		location: "Hybrid",
+		submission: "Job Fair",
+		jobType: "Internship",
 	},
 	{
 		id: 3,
@@ -84,6 +92,7 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		status: "Need To Apply",
 		contacts: [
 			{
+				id: 7,
 				name: "James Dalton",
 				phone: "222-333-4444",
 				email: "jamesdalton@examples.com",
@@ -94,6 +103,10 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		dateCreated: dayjs().subtract(6, "month").toISOString(),
 		dateModified: dayjs().subtract(2, "month").toISOString(),
 		cardColor: "#2e7d32",
+		location: "Remote",
+		submission: "Recruitment Agency",
+		jobType: "Part-time",
+		customFields: [{ label: "Recruiter Name", value: "Jason Jackson" }],
 	},
 	{
 		id: 4,
@@ -111,6 +124,13 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		dateCreated: dayjs().subtract(9, "month").toISOString(),
 		dateModified: dayjs().subtract(3, "month").toISOString(),
 		cardColor: "#f9a825",
+		location: "Hybrid",
+		submission: "Email",
+		jobType: "Freelance",
+		wage: {
+			payType: "Hourly",
+			rate: 22,
+		},
 	},
 	{
 		id: 5,
@@ -125,12 +145,14 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		status: "Need To Apply",
 		contacts: [
 			{
+				id: 12,
 				name: "Liam Williams",
 				phone: "222-333-4444",
 				email: "liamwilliams@examples.com",
 				position: "Chef",
 			},
 			{
+				id: 13,
 				name: "Mia Rodriguez",
 				phone: "222-333-4444",
 				email: "miarodriguez@examples.com",
@@ -149,6 +171,13 @@ export const needToApplyMocks: zApplication["GET"][] = [
 		dateCreated: dayjs().subtract(9, "month").toISOString(),
 		dateModified: dayjs().subtract(3, "month").toISOString(),
 		cardColor: "#6a1b9a",
+		location: "Hybrid",
+		submission: "Online",
+		jobType: "Full-time",
+		wage: {
+			payType: "Salary",
+			annualSalary: 75000,
+		},
 	},
 ];
 
@@ -163,7 +192,6 @@ export const appliedMocks: zApplication["GET"][] = [
 			contactIds: [],
 		},
 		companyId: 0,
-		postingURL: "example.com",
 		status: "Applied",
 		contacts: [],
 		notes: [
@@ -175,6 +203,14 @@ export const appliedMocks: zApplication["GET"][] = [
 		dateModified: dayjs().subtract(3, "month").toISOString(),
 		dateApplied: dayjs().subtract(6, "month").add(2, "day").toISOString(),
 		cardColor: "#ef6c00",
+		location: "Remote",
+		submission: "Other",
+		jobType: "Contract",
+		wage: {
+			payType: "Contract",
+			duration: "1 year",
+			totalAmount: 40000,
+		},
 	},
 	{
 		id: 7,
@@ -189,18 +225,21 @@ export const appliedMocks: zApplication["GET"][] = [
 		status: "Applied",
 		contacts: [
 			{
+				id: 20,
 				name: "David Chen",
 				phone: "222-333-4444",
 				email: "davidchen@examples.com",
 				position: "Data Analyst",
 			},
 			{
+				id: 21,
 				name: "Emma Wilson",
 				phone: "222-333-4444",
 				email: "emmawilson@examples.com",
 				position: "Teacher",
 			},
 			{
+				id: 22,
 				name: "Frank Miller",
 				phone: "222-333-4444",
 				email: "frankmiller@examples.com",
@@ -226,6 +265,10 @@ export const appliedMocks: zApplication["GET"][] = [
 		dateModified: dayjs().subtract(6, "month").add(4, "hour").toISOString(),
 		dateApplied: dayjs().subtract(6, "month").add(4, "day").toISOString(),
 		cardColor: "#4e342e",
+		location: "In-person",
+		submission: "Referral",
+		jobType: "Freelance",
+		customFields: [{ label: "Commission", value: "400 per contract" }],
 	},
 	{
 		id: 8,
@@ -240,18 +283,21 @@ export const appliedMocks: zApplication["GET"][] = [
 		status: "Applied",
 		contacts: [
 			{
+				id: 30,
 				name: "Grace Kim",
 				phone: "222-333-4444",
 				email: "gracekim@examples.com",
 				position: "Nurse",
 			},
 			{
+				id: 31,
 				name: "Henry Brown",
 				phone: "222-333-4444",
 				email: "henrybrown@examples.com",
 				position: "Sales Representative",
 			},
 			{
+				id: 32,
 				name: "Isabella Garcia",
 				phone: "222-333-4444",
 				email: "isabellagarcia@examples.com",
@@ -263,6 +309,13 @@ export const appliedMocks: zApplication["GET"][] = [
 		dateModified: dayjs().subtract(4, "month").toISOString(),
 		dateApplied: dayjs().subtract(3, "month").toISOString(),
 		cardColor: "#37474f",
+		location: "Remote",
+		submission: "Email",
+		jobType: "Part-time",
+		wage: {
+			payType: "Hourly",
+			rate: 30,
+		},
 	},
 ];
 
@@ -277,16 +330,17 @@ export const interviewingMocks: zApplication["GET"][] = [
 			contactIds: [],
 		},
 		companyId: 0,
-		postingURL: "example.com",
 		status: "Interviewing",
 		contacts: [
 			{
+				id: 40,
 				name: "Jack Taylor",
 				phone: "222-333-4444",
 				email: "jacktaylor@examples.com",
 				position: "Project Manager",
 			},
 			{
+				id: 41,
 				name: "Kelly Johnson",
 				phone: "222-333-4444",
 				email: "kellyjohnson@examples.com",
@@ -306,6 +360,9 @@ export const interviewingMocks: zApplication["GET"][] = [
 		dateApplied: dayjs().subtract(7, "month").add(2, "day").toISOString(),
 		dateInterviewing: dayjs().subtract(6, "month").add(4, "day").toISOString(),
 		cardColor: "#ad1457",
+		location: "Hybrid",
+		submission: "Job Fair",
+		jobType: "Contract",
 	},
 ];
 
@@ -339,6 +396,9 @@ export const offerMocks: zApplication["GET"][] = [
 		dateInterviewing: dayjs().subtract(2, "month").add(5, "day").toISOString(),
 		dateOffered: dayjs().subtract(6, "month").add(2, "week").toISOString(),
 		cardColor: "#00838f",
+		location: "In-person",
+		submission: "Online",
+		jobType: "Full-time",
 	},
 	{
 		id: 11,
@@ -353,12 +413,14 @@ export const offerMocks: zApplication["GET"][] = [
 		status: "Offer",
 		contacts: [
 			{
+				id: 50,
 				name: "Liam Williams",
 				phone: "222-333-4444",
 				email: "liamwilliams@examples.com",
 				position: "Chef",
 			},
 			{
+				id: 51,
 				name: "Mia Rodriguez",
 				phone: "222-333-4444",
 				email: "miarodriguez@examples.com",
@@ -372,6 +434,13 @@ export const offerMocks: zApplication["GET"][] = [
 		dateInterviewing: dayjs().subtract(2, "month").add(3, "day").toISOString(),
 		dateOffered: dayjs().subtract(2, "month").add(6, "day").toISOString(),
 		cardColor: "#fdd835",
+		location: "Remote",
+		submission: "Recruitment Agency",
+		jobType: "Part-time",
+		wage: {
+			payType: "Salary",
+			annualSalary: 12500,
+		},
 	},
 ];
 
@@ -386,16 +455,17 @@ export const closedMocks: zApplication["GET"][] = [
 			contactIds: [],
 		},
 		companyId: 0,
-		postingURL: "example.com",
 		status: "Closed",
 		contacts: [
 			{
+				id: 70,
 				name: "Noah Martin",
 				phone: "222-333-4444",
 				email: "noahmartin@examples.com",
 				position: "Electrician",
 			},
 			{
+				id: 71,
 				name: "Olivia Smith",
 				phone: "222-333-4444",
 				email: "oliviasmith@examples.com",
@@ -410,6 +480,9 @@ export const closedMocks: zApplication["GET"][] = [
 		dateOffered: dayjs().subtract(1, "month").add(1, "week").toISOString(),
 		dateClosed: dayjs().subtract(1, "month").add(2, "week").toISOString(),
 		cardColor: "#009688",
+		location: "Hybrid",
+		submission: "Email",
+		jobType: "Contract",
 	},
 ];
 

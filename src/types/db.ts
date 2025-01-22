@@ -176,36 +176,54 @@ export const zStatus = z.enum([
 export type zStatus = z.infer<typeof zStatus>;
 
 export const zWageBase = z.object({
-	currency: z.string().length(3),
+	payType: z.enum(["Hourly", "Salary", "Contract", "- Select- "]),
+});
+
+export type zWageBase = z.infer<typeof zWageBase>;
+
+export const zWageType = z.enum(["Hourly", "Salary", "Contract", "- Select- "]);
+
+export type zWageType = z.infer<typeof zWageType>;
+
+export const zWageBlank = zWageBase.extend({
+	payType: z.literal(zWageType.options[3]),
 });
 
 export const zWageHourly = zWageBase.extend({
-	type: z.literal("hourly"),
-	rate: z.number(),
+	payType: z.literal(zWageType.options[0]),
+	rate: z.string(),
 });
+
+export type zWageHourly = z.infer<typeof zWageHourly>;
 
 export const zWageSalary = zWageBase.extend({
-	type: z.literal("salary"),
-	annualSalary: z.number(),
+	payType: z.literal(zWageType.options[1]),
+	annualSalary: z.string(),
 });
 
+export type zWageSalary = z.infer<typeof zWageSalary>;
+
 export const zWageContract = zWageBase.extend({
-	type: z.literal("contract"),
-	totalAmount: z.number(),
+	payType: z.literal(zWageType.options[2]),
+	totalAmount: z.string(),
 	duration: z.string(),
 });
 
-export const zWage = z.discriminatedUnion("type", [
+export type zWageContract = z.infer<typeof zWageContract>;
+
+export const zWage = z.discriminatedUnion("payType", [
 	zWageHourly,
 	zWageSalary,
 	zWageContract,
+	zWageBlank,
 ]);
+
+export type zWage = z.infer<typeof zWage>;
 
 export const zApplicationBase = {
 	GET: z.object({
 		id: z.number(),
 		position: z.string(),
-		postingURL: z.string().optional(),
 		status: z.enum([
 			"Need To Apply",
 			"Applied",
@@ -224,26 +242,31 @@ export const zApplicationBase = {
 		contactIds: z.array(z.number()).optional(),
 		companyId: z.number(),
 		wage: zWage.optional(),
-		type: z
-			.enum(["full-time", "part-time", "contract", "internship", "freelance"])
+		jobType: z.enum([
+			"Full-time",
+			"Part-time",
+			"Contract",
+			"Internship",
+			"Freelance",
+			"- Select- ",
+		]),
+		submission: z.enum([
+			"Online",
+			"In-person",
+			"Email",
+			"Referral",
+			"Job Fair",
+			"Recruitment Agency",
+			"Other",
+			"- Select- ",
+		]),
+		location: z.enum(["In-person", "Remote", "Hybrid", "- Select- "]),
+		customFields: z
+			.array(z.object({ label: z.string(), value: z.string() }))
 			.optional(),
-		applicationMethod: z
-			.enum([
-				"online",
-				"in-person",
-				"email",
-				"referral",
-				"job fair",
-				"recruitment agency",
-				"other",
-			])
-			.optional(),
-		location: z.enum(["in-person", "remote", "hybrid"]).optional(),
-		customFields: z.array(z.record(z.string(), z.string())).optional(),
 	}),
 	INSERT: z.object({
 		position: z.string().min(1, { message: "Position can't be empty" }),
-		postingURL: z.string().optional(),
 		status: z.enum([
 			"Need To Apply",
 			"Applied",
@@ -262,27 +285,32 @@ export const zApplicationBase = {
 		contactIds: z.array(z.number()).optional(),
 		companyId: z.number(),
 		wage: zWage.optional(),
-		type: z
-			.enum(["full-time", "part-time", "contract", "internship", "freelance"])
+		jobType: z.enum([
+			"Full-time",
+			"Part-time",
+			"Contract",
+			"Internship",
+			"Freelance",
+			"- Select- ",
+		]),
+		submission: z.enum([
+			"Online",
+			"In-person",
+			"Email",
+			"Referral",
+			"Job Fair",
+			"Recruitment Agency",
+			"Other",
+			"- Select- ",
+		]),
+		location: z.enum(["In-person", "Remote", "Hybrid", "- Select- "]),
+		customFields: z
+			.array(z.object({ label: z.string(), value: z.string() }))
 			.optional(),
-		applicationMethod: z
-			.enum([
-				"online",
-				"in-person",
-				"email",
-				"referral",
-				"job fair",
-				"recruitment agency",
-				"other",
-			])
-			.optional(),
-		location: z.enum(["in-person", "remote", "hybrid"]).optional(),
-		customFields: z.array(z.record(z.string(), z.string())).optional(),
 	}),
 	PUT: z.object({
 		id: z.number(),
 		position: z.string(),
-		postingURL: z.string().optional(),
 		status: z.enum([
 			"Need To Apply",
 			"Applied",
@@ -301,22 +329,28 @@ export const zApplicationBase = {
 		contactIds: z.array(z.number()).optional(),
 		companyId: z.number(),
 		wage: zWage.optional(),
-		type: z
-			.enum(["full-time", "part-time", "contract", "internship", "freelance"])
+		jobType: z.enum([
+			"Full-time",
+			"Part-time",
+			"Contract",
+			"Internship",
+			"Freelance",
+			"- Select- ",
+		]),
+		submission: z.enum([
+			"Online",
+			"In-person",
+			"Email",
+			"Referral",
+			"Job Fair",
+			"Recruitment Agency",
+			"Other",
+			"- Select- ",
+		]),
+		location: z.enum(["In-person", "Remote", "Hybrid", "- Select- "]),
+		customFields: z
+			.array(z.object({ label: z.string(), value: z.string() }))
 			.optional(),
-		applicationMethod: z
-			.enum([
-				"online",
-				"in-person",
-				"email",
-				"referral",
-				"job fair",
-				"recruitment agency",
-				"other",
-			])
-			.optional(),
-		location: z.enum(["in-person", "remote", "hybrid"]).optional(),
-		customFields: z.array(z.record(z.string(), z.string())).optional(),
 	}),
 };
 

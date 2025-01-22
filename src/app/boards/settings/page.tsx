@@ -15,7 +15,7 @@ import { dropboxTokenNames } from "@/src/types/dropbox";
 import {
 	defaultFileExportName,
 	fileExportFormSchema,
-	fileExportTypeSelectOptions,
+	fileExportTypeOption,
 } from "@/src/types/file";
 import { defaultFocusHoverClasses, themeOptions } from "@/src/types/global";
 import db from "@/src/utils/db";
@@ -110,7 +110,7 @@ export default function Settings() {
 		toast.promise(
 			exportDataToFile({
 				anchorEl: fileExportRef,
-				fileType: fileType.value,
+				fileType,
 				fileName,
 			}),
 			{
@@ -145,15 +145,13 @@ export default function Settings() {
 		handleSubmit: handleFileExportFormSubmit,
 		formState: { errors: fileExportFormErrors },
 		control: fileExportFormControl,
-		watch: watchFileExportForm,
-	} = useForm<z.infer<typeof fileExportFormSchema>>({
+	} = useForm<fileExportFormSchema>({
 		resolver: zodResolver(fileExportFormSchema),
 		defaultValues: {
 			fileName: defaultFileExportName,
+			fileType: "JSON",
 		},
 	});
-
-	const currentFileExportFileType = watchFileExportForm("fileType");
 
 	useEffect(() => {
 		if (!dropboxTokenParam) return;
@@ -190,7 +188,7 @@ export default function Settings() {
 	}, [setFormSettingValue]);
 
 	useEffect(() => {
-		setFileExportFormValue("fileType", fileExportTypeSelectOptions[0]);
+		setFileExportFormValue("fileType", fileExportTypeOption.Values.CSV);
 	}, [setFileExportFormValue]);
 
 	useEffect(() => {
@@ -296,21 +294,17 @@ export default function Settings() {
 							id="fileExportName"
 							label="File name"
 							type="text"
-							register={registerFileExportForm}
 							error={fileExportFormErrors.fileName?.message}
-							registerName="fileName"
+							{...registerFileExportForm("fileName")}
 						/>
 						<Controller
 							name="fileType"
 							control={fileExportFormControl}
-							render={({ field: { onChange } }) => (
+							render={({ field }) => (
 								<FormSelectInput
+									{...field}
 									label="File type"
-									selected={
-										currentFileExportFileType ?? fileExportTypeSelectOptions[0]
-									}
-									setSelected={onChange}
-									options={fileExportTypeSelectOptions}
+									options={fileExportTypeOption.options}
 								/>
 							)}
 						/>

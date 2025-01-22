@@ -705,7 +705,6 @@ const application = {
 					const mergedData: zApplicationBase["PUT"] = {
 						id: data.id,
 						position: data.position ?? storedData.position,
-						postingURL: data.postingURL ?? storedData.postingURL,
 						status: data.status ?? storedData.status,
 						dateCreated: data.dateCreated ?? storedData.dateCreated,
 						dateModified: data.dateModified ?? storedData.dateModified,
@@ -718,6 +717,11 @@ const application = {
 						notes: data.notes ?? storedData.notes,
 						contactIds: storedData.contactIds,
 						companyId: storedData.companyId,
+						location: data.location ?? storedData.location,
+						submission: data.submission ?? storedData.submission,
+						jobType: data.jobType ?? storedData.jobType,
+						customFields: data.customFields ?? storedData.customFields,
+						wage: data.wage ?? storedData.wage,
 					};
 
 					await promisifyIDBRequest(db.application.put(mergedData));

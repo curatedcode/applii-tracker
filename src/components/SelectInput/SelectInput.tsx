@@ -1,6 +1,8 @@
+"use client";
+
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import { type OptionType, defaultFocusHoverClasses } from "../../types/global";
 
 export type SelectInputProps<TLabel, TValue> = {
@@ -14,15 +16,24 @@ export default function SelectInput<
 	TLabel extends string,
 	TValue extends string,
 >({ options, setSelected, selected, label }: SelectInputProps<TLabel, TValue>) {
+	const buttonRef = useRef<HTMLButtonElement>(null);
+
 	return (
 		<div className={`text-sm ${label ? "w-full" : "w-40"}`}>
 			<Listbox value={selected} onChange={setSelected}>
 				<div className="relative">
 					{label ? (
 						<div className="flex flex-col gap-1">
-							<Listbox.Label className="text-base">{label}</Listbox.Label>
+							<Listbox.Label
+								className="text-base"
+								onClick={() => buttonRef.current?.click()}
+							>
+								{label}
+							</Listbox.Label>
 							<Listbox.Button
 								className={`${defaultFocusHoverClasses} relative w-40 cursor-pointer rounded-md bg-light-secondary py-1.5 pl-3 pr-10 text-left shadow-sm dark:bg-dark-secondary`}
+								ref={buttonRef}
+								aria-label={label}
 							>
 								<span className="block truncate">{selected.label}</span>
 								<span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">

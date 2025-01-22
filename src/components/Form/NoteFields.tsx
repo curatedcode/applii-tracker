@@ -25,9 +25,8 @@ export default function NoteFields({
 							id={`noteBodyInput${index}`}
 							rows={8}
 							label="Body"
-							registerName={`notes.${index}.body`}
-							register={register}
 							isRequired
+							{...register(`notes.${index}.body`)}
 						/>
 						<Button
 							onClick={() => remove(index)}

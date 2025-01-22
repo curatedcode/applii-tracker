@@ -33,7 +33,6 @@ export default function Application() {
 	const {
 		position,
 		company,
-		postingURL,
 		contacts,
 		notes,
 		status,
@@ -43,6 +42,11 @@ export default function Application() {
 		dateOffered,
 		dateClosed,
 		cardColor,
+		wage,
+		jobType,
+		submission,
+		location,
+		customFields,
 	} = application;
 
 	return (
@@ -91,12 +95,42 @@ export default function Application() {
 					>
 						<ULItem label="Position" body={position} />
 						<ULItem label="Company" body={company.name} />
-						<ULItem
-							label="Posting URL"
-							body={postingURL ?? "None"}
-							isLink={!!postingURL}
-						/>
 						<ULItem label="Status" body={status} />
+						{wage ? (
+							<>
+								{wage.payType !== "- Select- " && (
+									<ULItem label="Pay type" body={wage.payType} />
+								)}
+								{wage.payType === "Salary" && (
+									<ULItem label="Annual salary" body={`${wage.annualSalary}`} />
+								)}
+								{wage.payType === "Hourly" && (
+									<ULItem label="Rate" body={`${wage.rate}`} />
+								)}
+								{wage.payType === "Contract" && (
+									<>
+										<ULItem label="Total amount" body={`${wage.totalAmount}`} />
+										<ULItem label="Duration" body={wage.duration} />
+									</>
+								)}
+							</>
+						) : null}
+						{jobType !== "- Select- " && (
+							<ULItem label="Job type" body={jobType} />
+						)}
+						{submission !== "- Select- " && (
+							<ULItem label="Submission" body={submission} />
+						)}
+						{location !== "- Select- " && (
+							<ULItem label="Location" body={location} />
+						)}
+						{customFields?.map((field) => (
+							<ULItem
+								key={`${field.label}-${field.value}`}
+								label={field.label}
+								body={field.value}
+							/>
+						))}
 						<ULItem label="Created on" body={formatDate(dateCreated)} />
 						{status === "Applied" && dateApplied && (
 							<ULItem label="Applied on" body={formatDate(dateApplied)} />

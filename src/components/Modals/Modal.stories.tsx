@@ -13,6 +13,14 @@ const meta = {
 export const Default: Story = {
 	args: {
 		description: "",
+		isOpen: false,
+		primaryButton: {
+			body: "Primary",
+		},
+		secondaryButton: {
+			body: "Secondary",
+		},
+		title: "This is a modal!",
 	},
 };
 
