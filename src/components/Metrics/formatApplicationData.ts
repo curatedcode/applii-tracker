@@ -1,4 +1,4 @@
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import { statusColors } from "@/src/types/global";
 import type {
 	ApplicationsInDateRangeType,
@@ -11,28 +11,28 @@ export default function formatApplicationData(
 	const dataFormatted = data.map((data) => {
 		const { label, applications } = data;
 
-		const needToApplyApps: ApplicationType[] = [];
-		const appliedApps: ApplicationType[] = [];
-		const interviewingApps: ApplicationType[] = [];
-		const offerApps: ApplicationType[] = [];
-		const closedApps: ApplicationType[] = [];
+		const needToApplyApps: zApplication["GET"][] = [];
+		const appliedApps: zApplication["GET"][] = [];
+		const interviewingApps: zApplication["GET"][] = [];
+		const offerApps: zApplication["GET"][] = [];
+		const closedApps: zApplication["GET"][] = [];
 
 		for (const application of applications) {
 			const status = application.status;
 			switch (status) {
-				case "needToApply":
+				case "Need To Apply":
 					needToApplyApps.push(application);
 					break;
-				case "applied":
+				case "Applied":
 					appliedApps.push(application);
 					break;
-				case "interviewing":
+				case "Interviewing":
 					interviewingApps.push(application);
 					break;
-				case "offer":
+				case "Offer":
 					offerApps.push(application);
 					break;
-				case "closed":
+				case "Closed":
 					closedApps.push(application);
 					break;
 			}

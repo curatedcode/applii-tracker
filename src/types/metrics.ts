@@ -1,4 +1,4 @@
-import type { ApplicationType } from "./applications";
+import type { zApplication } from "@/src/types/db";
 
 export type ChartDataType = {
 	date: string;
@@ -19,7 +19,7 @@ export const chartStageKeys = [
 
 export type ApplicationsInDateRangeType = {
 	label: string;
-	applications: ApplicationType[];
+	applications: zApplication["GET"][];
 };
 
 export const timelineUnits = {

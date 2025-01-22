@@ -1,4 +1,4 @@
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import type { TimelineType } from "@/src/types/global";
 import type { Meta, StoryObj } from "@storybook/react";
 import dayjs from "dayjs";
@@ -11,7 +11,7 @@ type Story = StoryObj<typeof meta>;
 
 type TemplateProps = {
 	timeline: TimelineType;
-	applications: ApplicationType[];
+	applications: zApplication["GET"][];
 };
 
 function Template({ timeline, applications }: TemplateProps) {
@@ -54,22 +54,29 @@ export const Full: Story = {
 
 export default meta;
 
-function mockApplications(): ApplicationType[] {
+function mockApplications(): zApplication["GET"][] {
 	return [
 		{
 			id: 1,
 			position: "Marketing Manager",
-			company: "Coca-Cola",
-			postingURL: "example.com",
-			status: "needToApply",
+			company: {
+				id: 0,
+				name: "Coca-Cola",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Need To Apply",
 			contacts: [
 				{
+					id: 1,
 					name: "Alice Jones",
 					phone: "222-333-4444",
 					email: "alicejones@examples.com",
 					position: "Accountant",
 				},
 				{
+					id: 2,
 					name: "Bob Smith",
 					phone: "222-333-4444",
 					email: "bobsmith@examples.com",
@@ -94,14 +101,24 @@ function mockApplications(): ApplicationType[] {
 			dateCreated: dayjs().subtract(7, "month").toISOString(),
 			dateModified: dayjs().subtract(7, "month").toISOString(),
 			cardColor: "#c62828",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 2,
 			position: "Project Coordinator",
-			company: "UNICEF",
-			status: "needToApply",
+			company: {
+				id: 0,
+				name: "UNICEF",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Need To Apply",
 			contacts: [
 				{
+					id: 3,
 					name: "Carol Lee",
 					phone: "222-333-4444",
 					email: "carollee@examples.com",
@@ -112,14 +129,24 @@ function mockApplications(): ApplicationType[] {
 			dateCreated: dayjs().subtract(5, "month").toISOString(),
 			dateModified: dayjs().subtract(5, "month").add(2, "hour").toISOString(),
 			cardColor: "#1565c0",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 3,
 			position: "Data Engineer",
-			company: "Daylight Solutions",
-			status: "needToApply",
+			company: {
+				id: 0,
+				name: "Daylight Solutions",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Need To Apply",
 			contacts: [
 				{
+					id: 4,
 					name: "James Dalton",
 					phone: "222-333-4444",
 					email: "jamesdalton@examples.com",
@@ -130,31 +157,51 @@ function mockApplications(): ApplicationType[] {
 			dateCreated: dayjs().subtract(6, "month").toISOString(),
 			dateModified: dayjs().subtract(2, "month").toISOString(),
 			cardColor: "#2e7d32",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 4,
 			position: "Project Manager",
-			company: "Mason Consulting",
-			status: "needToApply",
+			company: {
+				id: 0,
+				name: "Mason Consulting",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Need To Apply",
 			contacts: [],
 			notes: [],
 			dateCreated: dayjs().subtract(9, "month").toISOString(),
 			dateModified: dayjs().subtract(3, "month").toISOString(),
 			cardColor: "#f9a825",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 5,
 			position: "Senior Data Analyst",
-			company: "Acme Inc.",
-			status: "needToApply",
+			company: {
+				id: 0,
+				name: "Acme Inc.",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Need To Apply",
 			contacts: [
 				{
+					id: 5,
 					name: "Liam Williams",
 					phone: "222-333-4444",
 					email: "liamwilliams@examples.com",
 					position: "Chef",
 				},
 				{
+					id: 6,
 					name: "Mia Rodriguez",
 					phone: "222-333-4444",
 					email: "miarodriguez@examples.com",
@@ -163,7 +210,7 @@ function mockApplications(): ApplicationType[] {
 			],
 			notes: [
 				{
-					body: `I have received an offer letter from ABC Inc. with a salary of $80,000 per year. I think this is a fair offer, but I would like to negotiate for a higher amount, based on my research and the market value. I have prepared a counteroffer of $85,000 per year, with some supporting reasons, such as:
+					body: `I have received an Offer letter from ABC Inc. with a salary of $80,000 per year. I think this is a fair Offer, but I would like to negotiate for a higher amount, based on my research and the market value. I have prepared a counterOffer of $85,000 per year, with some supporting reasons, such as:
 				- I have more than five years of experience in web development, with a proven track record of delivering high-quality and innovative solutions.
 				- I have skills and expertise in some of the latest and most in-demand technologies, such as React, Django, and Power BI.
 				- I have received positive feedback and recognition from my previous employers and clients, as well as some awards and certifications.
@@ -173,13 +220,21 @@ function mockApplications(): ApplicationType[] {
 			dateCreated: dayjs().subtract(9, "month").toISOString(),
 			dateModified: dayjs().subtract(3, "month").toISOString(),
 			cardColor: "#6a1b9a",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 6,
 			position: "Data Analyst",
-			company: "Netflix",
-			postingURL: "example.com",
-			status: "applied",
+			company: {
+				id: 0,
+				name: "Netflix",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Applied",
 			notes: [
 				{
 					body: "I have sent a thank you email to the hiring manager after the interview. I have thanked them for their time and consideration, reiterated my interest and enthusiasm for the position, and highlighted some of the key points that we discussed. I have also asked them about the next steps and the timeline for the hiring process.",
@@ -189,26 +244,38 @@ function mockApplications(): ApplicationType[] {
 			dateModified: dayjs().subtract(3, "month").toISOString(),
 			dateApplied: dayjs().subtract(6, "month").add(2, "day").toISOString(),
 			cardColor: "#ef6c00",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 7,
 			position: "Accountant",
-			company: "Deloitte",
-			status: "applied",
+			company: {
+				id: 0,
+				name: "Deloitte",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Applied",
 			contacts: [
 				{
+					id: 7,
 					name: "David Chen",
 					phone: "222-333-4444",
 					email: "davidchen@examples.com",
 					position: "Data Analyst",
 				},
 				{
+					id: 8,
 					name: "Emma Wilson",
 					phone: "222-333-4444",
 					email: "emmawilson@examples.com",
 					position: "Teacher",
 				},
 				{
+					id: 9,
 					name: "Frank Miller",
 					phone: "222-333-4444",
 					email: "frankmiller@examples.com",
@@ -217,43 +284,55 @@ function mockApplications(): ApplicationType[] {
 			],
 			notes: [
 				{
-					body: `I have received an offer letter from ABC Inc. with a salary of $80,000 per year. I think this is a fair offer, but I would like to negotiate for a higher amount, based on my research and the market value. I have prepared a counteroffer of $85,000 per year, with some supporting reasons, such as:
+					body: `I have received an Offer letter from ABC Inc. with a salary of $80,000 per year. I think this is a fair Offer, but I would like to negotiate for a higher amount, based on my research and the market value. I have prepared a counterOffer of $85,000 per year, with some supporting reasons, such as:
 					- I have more than five years of experience in web development, with a proven track record of delivering high-quality and innovative solutions.
 					- I have skills and expertise in some of the latest and most in-demand technologies, such as React, Django, and Power BI.
 					- I have received positive feedback and recognition from my previous employers and clients, as well as some awards and certifications.
 					`,
 				},
 				{
-					body: "I have decided to accept the offer from ABC Inc. and join their team as a senior web developer. I have written an acceptance letter to the hiring manager, expressing my gratitude and excitement for the opportunity. I have also confirmed the details of the offer, such as the salary, benefits, start date, and reporting structure. I have asked them to send me the official contract and any other documents that I need to sign.",
+					body: "I have decided to accept the Offer from ABC Inc. and join their team as a senior web developer. I have written an acceptance letter to the hiring manager, expressing my gratitude and excitement for the opportunity. I have also confirmed the details of the Offer, such as the salary, benefits, start date, and reporting structure. I have asked them to send me the official contract and any other documents that I need to sign.",
 				},
 				{
-					body: "I have written a resignation letter to my current employer, informing them of my decision to leave the company and pursue a new opportunity. I have thanked them for the support and guidance that they have provided me during my tenure, and highlighted some of the achievements and learnings that I have gained. I have also assured them of my cooperation and assistance during the transition period, and offered to train my replacement and hand over my responsibilities.",
+					body: "I have written a resignation letter to my current employer, informing them of my decision to leave the company and pursue a new opportunity. I have thanked them for the support and guidance that they have provided me during my tenure, and highlighted some of the achievements and learnings that I have gained. I have also assured them of my cooperation and assistance during the transition period, and Offered to train my replacement and hand over my responsibilities.",
 				},
 			],
 			dateCreated: dayjs().subtract(6, "month").toISOString(),
 			dateModified: dayjs().subtract(6, "month").add(4, "hour").toISOString(),
 			dateApplied: dayjs().subtract(6, "month").add(4, "day").toISOString(),
 			cardColor: "#4e342e",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 8,
 			position: "Graphic Designer",
-			company: "Adobe",
-			status: "applied",
+			company: {
+				id: 0,
+				name: "Adobe",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Applied",
 			contacts: [
 				{
+					id: 10,
 					name: "Grace Kim",
 					phone: "222-333-4444",
 					email: "gracekim@examples.com",
 					position: "Nurse",
 				},
 				{
+					id: 11,
 					name: "Henry Brown",
 					phone: "222-333-4444",
 					email: "henrybrown@examples.com",
 					position: "Sales Representative",
 				},
 				{
+					id: 12,
 					name: "Isabella Garcia",
 					phone: "222-333-4444",
 					email: "isabellagarcia@examples.com",
@@ -265,21 +344,31 @@ function mockApplications(): ApplicationType[] {
 			dateModified: dayjs().subtract(4, "month").toISOString(),
 			dateApplied: dayjs().subtract(3, "month").toISOString(),
 			cardColor: "#37474f",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 9,
 			position: "Human Resources Specialist",
-			company: "Amazon",
-			postingURL: "example.com",
-			status: "interviewing",
+			company: {
+				id: 0,
+				name: "Amazon",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Interviewing",
 			contacts: [
 				{
+					id: 13,
 					name: "Jack Taylor",
 					phone: "222-333-4444",
 					email: "jacktaylor@examples.com",
 					position: "Project Manager",
 				},
 				{
+					id: 14,
 					name: "Kelly Johnson",
 					phone: "222-333-4444",
 					email: "kellyjohnson@examples.com",
@@ -302,12 +391,21 @@ function mockApplications(): ApplicationType[] {
 				.add(4, "day")
 				.toISOString(),
 			cardColor: "#ad1457",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 10,
 			position: "Human Resources Specialist",
-			company: "Amazon",
-			status: "offer",
+			company: {
+				id: 0,
+				name: "Amazon",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Offer",
 			contacts: [],
 			notes: [
 				{
@@ -329,20 +427,31 @@ function mockApplications(): ApplicationType[] {
 				.toISOString(),
 			dateOffered: dayjs().subtract(6, "month").add(2, "week").toISOString(),
 			cardColor: "#00838f",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 		{
 			id: 11,
 			position: "Sales Representative",
-			company: "Apple",
-			status: "offer",
+			company: {
+				id: 0,
+				name: "Apple",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Offer",
 			contacts: [
 				{
+					id: 15,
 					name: "Liam Williams",
 					phone: "222-333-4444",
 					email: "liamwilliams@examples.com",
 					position: "Chef",
 				},
 				{
+					id: 16,
 					name: "Mia Rodriguez",
 					phone: "222-333-4444",
 					email: "miarodriguez@examples.com",
@@ -359,22 +468,32 @@ function mockApplications(): ApplicationType[] {
 				.toISOString(),
 			dateOffered: dayjs().subtract(2, "month").add(6, "day").toISOString(),
 			cardColor: "#fdd835",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 
 		{
 			id: 12,
 			position: "Sales Representative",
-			company: "Apple",
-			postingURL: "example.com",
-			status: "closed",
+			company: {
+				id: 0,
+				name: "Apple",
+				contacts: [],
+				contactIds: [],
+			},
+			companyId: 0,
+			status: "Closed",
 			contacts: [
 				{
+					id: 17,
 					name: "Noah Martin",
 					phone: "222-333-4444",
 					email: "noahmartin@examples.com",
 					position: "Electrician",
 				},
 				{
+					id: 18,
 					name: "Olivia Smith",
 					phone: "222-333-4444",
 					email: "oliviasmith@examples.com",
@@ -392,6 +511,9 @@ function mockApplications(): ApplicationType[] {
 			dateOffered: dayjs().subtract(1, "month").add(1, "week").toISOString(),
 			dateClosed: dayjs().subtract(1, "month").add(2, "week").toISOString(),
 			cardColor: "#009688",
+			location: "In-person",
+			submission: "Job Fair",
+			jobType: "Full-time",
 		},
 	];
 }

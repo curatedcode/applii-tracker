@@ -1,21 +1,28 @@
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import dayjs from "dayjs";
 
-export const needToApplyMocks: ApplicationType[] = [
+export const needToApplyMocks: zApplication["GET"][] = [
 	{
 		id: 1,
 		position: "Marketing Manager",
-		company: "Coca-Cola",
-		postingURL: "example.com",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Coca-Cola",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [
 			{
+				id: 1,
 				name: "Alice Jones",
 				phone: "222-333-4444",
 				email: "alicejones@examples.com",
 				position: "Accountant",
 			},
 			{
+				id: 2,
 				name: "Bob Smith",
 				phone: "222-333-4444",
 				email: "bobsmith@examples.com",
@@ -40,14 +47,24 @@ export const needToApplyMocks: ApplicationType[] = [
 		dateCreated: dayjs().subtract(7, "month").toISOString(),
 		dateModified: dayjs().subtract(7, "month").toISOString(),
 		cardColor: "#c62828",
+		location: "In-person",
+		submission: "Job Fair",
+		jobType: "Full-time",
 	},
 	{
 		id: 2,
 		position: "Project Coordinator",
-		company: "UNICEF",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "UNICEF",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [
 			{
+				id: 4,
 				name: "Carol Lee",
 				phone: "222-333-4444",
 				email: "carollee@examples.com",
@@ -58,14 +75,24 @@ export const needToApplyMocks: ApplicationType[] = [
 		dateCreated: dayjs().subtract(5, "month").toISOString(),
 		dateModified: dayjs().subtract(5, "month").add(2, "hour").toISOString(),
 		cardColor: "#1565c0",
+		location: "Hybrid",
+		submission: "Job Fair",
+		jobType: "Internship",
 	},
 	{
 		id: 3,
 		position: "Data Engineer",
-		company: "Daylight Solutions",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Daylight Solutions",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [
 			{
+				id: 7,
 				name: "James Dalton",
 				phone: "222-333-4444",
 				email: "jamesdalton@examples.com",
@@ -76,31 +103,56 @@ export const needToApplyMocks: ApplicationType[] = [
 		dateCreated: dayjs().subtract(6, "month").toISOString(),
 		dateModified: dayjs().subtract(2, "month").toISOString(),
 		cardColor: "#2e7d32",
+		location: "Remote",
+		submission: "Recruitment Agency",
+		jobType: "Part-time",
+		customFields: [{ label: "Recruiter Name", value: "Jason Jackson" }],
 	},
 	{
 		id: 4,
 		position: "Project Manager",
-		company: "Mason Consulting",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Mason Consulting",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().subtract(9, "month").toISOString(),
 		dateModified: dayjs().subtract(3, "month").toISOString(),
 		cardColor: "#f9a825",
+		location: "Hybrid",
+		submission: "Email",
+		jobType: "Freelance",
+		wage: {
+			payType: "Hourly",
+			rate: 22,
+		},
 	},
 	{
 		id: 5,
 		position: "Senior Data Analyst",
-		company: "Acme Inc.",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Acme Inc.",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [
 			{
+				id: 12,
 				name: "Liam Williams",
 				phone: "222-333-4444",
 				email: "liamwilliams@examples.com",
 				position: "Chef",
 			},
 			{
+				id: 13,
 				name: "Mia Rodriguez",
 				phone: "222-333-4444",
 				email: "miarodriguez@examples.com",
@@ -119,16 +171,29 @@ export const needToApplyMocks: ApplicationType[] = [
 		dateCreated: dayjs().subtract(9, "month").toISOString(),
 		dateModified: dayjs().subtract(3, "month").toISOString(),
 		cardColor: "#6a1b9a",
+		location: "Hybrid",
+		submission: "Online",
+		jobType: "Full-time",
+		wage: {
+			payType: "Salary",
+			annualSalary: 75000,
+		},
 	},
 ];
 
-export const appliedMocks: ApplicationType[] = [
+export const appliedMocks: zApplication["GET"][] = [
 	{
 		id: 6,
 		position: "Data Analyst",
-		company: "Netflix",
-		postingURL: "example.com",
-		status: "applied",
+		company: {
+			id: 0,
+			name: "Netflix",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Applied",
+		contacts: [],
 		notes: [
 			{
 				body: "I have sent a thank you email to the hiring manager after the interview. I have thanked them for their time and consideration, reiterated my interest and enthusiasm for the position, and highlighted some of the key points that we discussed. I have also asked them about the next steps and the timeline for the hiring process.",
@@ -138,26 +203,43 @@ export const appliedMocks: ApplicationType[] = [
 		dateModified: dayjs().subtract(3, "month").toISOString(),
 		dateApplied: dayjs().subtract(6, "month").add(2, "day").toISOString(),
 		cardColor: "#ef6c00",
+		location: "Remote",
+		submission: "Other",
+		jobType: "Contract",
+		wage: {
+			payType: "Contract",
+			duration: "1 year",
+			totalAmount: 40000,
+		},
 	},
 	{
 		id: 7,
 		position: "Accountant",
-		company: "Deloitte",
-		status: "applied",
+		company: {
+			id: 0,
+			name: "Deloitte",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Applied",
 		contacts: [
 			{
+				id: 20,
 				name: "David Chen",
 				phone: "222-333-4444",
 				email: "davidchen@examples.com",
 				position: "Data Analyst",
 			},
 			{
+				id: 21,
 				name: "Emma Wilson",
 				phone: "222-333-4444",
 				email: "emmawilson@examples.com",
 				position: "Teacher",
 			},
 			{
+				id: 22,
 				name: "Frank Miller",
 				phone: "222-333-4444",
 				email: "frankmiller@examples.com",
@@ -183,26 +265,39 @@ export const appliedMocks: ApplicationType[] = [
 		dateModified: dayjs().subtract(6, "month").add(4, "hour").toISOString(),
 		dateApplied: dayjs().subtract(6, "month").add(4, "day").toISOString(),
 		cardColor: "#4e342e",
+		location: "In-person",
+		submission: "Referral",
+		jobType: "Freelance",
+		customFields: [{ label: "Commission", value: "400 per contract" }],
 	},
 	{
 		id: 8,
 		position: "Graphic Designer",
-		company: "Adobe",
-		status: "applied",
+		company: {
+			id: 0,
+			name: "Adobe",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Applied",
 		contacts: [
 			{
+				id: 30,
 				name: "Grace Kim",
 				phone: "222-333-4444",
 				email: "gracekim@examples.com",
 				position: "Nurse",
 			},
 			{
+				id: 31,
 				name: "Henry Brown",
 				phone: "222-333-4444",
 				email: "henrybrown@examples.com",
 				position: "Sales Representative",
 			},
 			{
+				id: 32,
 				name: "Isabella Garcia",
 				phone: "222-333-4444",
 				email: "isabellagarcia@examples.com",
@@ -214,24 +309,38 @@ export const appliedMocks: ApplicationType[] = [
 		dateModified: dayjs().subtract(4, "month").toISOString(),
 		dateApplied: dayjs().subtract(3, "month").toISOString(),
 		cardColor: "#37474f",
+		location: "Remote",
+		submission: "Email",
+		jobType: "Part-time",
+		wage: {
+			payType: "Hourly",
+			rate: 30,
+		},
 	},
 ];
 
-export const interviewingMocks: ApplicationType[] = [
+export const interviewingMocks: zApplication["GET"][] = [
 	{
 		id: 9,
 		position: "Human Resources Specialist",
-		company: "Amazon",
-		postingURL: "example.com",
-		status: "interviewing",
+		company: {
+			id: 0,
+			name: "Amazon",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Interviewing",
 		contacts: [
 			{
+				id: 40,
 				name: "Jack Taylor",
 				phone: "222-333-4444",
 				email: "jacktaylor@examples.com",
 				position: "Project Manager",
 			},
 			{
+				id: 41,
 				name: "Kelly Johnson",
 				phone: "222-333-4444",
 				email: "kellyjohnson@examples.com",
@@ -251,15 +360,24 @@ export const interviewingMocks: ApplicationType[] = [
 		dateApplied: dayjs().subtract(7, "month").add(2, "day").toISOString(),
 		dateInterviewing: dayjs().subtract(6, "month").add(4, "day").toISOString(),
 		cardColor: "#ad1457",
+		location: "Hybrid",
+		submission: "Job Fair",
+		jobType: "Contract",
 	},
 ];
 
-export const offerMocks: ApplicationType[] = [
+export const offerMocks: zApplication["GET"][] = [
 	{
 		id: 10,
 		position: "Human Resources Specialist",
-		company: "Amazon",
-		status: "offer",
+		company: {
+			id: 0,
+			name: "Amazon",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Offer",
 		contacts: [],
 		notes: [
 			{
@@ -278,20 +396,31 @@ export const offerMocks: ApplicationType[] = [
 		dateInterviewing: dayjs().subtract(2, "month").add(5, "day").toISOString(),
 		dateOffered: dayjs().subtract(6, "month").add(2, "week").toISOString(),
 		cardColor: "#00838f",
+		location: "In-person",
+		submission: "Online",
+		jobType: "Full-time",
 	},
 	{
 		id: 11,
 		position: "Sales Representative",
-		company: "Apple",
-		status: "offer",
+		company: {
+			id: 0,
+			name: "Apple",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Offer",
 		contacts: [
 			{
+				id: 50,
 				name: "Liam Williams",
 				phone: "222-333-4444",
 				email: "liamwilliams@examples.com",
 				position: "Chef",
 			},
 			{
+				id: 51,
 				name: "Mia Rodriguez",
 				phone: "222-333-4444",
 				email: "miarodriguez@examples.com",
@@ -305,24 +434,38 @@ export const offerMocks: ApplicationType[] = [
 		dateInterviewing: dayjs().subtract(2, "month").add(3, "day").toISOString(),
 		dateOffered: dayjs().subtract(2, "month").add(6, "day").toISOString(),
 		cardColor: "#fdd835",
+		location: "Remote",
+		submission: "Recruitment Agency",
+		jobType: "Part-time",
+		wage: {
+			payType: "Salary",
+			annualSalary: 12500,
+		},
 	},
 ];
 
-export const closedMocks: ApplicationType[] = [
+export const closedMocks: zApplication["GET"][] = [
 	{
 		id: 12,
 		position: "Sales Representative",
-		company: "Apple",
-		postingURL: "example.com",
-		status: "closed",
+		company: {
+			id: 0,
+			name: "Apple",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Closed",
 		contacts: [
 			{
+				id: 70,
 				name: "Noah Martin",
 				phone: "222-333-4444",
 				email: "noahmartin@examples.com",
 				position: "Electrician",
 			},
 			{
+				id: 71,
 				name: "Olivia Smith",
 				phone: "222-333-4444",
 				email: "oliviasmith@examples.com",
@@ -337,6 +480,9 @@ export const closedMocks: ApplicationType[] = [
 		dateOffered: dayjs().subtract(1, "month").add(1, "week").toISOString(),
 		dateClosed: dayjs().subtract(1, "month").add(2, "week").toISOString(),
 		cardColor: "#009688",
+		location: "Hybrid",
+		submission: "Email",
+		jobType: "Contract",
 	},
 ];
 

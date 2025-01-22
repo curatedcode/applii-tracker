@@ -1,6 +1,6 @@
+import { exportData } from "@/src/utils/db/helpers";
 import { Dropbox, DropboxAuth } from "dropbox";
 import { dropboxResponseError, dropboxTokenNames } from "../types/dropbox";
-import { getAllData } from "./db";
 import env from "./env";
 import storeSyncError from "./storeSyncError";
 
@@ -16,7 +16,7 @@ export default async function syncData(): Promise<Error | undefined> {
 		return new Error("Sync error (D1)");
 	}
 
-	const allData = await getAllData();
+	const allData = await exportData();
 
 	const dbxAuth = new DropboxAuth({
 		clientId: env.DROPBOX_APP_KEY,

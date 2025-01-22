@@ -9,6 +9,10 @@ test("json file export", async ({ page }) => {
 
 	const downloadPromise = page.waitForEvent("download");
 
+	// switch file type to JSON
+	await page.getByLabel("File type").click();
+	await page.getByTestId("JSON-option").click();
+
 	await page.getByRole("button", { name: "Export", exact: true }).click();
 
 	const download = await downloadPromise;
@@ -27,7 +31,7 @@ test("csv file export", async ({ page }) => {
 
 	// switch file type to CSV
 	await page.getByLabel("File type").click();
-	await page.getByTestId("csv-option").click();
+	await page.getByTestId("CSV-option").click();
 
 	await page.getByRole("button", { name: "Export", exact: true }).click();
 
@@ -49,6 +53,10 @@ test("exported json file matches custom name", async ({ page }) => {
 		.getByRole("textbox", { name: "File name" })
 		.fill("my-exported-data-in-json");
 
+	// switch file type to JSON
+	await page.getByLabel("File type").click();
+	await page.getByTestId("JSON-option").click();
+
 	await page.getByRole("button", { name: "Export", exact: true }).click();
 
 	const download = await downloadPromise;
@@ -69,9 +77,13 @@ test("exported csv file matches custom name", async ({ page }) => {
 		.getByRole("textbox", { name: "File name" })
 		.fill("my-export-data-in-csv");
 
+	// switch file type to CSV
+	await page.getByLabel("File type").click();
+	await page.getByTestId("CSV-option").click();
+
 	await page.getByRole("button", { name: "Export", exact: true }).click();
 
 	const download = await downloadPromise;
 
-	expect(download.suggestedFilename()).toBe("my-export-data-in-csv.json");
+	expect(download.suggestedFilename()).toBe("my-export-data-in-csv.csv");
 });

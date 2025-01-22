@@ -1,11 +1,11 @@
+import type { fileExportTypeOption } from "@/src/types/file";
+import { exportData } from "@/src/utils/db/helpers";
 import jsonexport from "jsonexport";
 import type { RefObject } from "react";
-import type { FileExportTypeOptionsType } from "../types/file";
-import { exportData } from "./db";
 
 export type ExportDataToFileProps = {
 	anchorEl: RefObject<HTMLAnchorElement>;
-	fileType: FileExportTypeOptionsType;
+	fileType: fileExportTypeOption;
 	fileName: string;
 };
 
@@ -20,7 +20,7 @@ export async function exportDataToFile({
 
 	let blobURI: string;
 
-	if (fileType === "csv") {
+	if (fileType === "CSV") {
 		const csvData = await jsonexport(rawData, {
 			headerPathString: "/",
 		});
@@ -33,7 +33,10 @@ export async function exportDataToFile({
 	}
 
 	anchorEl.current.setAttribute("href", blobURI);
-	anchorEl.current.setAttribute("download", `${fileName}.${fileType}`);
+	anchorEl.current.setAttribute(
+		"download",
+		`${fileName}.${fileType.toLowerCase()}`,
+	);
 	anchorEl.current.click();
 	URL.revokeObjectURL(blobURI);
 }

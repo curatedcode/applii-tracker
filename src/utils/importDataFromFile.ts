@@ -1,5 +1,5 @@
+import { importData } from "@/src/utils/db/helpers";
 import toast from "react-hot-toast";
-import { importData } from "./db";
 
 export async function importDataFromFile(file: File) {
 	const fr = new FileReader();

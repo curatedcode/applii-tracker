@@ -1,6 +1,6 @@
 "use client";
 
-import { getSetting, updateSetting } from "@/src/utils/db";
+import db from "@/src/utils/db";
 import syncData from "@/src/utils/syncData";
 import dayjs from "dayjs";
 import {
@@ -38,9 +38,11 @@ export default function SyncProvider({
 	const triggerSync = useCallback(() => {
 		if (forceStop) return;
 		const syncPromise = syncData().then(() =>
-			updateSetting({
-				name: "lastSuccessfulSync",
-				value: dayjs().toISOString(),
+			db.setting.put({
+				data: {
+					name: "lastSuccessfulSync",
+					value: dayjs().toISOString(),
+				},
 			}),
 		);
 
@@ -57,9 +59,11 @@ export default function SyncProvider({
 	}, [forceStop]);
 
 	useEffect(() => {
-		getSetting({ name: "syncInterval" }).then((setting) =>
-			setSyncInterval(setting ? Number(setting.value) * 60_000 : 600_000),
-		);
+		db.setting
+			.get({ name: "syncInterval" })
+			.then((setting) =>
+				setSyncInterval(setting ? Number(setting.value) * 60_000 : 600_000),
+			);
 	}, []);
 
 	useEffect(() => {

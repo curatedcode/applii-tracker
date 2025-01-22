@@ -24,19 +24,19 @@ export default function generateSimpleMetrics(
 		const status = application.status;
 
 		switch (status) {
-			case "needToApply":
+			case "Need To Apply":
 				totalNeedToApply++;
 				break;
-			case "applied":
+			case "Applied":
 				totalApplied++;
 				break;
-			case "interviewing":
+			case "Interviewing":
 				totalInterviewing++;
 				break;
-			case "offer":
+			case "Offer":
 				totalOffer++;
 				break;
-			case "closed":
+			case "Closed":
 				totalClosed++;
 				break;
 		}

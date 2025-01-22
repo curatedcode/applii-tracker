@@ -75,9 +75,14 @@ export const Default: Story = {
 	args: {
 		id: 12,
 		position: "Sales Representative",
-		company: "Apple",
-		postingURL: "example.com",
-		status: "needToApply",
+		company: {
+			id: 0,
+			name: "Apple",
+			contacts: [],
+			contactIds: [],
+		},
+		companyId: 0,
+		status: "Need To Apply",
 		contacts: [],
 		notes: [],
 		dateCreated: dayjs().subtract(1, "month").toISOString(),
@@ -88,6 +93,9 @@ export const Default: Story = {
 		dateClosed: dayjs().subtract(1, "month").add(2, "week").toISOString(),
 		cardColor: "#009688",
 		sortBy: "dateModified",
+		location: "In-person",
+		submission: "Job Fair",
+		jobType: "Full-time",
 	},
 };
 

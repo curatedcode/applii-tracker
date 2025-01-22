@@ -1,30 +1,23 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import type { z } from "zod";
-
 import Button from "@/src/components/Button";
 import createDemoApplication from "@/src/components/Demo/createDemoApplication";
-import getNewMockApplicationId from "@/src/components/Demo/getNewDemoApplicationId";
+import getNewDemoApplicationId from "@/src/components/Demo/getNewDemoApplicationId";
 import getRandomHexColor from "@/src/components/Fn/getRandomHexColor";
 import ContactFields from "@/src/components/Form/ContactFields";
+import CustomFields from "@/src/components/Form/CustomFields";
 import FormCardColorInput from "@/src/components/Form/FormCardColorInput";
 import FormInput from "@/src/components/Form/FormInput";
 import FormSelectInput from "@/src/components/Form/FormSelectInput";
 import NoteFields from "@/src/components/Form/NoteFields";
 import useStorageUsage from "@/src/components/Hooks/useStorageUsage";
 import Modal from "@/src/components/Modals/Modal";
-import {
-	type ApplicationStatusLabelValueType,
-	applicationStatusSelectOptions,
-	applicationStatuses,
-	applicationStatusesArray,
-	formSchema,
-} from "@/src/types/applications";
+import { zApplication, zWageType } from "@/src/types/db";
+import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function Create() {
@@ -38,8 +31,21 @@ export default function Create() {
 		control,
 		watch,
 		setValue,
-	} = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	} = useForm<zApplication["INSERT"]>({
+		resolver: zodResolver(zApplication.INSERT),
+		defaultValues: {
+			company: {
+				name: "Awesome Company!",
+			},
+			dateCreated: "",
+			dateModified: "",
+			wage: {
+				payType: "- Select- ",
+			},
+			jobType: "- Select- ",
+			submission: "- Select- ",
+			location: "- Select- ",
+		},
 	});
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,41 +53,36 @@ export default function Create() {
 	const [applicationId, setApplicationId] = useState<number>();
 
 	const currentPosition = watch("position");
-	const currentCompany = watch("company");
-
 	const currentStatus = watch("status");
+	const currentCompanyName = watch("company.name");
+	const currentWagePayType = watch("wage.payType");
 	const currentCardColor = watch("cardColor");
 
 	const { usagePercent } = useStorageUsage();
 
 	async function submit() {
-		const {
-			dateApplied,
-			dateInterviewing,
-			dateOffered,
-			dateClosed,
-			status,
-			...rest
-		} = getValues();
+		const { dateApplied, dateInterviewing, dateOffered, dateClosed, ...rest } =
+			getValues();
 
 		function formatDate(date: string | undefined) {
 			if (!date) return;
 			return dayjs(date).toISOString();
 		}
 
-		const newId = getNewMockApplicationId();
+		const newId = getNewDemoApplicationId();
 
-		createDemoApplication({
-			id: newId,
-			dateCreated: dayjs().toISOString(),
-			dateModified: dayjs().toISOString(),
-			dateApplied: formatDate(dateApplied),
-			dateInterviewing: formatDate(dateInterviewing),
-			dateOffered: formatDate(dateOffered),
-			dateClosed: formatDate(dateClosed),
-			status: status.value,
-			...rest,
-		});
+		createDemoApplication(
+			{
+				...rest,
+				dateCreated: dayjs().toISOString(),
+				dateModified: dayjs().toISOString(),
+				dateApplied: formatDate(dateApplied),
+				dateInterviewing: formatDate(dateInterviewing),
+				dateOffered: formatDate(dateOffered),
+				dateClosed: formatDate(dateClosed),
+			},
+			newId,
+		);
 
 		if (usagePercent && usagePercent >= 80) {
 			toast.error("Storage almost full");
@@ -93,20 +94,25 @@ export default function Create() {
 
 	useEffect(() => {
 		if (!currentStatus) return;
-		const statusIndex = applicationStatusesArray.indexOf(currentStatus.value);
+		const statusIndex =
+			zApplication.GET.shape.status.options.indexOf(currentStatus);
 		setCurrentStatusIndex(statusIndex);
 	}, [currentStatus]);
 
 	useEffect(() => {
 		const statusParam = searchParams.get("status");
-		const parsedStatus = applicationStatuses.safeParse(statusParam);
+		const parsedStatus = zApplication.GET.shape.status.safeParse(statusParam);
 
 		if (!parsedStatus.success) return;
-		const statusOption = applicationStatusSelectOptions.find(
-			(val) => val.value === parsedStatus.data,
-		) as ApplicationStatusLabelValueType;
+		const statusOption = zApplication.GET.shape.status.options.find(
+			(val) => val === parsedStatus.data,
+		) as zApplication["GET"]["status"];
 		setValue("status", statusOption);
-	}, [searchParams, setValue]);
+	}, [setValue, searchParams]);
+
+	/**
+	 * @todo if salary is select show the annual amount with a comma
+	 */
 
 	return (
 		<>
@@ -115,15 +121,15 @@ export default function Create() {
 				isOpen={isModalOpen}
 				setIsOpen={setIsModalOpen}
 				description="Would you like to view this application or go home?"
-				secondaryButton={{
-					as: "link",
-					href: `/demo/applications/${currentPosition}-at-${currentCompany}?id=${applicationId}`,
-					body: "View",
-				}}
 				primaryButton={{
 					as: "link",
-					href: "/demo",
 					body: "Home",
+					href: "/demo",
+				}}
+				secondaryButton={{
+					as: "link",
+					body: "View",
+					href: `/demo/applications/${currentPosition}-at-${currentCompanyName}?id=${applicationId}`,
 				}}
 			/>
 			<h1 className="mb-8 text-center text-3xl font-semibold">
@@ -140,75 +146,138 @@ export default function Create() {
 					<div className="grid gap-3">
 						<FormInput
 							id="positionInput"
-							registerName="position"
 							label="Position"
 							error={errors.position?.message}
-							register={register}
 							isRequired
+							{...register("position")}
 						/>
 						<FormInput
 							id="companyInput"
-							registerName="company"
 							label="Company"
 							error={errors.company?.message}
-							register={register}
 							isRequired
-						/>
-						<FormInput
-							id="postingURLInput"
-							registerName="postingURL"
-							label="Posting URL"
-							error={errors.postingURL?.message}
-							register={register}
+							{...register("company.name")}
 						/>
 						<Controller
 							name="status"
 							control={control}
-							render={({ field: { onChange } }) => (
+							render={({ field }) => (
 								<FormSelectInput
+									{...field}
 									label="Status"
-									selected={currentStatus ?? applicationStatusSelectOptions[0]}
-									setSelected={onChange}
-									options={applicationStatusSelectOptions}
+									value={currentStatus}
+									options={zApplication.GET.shape.status.options}
 								/>
 							)}
 						/>
 						<FormInput
 							id="dateAppliedInput"
 							label="Date Applied"
-							registerName="dateApplied"
 							type="date"
 							error={errors.dateApplied?.message}
-							register={register}
 							className={currentStatusIndex >= 1 ? "" : "hidden"}
+							{...register("dateApplied")}
 						/>
 						<FormInput
 							id="dateInterviewedInput"
 							label="Date Interviewing"
-							registerName="dateInterviewing"
 							type="date"
 							error={errors.dateInterviewing?.message}
-							register={register}
 							className={currentStatusIndex >= 2 ? "" : "hidden"}
+							{...register("dateInterviewing")}
 						/>
 						<FormInput
 							id="dateOfferedInput"
 							label="Date Offered"
-							registerName="dateOffered"
 							type="date"
 							error={errors.dateOffered?.message}
-							register={register}
 							className={currentStatusIndex >= 3 ? "" : "hidden"}
+							{...register("dateOffered")}
 						/>
 						<FormInput
 							id="dateClosedInput"
 							label="Date Closed"
-							registerName="dateClosed"
 							type="date"
 							error={errors.dateClosed?.message}
-							register={register}
 							className={currentStatusIndex >= 4 ? "" : "hidden"}
+							{...register("dateClosed")}
 						/>
+						<Controller
+							name="wage.payType"
+							control={control}
+							render={({ field }) => (
+								<FormSelectInput
+									{...field}
+									label="Pay type"
+									options={zWageType.options}
+								/>
+							)}
+						/>
+						{currentWagePayType === "Hourly" && (
+							<FormInput
+								id="wageHourlyRate"
+								label="Rate"
+								type="number"
+								{...register("wage.rate")}
+							/>
+						)}
+						{currentWagePayType === "Salary" && (
+							<FormInput
+								id="wageSalaryAnnualSalary"
+								label="Annual salary"
+								type="number"
+								{...register("wage.annualSalary")}
+							/>
+						)}
+						{currentWagePayType === "Contract" && (
+							<>
+								<FormInput
+									id="wageContractTotalAmount"
+									label="Total amount"
+									type="number"
+									{...register("wage.totalAmount")}
+								/>
+								<FormInput
+									id="wageContractDuration"
+									label="Duration"
+									{...register("wage.duration")}
+								/>
+							</>
+						)}
+						<Controller
+							name="jobType"
+							control={control}
+							render={({ field }) => (
+								<FormSelectInput
+									{...field}
+									label="Job type"
+									options={zApplication.GET.shape.jobType.options}
+								/>
+							)}
+						/>
+						<Controller
+							name="submission"
+							control={control}
+							render={({ field }) => (
+								<FormSelectInput
+									{...field}
+									label="Submission"
+									options={zApplication.GET.shape.submission.options}
+								/>
+							)}
+						/>
+						<Controller
+							name="location"
+							control={control}
+							render={({ field }) => (
+								<FormSelectInput
+									{...field}
+									label="Location"
+									options={zApplication.GET.shape.location.options}
+								/>
+							)}
+						/>
+						<CustomFields register={register} control={control} />
 						<Controller
 							name="cardColor"
 							control={control}
@@ -216,7 +285,7 @@ export default function Create() {
 								<FormCardColorInput
 									id="cardColorInput"
 									label="Card Color"
-									company={currentCompany}
+									company={currentCompanyName}
 									position={currentPosition}
 									color={currentCardColor ?? getRandomHexColor()}
 									setColor={onChange}

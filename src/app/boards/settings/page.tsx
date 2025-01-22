@@ -11,15 +11,14 @@ import ModalForm from "@/src/components/Modals/ModalForm";
 import PromiseLink from "@/src/components/PromiseLink";
 import SelectInput from "@/src/components/SelectInput";
 import { useSync } from "@/src/components/SyncProvider";
-import { syncSettingsSchema } from "@/src/types/db";
 import { dropboxTokenNames } from "@/src/types/dropbox";
 import {
 	defaultFileExportName,
 	fileExportFormSchema,
-	fileExportTypeSelectOptions,
+	fileExportTypeOption,
 } from "@/src/types/file";
 import { defaultFocusHoverClasses, themeOptions } from "@/src/types/global";
-import { getAllSettings, updateSetting } from "@/src/utils/db";
+import db from "@/src/utils/db";
 import { createDropboxToken, getDropboxAuthURL } from "@/src/utils/dropbox";
 import { exportDataToFile } from "@/src/utils/exportDataToFile";
 import { importDataFromFile } from "@/src/utils/importDataFromFile";
@@ -34,7 +33,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import type { z } from "zod";
+import { z } from "zod";
 dayjs.extend(relativeTime);
 
 export default function Settings() {
@@ -60,7 +59,7 @@ export default function Settings() {
 		const { syncInterval } = getFormSettingValues();
 
 		if (syncInterval) {
-			updateSetting({ name: "syncInterval", value: syncInterval });
+			db.setting.put({ data: { name: "syncInterval", value: syncInterval } });
 		}
 
 		toast.success("Sync settings updated");
@@ -93,7 +92,7 @@ export default function Settings() {
 
 		importDataFromFile(file)
 			.catch((e) => {
-				console.log({ fileImportError: e });
+				console.error({ fileImportError: e });
 				toast.error("Error importing file. Try again");
 				if (!fileInputRef.current?.value) return;
 				fileInputRef.current.value = "";
@@ -111,7 +110,7 @@ export default function Settings() {
 		toast.promise(
 			exportDataToFile({
 				anchorEl: fileExportRef,
-				fileType: fileType.value,
+				fileType,
 				fileName,
 			}),
 			{
@@ -122,14 +121,21 @@ export default function Settings() {
 		);
 	}
 
+	const syncSettingSchema = z.object({
+		syncInterval: z
+			.string()
+			.min(1, { message: "Sync interval must not be blank" })
+			.optional(),
+	});
+
 	const {
 		register: registerFormSetting,
 		getValues: getFormSettingValues,
 		setValue: setFormSettingValue,
 		handleSubmit: handleSettingFormSubmit,
 		formState: { errors: settingFormErrors },
-	} = useForm<z.infer<typeof syncSettingsSchema>>({
-		resolver: zodResolver(syncSettingsSchema),
+	} = useForm<z.infer<typeof syncSettingSchema>>({
+		resolver: zodResolver(syncSettingSchema),
 	});
 
 	const {
@@ -139,15 +145,13 @@ export default function Settings() {
 		handleSubmit: handleFileExportFormSubmit,
 		formState: { errors: fileExportFormErrors },
 		control: fileExportFormControl,
-		watch: watchFileExportForm,
-	} = useForm<z.infer<typeof fileExportFormSchema>>({
+	} = useForm<fileExportFormSchema>({
 		resolver: zodResolver(fileExportFormSchema),
 		defaultValues: {
 			fileName: defaultFileExportName,
+			fileType: "JSON",
 		},
 	});
-
-	const currentFileExportFileType = watchFileExportForm("fileType");
 
 	useEffect(() => {
 		if (!dropboxTokenParam) return;
@@ -166,7 +170,7 @@ export default function Settings() {
 	}, [dropboxTokenParam, triggerSync]);
 
 	useEffect(() => {
-		getAllSettings().then((allSettings) => {
+		db.setting.getAll().then((allSettings) => {
 			const syncInterval = allSettings.find(
 				(setting) => setting.name === "syncInterval",
 			);
@@ -184,12 +188,12 @@ export default function Settings() {
 	}, [setFormSettingValue]);
 
 	useEffect(() => {
-		setFileExportFormValue("fileType", fileExportTypeSelectOptions[0]);
+		setFileExportFormValue("fileType", fileExportTypeOption.Values.CSV);
 	}, [setFileExportFormValue]);
 
 	useEffect(() => {
 		if (!currentTheme) return;
-		updateSetting({ name: "theme", value: currentTheme.value });
+		db.setting.put({ data: { name: "theme", value: currentTheme.value } });
 	}, [currentTheme]);
 
 	useEffect(() => {
@@ -290,21 +294,17 @@ export default function Settings() {
 							id="fileExportName"
 							label="File name"
 							type="text"
-							register={registerFileExportForm}
 							error={fileExportFormErrors.fileName?.message}
-							registerName="fileName"
+							{...registerFileExportForm("fileName")}
 						/>
 						<Controller
 							name="fileType"
 							control={fileExportFormControl}
-							render={({ field: { onChange } }) => (
+							render={({ field }) => (
 								<FormSelectInput
+									{...field}
 									label="File type"
-									selected={
-										currentFileExportFileType ?? fileExportTypeSelectOptions[0]
-									}
-									setSelected={onChange}
-									options={fileExportTypeSelectOptions}
+									options={fileExportTypeOption.options}
 								/>
 							)}
 						/>

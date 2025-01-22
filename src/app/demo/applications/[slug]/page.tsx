@@ -4,7 +4,6 @@ import getDemoApplication from "@/src/components/Demo/getDemoApplication";
 import formatDate from "@/src/components/Fn/formatDate";
 import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
 import ULItem from "@/src/components/ULItem";
-import { readableStatus } from "@/src/types/global";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Application() {
@@ -14,12 +13,12 @@ export default function Application() {
 	if (!id || Number.isNaN(id)) return router.push("/not-found");
 
 	const application = getDemoApplication(id);
+
 	if (!application) return <ViewApplicationSkeleton />;
 
 	const {
 		position,
 		company,
-		postingURL,
 		contacts,
 		notes,
 		status,
@@ -29,6 +28,11 @@ export default function Application() {
 		dateOffered,
 		dateClosed,
 		cardColor,
+		wage,
+		jobType,
+		submission,
+		location,
+		customFields,
 	} = application;
 
 	return (
@@ -38,7 +42,7 @@ export default function Application() {
 			</div>
 			<div className="mb-8 flex flex-col items-center gap-6">
 				<h1 className="w-fit text-center text-3xl font-semibold">
-					{position} at {company}
+					{position} at {company.name}
 				</h1>
 			</div>
 			<div className="grid justify-items-center gap-x-12 gap-y-8 md:grid-cols-2">
@@ -54,27 +58,57 @@ export default function Application() {
 						className="grid gap-2 rounded-md bg-light-secondary px-4 py-3 dark:bg-dark-secondary"
 					>
 						<ULItem label="Position" body={position} />
-						<ULItem label="Company" body={company} />
-						<ULItem
-							label="Posting URL"
-							body={postingURL ?? "None"}
-							isLink={!!postingURL}
-						/>
-						<ULItem label="Status" body={readableStatus[status]} />
+						<ULItem label="Company" body={company.name} />
+						<ULItem label="Status" body={status} />
+						{wage ? (
+							<>
+								{wage.payType !== "- Select- " && (
+									<ULItem label="Pay type" body={wage.payType} />
+								)}
+								{wage.payType === "Salary" && (
+									<ULItem label="Annual salary" body={`${wage.annualSalary}`} />
+								)}
+								{wage.payType === "Hourly" && (
+									<ULItem label="Rate" body={`${wage.rate}`} />
+								)}
+								{wage.payType === "Contract" && (
+									<>
+										<ULItem label="Total amount" body={`${wage.totalAmount}`} />
+										<ULItem label="Duration" body={wage.duration} />
+									</>
+								)}
+							</>
+						) : null}
+						{jobType !== "- Select- " && (
+							<ULItem label="Job type" body={jobType} />
+						)}
+						{submission !== "- Select- " && (
+							<ULItem label="Submission" body={submission} />
+						)}
+						{location !== "- Select- " && (
+							<ULItem label="Location" body={location} />
+						)}
+						{customFields?.map((field) => (
+							<ULItem
+								key={`${field.label}-${field.value}`}
+								label={field.label}
+								body={field.value}
+							/>
+						))}
 						<ULItem label="Created on" body={formatDate(dateCreated)} />
-						{status === "applied" && dateApplied && (
+						{status === "Applied" && dateApplied && (
 							<ULItem label="Applied on" body={formatDate(dateApplied)} />
 						)}
-						{status === "interviewing" && dateInterviewing && (
+						{status === "Interviewing" && dateInterviewing && (
 							<ULItem
 								label="Interviewing on"
 								body={formatDate(dateInterviewing)}
 							/>
 						)}
-						{status === "offer" && dateOffered && (
+						{status === "Offer" && dateOffered && (
 							<ULItem label="Offered on" body={formatDate(dateOffered)} />
 						)}
-						{status === "closed" && dateClosed && (
+						{status === "Closed" && dateClosed && (
 							<ULItem label="Closed on" body={formatDate(dateClosed)} />
 						)}
 						<li className="grid gap-1 xs:flex xs:gap-2 items-center">

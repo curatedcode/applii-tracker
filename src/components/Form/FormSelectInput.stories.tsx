@@ -10,29 +10,21 @@ function Template() {
 	return (
 		<FormWrapper
 			schema={z.object({
-				storyFormSelectInput: z.object({
-					label: z.string(),
-					value: z.string(),
-				}),
+				storyFormSelectInput: z.string(),
 			})}
 		>
 			{({ methods }) => {
-				const value = methods.watch("storyFormSelectInput");
+				const _value = methods.watch("storyFormSelectInput");
 
 				return (
 					<Controller
 						name="storyFormSelectInput"
 						control={methods.control}
-						render={({ field: { onChange } }) => (
+						render={({ field }) => (
 							<FormSelectInput
-								options={[
-									{ label: "Apples", value: "apples" },
-									{ label: "Bananas", value: "bananas" },
-									{ label: "Watermelons", value: "watermelons" },
-								]}
-								selected={value ?? { label: "Apples", value: "apples" }}
-								setSelected={onChange}
+								{...field}
 								label="My input"
+								options={["Apples", "Bananas", "Watermelons"]}
 							/>
 						)}
 					/>

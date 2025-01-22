@@ -1,6 +1,6 @@
 "use client";
 
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import type { SortByValueType } from "@/src/types/global";
 import Link from "next/link";
 import getContrastingColor from "../Fn/getContrastingColor";
@@ -9,7 +9,7 @@ import relativeDate from "../Fn/relativeDate";
 export type BoardSectionCardProps = {
 	sortBy: SortByValueType;
 	mode?: "demo" | "default";
-} & ApplicationType;
+} & zApplication["GET"];
 
 export default function BoardSectionCard({
 	id,
@@ -28,8 +28,8 @@ export default function BoardSectionCard({
 
 	const applicationLink =
 		mode === "demo"
-			? `/demo/applications/${position}-at-${company}?id=${id}`
-			: `/boards/applications/${position}-at-${company}?id=${id}`;
+			? `/demo/applications/${position}-at-${company.name}?id=${id}`
+			: `/boards/applications/${position}-at-${company.name}?id=${id}`;
 
 	const hexColor = cardColor.slice(1);
 
@@ -46,7 +46,7 @@ export default function BoardSectionCard({
 		>
 			<div className="grid font-medium">
 				<span className="line-clamp-1">{position}</span>
-				<span className="line-clamp-1">{company}</span>
+				<span className="line-clamp-1">{company.name}</span>
 			</div>
 			<span className="absolute bottom-2 right-3 text-sm" title={date.title}>
 				{date.time}

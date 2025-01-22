@@ -1,8 +1,5 @@
-import type {
-	ApplicationType,
-	FormatApplicationsType,
-	GroupedApplicationsType,
-} from "@/src/types/applications";
+import type { GroupedApplicationsType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import type { SortByValueType } from "@/src/types/global";
 import sortApplicationsByDate from "../Fn/sortApplicationsByDate";
 import getAllDemoApplicationsInStorage from "./getAllDemoApplicationsInStorage";
@@ -14,20 +11,19 @@ import {
 	offerMocks,
 } from "./mockDemoVariables";
 
-function getAllDemoApplications(_sortBy: SortByValueType): ApplicationType[];
+function getAllDemoApplications(
+	_sortBy: SortByValueType,
+): zApplication["GET"][];
 
 function getAllDemoApplications(
 	_sortBy: SortByValueType,
-	_format: FormatApplicationsType,
+	_format: "grouped",
 ): GroupedApplicationsType;
 
 /**
  * Will get all default mock applications and check for any applications in session storage
  */
-function getAllDemoApplications(
-	sortBy: SortByValueType,
-	format?: FormatApplicationsType,
-) {
+function getAllDemoApplications(sortBy: SortByValueType, format?: "grouped") {
 	if (format === "grouped") {
 		const appsInStorage = getAllDemoApplicationsInStorage(format);
 

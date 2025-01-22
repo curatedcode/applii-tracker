@@ -5,11 +5,8 @@ import formatDate from "@/src/components/Fn/formatDate";
 import ViewApplicationSkeleton from "@/src/components/Loading/ViewApplicationSkeleton";
 import Modal from "@/src/components/Modals/Modal";
 import ULItem from "@/src/components/ULItem";
-import type {
-	ApplicationStatusType,
-	ApplicationType,
-} from "@/src/types/applications";
-import { deleteApplication, getApplication } from "@/src/utils/db";
+import type { zApplication } from "@/src/types/db";
+import db from "@/src/utils/db";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -17,25 +14,17 @@ export default function Application() {
 	const id = Number(useSearchParams().get("id"));
 	const router = useRouter();
 
-	const [application, setApplication] = useState<ApplicationType>();
+	const [application, setApplication] = useState<zApplication["GET"]>();
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-	function readableStatus(status: ApplicationStatusType) {
-		if (status === "needToApply") return "Need to apply";
-		if (status === "applied") return "Applied";
-		if (status === "interviewing") return "Interviewing";
-		if (status === "offer") return "Offer";
-		return "Closed";
-	}
-
 	useEffect(() => {
-		getApplication({ id }).then((data) => setApplication(data));
+		db.application.get({ id }).then((data) => setApplication(data));
 	}, [id]);
 
 	async function deleteApp() {
-		await deleteApplication({ id });
+		await db.application.delete({ id });
 		setIsDeleteModalOpen(false);
-		router.push("/");
+		router.push("/boards");
 	}
 
 	if (!id || Number.isNaN(id)) return router.push("/not-found");
@@ -44,7 +33,6 @@ export default function Application() {
 	const {
 		position,
 		company,
-		postingURL,
 		contacts,
 		notes,
 		status,
@@ -54,6 +42,11 @@ export default function Application() {
 		dateOffered,
 		dateClosed,
 		cardColor,
+		wage,
+		jobType,
+		submission,
+		location,
+		customFields,
 	} = application;
 
 	return (
@@ -63,7 +56,7 @@ export default function Application() {
 			</div>
 			<div className="mb-8 flex flex-col items-center gap-6">
 				<h1 className="w-fit text-center text-3xl font-semibold">
-					{position} at {company}
+					{position} at {company.name}
 				</h1>
 				<div className="flex gap-4">
 					<Button as="link" href={`/boards/applications/edit?id=${id}`}>
@@ -101,27 +94,57 @@ export default function Application() {
 						className="grid gap-2 rounded-md bg-light-secondary px-4 py-3 dark:bg-dark-secondary"
 					>
 						<ULItem label="Position" body={position} />
-						<ULItem label="Company" body={company} />
-						<ULItem
-							label="Posting URL"
-							body={postingURL ?? "None"}
-							isLink={!!postingURL}
-						/>
-						<ULItem label="Status" body={readableStatus(status)} />
+						<ULItem label="Company" body={company.name} />
+						<ULItem label="Status" body={status} />
+						{wage ? (
+							<>
+								{wage.payType !== "- Select- " && (
+									<ULItem label="Pay type" body={wage.payType} />
+								)}
+								{wage.payType === "Salary" && (
+									<ULItem label="Annual salary" body={`${wage.annualSalary}`} />
+								)}
+								{wage.payType === "Hourly" && (
+									<ULItem label="Rate" body={`${wage.rate}`} />
+								)}
+								{wage.payType === "Contract" && (
+									<>
+										<ULItem label="Total amount" body={`${wage.totalAmount}`} />
+										<ULItem label="Duration" body={wage.duration} />
+									</>
+								)}
+							</>
+						) : null}
+						{jobType !== "- Select- " && (
+							<ULItem label="Job type" body={jobType} />
+						)}
+						{submission !== "- Select- " && (
+							<ULItem label="Submission" body={submission} />
+						)}
+						{location !== "- Select- " && (
+							<ULItem label="Location" body={location} />
+						)}
+						{customFields?.map((field) => (
+							<ULItem
+								key={`${field.label}-${field.value}`}
+								label={field.label}
+								body={field.value}
+							/>
+						))}
 						<ULItem label="Created on" body={formatDate(dateCreated)} />
-						{status === "applied" && dateApplied && (
+						{status === "Applied" && dateApplied && (
 							<ULItem label="Applied on" body={formatDate(dateApplied)} />
 						)}
-						{status === "interviewing" && dateInterviewing && (
+						{status === "Interviewing" && dateInterviewing && (
 							<ULItem
 								label="Interviewing on"
 								body={formatDate(dateInterviewing)}
 							/>
 						)}
-						{status === "offer" && dateOffered && (
+						{status === "Offer" && dateOffered && (
 							<ULItem label="Offered on" body={formatDate(dateOffered)} />
 						)}
-						{status === "closed" && dateClosed && (
+						{status === "Closed" && dateClosed && (
 							<ULItem label="Closed on" body={formatDate(dateClosed)} />
 						)}
 						<li className="grid gap-1 xs:flex xs:gap-2 items-center">

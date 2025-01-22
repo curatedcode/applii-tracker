@@ -49,35 +49,35 @@ export default function Demo() {
 					cards={needToApply}
 					sortBy={sortBy.value}
 					mode="demo"
-					status="needToApply"
+					status="Need To Apply"
 				/>
 				<BoardSection
 					title="Applied"
 					cards={applied}
 					sortBy={sortBy.value}
 					mode="demo"
-					status="applied"
+					status="Applied"
 				/>
 				<BoardSection
 					title="Interviewing"
 					cards={interviewing}
 					sortBy={sortBy.value}
 					mode="demo"
-					status="interviewing"
+					status="Interviewing"
 				/>
 				<BoardSection
 					title="Offer"
 					cards={offer}
 					sortBy={sortBy.value}
 					mode="demo"
-					status="offer"
+					status="Offer"
 				/>
 				<BoardSection
 					title="Closed"
 					cards={closed}
 					sortBy={sortBy.value}
 					mode="demo"
-					status="closed"
+					status="Closed"
 				/>
 			</div>
 		</>

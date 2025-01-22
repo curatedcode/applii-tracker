@@ -66,7 +66,7 @@ export default function Home() {
 							<BoardSection
 								title="Need To Apply"
 								mode="landing"
-								status="needToApply"
+								status="Need To Apply"
 								cards={needToApplyMocks}
 								className="fix-blurry-text animation-delay-1000 min-w-board-section animate-wiggle"
 							/>
@@ -74,7 +74,7 @@ export default function Home() {
 								<BoardSection
 									title="Offer"
 									mode="landing"
-									status="offer"
+									status="Offer"
 									cards={offerMocks}
 									className="fix-blurry-text absolute -top-3 right-1 z-[-1] animate-wiggle transition-all group-hover:top-0 group-hover:z-[1] group-hover:rotate-2"
 								/>

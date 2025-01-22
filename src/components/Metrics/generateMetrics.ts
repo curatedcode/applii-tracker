@@ -1,4 +1,4 @@
-import type { ApplicationType } from "@/src/types/applications";
+import type { zApplication } from "@/src/types/db";
 import type { TimelineType } from "@/src/types/global";
 import type { FormattedChartDataType } from "@/src/types/metrics";
 import formatApplicationData from "./formatApplicationData";
@@ -9,7 +9,7 @@ import groupApplicationsByDateRange from "./groupApplicationsByDateRange";
 
 export type GenerateMetricsProps = {
 	timeline: TimelineType;
-	applications: ApplicationType[];
+	applications: zApplication["GET"][];
 };
 
 export type GenerateMetricsReturnType = {
